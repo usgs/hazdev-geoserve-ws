@@ -22,15 +22,29 @@ $HTTPD_CONF = $CONF_DIR . '/httpd.conf';
 $CONFIG_FILE_INI = $CONF_DIR . '/config.ini';
 $CONFIG_FILE_PHP = $CONF_DIR . '/config.inc.php';
 
-
 chdir($LIB_DIR);
 
 if (!is_dir($CONF_DIR)) {
   mkdir($CONF_DIR, 0755, true);
 }
 
+
+// configuration defaults
+$DEFAULTS = array(
+  'MOUNT_PATH' => '/ws/geoserve',
+  'DB_DSN' => 'pgsql:host=localhost;port=5432;dbname=geoserve;',
+  'DB_USER' => 'web',
+  'DB_PASS' => ''
+);
+$HELP_TEXT = array(
+  'MOUNT_PATH' => 'Url path to application',
+  'DB_DSN' => 'Database connection DSN string',
+  'DB_USER' => 'Read/write username for database connections',
+  'DB_PASS' => 'Password for database user'
+);
 // Interactively prompts user for config. Writes CONFIG_FILE_INI
 include_once 'configure.inc.php';
+
 
 // Parse the configuration
 $CONFIG = parse_ini_file($CONFIG_FILE_INI);
