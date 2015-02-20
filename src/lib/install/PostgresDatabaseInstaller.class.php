@@ -4,7 +4,7 @@ include_once 'DatabaseInstaller.class.php';
 
 
 /**
- * Mysql implementation of DatabaseInstaller.
+ * PostgreSQL implementation of DatabaseInstaller.
  */
 class PostgresDatabaseInstaller extends DatabaseInstaller {
 
@@ -43,7 +43,7 @@ class PostgresDatabaseInstaller extends DatabaseInstaller {
    */
   public function dropDatabase () {
     $db = $this->connectWithoutDbname();
-    $db->exec('DROP DATABASE IF EXISTS ' . $dbname);
+    $db->exec('DROP DATABASE IF EXISTS ' . $this->dbname);
     $db = null;
   }
 
@@ -52,8 +52,11 @@ class PostgresDatabaseInstaller extends DatabaseInstaller {
    */
   public function createDatabase () {
     $db = $this->connectWithoutDbname();
-    $setupdb->exec('CREATE DATABASE IF NOT EXISTS ' . $this->dbname);
+    $db->exec('CREATE DATABASE ' . $this->dbname);
     $db = null;
+    // enable postgis
+    $db = $this->connect();
+    $db->exec('CREATE EXTENSION postgis');
   }
 
   /**
@@ -61,8 +64,21 @@ class PostgresDatabaseInstaller extends DatabaseInstaller {
    */
   public function createUser ($roles, $user, $password) {
     // create read/write user for save
+    $this->run('DROP USER IF EXISTS ' . $user);
     $this->run('CREATE USER ' . $user . ' WITH PASSWORD \'' . $password . '\'');
-    $this->run('GRANT ' . implode(',', $roles) . ' ON ALL TABLES IN SCHEMA ' . $this->dbname);
+    //$this->run('GRANT CONNECT ON ' . $this->dbname . ' TO ' . $user);
+    $this->run('GRANT USAGE ON SCHEMA public TO ' . $user);
+    $this->run('GRANT ' . implode(',', $roles) . ' ON ALL TABLES IN SCHEMA public TO ' . $user);
+  }
+
+  /**
+   * Loads table with data from flat file
+   *
+   * @param  $file  {String}, absolute path to data file
+   * @param  $table {String}, table to copy data into.
+   */
+  public function copyFrom ($file, $table) {
+    $this->run('COPY ' . $table . ' FROM \'' . $file . '\' NULL as \'\'');
   }
 
   /**
