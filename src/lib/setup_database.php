@@ -18,6 +18,7 @@ $CONFIG_FILE = '../conf/config.ini';
 $DO_DATA_LOAD = (basename($argv[0]) === 'setup_database.php');
 
 include_once 'install-funcs.inc.php';
+include_once 'install/DatabaseInstaller.class.php';
 
 // Initial configuration stuff
 if (!file_exists($CONFIG_FILE)) {
@@ -34,9 +35,9 @@ $password = configure('DB_ROOT_PASS', '', 'Database administrator password',
     true);
 
 $defaultScriptDir = implode(DIRECTORY_SEPARATOR, array(
-    $CONFIG['APP_DIR'], 'lib', 'sql', $dbtype));
-$defaultReferenceDir = implode(DIRECTORY_SEPARATOR, array(
-    $CONFIG['APP_DIR'], 'lib', 'sql', 'reference_data'));
+    $APP_DIR, 'lib', 'sql', $dbtype));
+$defaultDataDir = implode(DIRECTORY_SEPARATOR, array(
+    $APP_DIR, 'lib', 'data'));
 
 
 // ----------------------------------------------------------------------
@@ -63,25 +64,32 @@ if (!responseIsAffirmative($answer)) {
 // Find schema load file
 $schemaScript = configure('SCHEMA_SCRIPT',
     $defaultScriptDir . DIRECTORY_SEPARATOR . 'create_tables.sql',
-    'SQL script containing schema definition');
+    'SQL script containing "create" schema definition');
 if (!file_exists($schemaScript)) {
   print "The indicated script does not exist. Please try again.\n";
   exit(-1);
 }
 $dropSchemaScript = configure('SCHEMA_SCRIPT',
     str_replace('create_tables.sql', 'drop_tables.sql', $schemaScript),
-    'SQL script containing schema definition');
+    'SQL script containing "drop" schema definition');
 if (!file_exists($dropSchemaScript)) {
   print "The indicated script does not exist. Please try again.\n";
   exit(-1);
 }
 
 
+include_once 'install/DatabaseInstaller.class.php';
+$dbInstaller = DatabaseInstaller::getInstaller($DB_DSN, $username, $password);
+
+// ----------------------------------------------------------------------
+// Drop Database
+// ----------------------------------------------------------------------
+
+$dbInstaller->dropDatabase();
+
 // ----------------------------------------------------------------------
 // Create Database
 // ----------------------------------------------------------------------
-include_once 'install/DatabaseInstaller.class.php';
-$dbInstaller = DatabaseInstaller::getInstaller($DB_DSN, $username, $password);
 
 // make sure database exists
 if (!$dbInstaller->databaseExists()) {
@@ -102,56 +110,8 @@ $dbInstaller->createUser(array('SELECT'), $CONFIG['DB_USER'], $CONFIG['DB_PASS']
 
 print "Schema loaded successfully!\n";
 
-
 // ----------------------------------------------------------------------
-// Reference data loading
-// ----------------------------------------------------------------------
-
-$answer = configure('DO_REFERENCE_LOAD', 'Y',
-    "\nWould you like to load reference data");
-
-if (!responseIsAffirmative($answer)) {
-  print "Normal exit.\n";
-  exit(0);
-}
-
-$referenceDir = configure('REFERENCE_DIR', $defaultReferenceDir,
-    'SQL directory containing reference data');
-
-if (!is_dir($referenceDir)) {
-  print "\tThe indicated directory does not exist. Please try again.\n";
-  exit(-1);
-}
-
-print "TODO...\n";
-exit(-1);
-
-
-print "Reference data loaded successfully!\n";
-
-
-// ----------------------------------------------------------------------
-// Observation data loading
-// ----------------------------------------------------------------------
-
-if (!$DO_DATA_LOAD) {
-  print "Normal exit.\n";
-  exit(0);
-}
-
-$answer = configure('DO_DATA_LOAD', 'Y',
-    "\nWould you like to load observation data");
-
-if (!responseIsAffirmative($answer)) {
-  print "Normal exit.\n";
-  exit(0);
-}
-
-// data loading script, which can be run separately
-include 'load_bns.php';
-
-// ----------------------------------------------------------------------
-// Done
+// End of database setup
 // ----------------------------------------------------------------------
 
 print "\nNormal exit.\n";
