@@ -110,6 +110,27 @@ $dbInstaller->createUser(array('SELECT'), $CONFIG['DB_USER'], $CONFIG['DB_PASS']
 
 print "Schema loaded successfully!\n";
 
+
+// ----------------------------------------------------------------------
+// Cities data download/unizp
+// ----------------------------------------------------------------------
+
+
+// TODO:: prompt user to download geoname data (cities1000.zip, US.zip)
+// TODO:: download geoname data
+// TODO:: unzip geoname data
+
+
+// ----------------------------------------------------------------------
+// Geoserve data loading
+// ----------------------------------------------------------------------
+
+
+print "Loading geoname polygon data ... ";
+include_once 'load_cities.php';
+print "SUCCESS!!\n";
+
+
 // ----------------------------------------------------------------------
 // End of database setup
 // ----------------------------------------------------------------------
