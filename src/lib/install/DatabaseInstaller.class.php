@@ -32,6 +32,8 @@ abstract class DatabaseInstaller {
 			return new SqliteDatabaseInstaller($url, $user, $pass);
 		} else if ($type === 'mysql') {
 			return new MysqlDatabaseInstaller($url, $user, $pass);
+		} else if ($type === 'pgsql') {
+			return new PostgresDatabaseInstaller($url, $user, $pass);
 		} else {
 			throw new Exception('Unsupported database type "' . $type . '"');
 		}
@@ -141,4 +143,5 @@ abstract class DatabaseInstaller {
 
 // include sub classes, now that abstract class is defined.
 include_once 'MysqlDatabaseInstaller.class.php';
+include_once 'PostgresDatabaseInstaller.class.php';
 include_once 'SqliteDatabaseInstaller.class.php';
