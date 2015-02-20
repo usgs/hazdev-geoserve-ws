@@ -33,7 +33,7 @@ if (!is_dir($CONF_DIR)) {
 $DEFAULTS = array(
   'MOUNT_PATH' => '/ws/geoserve',
   'DB_DSN' => 'pgsql:host=localhost;port=5432;dbname=geoserve;',
-  'DB_USER' => 'web',
+  'DB_USER' => 'geoserve_web',
   'DB_PASS' => ''
 );
 $HELP_TEXT = array(

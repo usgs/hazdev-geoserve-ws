@@ -5,7 +5,7 @@
   $configure_action = '3';
 
   // Check if previous configuration file exists
-  if (file_exists($CONFIG_FILE)) {
+  if (file_exists($CONFIG_FILE_INI)) {
     $configure_action = '0';
   }
 
@@ -28,11 +28,11 @@
     print "Using previous configuration.\n";
 
     // pre-install depends on this variable
-    $CONFIG = parse_ini_file($CONFIG_FILE);
+    $CONFIG = parse_ini_file($CONFIG_FILE_INI);
   } else if ($configure_action === '2') {
     // Use current config as default and re-configure interactively.
     print "Using current config file as defaults, and re-configuring.\n";
-    $CONFIG = parse_ini_file($CONFIG_FILE);
+    $CONFIG = parse_ini_file($CONFIG_FILE_INI);
 
     // Make sure all default parameters are in the new configuration.
     $CONFIG = array_merge($DEFAULTS, $CONFIG);
@@ -78,6 +78,8 @@
     }
 
     // write config file
-    file_put_contents($CONFIG_FILE, $ini);
+    file_put_contents($CONFIG_FILE_INI, $ini);
   }
+
+  include_once 'setup_database.php';
 ?>
