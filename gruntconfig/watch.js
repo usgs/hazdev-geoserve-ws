@@ -16,8 +16,7 @@ var watch = {
   },
   livereload: {
     files: [
-      config.src + '/htdocs/**/*.php',
-      config.src + '/' + config.lib + '/inc/**/*.php'
+      config.src + '/**/*.php'
     ],
     tasks: ['copy:build'],
     options: {
