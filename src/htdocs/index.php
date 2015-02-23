@@ -9,18 +9,9 @@ if (!isset($TEMPLATE)) {
 
 $latitude = param('latitude', null);
 $longitude = param('longitude', null);
-$limit = param('limit', 5);
-if (!$limit) {
-  $limit = null;
-}
-$distance = param('distance', null);
-if (!$distance) {
-  $distance = null;
-}
-$population = param('population', null);
-if (!$population) {
-  $population = null;
-}
+$limit = param('limit');
+$distance = param('distance');
+$population = param('population');
 ?>
 
 <form method="get" action="index.php" class="vertical">
@@ -67,18 +58,17 @@ if (!$population) {
 <?php
 
 if ($latitude !== null && $longitude !== null) {
-  $options = array();
-  if ($distance !== null) {
-    $options['distance'] = $distance * 1000;
-  }
-  if ($limit !== null) {
-    $options['limit'] = $limit;
-  }
-  if ($population !== null) {
-    $options['population'] = $population;
-  }
+  $options = array(
+    'distance' => ($distance === '' ? null : $distance * 1000),
+    'limit' => ($limit === '' ? null : $limit),
+    'population' => ($population === '' ? null : $population)
+  );
   $nearby = $FACTORY->getPlaces($latitude, $longitude, $options);
 
+  echo '<p>' . count($nearby) . ' matching places.</p>';
+  if (count($nearby) === 0) {
+    return;
+  }
 
   echo '<table class="tabular">' .
       '<thead><tr>' .
