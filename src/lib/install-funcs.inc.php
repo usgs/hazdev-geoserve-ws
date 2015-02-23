@@ -247,4 +247,25 @@
     }
   }
 
+  /**
+   * Remove '#' comments in a geoname file without flattening the structure
+   */
+  function replaceComments ($file) {
+    $data = '';
+    $handle = @fopen($file, "r");
+    if ($handle) {
+      while (($buffer = fgets($handle, 4096)) !== false) {
+        if (!preg_match('/^#/', $buffer)) {
+          $data .= $buffer;
+        }
+      }
+      if (!feof($handle)) {
+          echo "Error: unexpected fgets() fail\n";
+      }
+      fclose($handle);
+    }
+
+    file_put_contents($file, $data);
+  }
+
 ?>
