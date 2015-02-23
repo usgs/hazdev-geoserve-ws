@@ -179,10 +179,42 @@ CREATE TABLE geoname (
     shape              GEOGRAPHY(POINT, 4326)
 );
 
+CREATE TABLE country_info (
+    iso                   CHAR(2),
+    iso3                  CHAR(3),
+    iso_numeric           INTEGER,
+    fips                  VARCHAR(3),
+    country               VARCHAR(200),
+    capital               VARCHAR(200),
+    area_km               DECIMAL,
+    population            INTEGER,
+    continent             CHAR(2),
+    tld                   CHAR(10),
+    currency_code         CHAR(3),
+    currency_name         CHAR(15),
+    phone                 VARCHAR(20),
+    postal_code           VARCHAR(60),
+    postal_regex          VARCHAR(200),
+    languages             VARCHAR(200),
+    geoname_id            INTEGER PRIMARY KEY,
+    neighbours            VARCHAR(50),
+    equivalent_fips_code  VARCHAR(3)
+);
+
+CREATE TABLE admin1_codes_ascii (
+    code        CHAR(20),
+    name        TEXT,
+    name_ascii  TEXT,
+    geoname_id  INTEGER PRIMARY KEY
+);
+
+
 /* Indexes */
 CREATE INDEX geoname_shape_index ON geoname USING GIST (GEOGRAPHY(shape));
 CREATE INDEX geoname_population_index ON geoname (population);
 CREATE INDEX geoname_feature_class_index ON geoname (feature_class);
+CREATE INDEX country_info_iso_index on country_info (iso);
+CREATE INDEX admin1_codes_ascii_code_index on admin1_codes_ascii (code);
 
 
 ------------------------------------------------------------------------------
