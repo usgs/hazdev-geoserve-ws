@@ -235,9 +235,12 @@
     if ($dest === null) {
       $dest = str_replace('.zip', '', $file);
     }
+    $zip = new ZipArchive();
     // extract zip file
-    $phar = new PharData($file);
-    $phar->extractTo($dest);
+    if ($zip->open($file) === TRUE) {
+      $zip->extractTo($dest);
+      $zip->close();
+    }
     // cleanup
     if ($removeOriginal) {
       unlink($file);
