@@ -1,8 +1,5 @@
 <?php
 
-
-$data_directory = $APP_DIR . '/lib/data';
-
 // Cities
 $dbInstaller->run('
   CREATE TEMPORARY TABLE places_ww (
@@ -28,7 +25,7 @@ $dbInstaller->run('
   )
 ');
 
-$dbInstaller->copyFrom($data_directory . '/geonames/cities1000.txt', 'places_ww');
+$dbInstaller->copyFrom($download_path . 'cities1000.txt', 'places_ww');
 
 $dbInstaller->run('
   CREATE TEMPORARY TABLE places_us (
@@ -54,7 +51,7 @@ $dbInstaller->run('
   )
 ');
 
-$dbInstaller->copyFrom($data_directory . '/geonames/US.txt', 'places_us');
+$dbInstaller->copyFrom($download_path . 'US.txt', 'places_us');
 
 // Load/Merge data into geoname table
 $dbInstaller->run('
@@ -89,5 +86,12 @@ $dbInstaller->run('
 
 // Populate the shape column
 $dbInstaller->run('UPDATE geoname SET shape = ST_SetSRID(ST_MakePoint(longitude, latitude), 4326)::GEOGRAPHY');
+
+
+// Download association tables
+replaceComments($download_path . 'countryInfo.txt');
+$dbInstaller->copyFrom($download_path . 'admin1CodesASCII.txt', 'admin1_codes_ascii');
+$dbInstaller->copyFrom($download_path . 'countryInfo.txt', 'country_info');
+
 
 ?>

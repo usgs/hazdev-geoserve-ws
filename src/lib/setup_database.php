@@ -17,7 +17,6 @@ date_default_timezone_set('UTC');
 $CONFIG_FILE = '../conf/config.ini';
 $DO_DATA_LOAD = (basename($argv[0]) === 'setup_database.php');
 
-include_once 'install-funcs.inc.php';
 include_once 'install/DatabaseInstaller.class.php';
 
 // Initial configuration stuff
@@ -53,7 +52,7 @@ if (!responseIsAffirmative($answer)) {
 }
 
 $answer = configure('CONFIRM_DO_SCHEMA_LOAD', 'N',
-    "Loading the schema removes any existing schema and/or data.\n" .
+    "\nLoading the schema removes any existing schema and/or data.\n" .
     'Are you sure you wish to continue');
 
 if (!responseIsAffirmative($answer)) {
@@ -78,7 +77,6 @@ if (!file_exists($dropSchemaScript)) {
 }
 
 
-include_once 'install/DatabaseInstaller.class.php';
 $dbInstaller = DatabaseInstaller::getInstaller($DB_DSN, $username, $password);
 
 // ----------------------------------------------------------------------
@@ -108,28 +106,61 @@ $dbInstaller->runScript($schemaScript);
 // create read user
 $dbInstaller->createUser(array('SELECT'), $CONFIG['DB_USER'], $CONFIG['DB_PASS']);
 
-print "Schema loaded successfully!\n";
+print "\nSchema loaded successfully!\n";
 
 
 // ----------------------------------------------------------------------
-// Cities data download/unizp
+// Cities data download/uncompress
 // ----------------------------------------------------------------------
 
 
 // TODO:: prompt user to download geoname data (cities1000.zip, US.zip)
-// TODO:: download geoname data
-// TODO:: unzip geoname data
+$answer = configure('DO_SCHEMA_LOAD', 'Y',
+    "\nWould you like to download and load data into the schema");
+
+if (!responseIsAffirmative($answer)) {
+  print "Normal exit.\n";
+  exit(0);
+}
+
+// download geoname data
+$url = configure('GEONAMES_URL', 'http://download.geonames.org/export/dump/', 'Geonames download url');
+$filenames = array('cities1000.zip', 'US.zip', 'admin1CodesASCII.txt', 'countryInfo.txt');
+$download_path = $APP_DIR . '/.geonames/';
+
+// create temp directory
+mkdir($download_path);
+
+foreach ($filenames as $filename) {
+  $downloaded_file = $download_path . $filename;
+  downloadURL($url . $filename, $downloaded_file);
+
+  // uncompress geonames data
+  if (pathinfo($downloaded_file)['extension'] === 'zip') {
+    print "\n\Extract file: " . $downloaded_file;
+    extractZip($downloaded_file, $download_path);
+  }
+}
 
 
 // ----------------------------------------------------------------------
 // Geoserve data loading
 // ----------------------------------------------------------------------
 
-
-print "Loading geoname polygon data ... ";
+print "\nLoading geoname polygon data ... ";
 include_once 'load_cities.php';
 print "SUCCESS!!\n";
 
+
+// ----------------------------------------------------------------------
+// Geoserve data clean-up
+// ----------------------------------------------------------------------
+
+$downloads = scandir($download_path);
+foreach ($downloads as $download) {
+  unlink($download_path . $download);
+}
+rmdir($download_path);
 
 // ----------------------------------------------------------------------
 // End of database setup
