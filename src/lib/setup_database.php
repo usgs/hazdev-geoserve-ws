@@ -52,7 +52,7 @@ if (!responseIsAffirmative($answer)) {
 }
 
 $answer = configure('CONFIRM_DO_SCHEMA_LOAD', 'N',
-    "\nLoading the schema removes any existing schema and/or data.\n" .
+    "\nLoading the schema removes any existing schema and/or data.\n\n" .
     'Are you sure you wish to continue');
 
 if (!responseIsAffirmative($answer)) {
@@ -63,14 +63,14 @@ if (!responseIsAffirmative($answer)) {
 // Find schema load file
 $schemaScript = configure('SCHEMA_SCRIPT',
     $defaultScriptDir . DIRECTORY_SEPARATOR . 'create_tables.sql',
-    'SQL script containing "create" schema definition');
+    "\nSQL script containing \"create\" schema definition");
 if (!file_exists($schemaScript)) {
   print "The indicated script does not exist. Please try again.\n";
   exit(-1);
 }
 $dropSchemaScript = configure('SCHEMA_SCRIPT',
     str_replace('create_tables.sql', 'drop_tables.sql', $schemaScript),
-    'SQL script containing "drop" schema definition');
+    "\nSQL script containing \"drop\" schema definition");
 if (!file_exists($dropSchemaScript)) {
   print "The indicated script does not exist. Please try again.\n";
   exit(-1);
@@ -124,7 +124,7 @@ if (!responseIsAffirmative($answer)) {
 }
 
 // download geoname data
-$url = configure('GEONAMES_URL', 'http://download.geonames.org/export/dump/', 'Geonames download url');
+$url = configure('GEONAMES_URL', 'http://download.geonames.org/export/dump/', "\nGeonames download url\n");
 $filenames = array('cities1000.zip', 'US.zip', 'admin1CodesASCII.txt', 'countryInfo.txt');
 $download_path = $APP_DIR . '/.geonames/';
 
@@ -137,34 +137,38 @@ foreach ($filenames as $filename) {
 
   // uncompress geonames data
   if (pathinfo($downloaded_file)['extension'] === 'zip') {
-    print "\n\Extract file: " . $downloaded_file;
+    print "\nExtract file: " . $downloaded_file . "\n\n";
     extractZip($downloaded_file, $download_path);
   }
 }
 
 
 // ----------------------------------------------------------------------
-// Geoserve data loading
+// Geoserve data loadinggit 
 // ----------------------------------------------------------------------
 
-print "\nLoading geoname polygon data ... ";
+print "\nInserting geoname polygon data into database ... ";
 include_once 'load_cities.php';
-print "SUCCESS!!\n";
+print "SUCCESS!!\n\n";
 
 
 // ----------------------------------------------------------------------
 // Geoserve data clean-up
 // ----------------------------------------------------------------------
 
+print "Cleaning up downloaded data ... ";
 $downloads = scandir($download_path);
 foreach ($downloads as $download) {
-  unlink($download_path . $download);
+  if (!is_dir($download)) {
+    unlink($download_path . $download);
+  }
 }
 rmdir($download_path);
+print "SUCCESS!!\n\n";
 
 // ----------------------------------------------------------------------
 // End of database setup
 // ----------------------------------------------------------------------
 
-print "\nNormal exit.\n";
+print "Normal exit.\n";
 exit(0);
