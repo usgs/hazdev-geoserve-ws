@@ -65,6 +65,10 @@ if ($latitude !== null && $longitude !== null) {
   );
   $nearby = $FACTORY->getPlaces($latitude, $longitude, $options);
 
+  // print '<pre><code>';
+  // print_r($nearby);
+  // print '</code></pre>';
+
   echo '<p>' . count($nearby) . ' matching places.</p>';
   if (count($nearby) === 0) {
     return;
@@ -72,21 +76,31 @@ if ($latitude !== null && $longitude !== null) {
 
   echo '<table class="tabular">' .
       '<thead><tr>' .
+        '<th><code>geoname_id</code></th>' .
         '<th>Place</th>' .
         '<th>Distance</th>' .
         '<th>Azimuth</th>' .
         '<th>Population</th>' .
-        '<th>Lat, Lon</th>' .
+        '<th>Latitude</th>' .
+        '<th>Longitude</th>' .
+        '<th><code>feature_code</code></th>' .
+        '<th><code>country_code</code></th>' .
+        '<th><code>admin1_code</code></th>' .
       '</tr></thead>' .
       '<tbody>';
 
   foreach ($nearby as $place) {
     echo '<tr>' .
-        '<td>' . $place['name'] . ', ' . $place['admin1_code'] . '</td>' .
+        '<td>' . $place['geoname_id'] . '</td>' .
+        '<td>' . $place['name'] . '</td>' .
         '<td>' . round($place['distance']/1000, 1) . ' km</td>' .
         '<td>' . round($place['azimuth']) . '&deg;</td>' .
         '<td>' . $place['population'] . '</td>' .
-        '<td>' . $place['latitude'] . ', ' . $place['longitude'] . '</td>' .
+        '<td>' . $place['latitude'] . '</td>' .
+        '<td>' . $place['longitude'] . '</td>' .
+        '<td>' . $place['feature_code'] . '</td>' .
+        '<td>' . $place['country_code'] . '</td>' .
+        '<td>' . $place['admin1_code'] . '</td>' .
         '</tr>';
   }
 

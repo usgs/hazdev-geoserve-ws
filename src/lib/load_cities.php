@@ -87,9 +87,10 @@ $dbInstaller->run('
 // Populate the shape column
 $dbInstaller->run('UPDATE geoname SET shape = ST_SetSRID(ST_MakePoint(longitude, latitude), 4326)::GEOGRAPHY');
 
+// Replace '#' prefixed comments from flat files
+replaceComments($download_path . 'countryInfo.txt');
 
 // Download association tables
-replaceComments($download_path . 'countryInfo.txt');
 $dbInstaller->copyFrom($download_path . 'admin1CodesASCII.txt', 'admin1_codes_ascii');
 $dbInstaller->copyFrom($download_path . 'countryInfo.txt', 'country_info');
 
