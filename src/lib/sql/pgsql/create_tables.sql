@@ -180,7 +180,7 @@ CREATE TABLE geoname (
 );
 
 CREATE TABLE country_info (
-    iso                   CHAR(2),
+    iso                   CHAR(2) PRIMARY KEY,
     iso3                  CHAR(3),
     iso_numeric           INTEGER,
     fips                  VARCHAR(3),
@@ -196,16 +196,16 @@ CREATE TABLE country_info (
     postal_code           VARCHAR(60),
     postal_regex          VARCHAR(200),
     languages             VARCHAR(200),
-    geoname_id            INTEGER PRIMARY KEY,
+    geoname_id            INTEGER,
     neighbours            VARCHAR(50),
     equivalent_fips_code  VARCHAR(3)
 );
 
 CREATE TABLE admin1_codes_ascii (
-    code        CHAR(20),
+    code        CHAR(20) PRIMARY KEY,
     name        TEXT,
     name_ascii  TEXT,
-    geoname_id  INTEGER PRIMARY KEY
+    geoname_id  INTEGER
 );
 
 
