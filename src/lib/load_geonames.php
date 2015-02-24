@@ -16,7 +16,8 @@ if (!responseIsAffirmative($answer)) {
 // download geoname data
 $url = configure('GEONAMES_URL', 'http://download.geonames.org/export/dump/', "\nGeonames download url\n");
 $filenames = array('cities1000.zip', 'US.zip', 'admin1CodesASCII.txt', 'countryInfo.txt');
-$download_path = $APP_DIR . '/.geonames/';
+$download_path = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'geonames'
+    . DIRECTORY_SEPARATOR;
 
 // create temp directory
 mkdir($download_path);
@@ -145,12 +146,6 @@ $dbInstaller->copyFrom($download_path . 'countryInfo.txt', 'country_info');
 // ----------------------------------------------------------------------
 
 print "Cleaning up downloaded data ... ";
-$downloads = scandir($download_path);
-foreach ($downloads as $download) {
-  if (!is_dir($download)) {
-    unlink($download_path . $download);
-  }
-}
 rmdir($download_path);
 print "SUCCESS!!\n\n";
 
