@@ -148,7 +148,7 @@ foreach ($filenames as $filename) {
 // ----------------------------------------------------------------------
 
 print "\nInserting geoname polygon data into database ... ";
-include_once 'load_cities.php';
+include_once 'load_geonames.php';
 print "SUCCESS!!\n\n";
 
 
