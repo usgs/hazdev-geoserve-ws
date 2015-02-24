@@ -5,8 +5,8 @@
 // ----------------------------------------------------------------------
 
 // TODO:: prompt user to download geoname data (cities1000.zip, US.zip)
-$answer = promptYesNo("\nWould you like to download and load data into the
-    schema",'Y');
+$answer = promptYesNo("\nWould you like to download and load data into the " .
+    "schema",'Y');
 
 if (!$answer) {
   print "Normal exit.\n";
@@ -15,7 +15,7 @@ if (!$answer) {
 
 // download geoname data
 $url = configure('GEONAMES_URL', 'http://download.geonames.org/export/dump/',
-    "\nGeonames download url\n");
+    "\nGeonames download url ");
 $filenames = array('cities1000.zip', 'US.zip', 'admin1CodesASCII.txt',
     'countryInfo.txt');
 $download_path = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'geonames'
@@ -42,6 +42,8 @@ foreach ($filenames as $filename) {
 // ----------------------------------------------------------------------
 
 // Cities
+
+print "Loading Cities1000 data ... ";
 $dbInstaller->run('
   CREATE TEMPORARY TABLE places_ww (
     geoname_id         INT PRIMARY KEY,
@@ -67,7 +69,9 @@ $dbInstaller->run('
 ');
 
 $dbInstaller->copyFrom($download_path . 'cities1000.txt', 'places_ww');
+print "SUCCESS!!\n\n";
 
+print "Loading US cities data ... ";
 $dbInstaller->run('
   CREATE TEMPORARY TABLE places_us (
     geoname_id         INT PRIMARY KEY,
@@ -93,6 +97,7 @@ $dbInstaller->run('
 ');
 
 $dbInstaller->copyFrom($download_path . 'US.txt', 'places_us');
+print "SUCCESS!!\n\n";
 
 
 
@@ -101,6 +106,7 @@ $dbInstaller->copyFrom($download_path . 'US.txt', 'places_us');
 // ----------------------------------------------------------------------
 
 // Load/Merge data into geoname table
+print "Inserting geonames data into database ... ";
 $dbInstaller->run('
   INSERT INTO geoname (
     SELECT
@@ -134,14 +140,24 @@ $dbInstaller->run('
 // Populate the shape column
 $dbInstaller->run('UPDATE geoname SET shape =
     ST_SetSRID(ST_MakePoint(longitude, latitude), 4326)::GEOGRAPHY');
+print "SUCCESS!!\n\n";
 
-// Replace '#' prefixed comments from flat files
-replaceComments($download_path . 'countryInfo.txt');
 
-// Download association tables
+// ----------------------------------------------------------------------
+// Load country and admin region tables
+// ----------------------------------------------------------------------
+
+print "Loading administrative region data ... ";
 $dbInstaller->copyFrom($download_path . 'admin1CodesASCII.txt',
     'admin1_codes_ascii');
+print "SUCCESS!!\n\n";
+
+
+print "Loading country data ... ";
+// Replace '#' prefixed comments from flat files
+replaceComments($download_path . 'countryInfo.txt');
 $dbInstaller->copyFrom($download_path . 'countryInfo.txt', 'country_info');
+print "SUCCESS!!\n\n";
 
 
 
@@ -150,6 +166,12 @@ $dbInstaller->copyFrom($download_path . 'countryInfo.txt', 'country_info');
 // ----------------------------------------------------------------------
 
 print "Cleaning up downloaded data ... ";
+$downloads = scandir($download_path);
+foreach ($downloads as $download) {
+  if (!is_dir($download)) {
+    unlink($download_path . $download);
+  }
+}
 rmdir($download_path);
 print "SUCCESS!!\n\n";
 
