@@ -60,15 +60,42 @@ class PostgresDatabaseInstaller extends DatabaseInstaller {
   }
 
   /**
+   * Drop $user with roles
+   */
+  public function dropUser ($roles, $user) {
+    if ($this->userExists($user)) {
+      $this->run('REVOKE USAGE ON SCHEMA public FROM ' . $user);
+      $this->run('REVOKE GRANT OPTION FOR ' . implode(',', $roles) . ' ON ALL TABLES IN SCHEMA public FROM ' . $user);
+      $this->run('DROP USER IF EXISTS ' . $user);
+    }
+  }
+
+  /**
    * Create user with $roles
    */
   public function createUser ($roles, $user, $password) {
-    // create read/write user for save
-    $this->run('DROP USER IF EXISTS ' . $user);
+    // drop user if it already exists
+    $this->dropUser($roles, $user);
+    // create read only user
     $this->run('CREATE USER ' . $user . ' WITH PASSWORD \'' . $password . '\'');
-    //$this->run('GRANT CONNECT ON ' . $this->dbname . ' TO ' . $user);
     $this->run('GRANT USAGE ON SCHEMA public TO ' . $user);
     $this->run('GRANT ' . implode(',', $roles) . ' ON ALL TABLES IN SCHEMA public TO ' . $user);
+  }
+
+  /**
+   * Checks to see if $user exists
+   */
+  public function userExists ($user) {
+    $dbh = $this->connect();
+    $sql = 'select * from pg_catalog.pg_user where usename=\'' . $user . '\'';
+    $results = $dbh->query($sql);
+
+    // user exists
+    if ($results->fetchColumn() == false) {
+      return false;
+    }
+
+    return true;
   }
 
   /**
