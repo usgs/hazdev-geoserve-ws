@@ -1,5 +1,43 @@
 <?php
 
+// ----------------------------------------------------------------------
+// Geonames data download/uncompress
+// ----------------------------------------------------------------------
+
+// TODO:: prompt user to download geoname data (cities1000.zip, US.zip)
+$answer = configure('DO_SCHEMA_LOAD', 'Y',
+    "\nWould you like to download and load data into the schema");
+
+if (!responseIsAffirmative($answer)) {
+  print "Normal exit.\n";
+  exit(0);
+}
+
+// download geoname data
+$url = configure('GEONAMES_URL', 'http://download.geonames.org/export/dump/', "\nGeonames download url\n");
+$filenames = array('cities1000.zip', 'US.zip', 'admin1CodesASCII.txt', 'countryInfo.txt');
+$download_path = $APP_DIR . '/.geonames/';
+
+// create temp directory
+mkdir($download_path);
+
+foreach ($filenames as $filename) {
+  $downloaded_file = $download_path . $filename;
+  downloadURL($url . $filename, $downloaded_file);
+
+  // uncompress geonames data
+  if (pathinfo($downloaded_file)['extension'] === 'zip') {
+    print "\nExtract file: " . $downloaded_file . "\n\n";
+    extractZip($downloaded_file, $download_path);
+  }
+}
+
+
+
+// ----------------------------------------------------------------------
+// Genames data load into temp tables
+// ----------------------------------------------------------------------
+
 // Cities
 $dbInstaller->run('
   CREATE TEMPORARY TABLE places_ww (
@@ -53,6 +91,12 @@ $dbInstaller->run('
 
 $dbInstaller->copyFrom($download_path . 'US.txt', 'places_us');
 
+
+
+// ----------------------------------------------------------------------
+// Genames data load from temp tables into schema
+// ----------------------------------------------------------------------
+
 // Load/Merge data into geoname table
 $dbInstaller->run('
   INSERT INTO geoname (
@@ -94,5 +138,20 @@ replaceComments($download_path . 'countryInfo.txt');
 $dbInstaller->copyFrom($download_path . 'admin1CodesASCII.txt', 'admin1_codes_ascii');
 $dbInstaller->copyFrom($download_path . 'countryInfo.txt', 'country_info');
 
+
+
+// ----------------------------------------------------------------------
+// Geoserve data clean-up
+// ----------------------------------------------------------------------
+
+print "Cleaning up downloaded data ... ";
+$downloads = scandir($download_path);
+foreach ($downloads as $download) {
+  if (!is_dir($download)) {
+    unlink($download_path . $download);
+  }
+}
+rmdir($download_path);
+print "SUCCESS!!\n\n";
 
 ?>

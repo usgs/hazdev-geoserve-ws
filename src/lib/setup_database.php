@@ -110,61 +110,13 @@ print "\nSchema loaded successfully!\n";
 
 
 // ----------------------------------------------------------------------
-// Cities data download/uncompress
-// ----------------------------------------------------------------------
-
-
-// TODO:: prompt user to download geoname data (cities1000.zip, US.zip)
-$answer = configure('DO_SCHEMA_LOAD', 'Y',
-    "\nWould you like to download and load data into the schema");
-
-if (!responseIsAffirmative($answer)) {
-  print "Normal exit.\n";
-  exit(0);
-}
-
-// download geoname data
-$url = configure('GEONAMES_URL', 'http://download.geonames.org/export/dump/', "\nGeonames download url\n");
-$filenames = array('cities1000.zip', 'US.zip', 'admin1CodesASCII.txt', 'countryInfo.txt');
-$download_path = $APP_DIR . '/.geonames/';
-
-// create temp directory
-mkdir($download_path);
-
-foreach ($filenames as $filename) {
-  $downloaded_file = $download_path . $filename;
-  downloadURL($url . $filename, $downloaded_file);
-
-  // uncompress geonames data
-  if (pathinfo($downloaded_file)['extension'] === 'zip') {
-    print "\nExtract file: " . $downloaded_file . "\n\n";
-    extractZip($downloaded_file, $download_path);
-  }
-}
-
-
-// ----------------------------------------------------------------------
-// Geoserve data loadinggit 
+// Geonames data download and database lodd
 // ----------------------------------------------------------------------
 
 print "\nInserting geoname polygon data into database ... ";
 include_once 'load_geonames.php';
 print "SUCCESS!!\n\n";
 
-
-// ----------------------------------------------------------------------
-// Geoserve data clean-up
-// ----------------------------------------------------------------------
-
-print "Cleaning up downloaded data ... ";
-$downloads = scandir($download_path);
-foreach ($downloads as $download) {
-  if (!is_dir($download)) {
-    unlink($download_path . $download);
-  }
-}
-rmdir($download_path);
-print "SUCCESS!!\n\n";
 
 // ----------------------------------------------------------------------
 // End of database setup
