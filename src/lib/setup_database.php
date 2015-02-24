@@ -43,19 +43,17 @@ $defaultDataDir = implode(DIRECTORY_SEPARATOR, array(
 // Schema loading configuration
 // ----------------------------------------------------------------------
 
-$answer = configure('DO_SCHEMA_LOAD', 'Y',
-    "\nWould you like to create the database schema");
+$answer = promptYesNo("\nWould you like to create the database schema", 'Y');
 
-if (!responseIsAffirmative($answer)) {
+if (!$answer) {
   print "Normal exit.\n";
   exit(0);
 }
 
-$answer = configure('CONFIRM_DO_SCHEMA_LOAD', 'N',
-    "\nLoading the schema removes any existing schema and/or data.\n\n" .
-    'Are you sure you wish to continue');
+$answer = promptYesNo("\nLoading the schema removes any existing schema " .
+    "and/or data.\n\nAre you sure you wish to continue", 'N');
 
-if (!responseIsAffirmative($answer)) {
+if (!$answer) {
   print "Normal exit.\n";
   exit(0);
 }
@@ -68,6 +66,7 @@ if (!file_exists($schemaScript)) {
   print "The indicated script does not exist. Please try again.\n";
   exit(-1);
 }
+
 $dropSchemaScript = configure('SCHEMA_SCRIPT',
     str_replace('create_tables.sql', 'drop_tables.sql', $schemaScript),
     "\nSQL script containing \"drop\" schema definition");

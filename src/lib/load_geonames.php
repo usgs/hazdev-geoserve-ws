@@ -5,17 +5,19 @@
 // ----------------------------------------------------------------------
 
 // TODO:: prompt user to download geoname data (cities1000.zip, US.zip)
-$answer = configure('DO_SCHEMA_LOAD', 'Y',
-    "\nWould you like to download and load data into the schema");
+$answer = promptYesNo("\nWould you like to download and load data into the
+    schema",'Y');
 
-if (!responseIsAffirmative($answer)) {
+if (!$answer) {
   print "Normal exit.\n";
   exit(0);
 }
 
 // download geoname data
-$url = configure('GEONAMES_URL', 'http://download.geonames.org/export/dump/', "\nGeonames download url\n");
-$filenames = array('cities1000.zip', 'US.zip', 'admin1CodesASCII.txt', 'countryInfo.txt');
+$url = configure('GEONAMES_URL', 'http://download.geonames.org/export/dump/',
+    "\nGeonames download url\n");
+$filenames = array('cities1000.zip', 'US.zip', 'admin1CodesASCII.txt',
+    'countryInfo.txt');
 $download_path = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'geonames'
     . DIRECTORY_SEPARATOR;
 
@@ -130,13 +132,15 @@ $dbInstaller->run('
 ');
 
 // Populate the shape column
-$dbInstaller->run('UPDATE geoname SET shape = ST_SetSRID(ST_MakePoint(longitude, latitude), 4326)::GEOGRAPHY');
+$dbInstaller->run('UPDATE geoname SET shape =
+    ST_SetSRID(ST_MakePoint(longitude, latitude), 4326)::GEOGRAPHY');
 
 // Replace '#' prefixed comments from flat files
 replaceComments($download_path . 'countryInfo.txt');
 
 // Download association tables
-$dbInstaller->copyFrom($download_path . 'admin1CodesASCII.txt', 'admin1_codes_ascii');
+$dbInstaller->copyFrom($download_path . 'admin1CodesASCII.txt',
+    'admin1_codes_ascii');
 $dbInstaller->copyFrom($download_path . 'countryInfo.txt', 'country_info');
 
 
