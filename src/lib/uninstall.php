@@ -7,6 +7,8 @@ include_once 'install-funcs.inc.php';
 $CONFIG_FILE = '../conf/config.ini';
 $CONFIG = parse_ini_file($CONFIG_FILE);
 
+$defaultScriptDir = getcwd() . '/sql/pgsql/';
+
 // Remove the database
 $answer = configure('DO_SCHEMA_LOAD', 'Y',
     "\nWould you like to remove the data for this application");
@@ -30,6 +32,12 @@ $username = configure('DB_ROOT_USER', 'root', "\nDatabase adminitrator user");
 $password = configure('DB_ROOT_PASS', '', "Database administrator password",
     true);
 $installer = DatabaseInstaller::getInstaller($CONFIG['DB_DSN'], $username, $password);
+
+// Drop tables
+$installer->runScript($defaultScriptDir . 'drop_tables.sql');
+
+// Disable postgis
+$installer->disablePostgis();
 
 // Drop user
 $installer->dropUser(array('SELECT'), $CONFIG['DB_USER']);
