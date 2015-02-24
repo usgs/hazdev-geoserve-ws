@@ -43,78 +43,77 @@ $defaultDataDir = implode(DIRECTORY_SEPARATOR, array(
 // Schema loading configuration
 // ----------------------------------------------------------------------
 
-$answer = promptYesNo("\nWould you like to create the database schema", 'Y');
-
-if (!$answer) {
-  print "Normal exit.\n";
-  exit(0);
-}
-
-$answer = promptYesNo("\nLoading the schema removes any existing schema " .
-    "and/or data.\n\nAre you sure you wish to continue", 'N');
-
-if (!$answer) {
-  print "Normal exit.\n";
-  exit(0);
-}
-
-// Find schema load file
-$schemaScript = configure('SCHEMA_SCRIPT',
-    $defaultScriptDir . DIRECTORY_SEPARATOR . 'create_tables.sql',
-    "\nSQL script containing \"create\" schema definition");
-if (!file_exists($schemaScript)) {
-  print "The indicated script does not exist. Please try again.\n";
-  exit(-1);
-}
-
-$dropSchemaScript = configure('SCHEMA_SCRIPT',
-    str_replace('create_tables.sql', 'drop_tables.sql', $schemaScript),
-    "\nSQL script containing \"drop\" schema definition");
-if (!file_exists($dropSchemaScript)) {
-  print "The indicated script does not exist. Please try again.\n";
-  exit(-1);
-}
-
 
 $dbInstaller = DatabaseInstaller::getInstaller($DB_DSN, $username, $password);
 
-// ----------------------------------------------------------------------
-// Drop Database
-// ----------------------------------------------------------------------
+$answer = promptYesNo("\nWould you like to create the database schema", 'Y');
 
-$dbInstaller->dropDatabase();
+if ($answer) {
 
-// ----------------------------------------------------------------------
-// Create Database
-// ----------------------------------------------------------------------
+  $answer = promptYesNo("\nLoading the schema removes any existing schema " .
+      "and/or data.\n\nAre you sure you wish to continue", 'N');
 
-// make sure database exists
-if (!$dbInstaller->databaseExists()) {
-  $dbInstaller->createDatabase();
+  if ($answer) {
+
+    // ----------------------------------------------------------------------
+    // Prompt for create/drop sql scripts
+    // ----------------------------------------------------------------------
+
+    $schemaScript = configure('SCHEMA_SCRIPT',
+        $defaultScriptDir . DIRECTORY_SEPARATOR . 'create_tables.sql',
+        "\nSQL script containing \"create\" schema definition");
+    if (!file_exists($schemaScript)) {
+      print "The indicated script does not exist. Please try again.\n";
+      exit(-1);
+    }
+
+    $dropSchemaScript = configure('SCHEMA_SCRIPT',
+        str_replace('create_tables.sql', 'drop_tables.sql', $schemaScript),
+        "\nSQL script containing \"drop\" schema definition");
+    if (!file_exists($dropSchemaScript)) {
+      print "The indicated script does not exist. Please try again.\n";
+      exit(-1);
+    }
+
+    // ----------------------------------------------------------------------
+    // Drop Database
+    // ----------------------------------------------------------------------
+
+    $dbInstaller->dropDatabase();
+
+    // ----------------------------------------------------------------------
+    // Create Database
+    // ----------------------------------------------------------------------
+
+    // make sure database exists
+    if (!$dbInstaller->databaseExists()) {
+      $dbInstaller->createDatabase();
+    }
+
+
+    // ----------------------------------------------------------------------
+    // Create Schema
+    // ----------------------------------------------------------------------
+
+    // run drop tables
+    $dbInstaller->runScript($dropSchemaScript);
+    // create schema
+    $dbInstaller->runScript($schemaScript);
+    // create read user
+    $dbInstaller->createUser(array('SELECT'), $CONFIG['DB_USER'], $CONFIG['DB_PASS']);
+
+    print "\nSchema loaded successfully!\n";
+
+  }
+
 }
-
-
-// ----------------------------------------------------------------------
-// Create Schema
-// ----------------------------------------------------------------------
-
-// run drop tables
-$dbInstaller->runScript($dropSchemaScript);
-// create schema
-$dbInstaller->runScript($schemaScript);
-// create read user
-$dbInstaller->createUser(array('SELECT'), $CONFIG['DB_USER'], $CONFIG['DB_PASS']);
-
-print "\nSchema loaded successfully!\n";
 
 
 // ----------------------------------------------------------------------
 // Geonames data download and database lodd
 // ----------------------------------------------------------------------
 
-print "\nInserting geoname polygon data into database ... ";
 include_once 'load_geonames.php';
-print "SUCCESS!!\n\n";
 
 
 // ----------------------------------------------------------------------

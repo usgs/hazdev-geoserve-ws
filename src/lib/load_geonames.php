@@ -5,8 +5,16 @@
 // ----------------------------------------------------------------------
 
 // TODO:: prompt user to download geoname data (cities1000.zip, US.zip)
-$answer = promptYesNo("\nWould you like to download and load data into the " .
-    "schema",'Y');
+$answer = promptYesNo("\nWould you like to download and load geonames data " .
+    "into the schema",'Y');
+
+if (!$answer) {
+  print "Normal exit.\n";
+  exit(0);
+}
+
+$answer = promptYesNo("\nThe schema must already exist in order to " .
+    "load geonames data, continue",'N');
 
 if (!$answer) {
   print "Normal exit.\n";
@@ -35,6 +43,18 @@ foreach ($filenames as $filename) {
   }
 }
 
+// ----------------------------------------------------------------------
+// Remove geonames data from tables
+// ----------------------------------------------------------------------
+
+// Delete from geoname
+$dbInstaller->run('DELETE FROM geoname');
+
+// Delete from geoname
+$dbInstaller->run('DELETE FROM admin1_codes_ascii');
+
+// Delete from geoname
+$dbInstaller->run('DELETE FROM country_info');
 
 
 // ----------------------------------------------------------------------
@@ -43,7 +63,7 @@ foreach ($filenames as $filename) {
 
 // Cities
 
-print "Loading Cities1000 data ... ";
+print "\nLoading Cities1000 data ... ";
 $dbInstaller->run('
   CREATE TEMPORARY TABLE places_ww (
     geoname_id         INT PRIMARY KEY,
@@ -69,7 +89,7 @@ $dbInstaller->run('
 ');
 
 $dbInstaller->copyFrom($download_path . 'cities1000.txt', 'places_ww');
-print "SUCCESS!!\n\n";
+print "SUCCESS!!\n";
 
 print "Loading US cities data ... ";
 $dbInstaller->run('
@@ -97,7 +117,7 @@ $dbInstaller->run('
 ');
 
 $dbInstaller->copyFrom($download_path . 'US.txt', 'places_us');
-print "SUCCESS!!\n\n";
+print "SUCCESS!!\n";
 
 
 
@@ -106,7 +126,7 @@ print "SUCCESS!!\n\n";
 // ----------------------------------------------------------------------
 
 // Load/Merge data into geoname table
-print "Inserting geonames data into database ... ";
+print "Inserting geonames data into database (approx 2 minutes) ... ";
 $dbInstaller->run('
   INSERT INTO geoname (
     SELECT
@@ -140,7 +160,7 @@ $dbInstaller->run('
 // Populate the shape column
 $dbInstaller->run('UPDATE geoname SET shape =
     ST_SetSRID(ST_MakePoint(longitude, latitude), 4326)::GEOGRAPHY');
-print "SUCCESS!!\n\n";
+print "SUCCESS!!\n";
 
 
 // ----------------------------------------------------------------------
@@ -150,14 +170,14 @@ print "SUCCESS!!\n\n";
 print "Loading administrative region data ... ";
 $dbInstaller->copyFrom($download_path . 'admin1CodesASCII.txt',
     'admin1_codes_ascii');
-print "SUCCESS!!\n\n";
+print "SUCCESS!!\n";
 
 
 print "Loading country data ... ";
 // Replace '#' prefixed comments from flat files
 replaceComments($download_path . 'countryInfo.txt');
 $dbInstaller->copyFrom($download_path . 'countryInfo.txt', 'country_info');
-print "SUCCESS!!\n\n";
+print "SUCCESS!!\n";
 
 
 
