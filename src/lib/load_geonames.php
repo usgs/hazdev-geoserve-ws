@@ -5,8 +5,8 @@
 // ----------------------------------------------------------------------
 
 // TODO:: prompt user to download geoname data (cities1000.zip, US.zip)
-$answer = promptYesNo("\nWould you like to download and load geonames data " .
-    "into the schema", true);
+$answer = promptYesNo("\nWould you like to download and load geonames data",
+    true);
 
 if (!$answer) {
   echo "Normal exit.\n";

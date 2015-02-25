@@ -14,19 +14,13 @@
 
 date_default_timezone_set('UTC');
 
-$CONFIG_FILE = '../conf/config.ini';
-$DO_DATA_LOAD = (basename($argv[0]) === 'setup_database.php');
-
+// work from lib directory
+chdir(dirname($argv[0]));
+include_once 'install-funcs.inc.php';
 include_once 'install/DatabaseInstaller.class.php';
+include_once '../conf/config.inc.php';
 
-// Initial configuration stuff
-if (!file_exists($CONFIG_FILE)) {
-  print "$CONFIG_FILE not found. Please configure the application " .
-      'before trying to set up the database. Configuration can be ' .
-      "done as part of the installation process.\n";
-  exit(-1);
-}
-$CONFIG = parse_ini_file($CONFIG_FILE);
+
 $DB_DSN = configure('DB_ROOT_DSN', $CONFIG['DB_DSN'], 'Database administrator DSN');
 $dbtype = substr($DB_DSN, 0, strpos($DB_DSN, ':'));
 $username = configure('DB_ROOT_USER', 'root', 'Database adminitrator user');
