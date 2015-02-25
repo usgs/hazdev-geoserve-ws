@@ -16,6 +16,7 @@ var gruntConfig = {
   tasks: [
     'grunt-concurrent',
     'grunt-connect-proxy',
+    'grunt-connect-rewrite',
     'grunt-contrib-clean',
     'grunt-contrib-compass',
     'grunt-contrib-connect',
