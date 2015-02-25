@@ -1,5 +1,8 @@
 <?php
 
+include_once 'functions.inc.php';
+
+
 $SITE_TITLE = 'Earthquake Hazards Program';
 $SITE_URL = 'earthquake.usgs.gov';
 
