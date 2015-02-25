@@ -27,7 +27,7 @@ if (!file_exists($CONFIG_FILE)) {
   exit(-1);
 }
 $CONFIG = parse_ini_file($CONFIG_FILE);
-$DB_DSN = configure('DB_ROOT_DSN', '', 'Database administrator DSN');
+$DB_DSN = configure('DB_ROOT_DSN', $CONFIG['DB_DSN'], 'Database administrator DSN');
 $dbtype = substr($DB_DSN, 0, strpos($DB_DSN, ':'));
 $username = configure('DB_ROOT_USER', 'root', 'Database adminitrator user');
 $password = configure('DB_ROOT_PASS', '', 'Database administrator password',
@@ -46,12 +46,12 @@ $defaultDataDir = implode(DIRECTORY_SEPARATOR, array(
 
 $dbInstaller = DatabaseInstaller::getInstaller($DB_DSN, $username, $password);
 
-$answer = promptYesNo("\nWould you like to create the database schema", 'Y');
+$answer = promptYesNo("Would you like to create the database schema", true);
 
 if ($answer) {
 
   $answer = promptYesNo("\nLoading the schema removes any existing schema " .
-      "and/or data.\n\nAre you sure you wish to continue", 'N');
+      "and/or data.\nAre you sure you wish to continue", false);
 
   if ($answer) {
 
@@ -61,7 +61,7 @@ if ($answer) {
 
     $schemaScript = configure('SCHEMA_SCRIPT',
         $defaultScriptDir . DIRECTORY_SEPARATOR . 'create_tables.sql',
-        "\nSQL script containing \"create\" schema definition");
+        "SQL script containing \"create\" schema definition");
     if (!file_exists($schemaScript)) {
       print "The indicated script does not exist. Please try again.\n";
       exit(-1);
@@ -69,7 +69,7 @@ if ($answer) {
 
     $dropSchemaScript = configure('SCHEMA_SCRIPT',
         str_replace('create_tables.sql', 'drop_tables.sql', $schemaScript),
-        "\nSQL script containing \"drop\" schema definition");
+        "SQL script containing \"drop\" schema definition");
     if (!file_exists($dropSchemaScript)) {
       print "The indicated script does not exist. Please try again.\n";
       exit(-1);
@@ -95,6 +95,7 @@ if ($answer) {
     // Create Schema
     // ----------------------------------------------------------------------
 
+    echo 'Loading schema ... ';
     // run drop tables
     $dbInstaller->runScript($dropSchemaScript);
     // create schema
@@ -102,7 +103,7 @@ if ($answer) {
     // create read user
     $dbInstaller->createUser(array('SELECT'), $CONFIG['DB_USER'], $CONFIG['DB_PASS']);
 
-    print "\nSchema loaded successfully!\n";
+    echo "SUCCESS!!\n";
 
   }
 
@@ -120,5 +121,5 @@ include_once 'load_geonames.php';
 // End of database setup
 // ----------------------------------------------------------------------
 
-print "Normal exit.\n";
+echo "\nNormal exit.\n";
 exit(0);

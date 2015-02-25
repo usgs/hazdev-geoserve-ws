@@ -81,5 +81,4 @@
     file_put_contents($CONFIG_FILE_INI, $ini);
   }
 
-  include_once 'setup_database.php';
 ?>

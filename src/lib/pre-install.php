@@ -67,3 +67,10 @@ file_put_contents($HTTPD_CONF, '
     ExpiresDefault "access plus 1 days"
   </Location>
 ');
+
+
+// configure database
+echo "\n";
+if (promptYesNo('Would you like to setup the database or load data', true)) {
+  include_once 'setup_database.php';
+}

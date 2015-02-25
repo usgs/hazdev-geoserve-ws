@@ -6,24 +6,24 @@
 
 // TODO:: prompt user to download geoname data (cities1000.zip, US.zip)
 $answer = promptYesNo("\nWould you like to download and load geonames data " .
-    "into the schema",'Y');
+    "into the schema", true);
 
 if (!$answer) {
-  print "Normal exit.\n";
+  echo "Normal exit.\n";
   exit(0);
 }
 
-$answer = promptYesNo("\nThe schema must already exist in order to " .
-    "load geonames data, continue",'N');
+$answer = promptYesNo("The schema must already exist in order to " .
+    "load geonames data, continue", true);
 
 if (!$answer) {
-  print "Normal exit.\n";
+  echo "Normal exit.\n";
   exit(0);
 }
 
 // download geoname data
 $url = configure('GEONAMES_URL', 'http://download.geonames.org/export/dump/',
-    "\nGeonames download url ");
+    "Geonames download url");
 $filenames = array('cities1000.zip', 'US.zip', 'admin1CodesASCII.txt',
     'countryInfo.txt');
 $download_path = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'geonames'
@@ -31,14 +31,13 @@ $download_path = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'geonames'
 
 // create temp directory
 mkdir($download_path);
-
 foreach ($filenames as $filename) {
   $downloaded_file = $download_path . $filename;
   downloadURL($url . $filename, $downloaded_file);
 
   // uncompress geonames data
   if (pathinfo($downloaded_file)['extension'] === 'zip') {
-    print "\nExtract file: " . $downloaded_file . "\n\n";
+    print 'Extracting ' . $downloaded_file . "\n";
     extractZip($downloaded_file, $download_path);
   }
 }
@@ -63,7 +62,8 @@ $dbInstaller->run('DELETE FROM country_info');
 
 // Cities
 
-print "\nLoading Cities1000 data ... ";
+echo "\n";
+echo 'Loading Cities1000 data ... ';
 $dbInstaller->run('
   CREATE TEMPORARY TABLE places_ww (
     geoname_id         INT PRIMARY KEY,
@@ -89,9 +89,9 @@ $dbInstaller->run('
 ');
 
 $dbInstaller->copyFrom($download_path . 'cities1000.txt', 'places_ww');
-print "SUCCESS!!\n";
+echo "SUCCESS!!\n";
 
-print "Loading US cities data ... ";
+echo 'Loading US cities data ... ';
 $dbInstaller->run('
   CREATE TEMPORARY TABLE places_us (
     geoname_id         INT PRIMARY KEY,
@@ -117,7 +117,7 @@ $dbInstaller->run('
 ');
 
 $dbInstaller->copyFrom($download_path . 'US.txt', 'places_us');
-print "SUCCESS!!\n";
+echo "SUCCESS!!\n";
 
 
 
@@ -126,7 +126,7 @@ print "SUCCESS!!\n";
 // ----------------------------------------------------------------------
 
 // Load/Merge data into geoname table
-print "Inserting geonames data into database (approx 2 minutes) ... ";
+echo 'Merging Cities1000 and US cities ... ';
 $dbInstaller->run('
   INSERT INTO geoname (
     SELECT
@@ -156,28 +156,31 @@ $dbInstaller->run('
     ) a
   )
 ');
+echo "SUCCESS!!\n";
 
+
+echo 'Adding spatial index ... ';
 // Populate the shape column
 $dbInstaller->run('UPDATE geoname SET shape =
     ST_SetSRID(ST_MakePoint(longitude, latitude), 4326)::GEOGRAPHY');
-print "SUCCESS!!\n";
+echo "SUCCESS!!\n";
 
 
 // ----------------------------------------------------------------------
 // Load country and admin region tables
 // ----------------------------------------------------------------------
 
-print "Loading administrative region data ... ";
+echo 'Loading administrative region data ... ';
 $dbInstaller->copyFrom($download_path . 'admin1CodesASCII.txt',
     'admin1_codes_ascii');
-print "SUCCESS!!\n";
+echo "SUCCESS!!\n";
 
 
-print "Loading country data ... ";
+echo 'Loading country data ... ';
 // Replace '#' prefixed comments from flat files
 replaceComments($download_path . 'countryInfo.txt');
 $dbInstaller->copyFrom($download_path . 'countryInfo.txt', 'country_info');
-print "SUCCESS!!\n";
+echo "SUCCESS!!\n";
 
 
 
@@ -185,7 +188,7 @@ print "SUCCESS!!\n";
 // Geoserve data clean-up
 // ----------------------------------------------------------------------
 
-print "Cleaning up downloaded data ... ";
+print 'Cleaning up downloaded data ... ';
 $downloads = scandir($download_path);
 foreach ($downloads as $download) {
   if (!is_dir($download)) {
@@ -193,6 +196,6 @@ foreach ($downloads as $download) {
   }
 }
 rmdir($download_path);
-print "SUCCESS!!\n\n";
+print "SUCCESS!!\n";
 
 ?>
