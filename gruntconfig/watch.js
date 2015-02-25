@@ -12,11 +12,16 @@ var watch = {
   },
   scss: {
     files: [config.src + '/htdocs/**/*.scss'],
-    tasks: ['compass:dev']
+    tasks: ['compass:dev'],
+    options: {
+      livereload: true
+    }
   },
   livereload: {
     files: [
-      config.src + '/**/*.php'
+      config.src + '/**/*',
+      '!' + config.src + '/**/*.css',
+      '!' + config.src + '/**/*.js'
     ],
     tasks: ['copy:build'],
     options: {
