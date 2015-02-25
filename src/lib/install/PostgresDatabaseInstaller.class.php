@@ -42,6 +42,7 @@ class PostgresDatabaseInstaller extends DatabaseInstaller {
    * Drop the database referred to by $url.
    */
   public function dropDatabase () {
+    $this->disconnect();
     $db = $this->connectWithoutDbname();
     $db->exec('DROP DATABASE IF EXISTS ' . $this->dbname);
     $db = null;
@@ -55,20 +56,67 @@ class PostgresDatabaseInstaller extends DatabaseInstaller {
     $db->exec('CREATE DATABASE ' . $this->dbname);
     $db = null;
     // enable postgis
-    $db = $this->connect();
-    $db->exec('CREATE EXTENSION postgis');
+    $this->enablePostgis();
+  }
+
+  /**
+   * Disable postgis extension
+   */
+  public function disablePostgis () {
+    $this->run('DROP EXTENSION IF EXISTS postgis');
+  }
+
+  /**
+   * Enable postgis extension
+   */
+  public function enablePostgis () {
+    $this->run('CREATE EXTENSION postgis');
+  }
+
+  /**
+   * Drop $user with roles
+   */
+  public function dropUser ($roles, $user) {
+    if ($this->userExists($user)) {
+      $this->run('REVOKE USAGE ON SCHEMA public FROM ' . $user);
+      $this->run('REVOKE GRANT OPTION FOR ' . implode(',', $roles) .
+          ' ON ALL TABLES IN SCHEMA public FROM ' . $user);
+      $this->run('REVOKE ALL PRIVILEGES ON DATABASE ' . $this->dbname .
+          ' FROM ' . $user);
+      $this->run('DROP USER IF EXISTS ' . $user);
+    }
   }
 
   /**
    * Create user with $roles
    */
   public function createUser ($roles, $user, $password) {
-    // create read/write user for save
-    $this->run('DROP USER IF EXISTS ' . $user);
-    $this->run('CREATE USER ' . $user . ' WITH PASSWORD \'' . $password . '\'');
-    //$this->run('GRANT CONNECT ON ' . $this->dbname . ' TO ' . $user);
+    // drop user if it already exists
+    $this->dropUser($roles, $user);
+    // create read only user
+    $this->run('CREATE USER ' . $user . ' WITH PASSWORD \'' .
+        $password . '\'');
     $this->run('GRANT USAGE ON SCHEMA public TO ' . $user);
-    $this->run('GRANT ' . implode(',', $roles) . ' ON ALL TABLES IN SCHEMA public TO ' . $user);
+    $this->run('GRANT ' . implode(',', $roles) .
+        ' ON ALL TABLES IN SCHEMA public TO ' . $user);
+  }
+
+  /**
+   * Checks if $user exists
+   */
+  public function userExists ($user) {
+    $db = $this->connectWithoutDbname();
+    $sql = 'select usename from pg_catalog.pg_user where usename=\'' .
+        $user . '\'';
+    $result = $db->query($sql)->fetchColumn();
+    $db = null;
+
+    if ($result === false) {
+      return false;
+    }
+
+    // $user exists
+    return true;
   }
 
   /**
@@ -86,9 +134,10 @@ class PostgresDatabaseInstaller extends DatabaseInstaller {
    * Used by dropDatabase() and createDatabase().
    */
   protected function connectWithoutDbname() {
-    $db = new PDO(str_replace('dbname=' . $this->dbname, 'dbname=postgres', $this->url),
-        $this->user, $this->pass);
+    $db = new PDO(str_replace('dbname=' . $this->dbname, 'dbname=postgres',
+        $this->url), $this->user, $this->pass);
     $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
     return $db;
   }
 

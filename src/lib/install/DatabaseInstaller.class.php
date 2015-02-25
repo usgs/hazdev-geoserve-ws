@@ -105,6 +105,7 @@ abstract class DatabaseInstaller {
 				}
 			}
 		}
+		$dbh = null;
 	}
 
 	/**
