@@ -21,7 +21,10 @@ if (!isset($TEMPLATE)) {
       $usage = true;
     }
   } catch (Exception $e) {
-    $SERVICE->error(503, $e->getMessage());
+    // trigger error, this will go to logs in production
+    trigger_error($e->getMessage());
+    // output generic error message.
+    $SERVICE->error(500, 'Server Error');
   }
 
   if (!$usage) {
