@@ -7,6 +7,18 @@ var connect = {
   options: {
     hostname: '*'
   },
+
+  rules: [
+    {
+      from: '^(' + config.ini.MOUNT_PATH + ')?/$',
+      to: '/geoserve.php'
+    },
+    {
+      from: '^(' + config.ini.MOUNT_PATH + ')?/(places)\\??(.*)$',
+      to: '/geoserve.php?method=$2&$3'
+    }
+  ],
+
   proxies: [
     {
       context: '/theme/',
@@ -23,9 +35,10 @@ var connect = {
       base: [config.build + '/' + config.src + '/htdocs'],
       port: 8100,
       livereload: true,
-      open: 'http://localhost:8100/index.php',
+      open: 'http://localhost:8100/',
       middleware: function (connect, options, middlewares) {
         middlewares.unshift(
+          require('grunt-connect-rewrite/lib/utils').rewriteRequest,
           require('grunt-connect-proxy/lib/utils').proxyRequest,
           require('gateway')(options.base[0], {
             '.php': 'php-cgi',
@@ -46,6 +59,7 @@ var connect = {
       open: 'http://localhost:8102/',
       middleware: function (connect, options, middlewares) {
         middlewares.unshift(
+          require('grunt-connect-rewrite/lib/utils').rewriteRequest,
           require('grunt-connect-proxy/lib/utils').proxyRequest,
           require('gateway')(options.base[0], {
             '.php': 'php-cgi',

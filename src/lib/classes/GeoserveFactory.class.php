@@ -2,18 +2,6 @@
 
 class GeoserveFactory {
 
-  // default optoins for getPlaces()
-  public static $GET_PLACES_DEFAULTS = array(
-    // restrict types of places returned.
-    'featureCode' => null,
-    // maximum number of places to return
-    'limit' => 5,
-    // maximum distance in meters
-    'distance' => null,
-    // minimum population in people
-    'population' => null
-  );
-
   private $db;
   private $db_dsn;
   private $db_user;
@@ -62,38 +50,19 @@ class GeoserveFactory {
   /**
    * Get nearby places.
    *
-   * @param $latitude {Number}
-   *        latitude in decimal degrees [-90, 90].
-   * @param $longitude {Number}
-   *        longitude in decimal degrees [-180, 180].
-   * @param $options {Array}
-   *        array of options.
-   * @param $options['featureCode'] {String}
-   *        return places with a specific feature code.
-   * @param $options['limit'] {Number}
-   *        return at most this many places.
-   *        default 5.
-   *        set to null to remove limit.
-   * @param $options['distance'] {Number}
-   *        return places closer than this distance in meters.
-   *        default null (any distance).
-   * @param $options['population'] {Number}
-   *        return places with at least this population.
-   *        default null (any population).
+   * @param $query {PlacesQuery}
+   *        query object.
    * @return array of places, with these additional columns:
    *         "azimuth" - direction from search point to place,
    *                     in degrees clockwise from geographic north.
    *         "distance" - distance in meters
    * @throws Exception
-   *         if at least one of $options['limit'] or $options['distance']
+   *         if at least one of $query->limit or $query->maxradiuskm
    *         is not specified.
    */
-  public function getPlaces($latitude, $longitude, $options = null) {
-    $options = array_merge(array(), self::$GET_PLACES_DEFAULTS,
-        ($options === null ? array() : $options));
-
-    if ($options['limit'] === null && $options['distance'] === null) {
-      throw new Exception('"limit" and/or "distance" is required');
+  public function getPlaces($query) {
+    if ($query->limit === null && $query->maxradiuskm === null) {
+      throw new Exception('"limit" and/or "maxradiuskm" is required');
     }
 
     // connect to database
@@ -108,8 +77,8 @@ class GeoserveFactory {
           ',shape)';
     // bound parameters
     $params = array(
-        ':latitude' => $latitude,
-        ':longitude' => $longitude);
+        ':latitude' => $query->latitude,
+        ':longitude' => $query->longitude);
 
     // create sql
     $sql =  'SELECT *' .
@@ -118,17 +87,13 @@ class GeoserveFactory {
         ' FROM geoname';
     // build where clause
     $where = array();
-    if ($options['distance'] !== null) {
+    if ($query->maxradiuskm !== null) {
       $where[] = $distance . ' <= :distance';
-      $params[':distance'] = $options['distance'];
+      $params[':distance'] = $query->maxradiuskm * 1000;
     }
-    if ($options['population'] !== null) {
+    if ($query->minpopulation !== null) {
       $where[] = 'population >= :population';
-      $params[':population'] = $options['population'];
-    }
-    if ($options['featureCode'] !== null) {
-      $where[] = 'feature_code = :feature_code';
-      $params[':feature_code'] = $options['featureCode'];
+      $params[':population'] = $query->minpopulation;
     }
     if (count($where) > 0) {
       $sql .= ' WHERE ' . implode(' AND ', $where);
@@ -136,9 +101,9 @@ class GeoserveFactory {
     // sort closest places first
     $sql .= ' ORDER BY ' . $distance;
     // limit number of results
-    if ($options['limit'] !== null) {
+    if ($query->limit !== null) {
       $sql .= ' LIMIT :limit';
-      $params[':limit'] = $options['limit'];
+      $params[':limit'] = $query->limit;
     }
 
     // execute query
@@ -149,9 +114,6 @@ class GeoserveFactory {
         throw new Exception($errorInfo[0] . ' (' . $errorInfo[1] . ') ' . $errorInfo[2]);
       }
       return $query->fetchAll(PDO::FETCH_ASSOC);
-    } catch (Exception $e) {
-      trigger_error($e->getMessage());
-      return null;
     } finally {
       // close handle
       $query = null;

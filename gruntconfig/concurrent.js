@@ -2,7 +2,8 @@
 
 var concurrent = {
   scripts: [
-    'jshint:scripts'
+    'jshint:scripts',
+    'copy:build'
   ],
   build: [
     'compass:dev',
