@@ -18,7 +18,7 @@ $server_protocol = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'Off') ?
 $server_host = isset($_SERVER['HTTP_HOST']) ?
     $_SERVER['HTTP_HOST'] : "earthquake.usgs.gov";
 $server_port = isset($_SERVER['SERVER_PORT']) ? $_SERVER['SERVER_PORT'] : 80;
-$server_uri = $_SERVER['REQUEST_URI'];
+$server_uri = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '/';
 
 $HOST_URL_PREFIX = $server_protocol . $server_host;
 if ( ($server_port == 80 && $server_protocol == 'http://') || ($server_port == 443 && $server_protocol == 'https://') ) {
