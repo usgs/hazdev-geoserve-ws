@@ -34,57 +34,14 @@ class GeoserveWebService {
     global $APP_DIR;
     global $HOST_URL_PREFIX;
 
+    $callback = new PlacesCallback();
     $query = $this->parsePlacesQuery();
-    $places = $this->factory->getPlaces($query);
 
     // cache results for 1 hour
     $CACHE_MAXAGE = 3600;
     include $APP_DIR . '/lib/cache.inc.php';
 
-    // Does this need to look fully like GeoJSON format?
-    $response = array(
-      'type' => 'FeatureCollection',
-      'metadata' => array(
-        'status' => 200,
-        'generated' => time() . '000',
-        'url' => $HOST_URL_PREFIX . $_SERVER['REQUEST_URI'],
-        'version' => $this->version,
-        'count' => count($places)
-      ),
-      'features' => array()
-    );
-
-    foreach ($places as $place) {
-      $response['features'][] = array(
-        'type' => 'Feature',
-        'properties' => array(
-          'admin1_code' => $place['admin1_code'],
-          'azimuth' => round($place['azimuth'], 1),
-          'country_code' => $place['country_code'],
-          'distance' => round($place['distance'], 1),
-          'name' => $place['name'],
-          'population' => intval($place['population'])
-        ),
-        'geometry' => array(
-          'type' => 'Point',
-          'coordinates' => array(
-            floatval($place['longitude']),
-            floatval($place['latitude']),
-            floatval($place['elevation'])
-          )
-        )
-      );
-    }
-
-    $response = preg_replace('/"(generated)":"([\d]+)"/', '"$1":$2',
-        str_replace('\/', '/', json_encode($response)));
-    if ($query->callback !== null) {
-      header('Content-type: text/javascript');
-      echo $query->callback, '(', $response, ');';
-    } else {
-      header('Content-type: application/json');
-      echo $response;
-    }
+    $places = $this->factory->getPlaces($query, $callback);
   }
 
 
@@ -162,9 +119,9 @@ class GeoserveWebService {
       $this->error(self::BAD_REQUEST,
           'latitude and longitude are required');
     }
-    if ($query->maxradiuskm === null && $query->limit === null) {
+    if ($query->maxradiuskm === null) {
       $this->error(self::BAD_REQUEST,
-          'limit and/or maxradiuskm must be specified');
+          'maxradiuskm is required');
     }
 
     return $query;

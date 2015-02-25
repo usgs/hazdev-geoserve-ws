@@ -52,7 +52,11 @@ class GeoserveFactory {
    *
    * @param $query {PlacesQuery}
    *        query object.
-   * @return array of places, with these additional columns:
+   * @param $callback {PlacesCallback}
+   *        callback object.
+   * @return when callback is not null, nothing;
+   *         when callback is null:
+   *         array of places, with these additional columns:
    *         "azimuth" - direction from search point to place,
    *                     in degrees clockwise from geographic north.
    *         "distance" - distance in meters
@@ -60,46 +64,47 @@ class GeoserveFactory {
    *         if at least one of $query->limit or $query->maxradiuskm
    *         is not specified.
    */
-  public function getPlaces($query) {
-    if ($query->limit === null && $query->maxradiuskm === null) {
-      throw new Exception('"limit" and/or "maxradiuskm" is required');
+  public function getPlaces($query, $callback=null) {
+    if ($query->latitude === null || $query->longitude === null ||
+        $query->maxradiuskm === null) {
+      throw new Exception('"latitude", "longitude", and "maxradiuskm"' .
+          ' are required');
     }
 
     // connect to database
     $db = $this->connect();
 
-    // computed values
-    $azimuth = 'degrees(ST_Azimuth(' .
-          'ST_SetSRID(ST_MakePoint(:longitude,:latitude), 4326)::geography' .
-          ',shape))';
-    $distance = 'ST_Distance(' .
-          'ST_SetSRID(ST_MakePoint(:longitude,:latitude), 4326)::geography' .
-          ',shape)';
+    // create sql
+    $sql = 'WITH search AS (SELECT' .
+        ' ST_SetSRID(ST_MakePoint(:longitude,:latitude),4326)::geography' .
+        ' AS point' .
+        ')';
     // bound parameters
     $params = array(
         ':latitude' => $query->latitude,
         ':longitude' => $query->longitude);
 
     // create sql
-    $sql =  'SELECT *' .
-        ',' . $azimuth . ' as azimuth' .
-        ',' .$distance . ' as distance' .
-        ' FROM geoname';
+    $sql .=  'SELECT' .
+        ' geoname.*' .
+        ',degrees(ST_Azimuth(search.point, shape)) AS azimuth' .
+        ',ST_Distance(search.point, shape) AS distance' .
+        ' FROM geoname, search';
     // build where clause
     $where = array();
     if ($query->maxradiuskm !== null) {
-      $where[] = $distance . ' <= :distance';
+      $where[] = 'ST_DWithin(search.point, shape, :distance)';
       $params[':distance'] = $query->maxradiuskm * 1000;
     }
     if ($query->minpopulation !== null) {
-      $where[] = 'population >= :population';
-      $params[':population'] = $query->minpopulation;
+      $where[] = 'population >= :minpopulation';
+      $params[':minpopulation'] = $query->minpopulation;
     }
     if (count($where) > 0) {
       $sql .= ' WHERE ' . implode(' AND ', $where);
     }
     // sort closest places first
-    $sql .= ' ORDER BY ' . $distance;
+    $sql .= ' ORDER BY shape::geometry <-> search.point::geometry';
     // limit number of results
     if ($query->limit !== null) {
       $sql .= ' LIMIT :limit';
@@ -107,16 +112,31 @@ class GeoserveFactory {
     }
 
     // execute query
-    try {
-      $query = $db->prepare($sql);
-      if (!$query->execute($params)) {
-        $errorInfo = $db->errorInfo();
-        throw new Exception($errorInfo[0] . ' (' . $errorInfo[1] . ') ' . $errorInfo[2]);
+    $query = $db->prepare($sql);
+    if (!$query->execute($params)) {
+      // handle error
+      $errorInfo = $db->errorInfo();
+      if ($callback !== null) {
+        $callback->onError($errorInfo);
+      } else {
+        throw new Exception($errorInfo[2]);
       }
-      return $query->fetchAll(PDO::FETCH_ASSOC);
-    } finally {
-      // close handle
-      $query = null;
+    } else {
+      try {
+        if ($callback !== null) {
+          // use callback
+          $callback->onStart($query);
+          while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
+            $callback->onPlace($row, $this);
+          }
+          $callback->onEnd();
+        } else {
+          // return all places
+          return $query->fetchAll(PDO::FETCH_ASSOC);
+        }
+      } finally {
+        $query->closeCursor();
+      }
     }
   }
 
