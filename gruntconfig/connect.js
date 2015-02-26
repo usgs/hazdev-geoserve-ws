@@ -32,7 +32,10 @@ var connect = {
 
   dev: {
     options: {
-      base: [config.build + '/' + config.src + '/htdocs'],
+      base: [
+        config.build + '/' + config.src + '/htdocs',
+        'node_modules/hazdev-template/dist/htdocs'
+      ],
       port: 8100,
       livereload: true,
       open: 'http://localhost:8100/',
