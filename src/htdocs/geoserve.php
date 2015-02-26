@@ -42,100 +42,168 @@ if (!isset($TEMPLATE)) {
 
 
 <h2>Places</h2>
-
-<h3>URL</h3>
+<p>
+  A geoserve <em>places</em> search takes the following form:
+</p>
 <?php
-  echo '<code>',
+  echo '<pre><code>',
       $HOST_URL_PREFIX, $MOUNT_PATH, '/places',
       '?<em>parameters</em>',
-      '</code>';
+      '</code></pre>';
 ?>
+<p>
+  The data returned from this portion of the web service is part of the
+  <a href="http://www.geonames.org/">Geonames geographical database</a>.
+</p>
 
 
-<h3>Examples</h3>
-
-<h4>Five nearest places to a point with at least 1,000 people</h4>
-<?php
-  $url = $HOST_URL_PREFIX . $MOUNT_PATH .
-      '/places?latitude=34&longitude=-118&limit=5&minpopulation=1000';
-  echo '<p><a href="', $url, '">', $url, '</a></p>';
-?>
-
-<h4>All places within 200km of a point with at least 1,000 people</h4>
-<?php
-  $url = $HOST_URL_PREFIX . $MOUNT_PATH .
-      '/places?latitude=34&longitude=-118&maxradiuskm=200&minpopulation=1000';
-  echo '<p><a href="', $url, '">', $url, '</a></p>';
-?>
-
-
-
-<h3>Parameters</h3>
+<h3>Request Parameters</h3>
 <p>
   All parameters must be passed in the query string.
   Only listed parameters may be used, others will generate an error.
   Empty values for these parameters are supported.
 </p>
 
-<dl>
-  <dt><code>latitude</code></dt>
-  <dd>
-    Latitude in decimal degrees.
-    [-90, 90].
-    Required.
-  </dd>
 
-  <dt><code>longitude</code></dt>
-  <dd>
-    Longitude in decimal degrees.
-    [-180, 180].
-    Required.
-  </dd>
+<h4>Required Parameters</h4>
+<table class="tabular parameters responsive">
+  <thead>
+    <tr>
+      <th>parameter</th>
+      <th>type</th>
+      <th>description</th>
+    </tr>
+  </thead>
+  <tbody class="no-header-style">
+    <tr id="latitude">
+      <th>
+        <code>latitude</code>
+      </th>
+      <td>Decimal</td>
+      <td>
+        Latitude in decimal degrees. [-90,90] degrees.
+      </td>
+    </tr>
+    <tr id="longitude">
+      <th><code>longitude</code></th>
+      <td>Decimal</td>
+      <td>
+        Longitude in decimal degrees. [-180,180] degrees.
+      </td>
+    </tr>
+    <tr id="maxradiuskm">
+      <th><code>maxradiuskm</code></th>
+      <td>Decimal</td>
+      <td>
+        Search radius (in kilometers) from center point
+        <code>latitude</code>, <code>longitude</code>.
+      </td>
+    </tr>
+  </tbody>
+</table>
 
-  <dt><code>limit</code></dt>
-  <dd>
-    Only return this many places.
 
-    Optional, although one of <code>limit</code> and <code>maxdistancekm</code> is required.
-  </dd>
+<h4>Optional Parameters</h4>
+<table class="tabular parameters responsive">
+  <thead>
+    <tr>
+      <th>parameter</th>
+      <th>type</th>
+      <th>description</th>
+    </tr>
+  </thead>
+  <tbody class="no-header-style">
+    <tr id="limit">
+      <th><code>limit</code></th>
+      <td>Integer</td>
+      <td>
+        Return <code>limit</code> number of places, sorted by distance.
+      </td>
+    </tr>
+    <tr id="minpopulation">
+      <th><code>minpopulation</code></th>
+      <td>Integer</td>
+      <td>
+        Only return places with a minimum of this number of people.
+      </td>
+    </tr>
+  </tbody>
+</table>
 
-  <dt><code>maxdistancekm</code></dt>
-  <dd>
-    Maximum distance from <code>latitude</code>, <code>longitude</code>
-    to place in kilometers.
 
-    Optional, although one of <code>limit</code> and <code>maxdistancekm</code> is required.
-  </dd>
+<h3>Response Properties</h3>
+<p>
+    A <a href="http://geojson.org/geojson-spec.html#feature-collection-objects">
+    GeoJSON FeatureCollection</a> of place Feature objects.
+</p>
+<p>
+  Each matching place Feature includes geometry with
+  <code>longitude</code>, <code>latitude</code>, and <code>elevation</code>,
+  as well as the following properties:
+</p>
+<table class="tabular parameters responsive">
+  <thead>
+    <tr>
+      <th>property</th>
+      <th>type</th>
+      <th>description</th>
+    </tr>
+  </thead>
+  <tbody class="no-header-style">
+    <tr id="admin1_code">
+      <th><code>admin1_code</code></th>
+      <td>String</span></td>
+      <td>
+        First administrative region. In the United States, this is the state.
+      </td>
+    </tr>
+    <tr id="azimuth">
+      <th><code>azimuth</code></th>
+      <td>Decimal</td>
+      <td>
+        Direction in decimal degrees from search point to
+        the geographical point. [0, 360] degrees.
+      </td>
+    </tr>
+    <tr id="distance">
+      <th><code>distance</code></th>
+      <td>Decimal</td>
+      <td>
+        Distance in meters from search point to the geographical point.
+      </td>
+    </tr>
+    <tr id="name">
+      <th><code>name</code></th>
+      <td>String</td>
+      <td>
+        Name of the geographical point.
+      </td>
+    </tr>
+    <tr id="population">
+      <th><code>population</code></th>
+      <td>Integer</td>
+      <td>
+        Population associated with the geographical point .
+      </td>
+    </tr>
+  </tbody>
+</table>
 
-  <dt><code>minpopulation</code></dt>
-  <dd>
-    Only return places with a minimum of this number of people.
-  </dd>
-</dl>
 
-
-<h3>Output</h3>
-
-<p>A <a href="http://geojson.org/geojson-spec.html#feature-collection-objects">
-    GeoJSON FeatureCollection</a> of place Feature objects.</p>
-
-<p>Each matching place Feature includes geometry with
-    <code>longitude</code>, <code>latitude</code>, and <code>elevation</code>,
-    as well as the following properties:</p>
-
-<dl>
-  <dt><code>admin1_code</code></dt>
-  <dd>First administrative region.  In the United States, this is the state.</dd>
-
-  <dt><code>azimuth</code></dt>
-  <dd>Direction in decimal degrees from search point to place.</dd>
-
-  <dt><code>distance</code></dt>
-  <dd>Distance in meters from search point to place.</dd>
-
-  <dt><code>name</code></dt>
-  <dd>Place name</dd>
-
-  <dt><code>population</code></dt>
-  <dd>Population</dd>
-</dl>
+<h3>Example Requests</h3>
+<p>
+  Five nearest places to a point with at least 1,000 people
+</p>
+<?php
+  $url = $HOST_URL_PREFIX . $MOUNT_PATH .
+      '/places?latitude=34&longitude=-118&limit=5&minpopulation=1000';
+  echo '<pre><code><a href="', $url, '">', $url, '</a></code></pre>';
+?>
+<p>
+  All places within 200km of a point with at least 1,000 people
+</p>
+<?php
+  $url = $HOST_URL_PREFIX . $MOUNT_PATH .
+      '/places?latitude=34&longitude=-118&maxradiuskm=200&minpopulation=1000';
+  echo '<pre><code><a href="', $url, '">', $url, '</a></code></pre>';
+?>

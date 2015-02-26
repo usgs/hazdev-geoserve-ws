@@ -1,4 +1,25 @@
-.places > button {
-  display: block;
-  margin-top: 2em;
+.places {
+
+  legend {
+    border-bottom: 1px solid #ddd;
+    display:block;
+    margin: 1em 0 0;
+    padding: 0 0 0.25em;
+    width: 100%;
+  }
+
+  label {
+    color: #777;
+    font-size: 0.8125em;
+  }
+
+  button {
+    display: block;
+    margin-top: 1em;
+  }
+
+  input {
+    max-width: 100%;
+    width: 12em;
+  }
 }
