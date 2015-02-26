@@ -21,38 +21,52 @@ if (!isset($TEMPLATE)) {
 
 <section class="places-search">
 
+<header>
+  <h3>Places</h3>
+</header>
+
   <form method="get" action="places" class="vertical places">
+
     <fieldset>
-      <legend>Places</legend>
+      <legend>Required Parameters</legend>
       <label for="latitude">
-        <a href="index.php#latitude">latitude</a>
+        <code>latitude</code>
+        <small>Latitude in decimal degrees. [-90,90] degrees.</small>
       </label>
       <input id="latitude" name="latitude" type="number"
           min="-90" max="90" step="0.001" required="required"/>
 
       <label for="longitude">
-        <a href="index.php#longitude">longitude</a>
+        <code>longitude</code>
+        <small>Longitude in decimal degrees. [-180,180] degrees.</small>
       </label>
       <input id="longitude" name="longitude" type="number"
           min="-180" max="180" step="0.001" required="required"/>
 
       <label for="maxradiuskm">
-        <a href="index.php#maxradiuskm">maxradiuskm</a>
+        <code>maxradiuskm</code>
+        <small>Search radius (in kilometers) from latitude, longitude.</small>
       </label>
       <input id="maxradiuskm" name="maxradiuskm" type="number" min="0" step="0.001"/>
+    </fieldset>
 
-      <label for="minpopulation">
-        <a href="index.php#minpopulation">minpopulation</a>
-      </label>
-      <input id="minpopulation" name="minpopulation" type="number" min="0"/>
-
+    <fieldset>
+      <legend>Optional Parameters</legend>
       <label for="limit">
-        <a href="index.php#limit">limit</a>
+        <code>limit</code>
+        <small>Return at most this number of places, sorted by distance.</small>
       </label>
       <input id="limit" name="limit" type="number" min="0"/>
 
-      <button>Search Places</button>
+      <label for="minpopulation">
+        <code>minpopulation</code>
+        <small>Only return places with a minimum of this number of people.</small>
+      </label>
+      <input id="minpopulation" name="minpopulation" type="number" min="0"/>
     </fieldset>
+
+    <button>Search Places</button>
+
   </form>
 
   <section class="search-url"></section>
