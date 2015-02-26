@@ -75,9 +75,9 @@ PostgreSQL database locally.
 
 #### Install NPM Dependencies
 
-    From the root of the project directory:
+From the root of the project directory:
 
-        npm install
+    npm install
 
 #### Install Sass and Compass with Ruby
 
