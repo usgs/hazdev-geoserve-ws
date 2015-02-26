@@ -5,18 +5,24 @@ if (!isset($TEMPLATE)) {
 
   $TITLE = 'Geoserve Search';
   $HEAD = '<link rel="stylesheet" href="search.css"/>';
-  $FOOT = '<script src="search.js"></script>';
+  $FOOT = '
+    <script>/*<![CDATA[*/
+      var HOST_URL_PREFIX = \'' . $HOST_URL_PREFIX . '\';
+      var MOUNT_PATH = \'' . $MOUNT_PATH . '\';
+    /*]]>*/</script>
+    <script src="search.js"></script>
+  ';
+
   include_once 'template.inc.php';
 }
 
 ?>
 
-<section>
-
-<!--   <header>
-    <h3>Places</h3>
+<section class="places-search">
+  <header>
+    <h2>Places</h2>
   </header>
- -->
+
   <form method="get" action="places" class="vertical places">
 
     <legend>Location</legend>
@@ -53,4 +59,8 @@ if (!isset($TEMPLATE)) {
     <button>Search Places</button>
 
   </form>
+
+  <section class="search-url"></section>
+  <section class="search-results"></section>
+
 </section>
