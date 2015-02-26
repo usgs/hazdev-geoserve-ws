@@ -3,8 +3,8 @@
 include_once '../conf/config.inc.php';
 
 print navGroup('Geoserve Web Service',
-  navItem('/index.php', 'API Documention') .
-  navItem('/search.php', 'URL Builder')
+  navItem($MOUNT_PATH . '/index.php', 'API Documention') .
+  navItem($MOUNT_PATH . '/search.php', 'URL Builder')
 );
 
 ?>

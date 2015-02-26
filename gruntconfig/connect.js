@@ -10,10 +10,6 @@ var connect = {
 
   rules: [
     {
-      from: '^(' + config.ini.MOUNT_PATH + ')?/$',
-      to: '/index.php'
-    },
-    {
       from: '^(' + config.ini.MOUNT_PATH + ')?/(places)\\??(.*)$',
       to: '/index.php?method=$2&$3'
     }
