@@ -37,33 +37,10 @@
           '<small class="results-meta">' + places.length + ' matching places</small>' +
         '</header>');
 
-    buf.push('<table class="tabular"><thead><tr>' +
-        '<th>Name</th>' +
-        '<th>Admin 1 Code</th>' +
-        '<th>Country</th>' +
-        '<th>Distance</th>' +
-        '<th>Azimuth</th>' +
-        '<th>Population</th>' +
-        '<th>Lat/Lon</th>' +
-        '<th>Elevation</th>' +
-        '</tr></thead><tbody>');
-
-    places.forEach(function (place) {
-      var props = place.properties,
-          coords = place.geometry.coordinates;
-      buf.push('<tr>' +
-          '<td>' + props.name + '</td>' +
-          '<td>' + props.admin1_code + '</td>' +
-          '<td>' + props.country_code + '</td>' +
-          '<td>' + (props.distance / 1000).toFixed(1) + ' km</td>' +
-          '<td>' + props.azimuth + '</td>' +
-          '<td>' + props.population + '</td>' +
-          '<td>' + coords[1] + '/' + coords[0] + '</td>' +
-          '<td>' + coords[2] + '</td>' +
-          '</tr>');
-    });
-
-    buf.push('</tbody></table>');
+    buf.push('<pre><code>',
+        JSON.stringify(data, null, '    '),
+        '</pre></code>'
+    );
     resultsEl.innerHTML = buf.join('');
   };
 
