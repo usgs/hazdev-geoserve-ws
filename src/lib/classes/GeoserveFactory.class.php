@@ -85,11 +85,16 @@ class GeoserveFactory {
         ':longitude' => $query->longitude);
 
     // create sql
-    $sql .=  'SELECT' .
+    $sql .=  ' SELECT' .
         ' geoname.*' .
-        ',degrees(ST_Azimuth(search.point, shape)) AS azimuth' .
-        ',ST_Distance(search.point, shape)/1000 AS distance' .
-        ' FROM geoname, search';
+        ' ,admin1_codes_ascii.name as admin1_name' .
+        ' ,country_info.country as country_name' .
+        ' ,degrees(ST_Azimuth(search.point, shape)) AS azimuth' .
+        ' ,ST_Distance(search.point, shape)/1000 AS distance' .
+        ' FROM search, geoname ' .
+        ' JOIN admin1_codes_ascii ON (geoname.country_code || \'.\' ||' .
+            ' geoname.admin1_code = admin1_codes_ascii.code)'.
+        ' JOIN country_info ON (geoname.country_code = country_info.iso)';
     // build where clause
     $where = array();
     if ($query->maxradiuskm !== null) {
