@@ -49,6 +49,7 @@ class PlacesCallback {
     echo ($this->count > 0 ? ',' : ''),
         '{',
           '"type": "Feature",',
+          '"id":', $place['geoname_id'], ',',
           '"properties":{',
             '"admin1_code":"', $place['admin1_code'], '",',
             '"azimuth":', round($place['azimuth'], 1), ',',
