@@ -88,7 +88,7 @@ class GeoserveFactory {
     $sql .=  'SELECT' .
         ' geoname.*' .
         ',degrees(ST_Azimuth(search.point, shape)) AS azimuth' .
-        ',ST_Distance(search.point, shape) AS distance' .
+        ',ST_Distance(search.point, shape)/1000 AS distance' .
         ' FROM geoname, search';
     // build where clause
     $where = array();
@@ -104,7 +104,7 @@ class GeoserveFactory {
       $sql .= ' WHERE ' . implode(' AND ', $where);
     }
     // sort closest places first
-    $sql .= ' ORDER BY shape::geometry <-> search.point::geometry';
+    $sql .= ' ORDER BY distance';
     // limit number of results
     if ($query->limit !== null) {
       $sql .= ' LIMIT :limit';

@@ -54,7 +54,7 @@ class PlacesCallback {
             '"admin1_code":"', $place['admin1_code'], '",',
             '"azimuth":', round($place['azimuth'], 1), ',',
             '"country_code":"', $place['country_code'], '",',
-            '"distance":', round($place['distance'], 1), ',',
+            '"distance":', round($place['distance'], 3), ',',
             '"feature_class":"', $place['feature_class'], '",',
             '"feature_code":"', $place['feature_code'], '",',
             '"name":"', $place['name'], '",',
