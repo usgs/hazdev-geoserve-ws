@@ -12,6 +12,10 @@ var connect = {
     {
       from: '^(' + config.ini.MOUNT_PATH + ')?/(places)\\??(.*)$',
       to: '/index.php?method=$2&$3'
+    },
+    {
+      from: '^' + config.ini.MOUNT_PATH + '/(.*)$',
+      to: '/$1'
     }
   ],
 
