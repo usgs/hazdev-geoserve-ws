@@ -11,11 +11,11 @@ var connect = {
   rules: [
     {
       from: '^(' + config.ini.MOUNT_PATH + ')?/$',
-      to: '/geoserve.php'
+      to: '/index.php'
     },
     {
       from: '^(' + config.ini.MOUNT_PATH + ')?/(places)\\??(.*)$',
-      to: '/geoserve.php?method=$2&$3'
+      to: '/index.php?method=$2&$3'
     }
   ],
 

@@ -34,7 +34,7 @@ if (!isset($TEMPLATE)) {
 
   $TITLE = 'Geoserve API Documentation';
   $NAVIGATION = true;
-  $HEAD = '<link rel="stylesheet" href="geoserve.css"/>';
+  $HEAD = '<link rel="stylesheet" href="index.css"/>';
 
   include 'template.inc.php';
 }
