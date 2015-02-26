@@ -32,7 +32,7 @@ if (!isset($TEMPLATE)) {
   }
 
 
-  $TITLE = 'API Documentation - Geoserve';
+  $TITLE = 'Geoserve API Documentation';
   $NAVIGATION = true;
   $HEAD = '<link rel="stylesheet" href="geoserve.css"/>';
 

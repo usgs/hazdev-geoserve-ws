@@ -3,7 +3,8 @@
 if (!isset($TEMPLATE)) {
   include_once '../conf/config.inc.php';
 
-  $TITLE = 'Geoserve Search';
+  $TITLE = 'Geoserve URL Builder';
+  $NAVIGATION = true;
   $HEAD = '<link rel="stylesheet" href="search.css"/>';
   $FOOT = '
     <script>/*<![CDATA[*/
