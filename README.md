@@ -4,7 +4,7 @@ geographically relevant information. Developed for use by the U.S.
 Geological Survey.
 
 ## Getting Started
-We recommend using `homebrew` to install application dependencies.
+On OS X, we recommend using `homebrew` to install application dependencies.
 
 ### Dependencies
 
@@ -13,22 +13,22 @@ There are multiple dependencies that must be installed for this project:
 1. PHP
 1. PostgreSQL
 1. PostGIS
-1. NPM Dependencies
-1. Sass and Compass
-1. Grunt
+1. NPM Dependencies (development only)
+1. Sass and Compass (development only)
+1. Grunt (development only)
 
 #### Install PHP
 
     brew install php55
 
-#### Install PostgreSQL
+#### Install PostgreSQL and PostGIS
 
 This will take you through the process of installing, starting, and creating, a
-postgreSQL database locally.
+PostgreSQL database locally.
 
-1. Brew Install
+1. Install
 
-        brew install postgresql
+        brew install postgresql postgis
 
     After running `brew install postgresql`, the terminal will output directions
     that you will use to get your installation up and running.
@@ -37,7 +37,7 @@ postgreSQL database locally.
 
     If this is your first install, create a database with:
 
-        /usr/local/Cellar/postgresql/9.4.1/bin/initdb /usr/local/var/postgres
+        initdb DB_DIRECTORY
 
     You will be able to copy and past this command directly from your terminal.
     Copy the command from your terminal and **not from this example**. You
@@ -54,7 +54,7 @@ postgreSQL database locally.
     you should see a sucess message. Below the success message there will be a
     couple commands.  Go ahead and run the next command.
 
-        /usr/local/Cellar/postgresql/9.4.1/bin/postgres -D /usr/local/var/postgres
+        postgres -D DB_DIRECTORY
 
     > Note: Once again if you do not have permissions on
     > `/usr/local/var/postgres`, then you can define a different directory. We
@@ -73,15 +73,11 @@ postgreSQL database locally.
     > `psql postgres <username>`
 
 
-#### Install PostGIS
-
-PostGIS adds spatial functions that are required for this application.
-
-    brew install postgis
-
 #### Install NPM Dependencies
 
-    npm install
+    From the root of the project directory:
+
+        npm install
 
 #### Install Sass and Compass with Ruby
 
