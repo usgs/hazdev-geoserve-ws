@@ -24,21 +24,31 @@ if (!isset($TEMPLATE)) {
   <form method="get" action="places" class="vertical places">
     <legend>Places</legend>
     <fieldset>
-      <label for="latitude">Latitude [-90, 90]</label>
+      <label for="latitude">
+        <a href="index.php#latitude">latitude</a>
+      </label>
       <input id="latitude" name="latitude" type="number"
           min="-90" max="90" step="0.001" required="required"/>
 
-      <label for="longitude">Longitude [-180, 180]</label>
+      <label for="longitude">
+        <a href="index.php#longitude">longitude</a>
+      </label>
       <input id="longitude" name="longitude" type="number"
           min="-180" max="180" step="0.001" required="required"/>
 
-      <label for="maxradiuskm">Max Distance (km)</label>
+      <label for="maxradiuskm">
+        <a href="index.php#maxradiuskm">maxradiuskm</a>
+      </label>
       <input id="maxradiuskm" name="maxradiuskm" type="number" min="0" step="0.001"/>
 
-      <label for="minpopulation">Min Population</label>
+      <label for="minpopulation">
+        <a href="index.php#minpopulation">minpopulation</a>
+      </label>
       <input id="minpopulation" name="minpopulation" type="number" min="0"/>
 
-      <label for="limit">Limit</label>
+      <label for="limit">
+        <a href="index.php#limit">limit</a>
+      </label>
       <input id="limit" name="limit" type="number" min="0"/>
 
       <button>Search Places</button>

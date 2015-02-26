@@ -15,13 +15,18 @@
 
   button {
     display: block;
-    margin-top: 1em;
+    margin: 1em 0 0;
   }
 
   input {
     max-width: 100%;
     width: 12em;
   }
+
+  fieldset > label:first-child {
+    margin: 0;
+  }
+
 }
 
 .results-meta {
