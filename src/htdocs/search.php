@@ -20,31 +20,17 @@ if (!isset($TEMPLATE)) {
 ?>
 
 <section class="places-search">
-  <header>
-    <h2>Places</h2>
-  </header>
 
   <form method="get" action="places" class="vertical places">
+    <legend>Places</legend>
+    <fieldset>
+      <label for="latitude">Latitude [-90, 90]</label>
+      <input id="latitude" name="latitude" type="number"
+          min="-90" max="90" step="0.001" required="required"/>
 
-    <legend>Location</legend>
-    <fieldset class="row">
-
-      <div class="column one-of-two">
-        <label for="latitude">Latitude [-90, 90]</label>
-        <input id="latitude" name="latitude" type="number"
-            min="-90" max="90" step="0.001" required="required"/>
-      </div>
-
-      <div class="column one-of-two">
-        <label for="longitude">Longitude [-180, 180]</label>
-        <input id="longitude" name="longitude" type="number"
-            min="-180" max="180" step="0.001" required="required"/>
-      </div>
-
-    </fieldset>
-
-    <legend>Options</legend>
-    <fieldset class="form-options">
+      <label for="longitude">Longitude [-180, 180]</label>
+      <input id="longitude" name="longitude" type="number"
+          min="-180" max="180" step="0.001" required="required"/>
 
       <label for="maxradiuskm">Max Distance (km)</label>
       <input id="maxradiuskm" name="maxradiuskm" type="number" min="0" step="0.001"/>
@@ -55,10 +41,8 @@ if (!isset($TEMPLATE)) {
       <label for="limit">Limit</label>
       <input id="limit" name="limit" type="number" min="0"/>
 
+      <button>Search Places</button>
     </fieldset>
-
-    <button>Search Places</button>
-
   </form>
 
   <section class="search-url"></section>
