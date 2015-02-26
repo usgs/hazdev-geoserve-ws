@@ -196,14 +196,14 @@ if (!isset($TEMPLATE)) {
 <h4>Five nearest places within 100km of a point</h4>
 <?php
   $url = $HOST_URL_PREFIX . $MOUNT_PATH .
-      '/places?latitude=34&longitude=-118&maxradiuskm=100&limit=5';
+      '/places?latitude=39.75&longitude=-105.2&maxradiuskm=100&limit=5';
   echo '<pre><code><a href="', $url, '">', $url, '</a></code></pre>';
 ?>
 
 <h4>All places within 100km of a point with at least 1,000 people</h4>
 <?php
   $url = $HOST_URL_PREFIX . $MOUNT_PATH .
-      '/places?latitude=34&longitude=-118&maxradiuskm=100&minpopulation=1000';
+      '/places?latitude=39.75&longitude=-105.2&maxradiuskm=100&minpopulation=1000';
   echo '<pre><code><a href="', $url, '">', $url, '</a></code></pre>';
 ?>
 
