@@ -33,7 +33,7 @@ class PlacesCallback {
    * @param $query the query that executed and is about to generate events.
    */
   public function onStart($query) {
-    header('Content-type: application/json');
+    header('Content-type: application/json; charset=UTF-8');
     echo '{',
         '"type": "FeatureCollection"',
         ',"features": [';
