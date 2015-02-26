@@ -52,7 +52,7 @@ if (!isset($TEMPLATE)) {
       '</code></pre>';
 ?>
 <p>
-  The data returned from this portion of the web service is part of the
+  The data returned from this portion of the web service is from the
   <a href="http://www.geonames.org/">Geonames geographical database</a>.
 </p>
 
@@ -95,7 +95,7 @@ if (!isset($TEMPLATE)) {
       <th><code>maxradiuskm</code></th>
       <td>Decimal</td>
       <td>
-        Search radius (in kilometers) from center point
+        Search radius (in kilometers) from
         <code>latitude</code>, <code>longitude</code>.
       </td>
     </tr>
@@ -117,7 +117,7 @@ if (!isset($TEMPLATE)) {
       <th><code>limit</code></th>
       <td>Integer</td>
       <td>
-        Return <code>limit</code> number of places, sorted by distance.
+        Return at most this number of places, sorted by distance.
       </td>
     </tr>
     <tr id="minpopulation">
@@ -154,7 +154,8 @@ if (!isset($TEMPLATE)) {
       <th><code>admin1_code</code></th>
       <td>String</span></td>
       <td>
-        First administrative region. In the United States, this is the state.
+        First administrative region of the place.
+        In the United States, this is the state.
       </td>
     </tr>
     <tr id="azimuth">
@@ -162,28 +163,28 @@ if (!isset($TEMPLATE)) {
       <td>Decimal</td>
       <td>
         Direction in decimal degrees from search point to
-        the geographical point. [0, 360] degrees.
+        the place. [0, 360] degrees.
       </td>
     </tr>
     <tr id="distance">
       <th><code>distance</code></th>
       <td>Decimal</td>
       <td>
-        Distance in meters from search point to the geographical point.
+        Distance in meters from search point to the place.
       </td>
     </tr>
     <tr id="name">
       <th><code>name</code></th>
       <td>String</td>
       <td>
-        Name of the geographical point.
+        Name of the place.
       </td>
     </tr>
     <tr id="population">
       <th><code>population</code></th>
       <td>Integer</td>
       <td>
-        Population associated with the geographical point .
+        Population associated with the place.
       </td>
     </tr>
   </tbody>
@@ -191,19 +192,18 @@ if (!isset($TEMPLATE)) {
 
 
 <h3>Example Requests</h3>
-<p>
-  Five nearest places to a point with at least 1,000 people
-</p>
+
+<h4>Five nearest places within 100km of a point</h4>
 <?php
   $url = $HOST_URL_PREFIX . $MOUNT_PATH .
-      '/places?latitude=34&longitude=-118&limit=5&minpopulation=1000';
+      '/places?latitude=34&longitude=-118&maxradiuskm=100&limit=5';
   echo '<pre><code><a href="', $url, '">', $url, '</a></code></pre>';
 ?>
-<p>
-  All places within 200km of a point with at least 1,000 people
-</p>
+
+<h4>All places within 100km of a point with at least 1,000 people</h4>
 <?php
   $url = $HOST_URL_PREFIX . $MOUNT_PATH .
-      '/places?latitude=34&longitude=-118&maxradiuskm=200&minpopulation=1000';
+      '/places?latitude=34&longitude=-118&maxradiuskm=100&minpopulation=1000';
   echo '<pre><code><a href="', $url, '">', $url, '</a></code></pre>';
 ?>
+
