@@ -38,9 +38,9 @@ CREATE TABLE authoritative_region_us (
 
 /* Indexes */
 CREATE INDEX authoritative_region_shape_index ON authoritative_region
-    USING GIST (GEOGRAPHY(shape));
+    USING GIST (shape);
 CREATE INDEX authoritative_region_us_shape_index ON authoritative_region_us
-    USING GIST (GEOGRAPHY(shape));
+    USING GIST (shape);
 
 
 ------------------------------------------------------------------------------
@@ -97,9 +97,9 @@ CREATE TABLE fe_rename (
 );
 
 /* Indexes */
-CREATE INDEX fe_shape_index ON fe USING GIST (GEOGRAPHY(shape));
-CREATE INDEX fe_plus_shape_index ON fe_plus USING GIST (GEOGRAPHY(shape));
-CREATE INDEX fe_rename_shape_index ON fe_rename USING GIST (GEOGRAPHY(shape));
+CREATE INDEX fe_shape_index ON fe USING GIST (shape);
+CREATE INDEX fe_plus_shape_index ON fe_plus USING GIST (shape);
+CREATE INDEX fe_rename_shape_index ON fe_rename USING GIST (shape);
 
 /* Views */
 CREATE VIEW fe_view AS (
@@ -210,7 +210,7 @@ CREATE TABLE admin1_codes_ascii (
 
 
 /* Indexes */
-CREATE INDEX geoname_shape_index ON geoname USING GIST (GEOGRAPHY(shape));
+CREATE INDEX geoname_shape_index ON geoname USING GIST (shape);
 CREATE INDEX geoname_population_index ON geoname (population);
 CREATE INDEX geoname_feature_class_index ON geoname (feature_class);
 CREATE INDEX country_info_iso_index on country_info (iso);
@@ -256,8 +256,8 @@ CREATE TABLE state (
 );
 
 /* Indexes */
-CREATE INDEX country_shape_index ON country USING GIST (GEOGRAPHY(shape));
-CREATE INDEX state_shape_index ON state USING GIST (GEOGRAPHY(shape));
+CREATE INDEX country_shape_index ON country USING GIST (shape);
+CREATE INDEX state_shape_index ON state USING GIST (shape);
 
 
 ------------------------------------------------------------------------------
@@ -276,4 +276,4 @@ CREATE TABLE tectonic_summary_region (
 
 /* Indexes */
 CREATE INDEX tectonic_summary_region_shape_index ON tectonic_summary_region
-    USING GIST (GEOGRAPHY(shape));
+    USING GIST (shape);

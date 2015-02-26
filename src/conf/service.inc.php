@@ -5,6 +5,7 @@ include_once dirname(__FILE__) . '/config.inc.php';
 
 // configure factory
 $CLASSES_DIR = $APP_DIR . '/lib/classes';
+include $CLASSES_DIR . '/PlacesCallback.class.php';
 include $CLASSES_DIR . '/PlacesQuery.class.php';
 include $CLASSES_DIR . '/GeoserveFactory.class.php';
 include $CLASSES_DIR . '/GeoserveWebService.class.php';
