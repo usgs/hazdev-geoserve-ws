@@ -89,8 +89,8 @@ class GeoserveFactory {
         ' geoname.*' .
         ' ,admin1_codes_ascii.name as admin1_name' .
         ' ,country_info.country as country_name' .
-        ' ,degrees(ST_Azimuth(search.point, shape)) AS azimuth' .
-        ' ,ST_Distance(search.point, shape)/1000 AS distance' .
+        ' ,degrees(ST_Azimuth(search.point, geoname.shape)) AS azimuth' .
+        ' ,ST_Distance(search.point, geoname.shape) / 1000 AS distance' .
         ' FROM search, geoname ' .
         ' JOIN admin1_codes_ascii ON (geoname.country_code || \'.\' ||' .
             ' geoname.admin1_code = admin1_codes_ascii.code)'.
@@ -98,11 +98,11 @@ class GeoserveFactory {
     // build where clause
     $where = array();
     if ($query->maxradiuskm !== null) {
-      $where[] = 'ST_DWithin(search.point, shape, :distance)';
+      $where[] = 'ST_DWithin(search.point, geoname.shape, :distance)';
       $params[':distance'] = $query->maxradiuskm * 1000;
     }
     if ($query->minpopulation !== null) {
-      $where[] = 'population >= :minpopulation';
+      $where[] = 'geoname.population >= :minpopulation';
       $params[':minpopulation'] = $query->minpopulation;
     }
     if (count($where) > 0) {
