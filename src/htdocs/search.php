@@ -22,8 +22,8 @@ if (!isset($TEMPLATE)) {
 <section class="places-search">
 
   <form method="get" action="places" class="vertical places">
-    <legend>Places</legend>
     <fieldset>
+      <legend>Places</legend>
       <label for="latitude">
         <a href="index.php#latitude">latitude</a>
       </label>
