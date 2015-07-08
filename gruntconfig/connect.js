@@ -10,7 +10,7 @@ var connect = {
 
   rules: [
     {
-      from: '^(' + config.ini.MOUNT_PATH + ')?/(places)\\??(.*)$',
+      from: '^(' + config.ini.MOUNT_PATH + ')?/(places|regions)\\??(.*)$',
       to: '/index.php?method=$2&$3'
     },
     {
