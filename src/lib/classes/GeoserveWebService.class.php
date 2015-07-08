@@ -50,7 +50,7 @@ class GeoserveWebService {
     $CACHE_MAXAGE = 3600;
     include $APP_DIR . '/lib/cache.inc.php';
 
-    $places = $this->placesFactory->getPlaces($query, $callback);
+    $places = $this->placesFactory->get($query, $callback);
   }
 
   public function regions ($params) {
@@ -112,6 +112,8 @@ class GeoserveWebService {
 
   public function parsePlacesQuery () {
     $query = new PlacesQuery();
+    $circleSearch = false;
+    $rectangleSearch = false;
 
     $params = $_GET;
     foreach ($params as $name => $value) {
@@ -122,10 +124,25 @@ class GeoserveWebService {
         // used by apache rewrites
         continue;
       } else if ($name ==='latitude' || $name ==='lat') {
+        $circleSearch = true;
         $query->latitude = $this->validateFloat($name, $value, -90, 90);
+      } else if ($name === 'minlatitude') {
+        $rectangleSearch = true;
+        $query->minlatitude = validateFloat($name, $value, -90, 90);
+      } else if ($name === 'maxlatitude') {
+        $rectangleSearch = true;
+        $query->maxlatitude = validateFloat($name, $value, -90, 90);
       } else if ($name ==='longitude' || $name ==='lon') {
+        $circleSearch = true;
         $query->longitude = $this->validateFloat($name, $value, -180, 180);
+      } else if ($name ==='minlongitude') {
+        $rectangleSearch = true;
+        $query->minlongitude = $this->validateFloat($name, $value, -360, 360);
+      } else if ($name ==='maxlongitude') {
+        $rectangleSearch = true;
+        $query->maxlongitude = $this->validateFloat($name, $value, -360, 360);
       } else if ($name==='maxradiuskm') {
+        $circleSearch = true;
         $query->maxradiuskm = $this->validateFloat($name, $value, 0, 20001.6);
       } else if ($name ==='minpopulation') {
         $query->minpopulation = $this->validateInteger($name, $value, 0, null);
@@ -137,11 +154,25 @@ class GeoserveWebService {
       }
     }
 
-    if ($query->latitude === null || $query->longitude === null) {
+    if ($circleSearch && $rectangleSearch) {
       $this->error(self::BAD_REQUEST,
-          'latitude and longitude are required');
+          'can not search by both circles and rectangles');
     }
-    if ($query->maxradiuskm === null) {
+
+    if ($circleSearch &&
+        ($query->latitude === null || $query->longitude === null)) {
+      $this->error(self::BAD_REQUEST,
+          'latitude and longitude are required for circle searches');
+    }
+
+    if ($rectangleSearch &&
+        ($query->minlatitude === null || $query->maxlatitude === null ||
+        $query->minlongitude === null || $query->maxlongitude === null ||)) {
+      $this->error(self::BAD_REQUEST,
+          'min/max latitude/longitude are required for rectangle searches');
+    }
+
+    if ($circleSearch && $query->maxradiuskm === null) {
       $this->error(self::BAD_REQUEST,
           'maxradiuskm is required');
     }

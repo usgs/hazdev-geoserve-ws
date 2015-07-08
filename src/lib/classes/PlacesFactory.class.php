@@ -102,14 +102,4 @@ class PlacesFactory extends GeoserveFactory {
       }
     }
   }
-
-  /**
-   * @Deprecated
-   * @See PlacesFacgtory#get
-   *
-   */
-  public function getPlaces ($query, $callback = null) {
-    return $this->get($query, $callback);
-  }
-
 }
