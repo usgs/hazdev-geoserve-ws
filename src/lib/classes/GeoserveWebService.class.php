@@ -167,7 +167,7 @@ class GeoserveWebService {
 
     if ($rectangleSearch &&
         ($query->minlatitude === null || $query->maxlatitude === null ||
-        $query->minlongitude === null || $query->maxlongitude === null ||)) {
+        $query->minlongitude === null || $query->maxlongitude === null)) {
       $this->error(self::BAD_REQUEST,
           'min/max latitude/longitude are required for rectangle searches');
     }
