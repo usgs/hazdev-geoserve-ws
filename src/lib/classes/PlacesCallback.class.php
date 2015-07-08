@@ -1,95 +1,54 @@
 <?php
 
+include_once $CLASSES_DIR . '/GeoserveCallback.class.php';
+
+
 /**
- * A callback to stream places from a GeoserveFactory.
+ * A callback to stream places from a PlacesFactory.
  */
-class PlacesCallback {
-
-  protected $count;
-  protected $starttime;
+class PlacesCallback extends GeoserveCallback {
 
   /**
-   * Construct a new PlacesCallback.
+   * @Deprecated
+   * @see PlacesCallback#onItem
    */
-  public function __construct() {
-    $this->count = 0;
-    $this->starttime = time();
-  }
-
-  /**
-   * Called when there is a database error.
-   */
-  public function onError($errorInfo) {
-    // log locally
-    trigger_error($errorInfo[0] . ' (' . $errorInfo[1] . '):' . $errorInfo[2]);
-
-    // sanitize error
-    throw new Exception('database error logged on server');
-  }
-
-  /**
-   * Called when a query is successful, before the first onPlace call.
-   *
-   * @param $query the query that executed and is about to generate events.
-   */
-  public function onStart($query) {
-    header('Content-type: application/json; charset=UTF-8');
-    echo '{',
-        '"type": "FeatureCollection"',
-        ',"features": [';
+  public function onPlace($place, $index) {
+    return $this->onItem($place, $index);
   }
 
   /**
    * Called for each place found by the index.
    *
-   * @param $place an associative array of place properties.
+   * @param $item an associative array of place properties.
    * @param $index the FDSNIndex that is executing the query.
    */
-  public function onPlace($place, $index) {
+  public function onItem ($item, $index) {
     echo ($this->count > 0 ? ',' : ''),
         '{',
           '"type": "Feature",',
-          '"id":', $place['geoname_id'], ',',
+          '"id":', $item['geoname_id'], ',',
           '"properties":{',
-            '"admin1_code":"', $place['admin1_code'], '",',
-            '"admin1_name":"', $place['admin1_name'], '",',
-            '"azimuth":', round($place['azimuth'], 1), ',',
-            '"country_code":"', $place['country_code'], '",',
-            '"country_name":"', $place['country_name'], '",',
-            '"distance":', round($place['distance'], 3), ',',
-            '"feature_class":"', $place['feature_class'], '",',
-            '"feature_code":"', $place['feature_code'], '",',
-            '"name":"', $place['name'], '",',
-            '"population":', intval($place['population']),
+            '"admin1_code":"', $item['admin1_code'], '",',
+            '"admin1_name":"', $item['admin1_name'], '",',
+            '"azimuth":', round($item['azimuth'], 1), ',',
+            '"country_code":"', $item['country_code'], '",',
+            '"country_name":"', $item['country_name'], '",',
+            '"distance":', round($item['distance'], 3), ',',
+            '"feature_class":"', $item['feature_class'], '",',
+            '"feature_code":"', $item['feature_code'], '",',
+            '"name":"', $item['name'], '",',
+            '"population":', intval($item['population']),
           '},',
           '"geometry":{',
             '"type":"Point",',
             '"coordinates":[',
-              floatval($place['longitude']), ',',
-              floatval($place['latitude']), ',',
-              floatval($place['elevation']),
+              floatval($item['longitude']), ',',
+              floatval($item['latitude']), ',',
+              floatval($item['elevation']),
             ']',
           '}',
         '}';
     $this->count++;
-  }
-
-  /**
-   * Called after the last onEvent call.
-   */
-  public function onEnd() {
-    global $CONFIG;
-    global $HOST_URL_PREFIX;
-
-    echo '],',
-        '"metadata": {',
-          '"count":', $this->count,
-          ',"generated":', $this->starttime, '000',
-          ',"status":200',
-          ',"url":"', $HOST_URL_PREFIX, $_SERVER['REQUEST_URI'], '"',
-          ',"version":"', $CONFIG['GEOSERVE_VERSION'], '"',
-        '}',
-        '}';
   }
 
 }
