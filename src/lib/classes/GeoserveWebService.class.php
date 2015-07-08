@@ -128,10 +128,10 @@ class GeoserveWebService {
         $query->latitude = $this->validateFloat($name, $value, -90, 90);
       } else if ($name === 'minlatitude') {
         $rectangleSearch = true;
-        $query->minlatitude = validateFloat($name, $value, -90, 90);
+        $query->minlatitude = $this->validateFloat($name, $value, -90, 90);
       } else if ($name === 'maxlatitude') {
         $rectangleSearch = true;
-        $query->maxlatitude = validateFloat($name, $value, -90, 90);
+        $query->maxlatitude = $this->validateFloat($name, $value, -90, 90);
       } else if ($name ==='longitude' || $name ==='lon') {
         $circleSearch = true;
         $query->longitude = $this->validateFloat($name, $value, -180, 180);
