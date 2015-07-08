@@ -1,9 +1,17 @@
 <?php
 
+include_once $CLASSES_DIR . '/PlacesCallback.class.php';
+include_once $CLASSES_DIR . '/PlacesQuery.class.php';
+
+include_once $CLASSES_DIR . '/PlacesCallback.class.php';
+include_once $CLASSES_DIR . '/RegionsQuery.class.php';
+
+
 class GeoserveWebService {
 
   // the GeoserveFactory to use
-  public $factory;
+  public $placesFactory;
+  public $regionsFactory;
 
   // service version number
   public $version;
@@ -22,15 +30,16 @@ class GeoserveWebService {
   );
 
 
-  public function __construct($factory) {
-    $this->factory = $factory;
+  public function __construct($placesFactory, $regionsFactory) {
+    $this->placesFactory = $placesFactory;
+    $this->regionsFactory = $regionsFactory;
 
     global $CONFIG;
     $this->version = $CONFIG['GEOSERVE_VERSION'];
   }
 
 
-  public function places() {
+  public function places () {
     global $APP_DIR;
     global $HOST_URL_PREFIX;
 
@@ -41,11 +50,24 @@ class GeoserveWebService {
     $CACHE_MAXAGE = 3600;
     include $APP_DIR . '/lib/cache.inc.php';
 
-    $places = $this->factory->getPlaces($query, $callback);
+    $places = $this->placesFactory->getPlaces($query, $callback);
   }
 
+  public function regions ($params) {
+    global $APP_DIR;
 
-  public function error($code, $message, $isDetail = false) {
+    // TODO :: Use a RegionsCallback when implemented
+    $regionsCallback = new GeoserveCallback();
+    $regionsQuery = $this->parseRegionsQuery($params);
+
+    $CACHE_MAXAGE = 3600;
+    include $APP_DIR . '/lib/cache.inc.php';
+
+    $regions = $this->regionsFactory->get(
+        $regionsQuery, $regionsCallback);
+  }
+
+  public function error ($code, $message, $isDetail = false) {
     global $APP_DIR;
 
     // only cache errors for 60 seconds
@@ -88,7 +110,7 @@ class GeoserveWebService {
   }
 
 
-  public function parsePlacesQuery() {
+  public function parsePlacesQuery () {
     $query = new PlacesQuery();
 
     $params = $_GET;
@@ -127,6 +149,43 @@ class GeoserveWebService {
     return $query;
   }
 
+  public function parseRegionsQuery ($params) {
+    $query = new RegionsQuery();
+
+    foreach ($params as $name => $value) {
+      if ($values === '') {
+        continue;
+      } else if ($name === 'method') {
+        continue;
+      } else if ($name === 'latitude') {
+        $query->latitude = $this->validateFloat($name, $value, -90, 90);
+      } else if ($name === 'longitude') {
+        $query->longitude = $this->validateFloat($name, $value, -180, 180);
+      } else if ($name === 'includeGeometry') {
+        $query->includeGeometry = $this->validateBoolean($name, $value);
+      } else if ($name === 'type') {
+        $supportedTypes = $this->regionsFactory->getSupportedTypes();
+        $types = explode(',', $value);
+        $query->type = array();
+
+        foreach ($types as $type) {
+          $query->type[] = $this->validateEnumerated(
+              $name, $type, $supportedTypes);
+        }
+      } else {
+        $this->error(self::BAD_REQUEST,
+            'Unknown parameter "' . $name . '".');
+      }
+    }
+
+    if ($query->latitude === null || $query->longitude === null) {
+      $this->error(self::BAD_REQUEST,
+          'latitude and longitude are required');
+    }
+
+    return $query;
+  }
+
   /**
    * Validate a boolean parameter.
    *
@@ -135,7 +194,7 @@ class GeoserveWebService {
    * @return value as boolean if valid ("true" or "false", case insensitively),
    *         exit with error if invalid.
    */
-  protected function validateBoolean($param, $value) {
+  protected function validateBoolean ($param, $value) {
     $val = strtolower($value);
     if ($val !== 'true' && $val !== 'false') {
       $this->error(self::BAD_REQUEST,
@@ -155,7 +214,7 @@ class GeoserveWebService {
    * @return value as integer if valid (integer and in range),
    *         exit with error if invalid.
    */
-  protected function validateInteger($param, $value, $min, $max) {
+  protected function validateInteger ($param, $value, $min, $max) {
     if (
         !ctype_digit($value)
         || ($min !== null && intval($value) < $min)
@@ -191,7 +250,7 @@ class GeoserveWebService {
    * @return value as float if valid (float and in range),
    *         exit with error if invalid.
    */
-  protected function validateFloat($param, $value, $min, $max) {
+  protected function validateFloat ($param, $value, $min, $max) {
     if (
         !is_numeric($value)
         || ($min !== null && floatval($value) < $min)
@@ -225,7 +284,7 @@ class GeoserveWebService {
    * @param $enum array of valid parameter values.
    * @return value if valid (in array), exit with error if invalid.
    */
-  protected function validateEnumerated($param, $value, $enum) {
+  protected function validateEnumerated ($param, $value, $enum) {
     if (!in_array($value, $enum)) {
       $this->error(self::BAD_REQUEST, 'Bad ' . $param .
         ' value "' . $value . '".' .
