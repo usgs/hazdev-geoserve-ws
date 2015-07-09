@@ -125,8 +125,9 @@ class PostgresDatabaseInstaller extends DatabaseInstaller {
    * @param  $file  {String}, absolute path to data file
    * @param  $table {String}, table to copy data into.
    */
-  public function copyFrom ($file, $table) {
-    $this->run('COPY ' . $table . ' FROM \'' . $file . '\' NULL as \'\'');
+  public function copyFrom ($file, $table, $options=array('NULL AS \'\'')) {
+    $this->run('COPY ' . $table . ' FROM \'' . $file . '\' ' .
+        implode(' ', $options));
   }
 
   /**
