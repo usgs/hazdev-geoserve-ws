@@ -9,16 +9,16 @@ $answer = promptYesNo("\nWould you like to download and load geonames data",
     true);
 
 if (!$answer) {
-  echo "Normal exit.\n";
-  exit(0);
+  echo "Skipping geonames.\n";
+  return;
 }
 
 $answer = promptYesNo("The schema must already exist in order to " .
     "load geonames data, continue", true);
 
 if (!$answer) {
-  echo "Normal exit.\n";
-  exit(0);
+  echo "Skipping geonames.\n";
+  return;
 }
 
 // download geoname data
@@ -57,7 +57,7 @@ $dbInstaller->run('DELETE FROM country_info');
 
 
 // ----------------------------------------------------------------------
-// Genames data load into temp tables
+// Geonames data load into temp tables
 // ----------------------------------------------------------------------
 
 // Cities
