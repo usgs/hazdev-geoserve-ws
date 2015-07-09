@@ -30,10 +30,10 @@ class PlacesCallback extends GeoserveCallback {
           '"properties":{',
             '"admin1_code":"', $item['admin1_code'], '",',
             '"admin1_name":"', $item['admin1_name'], '",',
-            '"azimuth":', round($item['azimuth'], 1), ',',
+            '"azimuth":', $this->_round($item['azimuth'], 1), ',',
             '"country_code":"', $item['country_code'], '",',
             '"country_name":"', $item['country_name'], '",',
-            '"distance":', round($item['distance'], 3), ',',
+            '"distance":', $this->_round($item['distance'], 3), ',',
             '"feature_class":"', $item['feature_class'], '",',
             '"feature_code":"', $item['feature_code'], '",',
             '"name":"', $item['name'], '",',
@@ -51,4 +51,11 @@ class PlacesCallback extends GeoserveCallback {
     $this->count++;
   }
 
+  protected function _round ($number, $decimals) {
+    if ($number === null) {
+      return 'null';
+    }
+
+    return round($number, $decimals);
+  }
 }

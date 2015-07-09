@@ -113,7 +113,9 @@ class PlacesFactory extends GeoserveFactory {
     SELECT
       geoname.*,
       admin1_codes_ascii.name AS admin1_name,
-      country_info.country AS country_name
+      country_info.country AS country_name,
+      NULL::DECIMAL AS azimuth,
+      NULL::DECIMAL AS distance
     FROM
       geoname
     JOIN
