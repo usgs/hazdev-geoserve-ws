@@ -48,7 +48,11 @@ class GeoserveWebService {
     $CACHE_MAXAGE = 3600;
     include $APP_DIR . '/lib/cache.inc.php';
 
-    $places = $this->placesFactory->get($query, $callback);
+    if ($query->type === 'event') {
+      $places = $this->placesFactory->getEventPlaces($query, $callback);
+    } else {
+      $places = $this->placesFactory->get($query, $callback);
+    }
   }
 
   public function regions ($params) {
@@ -141,11 +145,12 @@ class GeoserveWebService {
 
 
   public function parsePlacesQuery () {
+    $params = $_GET;
     $query = new PlacesQuery();
     $circleSearch = false;
     $rectangleSearch = false;
+    $types = array('event','geonames');
 
-    $params = $_GET;
     foreach ($params as $name => $value) {
       if ($value === '') {
         // check for empty values in non-javascript
@@ -153,6 +158,8 @@ class GeoserveWebService {
       } else if ($name === 'method') {
         // used by apache rewrites
         continue;
+      } else if ($name === 'type') {
+        $query->type = $this->validateEnumerated($name, $value, $types);
       } else if ($name ==='latitude' || $name ==='lat') {
         $circleSearch = true;
         $query->latitude = $this->validateFloat($name, $value, -90, 90);

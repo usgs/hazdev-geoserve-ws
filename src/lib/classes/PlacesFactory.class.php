@@ -233,5 +233,11 @@ class PlacesFactory extends GeoserveFactory {
     }
 
     return $longitude;
+
+  /**
+   * Get old event page places (five total)
+   */
+  public function getEventPlaces ($query, $callback = null) {
+    return $this->get($query, $callback);
   }
 }
