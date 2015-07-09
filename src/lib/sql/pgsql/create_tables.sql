@@ -49,105 +49,43 @@ CREATE INDEX authoritative_region_us_shape_index ON authoritative_region_us
 
 /* Tables */
 CREATE TABLE fe (
-    objectid_1        INTEGER PRIMARY KEY,
-    objectid          INTEGER,
-    fe_reg_num        DECIMAL,
-    fe_geom_ar        DECIMAL,
-    fe_geom_le        DECIMAL,
-    name_s            VARCHAR(100),
-    name_m            VARCHAR(100),
-    name_e            VARCHAR(100),
-    name_l            VARCHAR(100),
-    name_h            VARCHAR(100),
-    area              DECIMAL,
-    len               DECIMAL,
-    se_anno_cad_data  BYTEA,
-    shape             GEOGRAPHY(GEOMETRY, 4326)
-);
-
-CREATE TABLE fe_plus (
-    objectid_1        INTEGER PRIMARY KEY,
-    objectid          INTEGER,
-    fepl_disso        INTEGER,
-    name_s            VARCHAR(50),
-    fep_or            DECIMAL,
-    name_e            VARCHAR(100),
-    name_l            VARCHAR(100),
-    name_h            VARCHAR(100),
-    name_m            VARCHAR(100),
-    time_code         VARCHAR(20),
-    shape_leng        DECIMAL,
-    area              DECIMAL,
-    se_anno_cad_data  BYTEA,
-    shape             GEOGRAPHY(GEOMETRY, 4326)
+  id     INTEGER PRIMARY KEY,
+  num    INTEGER,
+  place  VARCHAR(100),
+  shape  GEOGRAPHY(GEOMETRY, 4326)
 );
 
 CREATE TABLE fe_rename (
-    objectid_1        INTEGER PRIMARY KEY,
-    objectid          INTEGER,
-    name_m            VARCHAR(100),
-    name_s            VARCHAR(100),
-    name_e            VARCHAR(100),
-    name_l            VARCHAR(100),
-    name_h            VARCHAR(100),
-    area              DECIMAL,
-    len               DECIMAL,
-    se_anno_cad_data  BYTEA,
-    shape             GEOGRAPHY(GEOMETRY, 4326)
+  id     INTEGER PRIMARY KEY,
+  place  VARCHAR(100),
+  shape  GEOGRAPHY(GEOMETRY, 4326)
 );
 
 /* Indexes */
 CREATE INDEX fe_shape_index ON fe USING GIST (shape);
-CREATE INDEX fe_plus_shape_index ON fe_plus USING GIST (shape);
 CREATE INDEX fe_rename_shape_index ON fe_rename USING GIST (shape);
 
 /* Views */
 CREATE VIEW fe_view AS (
   SELECT
-    fe.objectid_1 AS objectid,
-    fe.name_s,
-    fe.name_m,
-    fe.name_e,
-    fe.name_h,
-    fe.name_l,
-    fe.area,
+    fe.id,
+    fe.num,
+    fe.place,
     fe.shape,
-    fe.fe_reg_num,
-    3 AS priority,
+    2 AS priority,
     'fe'::text AS dataset
   FROM fe
 
   UNION ALL
 
   SELECT
-    fe_rename.objectid_1 AS objectid,
-    fe_rename.name_s,
-    fe_rename.name_m,
-    fe_rename.name_e,
-    fe_rename.name_h,
-    fe_rename.name_l,
-    fe_rename.area,
+    fe_rename.id,
+    NULL::DECIMAL AS num,
+    fe_rename.place,
     fe_rename.shape,
-    NULL::DECIMAL AS fe_reg_num,
-    2 AS priority,
+    1 AS priority,
     'fe_rename'::text AS dataset
   FROM fe_rename
-
-  UNION ALL
-
-  SELECT
-    fe_plus.objectid_1 AS objectid,
-    fe_plus.name_s,
-    fe_plus.name_m,
-    fe_plus.name_e,
-    fe_plus.name_h,
-    fe_plus.name_l,
-    fe_plus.area,
-    fe_plus.shape,
-    NULL::DECIMAL AS fe_reg_num,
-    1 AS priority,
-    'fe_plus'::text AS dataset
-  FROM fe_plus
 );
 
 
