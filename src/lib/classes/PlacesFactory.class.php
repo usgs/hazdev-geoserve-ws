@@ -234,10 +234,115 @@ class PlacesFactory extends GeoserveFactory {
 
     return $longitude;
 
+  private function expandSearch($query) {
+    $results = array();
+
+    while (count($results) !== $query->limit) {
+      $results = $this->getPlaces($query);
+      if (count($results) !== $query->limit) {
+        // increase search bounds
+        $query->maxradiuskm = $query->maxradiuskm * 2;
+      }
+    }
+
+    return $results;
+  }
+
+  // finds duplicates in a distance ordered array
+  private function removeDuplicates($places) {
+    $previousId = null;
+    $duplicateIndex = null;
+
+    for ($i = 0; $i < count($places); $i++) {
+      // check for duplicate
+      if ($previousId === $places[$i]['geoname_id']) {
+        $duplicateIndex = $i;
+      }
+      $previousId = $places[$i]['geoname_id'];
+    }
+
+    if ($duplicateIndex !== null) {
+      unset($places[$duplicateIndex]);
+      $places = array_values($places);
+    }
+
+    return $places;
+  }
+
+  private function hasCapital($places) {
+    for ($i = 0; $i < count($places); $i++) {
+      // check for duplicate
+      if ($places[$i]['feature_code'] === 'PPLA' ||
+          $places[$i]['feature_code'] === 'PPLC') {
+        return true;
+      }
+    }
+    return false;
+  }
+
   /**
    * Get old event page places (five total)
    */
   public function getEventPlaces ($query, $callback = null) {
-    return $this->get($query, $callback);
+    // array of places
+    $eventplaces = array();
+    $results = array();
+
+
+    /*** Find the closest populated place ***/
+    $query->maxradiuskm = 500;
+    $query->limit = 1;
+    $results = $this->expandSearch($query);
+    $eventplaces = array_merge($eventplaces, $results);
+
+    /*** Find five populated places with population > 10,000 ***/
+    $query->limit = 5;
+    $query->minpopulation = 10000;
+    $results = $this->expandSearch($query);
+    $eventplaces = array_merge($eventplaces, $results);
+
+    /*** remove potential duplicates ***/
+    $eventplaces = $this->removeDuplicates($eventplaces);
+
+    /*** Add capital city ***/
+    $capital = array();
+    if ($this->hasCapital($eventplaces) === false) {
+      $query->limit = 1;
+      $query->minpopulation = null;
+      $query->featurecode = 'PPLA';
+      $capital = $this->expandSearch($query);
+    }
+
+    /*** limit to 5, make sure capital is in top 5 ***/
+    $hasCapital = false;
+
+    for ($i = 0; $i < 5; $i++) {
+      // check for capital
+      if ($eventplaces[$i]['feature_code'] === 'PPLA' ||
+          $eventplaces[$i]['feature_code'] === 'PPLC') {
+        $hasCapital = true;
+      }
+    }
+
+    // build array with 5 places (including capital)
+    if ($hasCapital === true) {
+      $eventplaces = array_slice($eventplaces, 0, 5);
+    } else {
+      $eventplaces = array_slice($eventplaces, 0, 4);
+      $eventplaces = array_merge($eventplaces, $capital);
+    }
+
+    /*** output geojson ***/
+    if ($callback !== null) {
+      // use callback
+      $callback->onStart($query);
+      for ($i = 0; $i < count($eventplaces); $i++) {
+        $callback->onPlace($eventplaces[$i], $this);
+      }
+      $callback->onEnd();
+    } else {
+      // return all places
+      return $eventplaces;
+    }
   }
 }

@@ -77,5 +77,6 @@ CREATE TABLE admin1_codes_ascii (
 CREATE INDEX geoname_shape_index ON geoname USING GIST (shape);
 CREATE INDEX geoname_population_index ON geoname (population);
 CREATE INDEX geoname_feature_class_index ON geoname (feature_class);
+CREATE INDEX geoname_feature_code_index ON geoname (feature_code);
 CREATE INDEX country_info_iso_index on country_info (iso);
 CREATE INDEX admin1_codes_ascii_code_index on admin1_codes_ascii (code);
