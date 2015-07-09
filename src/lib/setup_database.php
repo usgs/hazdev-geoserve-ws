@@ -105,11 +105,11 @@ if ($answer) {
 
 
 // ----------------------------------------------------------------------
-// Geonames data download and database lodd
+// Data downloads and database loads
 // ----------------------------------------------------------------------
 
 include_once 'load_geonames.php';
-
+include_once 'load_fe.php';
 
 // ----------------------------------------------------------------------
 // End of database setup
