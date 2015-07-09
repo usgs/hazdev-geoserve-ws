@@ -21,7 +21,6 @@ DROP TABLE IF EXISTS authoritative_region_us CASCADE;
 
 /* Indexes */
 DROP INDEX IF EXISTS fe_shape_index;
-DROP INDEX IF EXISTS fe_plus_shape_index;
 DROP INDEX IF EXISTS fe_rename_shape_index;
 
 /* Views */
@@ -29,7 +28,6 @@ DROP VIEW IF EXISTS fe_all_view;
 
 /* Tables */
 DROP TABLE IF EXISTS fe CASCADE;
-DROP TABLE IF EXISTS fe_plus CASCADE;
 DROP TABLE IF EXISTS fe_rename CASCADE;
 
 
