@@ -53,12 +53,10 @@ DROP TABLE IF EXISTS geoname CASCADE;
 ------------------------------------------------------------------------
 
 /* Indexes */
-DROP INDEX IF EXISTS country_shape_index;
-DROP INDEX IF EXISTS state_shape_index;
+DROP INDEX IF EXISTS globaladmin_shape_index;
 
 /* Tables */
-DROP TABLE IF EXISTS country CASCADE;
-DROP TABLE IF EXISTS state CASCADE;
+DROP TABLE IF EXISTS globaladmin CASCADE;
 
 
 ------------------------------------------------------------------------
