@@ -7,12 +7,10 @@
 ------------------------------------------------------------------------
 
 /* Indexes */
-DROP INDEX IF EXISTS authoritative_region_shape_index;
-DROP INDEX IF EXISTS authoritative_region_us_shape_index;
+DROP INDEX IF EXISTS authoritative_shape_index;
 
 /* Tables */
-DROP TABLE IF EXISTS authoritative_region CASCADE;
-DROP TABLE IF EXISTS authoritative_region_us CASCADE;
+DROP TABLE IF EXISTS authoritative CASCADE;
 
 
 ------------------------------------------------------------------------

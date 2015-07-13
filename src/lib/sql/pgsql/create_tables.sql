@@ -7,40 +7,16 @@
 ------------------------------------------------------------------------------
 
 /* Tables */
-CREATE TABLE authoritative_region (
-    objectid          INTEGER PRIMARY KEY,
-    area              DECIMAL,
-    perimeter         DECIMAL,
-    aeic_c_id         INTEGER,
-    name              VARCHAR(50),
-    flag              VARCHAR(5),
-    priority_num      INTEGER,
-    name_add          VARCHAR(50),
-    alt_name          VARCHAR(50),
-    cent_lat          DECIMAL,
-    cent_lon          DECIMAL,
-    se_anno_cad_data  BYTEA,
-    auth_region_or    DECIMAL,
-    shape             GEOGRAPHY(GEOMETRY, 4326)
-);
-
-CREATE TABLE authoritative_region_us (
-    objectid          INTEGER PRIMARY KEY,
-    area              DECIMAL,
-    perimeter         DECIMAL,
-    id                INTEGER,
-    name              VARCHAR(50),
-    priority_num      INTEGER,
-    se_anno_cad_data  BYTEA,
-    auth_region_or    DECIMAL,
-    shape             GEOGRAPHY(GEOMETRY, 4326)
+CREATE TABLE authoritative (
+  id INTEGER PRIMARY KEY,
+  name VARCHAR(10),
+  priority INTEGER,
+  network VARCHAR(10),
+  shape GEOGRAPHY(GEOMETRY, 4326)
 );
 
 /* Indexes */
-CREATE INDEX authoritative_region_shape_index ON authoritative_region
-    USING GIST (shape);
-CREATE INDEX authoritative_region_us_shape_index ON authoritative_region_us
-    USING GIST (shape);
+CREATE INDEX authoritative_shape_index ON authoritative USING GIST (shape);
 
 
 ------------------------------------------------------------------------------
