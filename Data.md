@@ -7,3 +7,4 @@ along with the dataset itself. For convenience, direct links to information
 about each dataset are provided below:
 
  - [Flinn-Engdahl Regions (with Renames)](ftp://hazards.cr.usgs.gov/web/hazdev-geoserve-ws/FE/README.md)
+ - [Administrative Regions](ftp://hazards.cr.usgs.gov/web/hazdev-geoserve-ws/admin/README.md)
