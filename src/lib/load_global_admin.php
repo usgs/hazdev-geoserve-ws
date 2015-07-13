@@ -26,7 +26,7 @@ if (!$answer) {
 $url = configure('GLOBAL_ADMIN_URL',
     'ftp://hazards.cr.usgs.gov/web/hazdev-geoserve-ws/admin/',
     "Global admin download url");
-$filenames = array('globaladmin.dat');
+$filenames = array('globaladmin.zip');
 $download_path = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'admin'
     . DIRECTORY_SEPARATOR;
 

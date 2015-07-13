@@ -161,11 +161,11 @@ CREATE INDEX admin1_codes_ascii_code_index on admin1_codes_ascii (code);
 
 /* Tables */
 CREATE TABLE globaladmin (
-  id INTEGER PRIMARY KEY,
-  iso CHAR(3),
-  country VARCHAR(100),
-  region VARCHAR(100),
-  shape GEOGRAPHY(GEOMETRY, 4326)
+  id       INTEGER PRIMARY KEY,
+  iso      CHAR(3),
+  country  VARCHAR(100),
+  region   VARCHAR(100),
+  shape    GEOGRAPHY(GEOMETRY, 4326)
 );
 
 /* Indexes */
