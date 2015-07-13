@@ -160,42 +160,16 @@ CREATE INDEX admin1_codes_ascii_code_index on admin1_codes_ascii (code);
 ------------------------------------------------------------------------------
 
 /* Tables */
-CREATE TABLE country (
-    objectid          INTEGER PRIMARY KEY,
-    fips_cntry        VARCHAR(2),
-    gmi_cntry         VARCHAR(3),
-    iso_2digit        VARCHAR(2),
-    iso_3digit        VARCHAR(3),
-    cntry_name        VARCHAR(40),
-    long_name         VARCHAR(40),
-    sovereign         VARCHAR(40),
-    pop_cntry         INTEGER,
-    curr_type         VARCHAR(16),
-    curr_code         VARCHAR(4),
-    landlocked        VARCHAR(1),
-    sqkm              DECIMAL,
-    sqmi              DECIMAL,
-    color_map         VARCHAR(1),
-    se_anno_cad_data  BYTEA,
-    min_lat           INTEGER,
-    max_lat           INTEGER,
-    min_lon           INTEGER,
-    max_lon           INTEGER,
-    shape             GEOGRAPHY(GEOMETRY, 4326)
-);
-
-CREATE TABLE state (
-    objectid          INTEGER PRIMARY KEY,
-    name              VARCHAR(90),
-    x_cen             DECIMAL,
-    y_cen             DECIMAL,
-    se_anno_cad_data  BYTEA,
-    shape             GEOGRAPHY(GEOMETRY, 4326)
+CREATE TABLE globaladmin (
+  id INTEGER PRIMARY KEY,
+  iso CHAR(3),
+  country VARCHAR(100),
+  region VARCHAR(100),
+  shape GEOGRAPHY(GEOMETRY, 4326)
 );
 
 /* Indexes */
-CREATE INDEX country_shape_index ON country USING GIST (shape);
-CREATE INDEX state_shape_index ON state USING GIST (shape);
+CREATE INDEX globaladmin_shape_index ON globaladmin USING GIST (shape);
 
 
 ------------------------------------------------------------------------------
