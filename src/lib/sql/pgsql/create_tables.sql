@@ -8,11 +8,11 @@
 
 /* Tables */
 CREATE TABLE authoritative (
-  id INTEGER PRIMARY KEY,
-  name VARCHAR(10),
-  priority INTEGER,
-  network VARCHAR(10),
-  shape GEOGRAPHY(GEOMETRY, 4326)
+  id        INTEGER PRIMARY KEY,
+  name      VARCHAR(10),
+  priority  INTEGER,
+  network   VARCHAR(10),
+  shape     GEOGRAPHY(GEOMETRY, 4326)
 );
 
 /* Indexes */
