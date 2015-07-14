@@ -12,39 +12,60 @@ class RegionsCallback extends GeoserveCallback {
    * Called for each place found by the index.
    *
    * @param $item an associative array of place properties.
-   * @param $index the FDSNIndex that is executing the query.
    */
-  public function onItem ($item, $index) {
-    echo ($this->count > 0 ? ',' : ''),
-        '{',
-          '"type": "Feature",',
-          '"id":', $item['geoname_id'], ',',
-          '"properties":{',
-            '"admin1_code":"', $item['admin1_code'], '",',
-            '"admin1_name":"', $item['admin1_name'], '",',
-            '"azimuth":', round($item['azimuth'], 1), ',',
-            '"country_code":"', $item['country_code'], '",',
-            '"country_name":"', $item['country_name'], '",',
-            '"distance":', round($item['distance'], 3), ',',
-            '"feature_class":"', $item['feature_class'], '",',
-            '"feature_code":"', $item['feature_code'], '",',
-            '"name":"', $item['name'], '",',
-            '"population":', intval($item['population']),
-          '},',
-          '"geometry":{',
-            '"type":"Point",',
-            '"coordinates":[',
-              floatval($item['longitude']), ',',
-              floatval($item['latitude']), ',',
-              floatval($item['elevation']),
-            ']',
-          '}',
-        '}';
+  public function onItem ($item) {
+    $properties = array();
+    $shape = null;
+    $id = null;
+
+    foreach ($item as $key => $value) {
+      if ($key === 'id') {
+        $id = $value;
+      } else if ($key === 'shape') {
+        $shape = $value;
+      } else {
+        $properties[$key] = $value;
+      }
+    }
+
+    $feature = array(
+      'type' => 'Feature',
+      'id' => $id,
+      'geometry' => null,
+      'properties' => $properties
+    );
+
+    if ($this->count > 0) {
+      echo ',';
+    }
+    $feature = json_encode($feature);
+    if ($shape !== null) {
+      $feature = str_replace('"geometry":null',
+          '"geometry":' . $this->getGeometry($shape),
+          $feature);
+    }
+    echo $feature;
     $this->count++;
   }
 
-  public function onRegions ($regions) {
-    print_r($regions);
-  }
+  public function getGeometry ($shape) {
+    if ($shape === null) {
+      return 'null';
+    }
 
+    preg_match('/([^\(]+)\((.*)\)/', $shape, $matches);
+    $type = $matches[1];
+    $coords = $matches[2];
+    $coords = strtr($coords, array(
+      '(' => '[[',
+      ')' => ']]',
+      ',' => '],[',
+      ' ' => ','
+    ));
+    $json = '{' .
+        '"type":"' . ($type === 'POLYGON' ? 'Polygon' : 'MultiPolygon') . '"' .
+        ',"coordinates":[' . $coords . ']' .
+        '}';
+    return $json;
+  }
 }
