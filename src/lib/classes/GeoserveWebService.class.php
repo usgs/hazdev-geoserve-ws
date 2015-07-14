@@ -231,12 +231,15 @@ class GeoserveWebService {
 
   public function parseRegionsQuery ($params) {
     $query = new RegionsQuery();
+    $types = $this->regionsFactory->getSupportedTypes();
 
     foreach ($params as $name => $value) {
       if ($values === '') {
         continue;
       } else if ($name === 'method') {
         continue;
+      } else if ($name === 'type') {
+        $query->type = $this->validateEnumerated($name, $value, $types);
       } else if ($name === 'latitude') {
         $query->latitude = $this->validateFloat($name, $value, -90, 90);
       } else if ($name === 'longitude') {
