@@ -5,5 +5,5 @@ class RegionsQuery {
   public $longitude = null;
 
   public $type = null;
-  public $includeGeometry = null;
+  public $includeGeometry = false;
 }
