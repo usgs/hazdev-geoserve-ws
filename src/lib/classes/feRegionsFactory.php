@@ -1,6 +1,6 @@
 <?php
 class feRegionsFactory extends RegionsFactory {
-  public function getfeRegions ($query, $callback = null) {
+  public function getfeRegions ($query) {
 
     $feRegion = array();
 
@@ -14,14 +14,9 @@ class feRegionsFactory extends RegionsFactory {
       // connects to Data Base
       $db = $this->connect();
 
-      $feRegion[] = 'SELECT ' .
-            '* ' .
-          'FROM ' .
-          'fe_view ' .
-          'WHERE ' .
-            'ST_Point('.$lng.','.$lat.') && shape ' .
-          'ORDER BY ' .
-            'priority ASC, ST_Area(shape)';
+      $feRegion[] =
+          'SELECT * FROM fe_view WHERE ST_Point('.$lng.','.$lat.') && shape ' .
+          'ORDER BY priority ASC, ST_Area(shape)';
 
       return $feRegion;
     }
