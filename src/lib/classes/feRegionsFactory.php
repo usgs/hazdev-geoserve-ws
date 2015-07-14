@@ -16,7 +16,7 @@ class feRegionsFactory extends RegionsFactory {
 
       $feRegion[] =
           'SELECT * FROM fe_view WHERE ST_Point('.$lng.','.$lat.') && shape ' .
-          'ORDER BY priority ASC, ST_Area(shape)';
+          'ORDER BY priority ASC, ST_Area(shape) ASC';
 
       return $feRegion;
     }
