@@ -177,6 +177,10 @@ class PlacesFactory extends GeoserveFactory {
       $where[] = 'geoname.population >= :minpopulation';
       $params[':minpopulation'] = $query->minpopulation;
     }
+    if ($query->featurecode !== null) {
+      $where[] = 'geoname.feature_code = :featurecode';
+      $params[':featurecode'] = $query->featurecode;
+    }
   }
 
   /**
@@ -233,12 +237,16 @@ class PlacesFactory extends GeoserveFactory {
     }
 
     return $longitude;
+  }
 
-  private function expandSearch($query) {
+  /**
+   * expands query->maxradiuskm if $query-> limit has not been satisfied.
+   */
+  private function _expandSearch($query) {
     $results = array();
 
     while (count($results) !== $query->limit) {
-      $results = $this->getPlaces($query);
+      $results = $this->get($query);
       if (count($results) !== $query->limit) {
         // increase search bounds
         $query->maxradiuskm = $query->maxradiuskm * 2;
@@ -248,8 +256,10 @@ class PlacesFactory extends GeoserveFactory {
     return $results;
   }
 
-  // finds duplicates in a distance ordered array
-  private function removeDuplicates($places) {
+  /**
+   * removes duplicates from a distance ordered array
+   */
+  private function _removeDuplicates($places) {
     $previousId = null;
     $duplicateIndex = null;
 
@@ -269,7 +279,10 @@ class PlacesFactory extends GeoserveFactory {
     return $places;
   }
 
-  private function hasCapital($places) {
+  /**
+   * checks for a capital city in an array of places
+   */
+  private function _hasCapital($places) {
     for ($i = 0; $i < count($places); $i++) {
       // check for duplicate
       if ($places[$i]['feature_code'] === 'PPLA' ||
@@ -292,25 +305,25 @@ class PlacesFactory extends GeoserveFactory {
     /*** Find the closest populated place ***/
     $query->maxradiuskm = 500;
     $query->limit = 1;
-    $results = $this->expandSearch($query);
+    $results = $this->_expandSearch($query);
     $eventplaces = array_merge($eventplaces, $results);
 
     /*** Find five populated places with population > 10,000 ***/
     $query->limit = 5;
     $query->minpopulation = 10000;
-    $results = $this->expandSearch($query);
+    $results = $this->_expandSearch($query);
     $eventplaces = array_merge($eventplaces, $results);
 
     /*** remove potential duplicates ***/
-    $eventplaces = $this->removeDuplicates($eventplaces);
+    $eventplaces = $this->_removeDuplicates($eventplaces);
 
     /*** Add capital city ***/
     $capital = array();
-    if ($this->hasCapital($eventplaces) === false) {
+    if ($this->_hasCapital($eventplaces) === false) {
       $query->limit = 1;
       $query->minpopulation = null;
       $query->featurecode = 'PPLA';
-      $capital = $this->expandSearch($query);
+      $capital = $this->_expandSearch($query);
     }
 
     /*** limit to 5, make sure capital is in top 5 ***/
