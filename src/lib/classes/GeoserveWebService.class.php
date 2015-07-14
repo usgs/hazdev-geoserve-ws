@@ -3,7 +3,7 @@
 include_once $CLASSES_DIR . '/PlacesCallback.class.php';
 include_once $CLASSES_DIR . '/PlacesQuery.class.php';
 
-include_once $CLASSES_DIR . '/PlacesCallback.class.php';
+include_once $CLASSES_DIR . '/RegionsCallback.class.php';
 include_once $CLASSES_DIR . '/RegionsQuery.class.php';
 
 
@@ -56,8 +56,7 @@ class GeoserveWebService {
   public function regions ($params) {
     global $APP_DIR;
 
-    // TODO :: Use a RegionsCallback when implemented
-    $regionsCallback = new GeoserveCallback();
+    $regionsCallback = new RegionsCallback();
     $regionsQuery = $this->parseRegionsQuery($params);
 
     $CACHE_MAXAGE = 3600;
