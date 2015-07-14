@@ -62,8 +62,7 @@ class GeoserveWebService {
     $CACHE_MAXAGE = 3600;
     include $APP_DIR . '/lib/cache.inc.php';
 
-    $regions = $this->regionsFactory->get(
-        $regionsQuery, $regionsCallback);
+    $this->regionsFactory->get($regionsQuery, $regionsCallback);
   }
 
   public function error ($code, $message, $isDetail = false) {
