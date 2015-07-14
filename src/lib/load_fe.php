@@ -14,8 +14,8 @@ if (!$answer) {
   return;
 }
 
-$answer = promptYesNo("The schema must already exist in order to " .
-    "load FE (and renames) data, create schema", true);
+$answer = promptYesNo("The tables must already exist in order to " .
+    "load FE (and renames) data, create tables", true);
 
 if ($answer) {
   $feSql = configure('FE_SQL',

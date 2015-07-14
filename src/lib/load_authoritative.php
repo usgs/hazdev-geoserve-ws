@@ -14,8 +14,8 @@ if (!$answer) {
   return;
 }
 
-$answer = promptYesNo("The schema must already exist in order to " .
-    "load authoritative data, create schema", true);
+$answer = promptYesNo("The tables must already exist in order to " .
+    "load authoritative data, create eables", true);
 
 if ($answer) {
   $authoritativeSql = configure('AUTHORITATIVE_SQL',

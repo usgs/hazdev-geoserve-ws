@@ -13,8 +13,8 @@ if (!$answer) {
   return;
 }
 
-$answer = promptYesNo("The schema must already exist in order to " .
-    "load geonames data, create schema", true);
+$answer = promptYesNo("The tables must already exist in order to " .
+    "load geonames data, create tables", true);
 
 if ($answer) {
   $geonamesSql = configure('GEONAMES_SQL',
