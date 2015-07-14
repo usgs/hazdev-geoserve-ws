@@ -3,10 +3,10 @@
 ------------------------------------------------------------------------
 
 /* Indexes */
-DROP INDEX IF EXISTS globaladmin_shape_index;
+DROP INDEX IF EXISTS admin_shape_index;
 
 /* Tables */
-DROP TABLE IF EXISTS globaladmin CASCADE;
+DROP TABLE IF EXISTS admin CASCADE;
 
 
 ------------------------------------------------------------------------------
@@ -14,7 +14,7 @@ DROP TABLE IF EXISTS globaladmin CASCADE;
 ------------------------------------------------------------------------------
 
 /* Tables */
-CREATE TABLE globaladmin (
+CREATE TABLE admin (
   id       INTEGER PRIMARY KEY,
   iso      CHAR(3),
   country  VARCHAR(100),
@@ -23,4 +23,4 @@ CREATE TABLE globaladmin (
 );
 
 /* Indexes */
-CREATE INDEX globaladmin_shape_index ON globaladmin USING GIST (shape);
+CREATE INDEX admin_shape_index ON admin USING GIST (shape);

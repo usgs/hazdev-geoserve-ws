@@ -83,7 +83,7 @@ if ($answer) {
 
 include_once 'load_geonames.php';
 include_once 'load_fe.php';
-include_once 'load_global_admin.php';
+include_once 'load_admin.php';
 include_once 'load_authoritative.php';
 
 // ----------------------------------------------------------------------

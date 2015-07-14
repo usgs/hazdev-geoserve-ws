@@ -10,12 +10,12 @@ $answer = promptYesNo(
   );
 
 if (!$answer) {
-  echo "Skpping global admin.\n";
+  echo "Skpping admin.\n";
   return;
 }
 
 $answer = promptYesNo("The schema must already exist in order to " .
-    "load global admin data, create schema", true);
+    "load admin region data, create schema", true);
 
 if ($answer) {
   $adminSql = configure('ADMIN_SQL',
@@ -25,11 +25,11 @@ if ($answer) {
   echo "Success!!\n";
 }
 
-// download global admin data
+// download admin region data
 echo "\nDownloading and loading admin region data:\n";
 $url = configure('GLOBAL_ADMIN_URL',
     'ftp://hazards.cr.usgs.gov/web/hazdev-geoserve-ws/admin/',
-    "Global admin download url");
+    "Admin download url");
 $filenames = array('globaladmin.zip');
 $download_path = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'admin'
     . DIRECTORY_SEPARATOR;
@@ -40,7 +40,7 @@ foreach ($filenames as $filename) {
   $downloaded_file = $download_path . $filename;
   downloadURL($url . $filename, $downloaded_file);
 
-  // uncompress global admin data
+  // uncompress admin data
   if (pathinfo($downloaded_file)['extension'] === 'zip') {
     print 'Extracting ' . $downloaded_file . "\n";
     extractZip($downloaded_file, $download_path);
@@ -48,27 +48,27 @@ foreach ($filenames as $filename) {
 }
 
 // ----------------------------------------------------------------------
-// Remove global admin data from tables
+// Remove admin data from tables
 // ----------------------------------------------------------------------
 
-// Delete from global admin
-$dbInstaller->run('DELETE FROM globaladmin');
+// Delete from admin 
+$dbInstaller->run('DELETE FROM admin');
 
 
 // ----------------------------------------------------------------------
-// Global admin data load
+// Admin data load
 // ----------------------------------------------------------------------
 
-// Global admin
+// Admin
 
-echo "\nLoading global admin data ... ";
-$dbInstaller->copyFrom($download_path . 'globaladmin.dat', 'globaladmin',
+echo "\nLoading admin data ... ";
+$dbInstaller->copyFrom($download_path . 'globaladmin.dat', 'admin',
     array('NULL AS \'\'', 'CSV', 'HEADER'));
 echo "SUCCESS!!\n";
 
 
 // ----------------------------------------------------------------------
-// Global admin data clean-up
+// Admin data clean-up
 // ----------------------------------------------------------------------
 
 print 'Cleaning up downloaded data ... ';
