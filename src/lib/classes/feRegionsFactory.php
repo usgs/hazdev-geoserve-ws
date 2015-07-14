@@ -10,19 +10,20 @@ class feRegionsFactory extends RegionsFactory {
     } else {
       $lat = $query->latitude;
       $lng = $query->longitude;
+
+      // connects to Data Base
+      $db = $this->connect();
+
+      $feRegion[] = 'SELECT ' .
+            '* ' .
+          'FROM ' .
+          'fe_view ' .
+          'WHERE ' .
+            'ST_Point('.$lng.','.$lat.') && shape ' .
+          'ORDER BY ' .
+            'priority ASC, ST_Area(shape)';
+
+      return $feRegion;
     }
-    // connects to Data Base
-    $db = $this->connect();
-
-    $feRegion[] = 'SELECT ' .
-          '* ' .
-        'FROM ' .
-        'fe_view' .
-        'WHERE ' .
-          'ST_Point('.$lat, $lng.') && shape' .
-        'ORDER BY ' .
-          'priority, ST_Area(fe.shape) DESC';
-
-    return $feRegion;
   }
 }
