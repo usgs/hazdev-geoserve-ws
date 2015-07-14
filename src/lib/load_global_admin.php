@@ -15,14 +15,18 @@ if (!$answer) {
 }
 
 $answer = promptYesNo("The schema must already exist in order to " .
-    "load global admin data, continue", true);
+    "load global admin data, create schema", true);
 
-if (!$answer) {
-  echo "Skipping global admin.\n";
-  return;
+if ($answer) {
+  $adminSql = configure('ADMIN_SQL',
+      $defaultScriptDir . DIRECTORY_SEPARATOR . 'admin.sql',
+      "Admin regions schema script");
+  $dbInstaller->runScript($adminSql);
+  echo "Success!!\n";
 }
 
 // download global admin data
+echo "\nDownloading and loading admin region data:\n";
 $url = configure('GLOBAL_ADMIN_URL',
     'ftp://hazards.cr.usgs.gov/web/hazdev-geoserve-ws/admin/',
     "Global admin download url");

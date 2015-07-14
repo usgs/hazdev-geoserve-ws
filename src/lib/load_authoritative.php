@@ -15,14 +15,18 @@ if (!$answer) {
 }
 
 $answer = promptYesNo("The schema must already exist in order to " .
-    "load authoritative data, continue", true);
+    "load authoritative data, create schema", true);
 
-if (!$answer) {
-  echo "Skipping authoritative.\n";
-  return;
+if ($answer) {
+  $authoritativeSql = configure('AUTHORITATIVE_SQL',
+      $defaultScriptDir . DIRECTORY_SEPARATOR . 'authoritative.sql',
+      "Authoritative regions schema script");
+  $dbInstaller->runScript($authoritativeSql);
+  echo "Success!!\n";
 }
 
 // download authoritative data
+echo "\nDownloading and loading authoritative region data:\n";
 $url = configure('AUTHORITATIVE_URL',
     'ftp://hazards.cr.usgs.gov/web/hazdev-geoserve-ws/auth/',
     "authoritative url");

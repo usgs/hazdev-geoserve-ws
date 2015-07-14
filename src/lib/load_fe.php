@@ -15,14 +15,18 @@ if (!$answer) {
 }
 
 $answer = promptYesNo("The schema must already exist in order to " .
-    "load FE (and renames) data, continue", true);
+    "load FE (and renames) data, create schema", true);
 
-if (!$answer) {
-  echo "Skipping FE.\n";
-  return;
+if ($answer) {
+  $feSql = configure('FE_SQL',
+      $defaultScriptDir . DIRECTORY_SEPARATOR . 'fe.sql',
+      "FE regions schema script");
+  $dbInstaller->runScript($feSql);
+  echo "Success!!\n";
 }
 
 // download FE data
+echo "\nDownloading and loading FE data:\n";
 $url = configure('FE_URL',
     'ftp://hazards.cr.usgs.gov/web/hazdev-geoserve-ws/FE/',
     "FE download url");
@@ -42,6 +46,7 @@ foreach ($filenames as $filename) {
     extractZip($downloaded_file, $download_path);
   }
 }
+
 
 // ----------------------------------------------------------------------
 // Remove FE data from tables
