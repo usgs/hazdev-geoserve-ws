@@ -19,14 +19,16 @@ class RegionsFactory extends GeoserveFactory {
    * @throws Exception
    */
   public function get ($query, $callback = null) {
+    if ($callback !== null) {
+      $callback->onStart($query);
+    }
+
     $data = array();
     if ($query->type === null || in_array('fe', $query->type)) {
-      $data['fe'] = $this->getFE($query);
+      $this->getFE($query, $callback);
     }
 
     if ($callback !== null) {
-      $callback->onStart($query);
-      $callback->onRegions($data);
       $callback->onEnd();
     } else {
       return $data;
@@ -42,12 +44,12 @@ class RegionsFactory extends GeoserveFactory {
   }
 
   /**
-   * Get FE regions
+   * Get FE Regions
    *
    * @param $query {RegionsQuery}
    *        query object
    */
-  public function getFE ($query) {
+  public function getFE ($query, $callback = null) {
     // Checks for latitude and longitude
     if ($query->latitude === null || $query->longitude === null) {
       throw new Exception('"latitude", and "longitude" are required');
@@ -67,7 +69,9 @@ class RegionsFactory extends GeoserveFactory {
 
     $sql .= ' SELECT' .
         ' num as number' .
-        ', place as name';
+        ', place as name' .
+        ', id';
+
     if ($query->includeGeometry) {
       $sql .= ', ST_AsText(shape) as shape';
     }
@@ -84,12 +88,19 @@ class RegionsFactory extends GeoserveFactory {
       throw new Exception($errorInfo[2]);
     } else {
       try {
-        // return all regions
-        return $query->fetchAll(PDO::FETCH_ASSOC);
+        if ($callback !== null) {
+          $callback->onTypeStart('fe');
+          while (($row = $query->fetch(PDO::FETCH_ASSOC)) !== false) {
+            $callback->onItem($row);
+          }
+          $callback->onTypeEnd();
+        } else {
+          // return all regions
+          return $query->fetchAll(PDO::FETCH_ASSOC);
+        }
       } finally {
         $query->closeCursor();
       }
     }
   }
-
 }
