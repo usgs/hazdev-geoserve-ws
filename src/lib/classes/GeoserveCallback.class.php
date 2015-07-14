@@ -7,6 +7,8 @@ class GeoserveCallback {
 
   protected $count;
   protected $starttime;
+  protected $types;
+  protected $query;
 
   /**
    * Construct a new GeoserveCallback.
@@ -14,6 +16,7 @@ class GeoserveCallback {
   public function __construct() {
     $this->count = 0;
     $this->starttime = time();
+    $this->types = array();
   }
 
   /**
@@ -33,13 +36,28 @@ class GeoserveCallback {
    * @param $query the query that executed and is about to generate events.
    */
   public function onStart($query) {
+    $this->query = $query;
     header('Content-type: application/json; charset=UTF-8');
-    echo '{',
-        '"type": "FeatureCollection"',
+    echo '{';
+  }
+
+  public function onTypeStart($name) {
+    if (count($this->types) !== 0) {
+      echo ',';
+    }
+    $this->types[] = $name;
+    $this->count = 0;
+    echo '"' . $name . '":{' .
+        '"type": "FeatureCollection"' .
         ',"features": [';
   }
 
-  public function onItem ($item, $index) {
+  public function onItem ($item) {
+    if ($this->count !== 0) {
+      echo ',';
+    }
+
+    echo json_encode($item);
   }
 
   /**
@@ -49,14 +67,28 @@ class GeoserveCallback {
     global $CONFIG;
     global $HOST_URL_PREFIX;
 
-    echo '],',
-        '"metadata": {',
-          '"count":', $this->count,
-          ',"generated":', $this->starttime, '000',
-          ',"status":200',
-          ',"url":"', $HOST_URL_PREFIX, $_SERVER['REQUEST_URI'], '"',
-          ',"version":"', $CONFIG['GEOSERVE_VERSION'], '"',
-        '}',
+    if (count($this->types) !== 0) {
+      echo ',';
+    }
+
+    $metadata = array(
+      'generated' => $this->starttime . '000',
+      'status' => 200,
+      'url' => $HOST_URL_PREFIX . $_SERVER['REQUEST_URI'],
+      'version' => $CONFIG['GEOSERVE_VERSION'],
+      'types' => $this->types
+    );
+
+    echo '"metadata":' .
+        json_encode($metadata) .
         '}';
+  }
+
+  public function onTypeEnd() {
+    echo '],' .
+        '"metadata":{' .
+          '"count":' . $this->count .
+        '}' .
+      '}';
   }
 }
