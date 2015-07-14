@@ -51,7 +51,7 @@ class GeoserveWebService {
     if ($query->type === 'event') {
       $places = $this->placesFactory->getEventPlaces($query, $callback);
     } else {
-      $places = $this->placesFactory->get($query, $callback);
+      $places = $this->placesFactory->getByCircle($query, $callback);
     }
   }
 
@@ -209,10 +209,22 @@ class GeoserveWebService {
           'min/max latitude/longitude are required for rectangle searches');
     }
 
-    if ($circleSearch && $query->maxradiuskm === null) {
+    if ($circleSearch && $query->type !== 'event' &&
+        $query->maxradiuskm === null) {
       $this->error(self::BAD_REQUEST,
           'maxradiuskm is required');
     }
+
+    if ($circleSearch === null) {
+      if ($query->type === 'event') {
+        $this->error(self::BAD_REQUEST,
+            'latitude and longitude are required');
+      } else if ($query->type === 'geonames' && $rectangleSearch === null) {
+        $this->error(self::BAD_REQUEST,
+            'latitude/longitude OR min/max latitude/longitude are required');
+      }
+    }
+
 
     return $query;
   }
