@@ -86,6 +86,15 @@ include_once 'load_fe.php';
 include_once 'load_admin.php';
 include_once 'load_authoritative.php';
 
+
+// ----------------------------------------------------------------------
+// Grant Roles
+// ----------------------------------------------------------------------
+
+// read-only access
+$dbInstaller->grantRoles(array('SELECT'), $CONFIG['DB_USER']);
+
+
 // ----------------------------------------------------------------------
 // End of database setup
 // ----------------------------------------------------------------------

@@ -78,11 +78,7 @@ class PostgresDatabaseInstaller extends DatabaseInstaller {
    */
   public function dropUser ($roles, $user) {
     if ($this->userExists($user)) {
-      $this->run('REVOKE USAGE ON SCHEMA public FROM ' . $user);
-      $this->run('REVOKE GRANT OPTION FOR ' . implode(',', $roles) .
-          ' ON ALL TABLES IN SCHEMA public FROM ' . $user);
-      $this->run('REVOKE ALL PRIVILEGES ON DATABASE ' . $this->dbname .
-          ' FROM ' . $user);
+      $this->revokeRoles($roles, $user);
       $this->run('DROP USER IF EXISTS ' . $user);
     }
   }
@@ -94,11 +90,28 @@ class PostgresDatabaseInstaller extends DatabaseInstaller {
     // drop user if it already exists
     $this->dropUser($roles, $user);
     // create read only user
-    $this->run('CREATE USER ' . $user . ' WITH PASSWORD \'' .
-        $password . '\'');
+    $this->run('CREATE USER ' . $user . ' WITH PASSWORD \'' . $password . '\'');
+    $this->grantRoles($roles, $user);
+  }
+
+  /**
+   * Grant all $roles to $user
+   */
+  public function grantRoles ($roles, $user) {
     $this->run('GRANT USAGE ON SCHEMA public TO ' . $user);
     $this->run('GRANT ' . implode(',', $roles) .
         ' ON ALL TABLES IN SCHEMA public TO ' . $user);
+  }
+
+  /**
+   * Revoke all $roles to $user
+   */
+  public function revokeRoles ($roles, $user) {
+    $this->run('REVOKE USAGE ON SCHEMA public FROM ' . $user);
+    $this->run('REVOKE GRANT OPTION FOR ' . implode(',', $roles) .
+        ' ON ALL TABLES IN SCHEMA public FROM ' . $user);
+    $this->run('REVOKE ALL PRIVILEGES ON DATABASE ' . $this->dbname .
+        ' FROM ' . $user);
   }
 
   /**
