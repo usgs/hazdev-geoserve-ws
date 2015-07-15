@@ -48,11 +48,7 @@ class GeoserveWebService {
     $CACHE_MAXAGE = 3600;
     include $APP_DIR . '/lib/cache.inc.php';
 
-    if ($query->type === 'event') {
-      $places = $this->placesFactory->getEventPlaces($query, $callback);
-    } else {
-      $places = $this->placesFactory->getByCircle($query, $callback);
-    }
+    $this->placesFactory->get($query, $callback);
   }
 
   public function regions ($params) {

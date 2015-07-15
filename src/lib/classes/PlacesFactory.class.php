@@ -23,15 +23,28 @@ class PlacesFactory extends GeoserveFactory {
    *         is not specified.
    */
   public function get ($query, $callback=null) {
+    if ($callback !== null) {
+      $callback->onStart($query);
+    }
 
-    if ($query->latitude !== null && $query->longitude !== null &&
-        $query->maxradiuskm !== null) {
-      return $this->getByCircle($query, $callback);
-    } else if ($query->minlatitude !== null && $query->maxlatitude !== null &&
-        $query->minlongitude !== null && $query->maxlongitude !== null) {
-      return $this->getByRectangle($query, $callback);
+    if ($query->type === 'event') {
+      $this->getEventPlaces($query, $callback);
     } else {
-      throw new Exception('Neither circle nor rectangle parameters provided.');
+      if ($query->latitude !== null && $query->longitude !== null &&
+          $query->maxradiuskm !== null) {
+        $this->getByCircle($query, $callback);
+      } else if ($query->minlatitude !== null && $query->maxlatitude !== null &&
+          $query->minlongitude !== null && $query->maxlongitude !== null) {
+        $this->getByRectangle($query, $callback);
+      } else {
+        throw new Exception('Neither circle nor rectangle parameters provided.');
+      }
+    }
+
+    if ($callback !== null) {
+      $callback->onEnd();
+    } else {
+      return $data;
     }
   }
 
@@ -203,13 +216,13 @@ class PlacesFactory extends GeoserveFactory {
     } else {
       try {
         if ($callback !== null) {
-          $callback->onStart($query);
+          $callback->onTypeStart('geonames');
 
           while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
             $callback->onPlace($row, $this);
           }
 
-          $callback->onEnd();
+          $callback->onTypeEnd();
         } else {
           return $query->fetchAll(PDO::FETCH_ASSOC);
         }
@@ -246,7 +259,7 @@ class PlacesFactory extends GeoserveFactory {
     $results = array();
 
     while (count($results) !== $query->limit) {
-      $results = $this->get($query);
+      $results = $this->getByCircle($query);
       if (count($results) !== $query->limit) {
         // increase search bounds
         $query->maxradiuskm = $query->maxradiuskm * 2;
@@ -301,7 +314,6 @@ class PlacesFactory extends GeoserveFactory {
     $eventplaces = array();
     $results = array();
 
-
     /*** Find the closest populated place ***/
     $query->maxradiuskm = 500;
     $query->limit = 1;
@@ -348,11 +360,11 @@ class PlacesFactory extends GeoserveFactory {
     /*** output geojson ***/
     if ($callback !== null) {
       // use callback
-      $callback->onStart($query);
+      $callback->onTypeStart('event');
       for ($i = 0; $i < count($eventplaces); $i++) {
-        $callback->onPlace($eventplaces[$i], $this);
+        $callback->onItem($eventplaces[$i], $this);
       }
-      $callback->onEnd();
+      $callback->onTypeEnd();
     } else {
       // return all places
       return $eventplaces;
