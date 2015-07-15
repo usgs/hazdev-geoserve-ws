@@ -179,132 +179,6 @@ class PlacesFactory extends GeoserveFactory {
   }
 
   /**
-   * Generic method for parsing "WHERE" parameters that are common to both
-   * circle and rectangle searches.
-   *
-   */
-  private function _buildGenericWhere ($query, &$where, &$params) {
-    if ($query->minpopulation !== null) {
-      $where[] = 'geoname.population >= :minpopulation';
-      $params[':minpopulation'] = $query->minpopulation;
-    }
-    if ($query->featurecode !== null) {
-      $where[] = 'geoname.feature_code = :featurecode';
-      $params[':featurecode'] = $query->featurecode;
-    }
-  }
-
-  /**
-   * Excutes the query either invoking the callback if provided or returning
-   * the result set otherwise.
-   *
-   */
-  private function _execute ($sql, $params, $callback = null) {
-    $db = $this->connect();
-    $query = $db->prepare($sql);
-
-    if (!$query->execute($params)) {
-      // handle error
-      $errorInfo = $db->errorInfo();
-      if ($callback !== null) {
-        $callback->onError($errorInfo);
-      } else {
-        throw new Exception($errorInfo[2]);
-      }
-    } else {
-      try {
-        if ($callback !== null) {
-          $callback->onTypeStart('geonames');
-
-          while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
-            $callback->onPlace($row, $this);
-          }
-
-          $callback->onTypeEnd();
-        } else {
-          return $query->fetchAll(PDO::FETCH_ASSOC);
-        }
-      } finally {
-        $query->closeCursor();
-      }
-    }
-  }
-
-  /**
-   * Maps the input longitude into a [-180,.0 +180.0] range.
-   *
-   */
-  private function _normalizeLongitude ($longitude) {
-    if ($longitude === null) {
-      return null;
-    }
-
-    while ($longitude < -180.0) {
-      $longitude += 360.0;
-    }
-
-    while ($longitude > 180.0) {
-      $longitude -= 360.0;
-    }
-
-    return $longitude;
-  }
-
-  /**
-   * expands query->maxradiuskm if $query-> limit has not been satisfied.
-   */
-  private function _expandSearch($query) {
-    $results = array();
-
-    while (count($results) !== $query->limit) {
-      $results = $this->getByCircle($query);
-      if (count($results) !== $query->limit) {
-        // increase search bounds
-        $query->maxradiuskm = $query->maxradiuskm * 2;
-      }
-    }
-
-    return $results;
-  }
-
-  /**
-   * removes duplicates from a distance ordered array
-   */
-  private function _removeDuplicates($places) {
-    $previousId = null;
-    $duplicateIndex = null;
-
-    for ($i = 0; $i < count($places); $i++) {
-      // check for duplicate
-      if ($previousId === $places[$i]['geoname_id']) {
-        $duplicateIndex = $i;
-      }
-      $previousId = $places[$i]['geoname_id'];
-    }
-
-    if ($duplicateIndex !== null) {
-      unset($places[$duplicateIndex]);
-      $places = array_values($places);
-    }
-
-    return $places;
-  }
-
-  /**
-   * checks for a capital city in an array of places
-   */
-  private function _hasCapital($places) {
-    for ($i = 0; $i < count($places); $i++) {
-      // check for duplicate
-      if ($places[$i]['feature_code'] === 'PPLA' ||
-          $places[$i]['feature_code'] === 'PPLC') {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  /**
    * Get old event page places (five total)
    */
   public function getEventPlaces ($query, $callback = null) {
@@ -367,5 +241,131 @@ class PlacesFactory extends GeoserveFactory {
       // return all places
       return $eventplaces;
     }
+  }
+
+  /**
+   * Generic method for parsing "WHERE" parameters that are common to both
+   * circle and rectangle searches.
+   *
+   */
+  private function _buildGenericWhere ($query, &$where, &$params) {
+    if ($query->minpopulation !== null) {
+      $where[] = 'geoname.population >= :minpopulation';
+      $params[':minpopulation'] = $query->minpopulation;
+    }
+    if ($query->featurecode !== null) {
+      $where[] = 'geoname.feature_code = :featurecode';
+      $params[':featurecode'] = $query->featurecode;
+    }
+  }
+
+  /**
+   * Excutes the query either invoking the callback if provided or returning
+   * the result set otherwise.
+   *
+   */
+  private function _execute ($sql, $params, $callback = null) {
+    $db = $this->connect();
+    $query = $db->prepare($sql);
+
+    if (!$query->execute($params)) {
+      // handle error
+      $errorInfo = $db->errorInfo();
+      if ($callback !== null) {
+        $callback->onError($errorInfo);
+      } else {
+        throw new Exception($errorInfo[2]);
+      }
+    } else {
+      try {
+        if ($callback !== null) {
+          $callback->onTypeStart('geonames');
+
+          while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
+            $callback->onPlace($row, $this);
+          }
+
+          $callback->onTypeEnd();
+        } else {
+          return $query->fetchAll(PDO::FETCH_ASSOC);
+        }
+      } finally {
+        $query->closeCursor();
+      }
+    }
+  }
+
+  /**
+   * expands query->maxradiuskm if $query-> limit has not been satisfied.
+   */
+  private function _expandSearch($query) {
+    $results = array();
+
+    while (count($results) !== $query->limit) {
+      $results = $this->getByCircle($query);
+      if (count($results) !== $query->limit) {
+        // increase search bounds
+        $query->maxradiuskm = $query->maxradiuskm * 2;
+      }
+    }
+
+    return $results;
+  }
+
+  /**
+   * checks for a capital city in an array of places
+   */
+  private function _hasCapital($places) {
+    for ($i = 0; $i < count($places); $i++) {
+      // check for duplicate
+      if ($places[$i]['feature_code'] === 'PPLA' ||
+          $places[$i]['feature_code'] === 'PPLC') {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /**
+   * Maps the input longitude into a [-180,.0 +180.0] range.
+   *
+   */
+  private function _normalizeLongitude ($longitude) {
+    if ($longitude === null) {
+      return null;
+    }
+
+    while ($longitude < -180.0) {
+      $longitude += 360.0;
+    }
+
+    while ($longitude > 180.0) {
+      $longitude -= 360.0;
+    }
+
+    return $longitude;
+  }
+
+  /**
+   * removes duplicates from a distance ordered array
+   */
+  private function _removeDuplicates($places) {
+    $previousId = null;
+    $duplicateIndex = null;
+
+    for ($i = 0; $i < count($places); $i++) {
+      // check for duplicate
+      if ($previousId === $places[$i]['geoname_id']) {
+        $duplicateIndex = $i;
+      }
+      $previousId = $places[$i]['geoname_id'];
+    }
+
+    if ($duplicateIndex !== null) {
+      unset($places[$duplicateIndex]);
+      $places = array_values($places);
+    }
+
+    return $places;
   }
 }
