@@ -54,7 +54,7 @@ if (!isset($TEMPLATE)) {
  <p>
    All parameters must be passed in the query string.
    Only listed parameters may be used, others will generate an error.
-   Empty values for these parameters are supported.
+   Empty values for these parameters are not supported.
  </p>
 
 
@@ -87,7 +87,7 @@ if (!isset($TEMPLATE)) {
    </tbody>
  </table>
 
- <h4>Optional Parameters</h4>
+ <h4>Optional Parameter</h4>
  <table class="tabular parameters responsive">
    <thead>
      <tr>
