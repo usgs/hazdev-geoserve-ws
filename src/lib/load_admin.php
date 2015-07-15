@@ -10,7 +10,7 @@ $answer = promptYesNo(
   );
 
 if (!$answer) {
-  echo "Skpping admin.\n";
+  echo "Skipping admin.\n";
   return;
 }
 

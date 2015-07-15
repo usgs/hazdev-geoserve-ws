@@ -10,7 +10,7 @@ $answer = promptYesNo(
   );
 
 if (!$answer) {
-  echo "Skpping authoritative.\n";
+  echo "Skipping authoritative.\n";
   return;
 }
 

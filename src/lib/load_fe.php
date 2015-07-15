@@ -10,7 +10,7 @@ $answer = promptYesNo(
   );
 
 if (!$answer) {
-  echo "Skpping FE.\n";
+  echo "Skipping FE.\n";
   return;
 }
 
