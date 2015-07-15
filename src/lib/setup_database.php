@@ -40,34 +40,14 @@ $defaultDataDir = implode(DIRECTORY_SEPARATOR, array(
 
 $dbInstaller = DatabaseInstaller::getInstaller($DB_DSN, $username, $password);
 
-$answer = promptYesNo("Would you like to create the database schema", true);
+$answer = promptYesNo("Would you like to create the database", true);
 
 if ($answer) {
 
-  $answer = promptYesNo("\nLoading the schema removes any existing schema " .
-      "and/or data.\nAre you sure you wish to continue", false);
+  $answer = promptYesNo("\nCreating the database will remove any existing " .
+      "schema and/or data.\nAre you sure you wish to continue", false);
 
   if ($answer) {
-
-    // ----------------------------------------------------------------------
-    // Prompt for create/drop sql scripts
-    // ----------------------------------------------------------------------
-
-    $schemaScript = configure('SCHEMA_SCRIPT',
-        $defaultScriptDir . DIRECTORY_SEPARATOR . 'create_tables.sql',
-        "SQL script containing \"create\" schema definition");
-    if (!file_exists($schemaScript)) {
-      print "The indicated script does not exist. Please try again.\n";
-      exit(-1);
-    }
-
-    $dropSchemaScript = configure('SCHEMA_SCRIPT',
-        str_replace('create_tables.sql', 'drop_tables.sql', $schemaScript),
-        "SQL script containing \"drop\" schema definition");
-    if (!file_exists($dropSchemaScript)) {
-      print "The indicated script does not exist. Please try again.\n";
-      exit(-1);
-    }
 
     // ----------------------------------------------------------------------
     // Drop Database
@@ -79,28 +59,21 @@ if ($answer) {
     // Create Database
     // ----------------------------------------------------------------------
 
-    // make sure database exists
+    // make sure database doesn't exists
     if (!$dbInstaller->databaseExists()) {
       $dbInstaller->createDatabase();
     }
 
-
     // ----------------------------------------------------------------------
-    // Create Schema
+    // Create Users
     // ----------------------------------------------------------------------
 
-    echo 'Loading schema ... ';
-    // run drop tables
-    $dbInstaller->runScript($dropSchemaScript);
-    // create schema
-    $dbInstaller->runScript($schemaScript);
-    // create read user
+    // read-only user
     $dbInstaller->createUser(array('SELECT'), $CONFIG['DB_USER'], $CONFIG['DB_PASS']);
 
     echo "SUCCESS!!\n";
 
   }
-
 }
 
 
@@ -110,8 +83,17 @@ if ($answer) {
 
 include_once 'load_geonames.php';
 include_once 'load_fe.php';
-include_once 'load_global_admin.php';
+include_once 'load_admin.php';
 include_once 'load_authoritative.php';
+
+
+// ----------------------------------------------------------------------
+// Grant Roles
+// ----------------------------------------------------------------------
+
+// read-only access
+$dbInstaller->grantRoles(array('SELECT'), $CONFIG['DB_USER']);
+
 
 // ----------------------------------------------------------------------
 // End of database setup

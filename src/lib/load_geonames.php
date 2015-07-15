@@ -13,15 +13,19 @@ if (!$answer) {
   return;
 }
 
-$answer = promptYesNo("The schema must already exist in order to " .
-    "load geonames data, continue", true);
+$answer = promptYesNo("The tables must already exist in order to " .
+    "load geonames data, create tables", true);
 
-if (!$answer) {
-  echo "Skipping geonames.\n";
-  return;
+if ($answer) {
+  $geonamesSql = configure('GEONAMES_SQL',
+      $defaultScriptDir . DIRECTORY_SEPARATOR . 'geonames.sql',
+      "Geonames schema script");
+  $dbInstaller->runScript($geonamesSql);
+  echo "Success!!\n";
 }
 
 // download geoname data
+echo "\nDownloading and loading geonames data:\n";
 $url = configure('GEONAMES_URL', 'http://download.geonames.org/export/dump/',
     "Geonames download url");
 $filenames = array('cities1000.zip', 'US.zip', 'admin1CodesASCII.txt',
