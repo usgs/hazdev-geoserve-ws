@@ -4,14 +4,26 @@ include_once $CLASSES_DIR . '/GeoserveCallback.class.php';
 
 
 /**
- * A callback to stream places from a PlacesFactory.
+ * A callback to stream regions from RegionsFactory.
+ *
+ * Outputs JSON formatted region information.
  */
 class RegionsCallback extends GeoserveCallback {
 
   /**
-   * Called for each place found by the index.
+   * Called for each region found by the index.
    *
-   * @param $item an associative array of place properties.
+   * @param $item {Array}
+   *        an associative array of region properties.
+   *        Except for the following properties, all keys/values are output as
+   *        feature properties.
+   *
+   *        $item['id'] {String|Number}
+   *            default null.
+   *            output as feature id.
+   *        $item['shape'] {String}
+   *            default null.
+   *            output as feature geometry.
    */
   public function onItem ($item) {
     $properties = array();
@@ -51,8 +63,15 @@ class RegionsCallback extends GeoserveCallback {
   /**
    * Formats shape data to json.
    *
-   * @param $shape
-   *        polygon data.
+   * Because WKT and GeoJSON geometry information is similar
+   * (longitude before latitude), this method uses string replacement and
+   * does not interpret any of the actual coordinates.
+   *
+   * @param $shape {String}
+   *        (multi)polygon data in Well-Known-Text (WKT) format.
+   * @return {String}
+   *         JSON string representing geometry.
+   *         "null" if $shape is null, or a formatted geometry.
    */
   public function getGeometry ($shape) {
     if ($shape === null) {
