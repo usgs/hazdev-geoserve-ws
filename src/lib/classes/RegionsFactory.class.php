@@ -25,7 +25,7 @@ class RegionsFactory extends GeoserveFactory {
 
     $data = array();
     if ($query->type === null || in_array('fe', $query->type)) {
-      $this->getFE($query, $callback);
+      $data['fe'] = $this->getFE($query, $callback);
     }
 
     if ($callback !== null) {
