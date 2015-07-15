@@ -155,6 +155,32 @@ if (!isset($TEMPLATE)) {
         Only return places with a minimum of this number of people.
       </td>
     </tr>
+    <tr id="type">
+      <th><code>type</code></th>
+      <td>String</td>
+      <td>
+        The type of search being performed.
+
+        <dl class="vertical places-type">
+          <dt>geonames [default]</dt>
+          <dd>
+            A generic query where any combination of parameters may be
+            specified.
+          </dd>
+          <dt>event</dt>
+          <dd>
+            Returns the five nearby places displayed on the earthquake
+            event pages. All parameters other than latitude/longitude
+            are ignored.
+          </dd>
+        </dl>
+
+        <span class="note">
+          If type="event" is specified, then maxradiuskm is no
+          longer a required field.
+        </span>
+      </td>
+    </tr>
   </tbody>
 </table>
 
