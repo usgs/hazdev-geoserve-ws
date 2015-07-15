@@ -82,7 +82,7 @@ class RegionsFactory extends GeoserveFactory {
       $sql .= ', ST_AsText(shape) as shape';
     }
 
-    $sql .= ' FROM search, globaladmin' .
+    $sql .= ' FROM search, admin' .
         ' WHERE search.point && shape' .
         ' ORDER BY ST_Area(shape) ASC';
 
