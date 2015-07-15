@@ -5,6 +5,8 @@ include_once $CLASSES_DIR . '/GeoserveFactory.class.php';
 
 class PlacesFactory extends GeoserveFactory {
 
+  protected static $SUPPORTED_TYPES = array('event', 'geonames');
+
   /**
    * Get nearby places.
    *
@@ -27,15 +29,20 @@ class PlacesFactory extends GeoserveFactory {
       $callback->onStart($query);
     }
 
-    if ($query->type === 'event') {
-      $this->getEventPlaces($query, $callback);
-    } else {
+    $data = array();
+
+    if ($query->type === null || in_array('event', $query->type)) {
+      $data['event'] = $this->getEventPlaces($query, $callback);
+    }
+
+    if ($query->type === null || in_array('geonames', $query->type)) {
+      // determine circle or rectangle
       if ($query->latitude !== null && $query->longitude !== null &&
           $query->maxradiuskm !== null) {
-        $this->getByCircle($query, $callback);
+        $data['geonames'] = $this->getByCircle($query, $callback);
       } else if ($query->minlatitude !== null && $query->maxlatitude !== null &&
           $query->minlongitude !== null && $query->maxlongitude !== null) {
-        $this->getByRectangle($query, $callback);
+        $data['geonames'] = $this->getByRectangle($query, $callback);
       }
     }
 
@@ -241,6 +248,14 @@ class PlacesFactory extends GeoserveFactory {
       // return all places
       return $eventplaces;
     }
+  }
+
+  /**
+   * @return {Array}
+   *         An array of supported types
+   */
+  public function getSupportedTypes () {
+    return PlacesFactory::$SUPPORTED_TYPES;
   }
 
   /**

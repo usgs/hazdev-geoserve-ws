@@ -16,6 +16,6 @@ class PlacesQuery {
   public $maxradiuskm = null;
   public $minpopulation = null;
   public $limit = null;
-  public $type = 'geonames';
+  public $type = null;
 
 }

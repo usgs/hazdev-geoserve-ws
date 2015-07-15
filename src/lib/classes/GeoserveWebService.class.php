@@ -145,7 +145,7 @@ class GeoserveWebService {
     $query = new PlacesQuery();
     $circleSearch = false;
     $rectangleSearch = false;
-    $types = array('event','geonames');
+    $types = $this->placesFactory->getSupportedTypes();
 
     foreach ($params as $name => $value) {
       if ($value === '') {
