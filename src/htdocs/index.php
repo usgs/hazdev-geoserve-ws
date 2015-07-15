@@ -261,3 +261,99 @@ if (!isset($TEMPLATE)) {
   echo '<pre><code><a href="', $url, '">', $url, '</a></code></pre>';
 ?>
 
+
+<h3>Example Output</h3>
+<p>
+  Below is some example output that shows the nested GeoJSON structure.
+  Each type has a nested GeoJSON FeatureCollection that may contain multiple
+  GeoJSON features.
+</p>
+
+<div class="row">
+  <div class="column one-of-two">
+    <h4>Generic Output</h4>
+    <pre><code>{
+  &lt;type&gt;: {
+    type: "FeatureCollection",
+    features: [
+      {
+        type: "Feature",
+        id: &lt;id&gt;,
+        properties: {
+          &lt;feature properties&gt;,
+          ...
+        },
+        geometry: {
+          type: "Point",
+          coordinates: [
+            &lt;longitude&gt;,
+            &lt;latitude&gt;,
+            &lt;elevation&gt;
+          ]
+        },
+        metadata: {
+          count: &lt;count&gt;
+        }
+      }
+    ]
+  },
+  metadata: {
+    generated: &lt;millisecond timestamp&gt;
+    status: &lt;HTTP status code&gt;,
+    url: &lt;web service request URL&gt;
+    version: &lt;web service version number&gt;
+    types: [
+      &lt;point type&gt;, ...
+    ]
+  }
+}</pre></code>
+
+  </div>
+  <div class="column one-of-two">
+    <h4>Sample Output</h4>
+    <pre><code>{
+  geonames: {
+    type: "FeatureCollection",
+    features: [
+      {
+        type: "Feature",
+        id: 4960263,
+        properties: {
+          admin1_code: "ME",
+          admin1_name: "Maine",
+          azimuth: 254.4,
+          country_code: "US",
+          country_name: "United States",
+          distance: 9.156,
+          feature_class: "P",
+          feature_code: "PPL",
+          name: "Carrabassett",
+          population: 0
+        },
+        geometry: {
+          type: "Point",
+          coordinates: [
+            -70.21201,
+            45.07783,
+            254
+          ]
+        }
+      }
+    ],
+    metadata: {
+      count: 1
+    }
+  },
+  metadata: {
+    generated: "1436986115000",
+    status: 200,
+    url: "http://localhost:8100/ws/geoserve/places?latitude=45.1&amp;longitude=-70.1&amp;maxradiuskm=10",
+    version: "0.0.1",
+    types: [
+      "geonames"
+    ]
+  }
+}</code></pre>
+
+  </div>
+</div>
