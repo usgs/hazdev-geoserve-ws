@@ -36,8 +36,6 @@ class PlacesFactory extends GeoserveFactory {
       } else if ($query->minlatitude !== null && $query->maxlatitude !== null &&
           $query->minlongitude !== null && $query->maxlongitude !== null) {
         $this->getByRectangle($query, $callback);
-      } else {
-        throw new Exception('Neither circle nor rectangle parameters provided.');
       }
     }
 
