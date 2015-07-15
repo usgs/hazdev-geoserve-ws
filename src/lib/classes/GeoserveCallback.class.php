@@ -1,7 +1,18 @@
 <?php
 
 /**
- * A callback to stream places from a GeoserveFactory.
+ * A callback to stream places or regions from a GeoserveFactory.
+ *
+ * Outputs JSON formatted places or regions.
+ *
+ * Expected call order:
+ * - onStart()
+ * for each type of information:
+ *    - onTypeStart()
+ *    for each item within type:
+ *      - onItem()
+ *    - onTypeEnd()
+ * - onEnd()
  */
 class GeoserveCallback {
 
@@ -31,7 +42,7 @@ class GeoserveCallback {
   }
 
   /**
-   * Called when a query is successful, before the first onPlace call.
+   * Called when a query is successful, before the first onTypeStart call.
    *
    * @param $query the query that executed and is about to generate events.
    */
@@ -42,9 +53,9 @@ class GeoserveCallback {
   }
 
   /**
-  * Formats type
+  * Start a type feature collection.
   *
-  * @param $name
+  * @param $name type name.
   */
   public function onTypeStart($name) {
     if (count($this->types) !== 0) {
@@ -58,9 +69,13 @@ class GeoserveCallback {
   }
 
   /**
-  * Formats item.
+  * Formats one feature within the feature collection.
   *
-  * @param $item
+  * Subclasses should override this method to either make $item a
+  * Feature like array, or output a feature for the collection.
+  *
+  * @param $item {Array}
+  *        place or region.
   */
   public function onItem ($item) {
     if ($this->count !== 0) {
@@ -70,8 +85,20 @@ class GeoserveCallback {
     echo json_encode($item);
   }
 
+
   /**
-   * Called after the last onItem call.
+   * End a type feature collection.
+   */
+  public function onTypeEnd() {
+    echo '],' .
+        '"metadata":{' .
+          '"count":' . $this->count .
+        '}' .
+      '}';
+  }
+
+  /**
+   * Called when no more data will be output.
    */
   public function onEnd() {
     global $CONFIG;
@@ -94,14 +121,4 @@ class GeoserveCallback {
         '}';
   }
 
-  /**
-   * Formats and shows count.
-   */
-  public function onTypeEnd() {
-    echo '],' .
-        '"metadata":{' .
-          '"count":' . $this->count .
-        '}' .
-      '}';
-  }
 }
