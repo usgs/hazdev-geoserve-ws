@@ -41,6 +41,11 @@ class GeoserveCallback {
     echo '{';
   }
 
+  /**
+  * Formats type
+  *
+  * @param $name
+  */
   public function onTypeStart($name) {
     if (count($this->types) !== 0) {
       echo ',';
@@ -52,6 +57,11 @@ class GeoserveCallback {
         ',"features": [';
   }
 
+  /**
+  * Formats item.
+  *
+  * @param $item
+  */
   public function onItem ($item) {
     if ($this->count !== 0) {
       echo ',';
@@ -84,6 +94,9 @@ class GeoserveCallback {
         '}';
   }
 
+  /**
+   * Formats and shows count.
+   */
   public function onTypeEnd() {
     echo '],' .
         '"metadata":{' .
