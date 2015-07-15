@@ -48,6 +48,12 @@ class RegionsCallback extends GeoserveCallback {
     $this->count++;
   }
 
+  /**
+   * Formats shape data to json.
+   *
+   * @param $shape
+   *        polygon data.
+   */
   public function getGeometry ($shape) {
     if ($shape === null) {
       return 'null';
