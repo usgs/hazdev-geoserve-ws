@@ -31,7 +31,7 @@ if (!isset($TEMPLATE)) {
   }
 
 
-  $TITLE = 'Region Search API Documentation';
+  $TITLE = 'Regions API Documentation';
   $NAVIGATION = true;
   $HEAD = '<link rel="stylesheet" href="index.css"/>';
 
@@ -39,7 +39,7 @@ if (!isset($TEMPLATE)) {
 }
 ?>
 
-<h2>Region Search</h2>
+<h2>Regions</h2>
 <p>
   A Regions Search takes the following form:
 </p>
