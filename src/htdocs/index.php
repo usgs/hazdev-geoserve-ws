@@ -34,7 +34,7 @@ if (!isset($TEMPLATE)) {
   }
 
 
-  $TITLE = 'Geoserve API Documentation';
+  $TITLE = 'Places Documentation';
   $NAVIGATION = true;
   $HEAD = '<link rel="stylesheet" href="index.css"/>';
 
@@ -42,14 +42,17 @@ if (!isset($TEMPLATE)) {
 }
 ?>
 
-
-<h2>Places</h2>
-
 <p>
-  The data returned from this portion of the web service is from the
-  <a href="http://www.geonames.org/">Geonames geographical database</a>.
+  The places enpoint allows users to search for places within a certian
+  distance of a geographical point (circle search), or users can search for
+  places within a latitude/longitudinal range (rectangle/box search).
 </p>
 
+<p>
+  Data returned by the Geoserve Web Service <em>places</em> endpoint is
+  provided by the <a href="http://www.geonames.org/">Geonames</a> geographical
+  database.
+</p>
 
 <h3>Requests</h3>
 <p>
@@ -63,24 +66,24 @@ if (!isset($TEMPLATE)) {
 ?>
 <h4>Examples</h4>
 
-<h5>Five nearest places within 100km of a point</h5>
+<p>Five nearest places within 100km of a point</p>
 <?php
   $url = $HOST_URL_PREFIX . $MOUNT_PATH .
       '/places?latitude=39.75&longitude=-105.2&maxradiuskm=100&limit=5';
-  echo '<pre><code><a href="', $url, '">', $url, '</a></code></pre>';
+  echo '<a href="', $url, '">', $url, '</a>';
 ?>
 
-<h5>All places within 100km of a point with at least 1,000 people</h5>
+<p>All places within 100km of a point with at least 1,000 people</p>
 <?php
   $url = $HOST_URL_PREFIX . $MOUNT_PATH .
       '/places?latitude=39.75&longitude=-105.2&maxradiuskm=100&minpopulation=1000';
-  echo '<pre><code><a href="', $url, '">', $url, '</a></code></pre>';
+  echo '<a href="', $url, '">', $url, '</a>';
 ?>
 
 <h4>Required Parameters</h4>
 <p>
   When performing a places search the bounds can be limited by defining a
-  circle (latitude, longitude, and radius) or by defining a rectangle
+  circle (latitude, longitude, and maxradiuskm) or by defining a rectangle
   (minlatitude, maxlatitude, minlongitude, maxlongitude).
 </p>
 
@@ -101,20 +104,20 @@ if (!isset($TEMPLATE)) {
             <code>latitude</code>
           </th>
           <td>
-            Latitude in decimal degrees. [-90,90] degrees.
+            Latitude in decimal degrees [-90,90].
           </td>
         </tr>
         <tr id="longitude">
           <th><code>longitude</code></th>
           <td>
-            Longitude in decimal degrees. [-180,180] degrees.
+            Longitude in decimal degrees [-180,180].
           </td>
         </tr>
         <tr id="maxradiuskm">
           <th><code>maxradiuskm</code></th>
           <td>
-            Search radius (in kilometers) from
-            <code>latitude</code>, <code>longitude</code>.
+            Search radius (in kilometers) from the center point
+            (latitude, longitude).
           </td>
         </tr>
       </tbody>
@@ -136,7 +139,7 @@ if (!isset($TEMPLATE)) {
             <code>minlatitude</code>
           </th>
           <td>
-            Latitude in decimal degrees. [-90,90] degrees.
+            Latitude in decimal degrees [-90,90].
           </td>
         </tr>
         <tr id="maxlatitude">
@@ -144,19 +147,19 @@ if (!isset($TEMPLATE)) {
             <code>maxlatitude</code>
           </th>
           <td>
-            Latitude in decimal degrees. [-90,90] degrees.
+            Latitude in decimal degrees [-90,90].
           </td>
         </tr>
         <tr id="minlongitude">
           <th><code>minlongitude</code></th>
           <td>
-            Longitude in decimal degrees. [-180,180] degrees.
+            Longitude in decimal degrees [-180,180].
           </td>
         </tr>
         <tr id="maxlongitude">
           <th><code>maxlongitude</code></th>
           <td>
-            Longitude in decimal degrees. [-180,180] degrees.
+            Longitude in decimal degrees [-180,180].
           </td>
         </tr>
       </tbody>
@@ -272,6 +275,13 @@ if (!isset($TEMPLATE)) {
         In the United States, this is the state.
       </td>
     </tr>
+    <tr id="admin1_name">
+      <th><code>admin1_name</code></th>
+      <td>String</span></td>
+      <td>
+        TODO
+      </td>
+    </tr>
     <tr id="azimuth">
       <th><code>azimuth</code></th>
       <td>Decimal</td>
@@ -280,11 +290,39 @@ if (!isset($TEMPLATE)) {
         the place. [0, 360] degrees.
       </td>
     </tr>
+    <tr id="country_code">
+      <th><code>country_code</code></th>
+      <td>String</td>
+      <td>
+        TODO
+      </td>
+    </tr>
+    <tr id="country_name">
+      <th><code>country_name</code></th>
+      <td>String</td>
+      <td>
+        TODO
+      </td>
+    </tr>
     <tr id="distance">
       <th><code>distance</code></th>
       <td>Decimal</td>
       <td>
         Distance in meters from search point to the place.
+      </td>
+    </tr>
+    <tr id="feature_class">
+      <th><code>feature_class</code></th>
+      <td>String</td>
+      <td>
+        TODO
+      </td>
+    </tr>
+    <tr id="feature_code">
+      <th><code>feature_code</code></th>
+      <td>String</td>
+      <td>
+        TODO
       </td>
     </tr>
     <tr id="name">
