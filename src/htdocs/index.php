@@ -44,6 +44,14 @@ if (!isset($TEMPLATE)) {
 
 
 <h2>Places</h2>
+
+<p>
+  The data returned from this portion of the web service is from the
+  <a href="http://www.geonames.org/">Geonames geographical database</a>.
+</p>
+
+
+<h3>Requests</h3>
 <p>
   A geoserve <em>places</em> search takes the following form:
 </p>
@@ -53,56 +61,108 @@ if (!isset($TEMPLATE)) {
       '?<em>parameters</em>',
       '</code></pre>';
 ?>
-<p>
-  The data returned from this portion of the web service is from the
-  <a href="http://www.geonames.org/">Geonames geographical database</a>.
-</p>
+<h4>Examples</h4>
 
+<h5>Five nearest places within 100km of a point</h5>
+<?php
+  $url = $HOST_URL_PREFIX . $MOUNT_PATH .
+      '/places?latitude=39.75&longitude=-105.2&maxradiuskm=100&limit=5';
+  echo '<pre><code><a href="', $url, '">', $url, '</a></code></pre>';
+?>
 
-<h3>Request Parameters</h3>
-<p>
-  All parameters must be passed in the query string.
-  Only listed parameters may be used, others will generate an error.
-  Empty values for these parameters are supported.
-</p>
-
+<h5>All places within 100km of a point with at least 1,000 people</h5>
+<?php
+  $url = $HOST_URL_PREFIX . $MOUNT_PATH .
+      '/places?latitude=39.75&longitude=-105.2&maxradiuskm=100&minpopulation=1000';
+  echo '<pre><code><a href="', $url, '">', $url, '</a></code></pre>';
+?>
 
 <h4>Required Parameters</h4>
-<table class="tabular parameters responsive">
-  <thead>
-    <tr>
-      <th>parameter</th>
-      <th>type</th>
-      <th>description</th>
-    </tr>
-  </thead>
-  <tbody class="no-header-style">
-    <tr id="latitude">
-      <th>
-        <code>latitude</code>
-      </th>
-      <td>Decimal</td>
-      <td>
-        Latitude in decimal degrees. [-90,90] degrees.
-      </td>
-    </tr>
-    <tr id="longitude">
-      <th><code>longitude</code></th>
-      <td>Decimal</td>
-      <td>
-        Longitude in decimal degrees. [-180,180] degrees.
-      </td>
-    </tr>
-    <tr id="maxradiuskm">
-      <th><code>maxradiuskm</code></th>
-      <td>Decimal</td>
-      <td>
-        Search radius (in kilometers) from
-        <code>latitude</code>, <code>longitude</code>.
-      </td>
-    </tr>
-  </tbody>
-</table>
+<p>
+  When performing a places search the bounds can be limited by defining a
+  circle (latitude, longitude, and radius) or by defining a rectangle
+  (minlatitude, maxlatitude, minlongitude, maxlongitude).
+</p>
+
+
+<div class="row">
+  <div class="column one-of-two">
+    <h5>Circle</h5>
+    <table class="tabular parameters responsive">
+      <thead>
+        <tr>
+          <th>parameter</th>
+          <th>description</th>
+        </tr>
+      </thead>
+      <tbody class="no-header-style">
+        <tr id="latitude">
+          <th>
+            <code>latitude</code>
+          </th>
+          <td>
+            Latitude in decimal degrees. [-90,90] degrees.
+          </td>
+        </tr>
+        <tr id="longitude">
+          <th><code>longitude</code></th>
+          <td>
+            Longitude in decimal degrees. [-180,180] degrees.
+          </td>
+        </tr>
+        <tr id="maxradiuskm">
+          <th><code>maxradiuskm</code></th>
+          <td>
+            Search radius (in kilometers) from
+            <code>latitude</code>, <code>longitude</code>.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="column one-of-two">
+    <h5>Rectangle</h5>
+    <table class="tabular parameters responsive">
+      <thead>
+        <tr>
+          <th>parameter</th>
+          <th>description</th>
+        </tr>
+      </thead>
+      <tbody class="no-header-style">
+        <tr id="minlatitude">
+          <th>
+            <code>minlatitude</code>
+          </th>
+          <td>
+            Latitude in decimal degrees. [-90,90] degrees.
+          </td>
+        </tr>
+        <tr id="maxlatitude">
+          <th>
+            <code>maxlatitude</code>
+          </th>
+          <td>
+            Latitude in decimal degrees. [-90,90] degrees.
+          </td>
+        </tr>
+        <tr id="minlongitude">
+          <th><code>minlongitude</code></th>
+          <td>
+            Longitude in decimal degrees. [-180,180] degrees.
+          </td>
+        </tr>
+        <tr id="maxlongitude">
+          <th><code>maxlongitude</code></th>
+          <td>
+            Longitude in decimal degrees. [-180,180] degrees.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
 
 
 <h4>Optional Parameters</h4>
@@ -243,23 +303,6 @@ if (!isset($TEMPLATE)) {
     </tr>
   </tbody>
 </table>
-
-
-<h3>Example Requests</h3>
-
-<h4>Five nearest places within 100km of a point</h4>
-<?php
-  $url = $HOST_URL_PREFIX . $MOUNT_PATH .
-      '/places?latitude=39.75&longitude=-105.2&maxradiuskm=100&limit=5';
-  echo '<pre><code><a href="', $url, '">', $url, '</a></code></pre>';
-?>
-
-<h4>All places within 100km of a point with at least 1,000 people</h4>
-<?php
-  $url = $HOST_URL_PREFIX . $MOUNT_PATH .
-      '/places?latitude=39.75&longitude=-105.2&maxradiuskm=100&minpopulation=1000';
-  echo '<pre><code><a href="', $url, '">', $url, '</a></code></pre>';
-?>
 
 
 <h3>Example Output</h3>
