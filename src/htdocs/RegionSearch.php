@@ -30,7 +30,6 @@ if (!isset($TEMPLATE)) {
     return;
   }
 
-
   $TITLE = 'Regions API Documentation';
   $NAVIGATION = true;
   $HEAD = '<link rel="stylesheet" href="index.css"/>';
@@ -99,10 +98,17 @@ if (!isset($TEMPLATE)) {
    <tbody class="no-header-style">
      <tr id="limit">
        <th><code>includeGeometry</code></th>
-       <td>boolean</td>
+       <td>Boolean</td>
        <td>
          Set to true returns poloygon points of the selected region.
        </td>
+     </tr>
+     <tr id="limit">
+      <th><code>type</code></th>
+      <td>String</td>
+      <td>
+        Region Types (admin, authoritative, fe, neic).
+      </td>
      </tr>
    </tbody>
  </table>
@@ -124,3 +130,12 @@ if (!isset($TEMPLATE)) {
        '/regions?latitude=39.5&longitude=-105&includeGeometry=true';
    echo '<pre><code><a href="', $url, '">', $url, '</a></code></pre>';
  ?>
+
+<h4>
+  Region search at latitude 39.5, longitude -105, type set to fe.
+</h4>
+<?php
+  $url = $HOST_URL_PREFIX . $MOUNT_PATH .
+      '/regions?latitude=39.5&longitude=-105&type=fe';
+  echo '<pre><code><a href="', $url, '">', $url, '</a></code></pre>';
+?>
