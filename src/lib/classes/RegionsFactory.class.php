@@ -165,32 +165,4 @@ class RegionsFactory extends GeoserveFactory {
     return $this->execute($sql, $params);
   }
 
-  /**
-   * Execute and return associative array of data.
-   *
-   * @param $sql {String}
-   *        SQL to execute, with named or anonymous parameter placeholders.
-   * @param $params {Array}
-   *        parameter values.
-   * @return {Array<Array>}
-   *         array containing one array per row.
-   * @throws {Exception} if errors occur.
-   */
-  protected function execute($sql, $params) {
-    $db = $this->connect();
-    $query = $db->prepare($sql);
-    if (!$query->execute($params)) {
-      // handle error
-      $errorInfo = $db->errorInfo();
-      throw new Exception($errorInfo[2]);
-    } else {
-      try {
-        // return all matching rows
-        return $query->fetchAll(PDO::FETCH_ASSOC);
-      } finally {
-        $query->closeCursor();
-      }
-    }
-  }
-
 }
