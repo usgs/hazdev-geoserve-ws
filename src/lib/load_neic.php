@@ -26,7 +26,7 @@ echo "\nDownloading and loading NEIC data:\n";
 $url = configure('NEIC_URL',
     'ftp://hazards.cr.usgs.gov/web/hazdev-geoserve-ws/neic/',
     "NEIC download url");
-$filenames = array('neic_catalog.dat', 'neic_response.dat');
+$filenames = array('neiccatalog.dat', 'neicresponse.dat');
 $download_path = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'neic'
     . DIRECTORY_SEPARATOR;
 
