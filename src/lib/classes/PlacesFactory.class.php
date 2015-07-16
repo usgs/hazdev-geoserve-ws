@@ -25,10 +25,6 @@ class PlacesFactory extends GeoserveFactory {
    *         is not specified.
    */
   public function get ($query, $callback=null) {
-    if ($callback !== null) {
-      $callback->onStart($query);
-    }
-
     $data = array();
 
     if ($query->type === null || in_array('event', $query->type)) {
@@ -46,11 +42,7 @@ class PlacesFactory extends GeoserveFactory {
       }
     }
 
-    if ($callback !== null) {
-      $callback->onEnd();
-    } else {
-      return $data;
-    }
+    return $data;
   }
 
   /**
@@ -110,7 +102,7 @@ class PlacesFactory extends GeoserveFactory {
     }
 
     // execute query
-    return $this->_execute($sql, $params, $callback);
+    return $this->execute($sql, $params);
   }
 
   /**
@@ -182,7 +174,7 @@ class PlacesFactory extends GeoserveFactory {
     }
 
     // execute query
-    return $this->_execute($sql, $params, $callback);
+    return $this->execute($sql, $params);
   }
 
   /**
@@ -239,18 +231,8 @@ class PlacesFactory extends GeoserveFactory {
       $eventplaces = array_merge($eventplaces, $capital);
     }
 
-    /*** output geojson ***/
-    if ($callback !== null) {
-      // use callback
-      $callback->onTypeStart('event');
-      for ($i = 0; $i < count($eventplaces); $i++) {
-        $callback->onItem($eventplaces[$i], $this);
-      }
-      $callback->onTypeEnd();
-    } else {
-      // return all places
-      return $eventplaces;
-    }
+    // return all places
+    return $eventplaces;
   }
 
   /**
@@ -274,42 +256,6 @@ class PlacesFactory extends GeoserveFactory {
     if ($query->featurecode !== null) {
       $where[] = 'geoname.feature_code = :featurecode';
       $params[':featurecode'] = $query->featurecode;
-    }
-  }
-
-  /**
-   * Excutes the query either invoking the callback if provided or returning
-   * the result set otherwise.
-   *
-   */
-  private function _execute ($sql, $params, $callback = null) {
-    $db = $this->connect();
-    $query = $db->prepare($sql);
-
-    if (!$query->execute($params)) {
-      // handle error
-      $errorInfo = $db->errorInfo();
-      if ($callback !== null) {
-        $callback->onError($errorInfo);
-      } else {
-        throw new Exception($errorInfo[2]);
-      }
-    } else {
-      try {
-        if ($callback !== null) {
-          $callback->onTypeStart('geonames');
-
-          while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
-            $callback->onPlace($row, $this);
-          }
-
-          $callback->onTypeEnd();
-        } else {
-          return $query->fetchAll(PDO::FETCH_ASSOC);
-        }
-      } finally {
-        $query->closeCursor();
-      }
     }
   }
 

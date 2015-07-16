@@ -16,7 +16,7 @@ if (!isset($TEMPLATE)) {
     $usage = false;
     $method = param('method');
     if ($method === 'places') {
-      $SERVICE->places();
+      $SERVICE->places($_GET);
     } else if ($method === 'regions') {
       $SERVICE->regions($_GET);
     } else {

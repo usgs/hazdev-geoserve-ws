@@ -1,6 +1,6 @@
 <?php
 
-include_once $CLASSES_DIR . '/PlacesCallback.class.php';
+include_once $CLASSES_DIR . '/PlacesFormatter.class.php';
 include_once $CLASSES_DIR . '/PlacesQuery.class.php';
 
 include_once $CLASSES_DIR . '/RegionsFormatter.class.php';
@@ -37,18 +37,11 @@ class GeoserveWebService {
   }
 
 
-  public function places () {
-    global $APP_DIR;
-    global $HOST_URL_PREFIX;
-
-    $callback = new PlacesCallback();
-    $query = $this->parsePlacesQuery();
-
-    // cache results for 1 hour
-    $CACHE_MAXAGE = 3600;
-    include $APP_DIR . '/lib/cache.inc.php';
-
-    $this->placesFactory->get($query, $callback);
+  public function places ($params) {
+    $placesFormatter = new PlacesFormatter();
+    $placesQuery = $this->parsePlacesQuery($params);
+    $places = $this->placesFactory->get($placesQuery, null);
+    $this->output($places, $placesFormatter);
   }
 
   public function regions ($params) {
@@ -140,8 +133,7 @@ class GeoserveWebService {
   }
 
 
-  public function parsePlacesQuery () {
-    $params = $_GET;
+  public function parsePlacesQuery ($params) {
     $query = new PlacesQuery();
     $circleSearch = false;
     $rectangleSearch = false;
