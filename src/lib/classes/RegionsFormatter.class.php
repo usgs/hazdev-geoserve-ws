@@ -57,39 +57,4 @@ class RegionsFormatter extends GeoserveFormatter {
     return $feature;
   }
 
-  /**
-   * Formats shape data to json.
-   *
-   * Because WKT and GeoJSON geometry information is similar
-   * (longitude before latitude), this method uses string replacement and
-   * does not interpret any of the actual coordinates.
-   *
-   * @param $shape {String}
-   *        (multi)polygon data in Well-Known-Text (WKT) format.
-   * @return {String}
-   *         JSON string representing geometry.
-   *         "null" if $shape is null, or a formatted geometry.
-   */
-  public function getGeometry ($shape) {
-    if ($shape === null) {
-      return 'null';
-    }
-
-    preg_match('/([^\(]+)\((.*)\)/', $shape, $matches);
-    $type = $matches[1];
-    $coords = $matches[2];
-    $coords = strtr($coords, array(
-      '),(' => '],[',
-      '(' => '[[',
-      ')' => ']]',
-      ',' => '],[',
-      ' ' => ','
-    ));
-    $json = '{' .
-        '"type":"' . ($type === 'POLYGON' ? 'Polygon' : 'MultiPolygon') . '"' .
-        ',"coordinates":[' . $coords . ']' .
-        '}';
-    return $json;
-  }
-
 }
