@@ -145,7 +145,6 @@ class GeoserveWebService {
     $query = new PlacesQuery();
     $circleSearch = false;
     $rectangleSearch = false;
-    $types = $this->placesFactory->getSupportedTypes();
 
     foreach ($params as $name => $value) {
       if ($value === '') {
@@ -154,8 +153,6 @@ class GeoserveWebService {
       } else if ($name === 'method') {
         // used by apache rewrites
         continue;
-      } else if ($name === 'type') {
-        $query->type = $this->validateEnumerated($name, $value, $types);
       } else if ($name ==='latitude' || $name ==='lat') {
         $circleSearch = true;
         $query->latitude = $this->validateFloat($name, $value, -90, 90);
@@ -181,6 +178,15 @@ class GeoserveWebService {
         $query->minpopulation = $this->validateInteger($name, $value, 0, null);
       } else if ($name ==='limit') {
         $query->limit = $this->validateInteger($name, $value, 1, null);
+      } else if ($name === 'type') {
+        $supportedTypes = $this->placesFactory->getSupportedTypes();
+        $types = explode(',', $value);
+        $query->type = array();
+
+        foreach ($types as $type) {
+          $query->type[] = $this->validateEnumerated(
+              $name, $type, $supportedTypes);
+        }
       } else {
         $this->error(self::BAD_REQUEST,
             'Unknown parameter "' . $name . '".');
@@ -234,8 +240,6 @@ class GeoserveWebService {
         continue;
       } else if ($name === 'method') {
         continue;
-      } else if ($name === 'type') {
-        $query->type = $this->validateEnumerated($name, $value, $types);
       } else if ($name === 'latitude') {
         $query->latitude = $this->validateFloat($name, $value, -90, 90);
       } else if ($name === 'longitude') {
