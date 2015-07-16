@@ -1,14 +1,12 @@
 <?php
 
-include_once $CLASSES_DIR . '/GeoserveCallback.class.php';
+include_once $CLASSES_DIR . '/GeoserveFormatter.class.php';
 
 
 /**
- * A callback to stream regions from RegionsFactory.
- *
- * Outputs JSON formatted region information.
+ * Format regions for geoserve web service.
  */
-class RegionsCallback extends GeoserveCallback {
+class RegionsFormatter extends GeoserveFormatter {
 
   /**
    * Called for each region found by the index.
@@ -24,11 +22,14 @@ class RegionsCallback extends GeoserveCallback {
    *        $item['shape'] {String}
    *            default null.
    *            output as feature geometry.
+   * @param $type {String}
+   *        type of region.
+   *        currently unused.
    */
-  public function onItem ($item) {
+  public function formatItem ($item, $type) {
+    $id = null;
     $properties = array();
     $shape = null;
-    $id = null;
 
     foreach ($item as $key => $value) {
       if ($key === 'id') {
@@ -40,24 +41,20 @@ class RegionsCallback extends GeoserveCallback {
       }
     }
 
-    $feature = array(
+    $feature = json_encode(array(
       'type' => 'Feature',
       'id' => $id,
       'geometry' => null,
       'properties' => $properties
-    );
+    ));
 
-    if ($this->count > 0) {
-      echo ',';
-    }
-    $feature = json_encode($feature);
     if ($shape !== null) {
       $feature = str_replace('"geometry":null',
           '"geometry":' . $this->getGeometry($shape),
           $feature);
     }
-    echo $feature;
-    $this->count++;
+
+    return $feature;
   }
 
   /**
@@ -93,4 +90,5 @@ class RegionsCallback extends GeoserveCallback {
         '}';
     return $json;
   }
+
 }

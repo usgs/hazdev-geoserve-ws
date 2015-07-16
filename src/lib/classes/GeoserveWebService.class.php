@@ -3,7 +3,7 @@
 include_once $CLASSES_DIR . '/PlacesCallback.class.php';
 include_once $CLASSES_DIR . '/PlacesQuery.class.php';
 
-include_once $CLASSES_DIR . '/RegionsCallback.class.php';
+include_once $CLASSES_DIR . '/RegionsFormatter.class.php';
 include_once $CLASSES_DIR . '/RegionsQuery.class.php';
 
 
@@ -19,14 +19,12 @@ class GeoserveWebService {
   const BAD_REQUEST = 400;
   const NOT_FOUND = 404;
   const NOT_IMPLEMENTED = 501;
-  const SERVICE_UNAVAILABLE = 503;
 
   // status message text
   public static $statusMessage = array(
     self::BAD_REQUEST => 'Bad Request',
     self::NOT_FOUND => 'Not Found',
     self::NOT_IMPLEMENTED => 'Not Implemented',
-    self::SERVICE_UNAVAILABLE => 'Service Unavailable'
   );
 
 
@@ -54,18 +52,53 @@ class GeoserveWebService {
   }
 
   public function regions ($params) {
-    global $APP_DIR;
-
-    $regionsCallback = new RegionsCallback();
+    $regionsFormatter = new RegionsFormatter();
     $regionsQuery = $this->parseRegionsQuery($params);
+    $regions = $this->regionsFactory->get($regionsQuery, null);
+    $this->output($regions, $regionsFormatter);
+  }
+
+  public function output ($data, $formatter) {
+    global $APP_DIR;
 
     $CACHE_MAXAGE = 3600;
     include $APP_DIR . '/lib/cache.inc.php';
 
-    $this->regionsFactory->get($regionsQuery, $regionsCallback);
+    header('Content-Type: application/json');
+    echo '{';
+
+    // service/request metadata
+    echo '"metadata":' .
+        json_encode(array(
+          'request' => $_SERVER['REQUEST_URI'],
+          'submitted' => gmdate('c'),
+          'types' => array_keys($data),
+          'version' => $this->version
+        ));
+
+    foreach ($data as $type => $items) {
+      $formatted = array();
+      foreach ($items as $item) {
+        $formatted[] = $formatter->formatItem($item, $type);
+      }
+
+      // each type is a separate feature collection
+      echo ',"' . $type . '":' .
+          '{' .
+            '"type":"FeatureCollection",' .
+            '"count":' . count($items) . ',' .
+            '"features":[' .
+              implode(',', $formatted) .
+            ']' .
+          '}';
+    }
+
+    echo '}';
+
+    exit();
   }
 
-  public function error ($code, $message, $isDetail = false) {
+  public function error ($code, $message) {
     global $APP_DIR;
 
     // only cache errors for 60 seconds
@@ -73,12 +106,13 @@ class GeoserveWebService {
     include $APP_DIR . '/lib/cache.inc.php';
 
     if (isset(self::$statusMessage[$code])) {
-      $codeMessage = ' ' . self::$statusMessage[$code];
+      $codeMessage = self::$statusMessage[$code];
     } else {
       $codeMessage = '';
     }
 
-    header('HTTP/1.0 ' . $code . $codeMessage);
+    header('HTTP/1.0 ' . $code .
+        ($codeMessage !== '' ? ' ' : '') . $codeMessage);
     if ($code < 400) {
       exit();
     }
@@ -86,24 +120,22 @@ class GeoserveWebService {
     global $HOST_URL_PREFIX;
     global $MOUNT_PATH;
 
-    // error message for 400 or 500
-    header('Content-type: text/plain');
-    echo implode("\n", array(
-      'Error ' . $code . ': ' . self::$statusMessage[$code],
-      '',
-      $message,
-      '',
-      'Usage details are available from ' . $HOST_URL_PREFIX . $MOUNT_PATH,
-      '',
-      'Request:',
-      $_SERVER['REQUEST_URI'],
-      '',
-      'Request Submitted:',
-      gmdate('c'),
-      '',
-      'Service version:',
-      $this->version
+    header('Content-type: application/json');
+    echo json_encode(array(
+      'metadata' => array(
+        'request' => $_SERVER['REQUEST_URI'],
+        'submitted' => gmdate('c'),
+        'types' => array(),
+        'version' => $this->version
+      ),
+      'error' => array(
+        'code' => $code,
+        'codeMessage' => $codeMessage,
+        'message' => $message,
+        'usage' => $HOST_URL_PREFIX . $MOUNT_PATH,
+      )
     ));
+
     exit();
   }
 
