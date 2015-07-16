@@ -1,33 +1,33 @@
 <?php
 
 // ----------------------------------------------------------------------
-// Authoritative data download/uncompress
+// NEIC data download/uncompress
 // ----------------------------------------------------------------------
 
 $answer = promptYesNo(
-    "\nUpdating authoritative dataset. Existing data will be deleted, continue?",
+    "\nUpdating NEIC dataset. Existing data will be deleted, continue?",
     true
   );
 
 if (!$answer) {
-  echo "Skipping authoritative.\n";
+  echo "Skipping NEIC.\n";
   return;
 }
 
 
-$authoritativeSql = configure('AUTHORITATIVE_SQL',
-    $defaultScriptDir . DIRECTORY_SEPARATOR . 'authoritative.sql',
-    "Authoritative regions schema script");
-$dbInstaller->runScript($authoritativeSql);
+$neicSql = configure('NEIC_SQL',
+    $defaultScriptDir . DIRECTORY_SEPARATOR . 'neic.sql',
+    "NEIC regions schema script");
+$dbInstaller->runScript($neicSql);
 echo "Success!!\n";
 
-// download authoritative data
-echo "\nDownloading and loading authoritative region data:\n";
-$url = configure('AUTHORITATIVE_URL',
-    'ftp://hazards.cr.usgs.gov/web/hazdev-geoserve-ws/auth/',
-    "Authoritative download url");
-$filenames = array('authregions.dat');
-$download_path = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'auth'
+// download NEIC data
+echo "\nDownloading and loading NEIC data:\n";
+$url = configure('NEIC_URL',
+    'ftp://hazards.cr.usgs.gov/web/hazdev-geoserve-ws/neic/',
+    "NEIC download url");
+$filenames = array('neiccatalog.dat', 'neicresponse.dat');
+$download_path = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'neic'
     . DIRECTORY_SEPARATOR;
 
 // create temp directory
@@ -36,7 +36,7 @@ foreach ($filenames as $filename) {
   $downloaded_file = $download_path . $filename;
   downloadURL($url . $filename, $downloaded_file);
 
-  // uncompress authoritative data
+  // uncompress NEIC data
   if (pathinfo($downloaded_file)['extension'] === 'zip') {
     print 'Extracting ' . $downloaded_file . "\n";
     extractZip($downloaded_file, $download_path);
@@ -45,19 +45,26 @@ foreach ($filenames as $filename) {
 
 
 // ----------------------------------------------------------------------
-// Authoritative data load
+// NEIC data load
 // ----------------------------------------------------------------------
 
-// Authoritative
+// NEIC Catalog
 
-echo "\nLoading authoritative data ... ";
-$dbInstaller->copyFrom($download_path . 'authregions.dat', 'authoritative',
+echo "\nLoading NEIC catalog data ... ";
+$dbInstaller->copyFrom($download_path . 'neiccatalog.dat', 'neic_catalog',
+    array('NULL AS \'\'', 'CSV', 'HEADER'));
+echo "SUCCESS!!\n";
+
+// NEIC Response
+
+echo 'Loading NEIC response data ... ';
+$dbInstaller->copyFrom($download_path . 'neicresponse.dat', 'neic_response',
     array('NULL AS \'\'', 'CSV', 'HEADER'));
 echo "SUCCESS!!\n";
 
 
 // ----------------------------------------------------------------------
-// Authoritative data clean-up
+// NEIC data clean-up
 // ----------------------------------------------------------------------
 
 print 'Cleaning up downloaded data ... ';
