@@ -50,7 +50,7 @@ class RegionsFormatter extends GeoserveFormatter {
 
     if ($shape !== null) {
       $feature = str_replace('"geometry":null',
-          '"geometry":' . $this->getGeometry($shape),
+          '"geometry":' . $shape,
           $feature);
     }
 
@@ -79,6 +79,7 @@ class RegionsFormatter extends GeoserveFormatter {
     $type = $matches[1];
     $coords = $matches[2];
     $coords = strtr($coords, array(
+      '),(' => '],[',
       '(' => '[[',
       ')' => ']]',
       ',' => '],[',

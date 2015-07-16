@@ -75,11 +75,12 @@ class RegionsFactory extends GeoserveFactory {
         ', id';
 
     if ($query->includeGeometry) {
-      $sql .= ', ST_AsText(shape) as shape';
+      $sql .= ', ST_AsGeoJSON(shape) as shape';
     }
 
     $sql .= ' FROM search, admin' .
         ' WHERE search.point && shape' .
+        ' AND ST_Intersects(search.point, shape)' .
         ' ORDER BY ST_Area(shape) ASC';
 
     return $this->execute($sql, $params);
@@ -114,11 +115,12 @@ class RegionsFactory extends GeoserveFactory {
         ', id';
 
     if ($query->includeGeometry) {
-      $sql .= ', ST_AsText(shape) as shape';
+      $sql .= ', ST_AsGeoJSON(shape) as shape';
     }
 
     $sql .= ' FROM search, authoritative' .
         ' WHERE search.point && shape' .
+        ' AND ST_Intersects(search.point, shape)' .
         ' ORDER BY priority ASC';
 
     return $this->execute($sql, $params);
@@ -152,11 +154,12 @@ class RegionsFactory extends GeoserveFactory {
         ', id';
 
     if ($query->includeGeometry) {
-      $sql .= ', ST_AsText(shape) as shape';
+      $sql .= ', ST_AsGeoJSON(shape) as shape';
     }
 
     $sql .= ' FROM search, fe_view' .
         ' WHERE search.point && shape' .
+        ' AND ST_Intersects(search.point, shape)' .
         ' ORDER BY priority ASC, ST_Area(shape) ASC';
 
     return $this->execute($sql, $params);
