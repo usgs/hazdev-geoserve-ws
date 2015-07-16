@@ -14,35 +14,27 @@ class RegionsFactory extends GeoserveFactory {
    * @param $query {RegionsQuery}
    *        query object
    * @param $callback {RegionsCallback}
-   *        callback object
+   *        callback object.
+   *        no longer supported, kept only to conform to GeoserveFactory.
    * @return when callback is not null, nothing
    *         when callback is null:
    *         object of regions keyed by type
    * @throws Exception
    */
-  public function get ($query, $callback = null) {
-    if ($callback !== null) {
-      $callback->onStart($query);
-    }
-
+  public function get ($query, $callback) {
     $data = array();
+
     if ($query->type === null || in_array('admin', $query->type)) {
       $data['admin'] = $this->getAdmin($query, $callback);
     }
-
     if ($query->type === null || in_array('authoritative', $query->type)) {
       $data['authoritative'] = $this->getAuthoritative($query, $callback);
     }
-
     if ($query->type === null || in_array('fe', $query->type)) {
       $data['fe'] = $this->getFE($query, $callback);
     }
 
-    if ($callback !== null) {
-      $callback->onEnd();
-    } else {
-      return $data;
-    }
+    return $data;
   }
 
   /**
@@ -55,16 +47,15 @@ class RegionsFactory extends GeoserveFactory {
 
   /**
    * Get Admin Regions
+   *
    * @param $query {RegionsQuery}
    *        query object
    */
   public function getAdmin ($query, $callback = null ) {
     //Checks for latitude and longitude
     if ($query->latitude === null || $query->longitude === null) {
-      throw new Exception('"latutude", and "longitude" are required');
+      throw new Exception('"latitude", and "longitude" are required');
     }
-    // connect to database
-    $db = $this->connect();
 
     // create sql
     $sql = 'WITH search AS (SELECT' .
@@ -84,39 +75,19 @@ class RegionsFactory extends GeoserveFactory {
         ', id';
 
     if ($query->includeGeometry) {
-      $sql .= ', ST_AsText(shape) as shape';
+      $sql .= ', ST_AsGeoJSON(shape) as shape';
     }
 
     $sql .= ' FROM search, admin' .
         ' WHERE search.point && shape' .
+        ' AND ST_Intersects(search.point, shape)' .
         ' ORDER BY ST_Area(shape) ASC';
 
-    // execute query
-    $query = $db->prepare($sql);
-    if (!$query->execute($params)) {
-      // handle error
-      $errorInfo = $db->errorInfo();
-      throw new Exception($errorInfo[2]);
-    } else {
-      try {
-        if ($callback !== null) {
-          $callback->onTypeStart('admin');
-          while (($row = $query->fetch(PDO::FETCH_ASSOC)) !== false) {
-            $callback->onItem($row);
-          }
-          $callback->onTypeEnd();
-        } else {
-          // return all regions
-          return $query->fetchAll(PDO::FETCH_ASSOC);
-        }
-      } finally {
-        $query->closeCursor();
-      }
-    }
+    return $this->execute($sql, $params);
   }
 
   /**
-  * get Authoritative Regions
+  * Get Authoritative Regions
   *
   * @param $query {RegionsQuery}
   * query object
@@ -126,8 +97,6 @@ class RegionsFactory extends GeoserveFactory {
     if ($query->latitude === null || $query->longitude === null) {
       throw new Exception('"latitude", and "longitude" are required');
     }
-    // connect to database
-    $db = $this->connect();
 
     // create sql
     $sql = 'WITH search AS (SELECT' .
@@ -146,35 +115,15 @@ class RegionsFactory extends GeoserveFactory {
         ', id';
 
     if ($query->includeGeometry) {
-      $sql .= ', ST_AsText(shape) as shape';
+      $sql .= ', ST_AsGeoJSON(shape) as shape';
     }
 
     $sql .= ' FROM search, authoritative' .
         ' WHERE search.point && shape' .
+        ' AND ST_Intersects(search.point, shape)' .
         ' ORDER BY priority ASC';
 
-    // execute query
-    $query = $db->prepare($sql);
-    if (!$query->execute($params)) {
-      // handle error
-      $errorInfo = $db->errorInfo();
-      throw new Exception($errorInfo[2]);
-    } else {
-      try {
-        if ($callback !== null) {
-          $callback->onTypeStart('authoritative');
-          while (($row = $query->fetch(PDO::FETCH_ASSOC)) !== false) {
-            $callback->onItem($row);
-          }
-          $callback->onTypeEnd();
-        } else {
-          // return all regions
-          return $query->fetchAll(PDO::FETCH_ASSOC);
-        }
-      } finally {
-        $query->closeCursor();
-      }
-    }
+    return $this->execute($sql, $params);
   }
 
   /**
@@ -188,8 +137,6 @@ class RegionsFactory extends GeoserveFactory {
     if ($query->latitude === null || $query->longitude === null) {
       throw new Exception('"latitude", and "longitude" are required');
     }
-    // connect to database
-    $db = $this->connect();
 
     // create sql
     $sql = 'WITH search AS (SELECT' .
@@ -207,34 +154,15 @@ class RegionsFactory extends GeoserveFactory {
         ', id';
 
     if ($query->includeGeometry) {
-      $sql .= ', ST_AsText(shape) as shape';
+      $sql .= ', ST_AsGeoJSON(shape) as shape';
     }
 
     $sql .= ' FROM search, fe_view' .
         ' WHERE search.point && shape' .
+        ' AND ST_Intersects(search.point, shape)' .
         ' ORDER BY priority ASC, ST_Area(shape) ASC';
 
-    // execute query
-    $query = $db->prepare($sql);
-    if (!$query->execute($params)) {
-      // handle error
-      $errorInfo = $db->errorInfo();
-      throw new Exception($errorInfo[2]);
-    } else {
-      try {
-        if ($callback !== null) {
-          $callback->onTypeStart('fe');
-          while (($row = $query->fetch(PDO::FETCH_ASSOC)) !== false) {
-            $callback->onItem($row);
-          }
-          $callback->onTypeEnd();
-        } else {
-          // return all regions
-          return $query->fetchAll(PDO::FETCH_ASSOC);
-        }
-      } finally {
-        $query->closeCursor();
-      }
-    }
+    return $this->execute($sql, $params);
   }
+
 }
