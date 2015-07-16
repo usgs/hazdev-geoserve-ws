@@ -5,7 +5,8 @@
 // ----------------------------------------------------------------------
 
 // TODO:: prompt user to download geoname data (cities1000.zip, US.zip)
-$answer = promptYesNo("\nWould you like to download and load geonames data",
+$answer = promptYesNo(
+    "\nUpdating geonames dataset. Existing data will be deleted, continue?",
     true);
 
 if (!$answer) {
@@ -13,16 +14,12 @@ if (!$answer) {
   return;
 }
 
-$answer = promptYesNo("The tables must already exist in order to " .
-    "load geonames data, create tables", true);
 
-if ($answer) {
-  $geonamesSql = configure('GEONAMES_SQL',
-      $defaultScriptDir . DIRECTORY_SEPARATOR . 'geonames.sql',
-      "Geonames schema script");
-  $dbInstaller->runScript($geonamesSql);
-  echo "Success!!\n";
-}
+$geonamesSql = configure('GEONAMES_SQL',
+    $defaultScriptDir . DIRECTORY_SEPARATOR . 'geonames.sql',
+    "Geonames schema script");
+$dbInstaller->runScript($geonamesSql);
+echo "Success!!\n";
 
 // download geoname data
 echo "\nDownloading and loading geonames data:\n";
@@ -46,22 +43,9 @@ foreach ($filenames as $filename) {
   }
 }
 
-// ----------------------------------------------------------------------
-// Remove geonames data from tables
-// ----------------------------------------------------------------------
-
-// Delete from geoname
-$dbInstaller->run('DELETE FROM geoname');
-
-// Delete from geoname
-$dbInstaller->run('DELETE FROM admin1_codes_ascii');
-
-// Delete from geoname
-$dbInstaller->run('DELETE FROM country_info');
-
 
 // ----------------------------------------------------------------------
-// Geonames data load into temp tables
+// Geonames data load
 // ----------------------------------------------------------------------
 
 // Cities

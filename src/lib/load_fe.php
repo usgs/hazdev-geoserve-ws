@@ -5,8 +5,8 @@
 // ----------------------------------------------------------------------
 
 $answer = promptYesNo(
-    "\nWould you like to download and load FE (and renames) data",
-    true
+    "\nUpdating FE (and renames) dataset. Existing data will be deleted, " .
+    'continue?', true
   );
 
 if (!$answer) {
@@ -14,16 +14,12 @@ if (!$answer) {
   return;
 }
 
-$answer = promptYesNo("The tables must already exist in order to " .
-    "load FE (and renames) data, create tables", true);
 
-if ($answer) {
-  $feSql = configure('FE_SQL',
-      $defaultScriptDir . DIRECTORY_SEPARATOR . 'fe.sql',
-      "FE regions schema script");
-  $dbInstaller->runScript($feSql);
-  echo "Success!!\n";
-}
+$feSql = configure('FE_SQL',
+    $defaultScriptDir . DIRECTORY_SEPARATOR . 'fe.sql',
+    "FE regions schema script");
+$dbInstaller->runScript($feSql);
+echo "Success!!\n";
 
 // download FE data
 echo "\nDownloading and loading FE data:\n";
@@ -49,18 +45,7 @@ foreach ($filenames as $filename) {
 
 
 // ----------------------------------------------------------------------
-// Remove FE data from tables
-// ----------------------------------------------------------------------
-
-// Delete from fe
-$dbInstaller->run('DELETE FROM fe');
-
-// Delete from fe_rename
-$dbInstaller->run('DELETE FROM fe_rename');
-
-
-// ----------------------------------------------------------------------
-// FE data load into temp tables
+// FE data load
 // ----------------------------------------------------------------------
 
 // FE

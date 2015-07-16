@@ -5,7 +5,7 @@
 // ----------------------------------------------------------------------
 
 $answer = promptYesNo(
-    "\Updating NEIC dataset. Existing data will be deleted, continue?",
+    "\nUpdating NEIC dataset. Existing data will be deleted, continue?",
     true
   );
 
@@ -45,7 +45,7 @@ foreach ($filenames as $filename) {
 
 
 // ----------------------------------------------------------------------
-// NEIC data load into temp tables
+// NEIC data load
 // ----------------------------------------------------------------------
 
 // NEIC Catalog

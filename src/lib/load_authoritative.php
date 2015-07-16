@@ -5,7 +5,7 @@
 // ----------------------------------------------------------------------
 
 $answer = promptYesNo(
-    "\nWould you like to download and load authoritative data",
+    "\nUpdating authoritative dataset. Existing data will be deleted, continue?",
     true
   );
 
@@ -14,16 +14,12 @@ if (!$answer) {
   return;
 }
 
-$answer = promptYesNo("The tables must already exist in order to " .
-    "load authoritative data, create eables", true);
 
-if ($answer) {
-  $authoritativeSql = configure('AUTHORITATIVE_SQL',
-      $defaultScriptDir . DIRECTORY_SEPARATOR . 'authoritative.sql',
-      "Authoritative regions schema script");
-  $dbInstaller->runScript($authoritativeSql);
-  echo "Success!!\n";
-}
+$authoritativeSql = configure('AUTHORITATIVE_SQL',
+    $defaultScriptDir . DIRECTORY_SEPARATOR . 'authoritative.sql',
+    "Authoritative regions schema script");
+$dbInstaller->runScript($authoritativeSql);
+echo "Success!!\n";
 
 // download authoritative data
 echo "\nDownloading and loading authoritative region data:\n";
@@ -47,16 +43,9 @@ foreach ($filenames as $filename) {
   }
 }
 
-// ----------------------------------------------------------------------
-// Remove authoritative data from tables
-// ----------------------------------------------------------------------
-
-// Delete from authoritative
-$dbInstaller->run('DELETE FROM authoritative');
-
 
 // ----------------------------------------------------------------------
-// Authoritative data load into temp tables
+// Authoritative data load
 // ----------------------------------------------------------------------
 
 // Authoritative

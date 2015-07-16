@@ -1,29 +1,25 @@
 <?php
 
 // ----------------------------------------------------------------------
-// Global admin data download/uncompress
+// Admin data download/uncompress
 // ----------------------------------------------------------------------
 
 $answer = promptYesNo(
-    "\nWould you like to download and load global admin data",
+    "\nUpdating administrative dataset. Existing data will be deleted, continue?",
     true
   );
 
 if (!$answer) {
-  echo "Skipping admin.\n";
+  echo "Skipping administrative.\n";
   return;
 }
 
-$answer = promptYesNo("The tables must already exist in order to " .
-    "load admin region data, create tables", true);
 
-if ($answer) {
-  $adminSql = configure('ADMIN_SQL',
-      $defaultScriptDir . DIRECTORY_SEPARATOR . 'admin.sql',
-      "Admin regions schema script");
-  $dbInstaller->runScript($adminSql);
-  echo "Success!!\n";
-}
+$adminSql = configure('ADMIN_SQL',
+    $defaultScriptDir . DIRECTORY_SEPARATOR . 'admin.sql',
+    "Admin regions schema script");
+$dbInstaller->runScript($adminSql);
+echo "Success!!\n";
 
 // download admin region data
 echo "\nDownloading and loading admin region data:\n";
@@ -46,13 +42,6 @@ foreach ($filenames as $filename) {
     extractZip($downloaded_file, $download_path);
   }
 }
-
-// ----------------------------------------------------------------------
-// Remove admin data from tables
-// ----------------------------------------------------------------------
-
-// Delete from admin 
-$dbInstaller->run('DELETE FROM admin');
 
 
 // ----------------------------------------------------------------------
