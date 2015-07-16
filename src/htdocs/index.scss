@@ -17,10 +17,54 @@ table.parameters th {
 
 :not(pre)>code {
   display: inline-block;
-  padding: 2px 6px
+  padding: 2px 6px;
 }
 
 @media screen and (max-width: 568px) {
   table.parameters td:nth-of-type(1):before { content: 'Type:'; }
   table.parameters td:nth-of-type(2):before { content: 'Description:'; }
+}
+
+
+
+
+
+ul.parameters {
+  border-top: 1px solid #ddd;
+  // border-bottom: 1px solid #ddd;
+  margin: 1.5em 0 0;
+  padding-top:0;
+
+  dt > code {
+    margin: 0 0 0.5em;
+  }
+
+  > li {
+    display:flex;
+    flex-direction: row;
+    padding: 0 0 1em;
+
+    > span {
+      display:flex;
+      flex-direction: column;
+      margin: 1em 0 0;
+      width: 115px;
+      margin-right: 1em;
+      flex: 0 0 auto;
+      align-items: flex-start;
+
+      > .optional,
+      > .required,
+      > .type {
+        padding: 4px 1px;
+        font-weight: 300;
+      }
+
+      > .optional,
+      > .type {
+        color: #999;
+      }
+    }
+
+  }
 }

@@ -54,7 +54,7 @@ if (!isset($TEMPLATE)) {
   database.
 </p>
 
-<h3>Requests</h3>
+<h3>1. Request</h3>
 <p>
   A geoserve <em>places</em> search takes the following form:
 </p>
@@ -64,23 +64,8 @@ if (!isset($TEMPLATE)) {
       '?<em>parameters</em>',
       '</code></pre>';
 ?>
-<h4>Examples</h4>
 
-<p>Five nearest places within 100km of a point</p>
-<?php
-  $url = $HOST_URL_PREFIX . $MOUNT_PATH .
-      '/places?latitude=39.75&longitude=-105.2&maxradiuskm=100&limit=5';
-  echo '<a href="', $url, '">', $url, '</a>';
-?>
-
-<p>All places within 100km of a point with at least 1,000 people</p>
-<?php
-  $url = $HOST_URL_PREFIX . $MOUNT_PATH .
-      '/places?latitude=39.75&longitude=-105.2&maxradiuskm=100&minpopulation=1000';
-  echo '<a href="', $url, '">', $url, '</a>';
-?>
-
-<h4>Required Parameters</h4>
+<h4>1.1 Parameters</h4>
 <p>
   When performing a places search the bounds can be limited by defining a
   circle (latitude, longitude, and maxradiuskm) or by defining a rectangle
@@ -90,260 +75,294 @@ if (!isset($TEMPLATE)) {
 
 <div class="row">
   <div class="column one-of-two">
-    <h5>Circle</h5>
-    <table class="tabular parameters responsive">
-      <thead>
-        <tr>
-          <th>parameter</th>
-          <th>description</th>
-        </tr>
-      </thead>
-      <tbody class="no-header-style">
-        <tr id="latitude">
-          <th>
-            <code>latitude</code>
-          </th>
-          <td>
-            Latitude in decimal degrees [-90,90].
-          </td>
-        </tr>
-        <tr id="longitude">
-          <th><code>longitude</code></th>
-          <td>
-            Longitude in decimal degrees [-180,180].
-          </td>
-        </tr>
-        <tr id="maxradiuskm">
-          <th><code>maxradiuskm</code></th>
-          <td>
-            Search radius (in kilometers) from the center point
-            (latitude, longitude).
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <h5>1.1.1 Circle Search</h5>
+    <ul class="parameters vertical separator no-style">
+      <li>
+        <span>
+          <code>latitude</code>
+        </span>
+        <p>Latitude in decimal degrees [-90,90].</p>
+      </li>
+      <li>
+        <span>
+          <code>longitude</code>
+        </span>
+        <p>Longitude in decimal degrees [-180,180].</p>
+      </li>
+      <li>
+        <span>
+          <code>maxradiuskm</code>
+        </span>
+        <p>
+          Search radius (in kilometers) from the center point (latitude, longitude).
+        </p>
+      </li>
+      <li>
+        <span>
+          <code>limit</code>
+          <small class="optional">optional</small>
+        </span>
+        <p>
+          Limit number of results, sorted by distance.
+        </p>
+      </li>
+      <li>
+        <span>
+          <code>minpopulation</code>
+          <small class="optional">optional</small>
+        </span>
+        <p>
+          Limit results to places where population is greater than, or equal
+          to, minpopulation.
+        </p>
+      </li>
+      <li>
+        <span>
+          <code>type</code>
+          <small class="optional">optional</small>
+        </span>
+        <div>
+          <p>
+            The type of search being performed.
+          </p>
+          <dl class="vertical places-type">
+            <dt>
+              <code>type=geonames</code>
+            </dt>
+            <dd>
+              A generic query where any combination of parameters may be
+              specified.
+            </dd>
+            <dt>
+              <code>type=event</code>
+            </dt>
+            <dd>
+              Returns the five nearby places displayed on the earthquake
+              event pages. All parameters other than latitude/longitude
+              are ignored.
+            </dd>
+          </dl>
+        </div>
+      </li>
+    </ul>
   </div>
 
   <div class="column one-of-two">
-    <h5>Rectangle</h5>
-    <table class="tabular parameters responsive">
-      <thead>
-        <tr>
-          <th>parameter</th>
-          <th>description</th>
-        </tr>
-      </thead>
-      <tbody class="no-header-style">
-        <tr id="minlatitude">
-          <th>
-            <code>minlatitude</code>
-          </th>
-          <td>
-            Latitude in decimal degrees [-90,90].
-          </td>
-        </tr>
-        <tr id="maxlatitude">
-          <th>
-            <code>maxlatitude</code>
-          </th>
-          <td>
-            Latitude in decimal degrees [-90,90].
-          </td>
-        </tr>
-        <tr id="minlongitude">
-          <th><code>minlongitude</code></th>
-          <td>
-            Longitude in decimal degrees [-180,180].
-          </td>
-        </tr>
-        <tr id="maxlongitude">
-          <th><code>maxlongitude</code></th>
-          <td>
-            Longitude in decimal degrees [-180,180].
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <h5>1.1.2 Rectangle Search</h5>
+    <ul class="parameters vertical separator no-style">
+      <li>
+        <span>
+          <code>maxlatitude</code>
+        </span>
+        <p>Upper latitude bounds in decimal degrees [-90,90].</p>
+      </li>
+      <li>
+        <span>
+          <code>minlatitude</code>
+        </span>
+        <p>Latitude in decimal degrees [-90,90].</p>
+      </li>
+      <li>
+        <span>
+          <code>maxlongitude</code>
+        </span>
+        <p>Longitude in decimal degrees [-180,180].</p>
+      </li>
+      <li>
+        <span>
+          <code>minlongitude</code>
+        </span>
+        <p>Longitude in decimal degrees [-180,180].</p>
+      </li>
+      <li>
+        <span>
+          <code>limit</code>
+          <small class="optional">optional</small>
+        </span>
+        <p>
+          Limit number of results, sorted by distance.
+        </p>
+      </li>
+      <li>
+        <span>
+          <code>minpopulation</code>
+          <small class="optional">optional</small>
+        </span>
+        <p>
+          Limit results to places where population is greater than, or equal
+          to, minpopulation.
+        </p>
+      </li>
+      <li>
+        <span>
+          <code>type</code>
+          <small class="optional">optional</small>
+        </span>
+        <div>
+          <p>
+            The type of search being performed.
+          </p>
+          <dl class="vertical places-type">
+            <dt>
+              <code>type=geonames</code>
+            </dt>
+            <dd>
+              A generic query where any combination of parameters may be
+              specified.
+            </dd>
+            <dt>
+              <code>type=event</code>
+            </dt>
+            <dd>
+              Returns the five nearby places displayed on the earthquake
+              event pages. All parameters other than latitude/longitude
+              are ignored.
+            </dd>
+          </dl>
+        </div>
+      </li>
+    </ul>
   </div>
 </div>
 
-
-<h4>Optional Parameters</h4>
-<table class="tabular parameters responsive">
-  <thead>
-    <tr>
-      <th>parameter</th>
-      <th>type</th>
-      <th>description</th>
-    </tr>
-  </thead>
-  <tbody class="no-header-style">
-    <tr id="type">
-      <th><code>type</code></th>
-      <td>String</td>
-      <td>
-        The type of search being performed.
-
-        <dl class="vertical places-type">
-          <dt>geonames [default]</dt>
-          <dd>
-            A generic query where any combination of parameters may be
-            specified.
-          </dd>
-          <dt>event</dt>
-          <dd>
-            Returns the five nearby places displayed on the earthquake
-            event pages. All parameters other than latitude/longitude
-            are ignored.
-          </dd>
-        </dl>
-
-        <span class="note">
-          If type="event" is specified, then maxradiuskm is no
-          longer a required field.
-        </span>
-      </td>
-    </tr>
-    <tr id="limit">
-      <th><code>limit</code></th>
-      <td>Integer</td>
-      <td>
-        Return at most this number of places, sorted by distance.
-      </td>
-    </tr>
-    <tr id="minpopulation">
-      <th><code>minpopulation</code></th>
-      <td>Integer</td>
-      <td>
-        Only return places with a minimum of this number of people.
-      </td>
-    </tr>
-    <tr id="type">
-      <th><code>type</code></th>
-      <td>String</td>
-      <td>
-        The type of search being performed.
-
-        <dl class="vertical places-type">
-          <dt>geonames [default]</dt>
-          <dd>
-            A generic query where any combination of parameters may be
-            specified.
-          </dd>
-          <dt>event</dt>
-          <dd>
-            Returns the five nearby places displayed on the earthquake
-            event pages. All parameters other than latitude/longitude
-            are ignored.
-          </dd>
-        </dl>
-
-        <span class="note">
-          If type="event" is specified, then maxradiuskm is no
-          longer a required field.
-        </span>
-      </td>
-    </tr>
-  </tbody>
-</table>
-
-
-<h3>Response Properties</h3>
+<h3>2. Response</h3>
 <p>
-    A <a href="http://geojson.org/geojson-spec.html#feature-collection-objects">
-    GeoJSON FeatureCollection</a> of place Feature objects.
+    The web service response is formatted as one or more nested
+    <a href="http://geojson.org/geojson-spec.html#feature-collection-objects">
+    GeoJSON FeatureCollections</a>. Each of these nested GeoJSON
+    FeatureCollections are keyed by &ldquo;type&rdquo;.
 </p>
+
+<h4>2.1 Properties</h4>
 <p>
-  Each matching place Feature includes geometry with
+  Each matching Feature includes an <code>id</code>, a geometry object with
   <code>longitude</code>, <code>latitude</code>, and <code>elevation</code>,
-  as well as the following properties:
+  and a properties object with the following attributes:
 </p>
-<table class="tabular parameters responsive">
-  <thead>
-    <tr>
-      <th>property</th>
-      <th>type</th>
-      <th>description</th>
-    </tr>
-  </thead>
-  <tbody class="no-header-style">
-    <tr id="admin1_code">
-      <th><code>admin1_code</code></th>
-      <td>String</span></td>
-      <td>
-        First administrative region of the place.
-        In the United States, this is the state.
-      </td>
-    </tr>
-    <tr id="admin1_name">
-      <th><code>admin1_name</code></th>
-      <td>String</span></td>
-      <td>
-        TODO
-      </td>
-    </tr>
-    <tr id="azimuth">
-      <th><code>azimuth</code></th>
-      <td>Decimal</td>
-      <td>
-        Direction in decimal degrees from search point to
-        the place. [0, 360] degrees.
-      </td>
-    </tr>
-    <tr id="country_code">
-      <th><code>country_code</code></th>
-      <td>String</td>
-      <td>
-        TODO
-      </td>
-    </tr>
-    <tr id="country_name">
-      <th><code>country_name</code></th>
-      <td>String</td>
-      <td>
-        TODO
-      </td>
-    </tr>
-    <tr id="distance">
-      <th><code>distance</code></th>
-      <td>Decimal</td>
-      <td>
-        Distance in meters from search point to the place.
-      </td>
-    </tr>
-    <tr id="feature_class">
-      <th><code>feature_class</code></th>
-      <td>String</td>
-      <td>
-        TODO
-      </td>
-    </tr>
-    <tr id="feature_code">
-      <th><code>feature_code</code></th>
-      <td>String</td>
-      <td>
-        TODO
-      </td>
-    </tr>
-    <tr id="name">
-      <th><code>name</code></th>
-      <td>String</td>
-      <td>
-        Name of the place.
-      </td>
-    </tr>
-    <tr id="population">
-      <th><code>population</code></th>
-      <td>Integer</td>
-      <td>
-        Population associated with the place.
-      </td>
-    </tr>
-  </tbody>
-</table>
 
 
-<h3>Example Output</h3>
+<ul class="parameters vertical separator no-style">
+  <li>
+    <span>
+      <code>admin1_code</code>
+      <small class="type">string</small>
+    </span>
+    <p>
+      Three character code for a primary administrative division of a country,
+      such as a state in the United States.
+    </p>
+  </li>
+  <li>
+    <span>
+      <code>admin1_name</code>
+      <small class="type">string</small>
+    </span>
+    <p>
+      Name of a primary administrative division of a country, such as a state
+      in the United States.
+    </p>
+  </li>
+  <li>
+    <span>
+      <code>azimuth</code>
+      <small class="type">decimal</small>
+    </span>
+    <p>
+      Direction in decimal degrees [0,360] from the Feature to the center
+      point (latitude, longitude).
+    </p>
+  </li>
+  <li>
+    <span>
+      <code>country_code</code>
+      <small class="type">string</small>
+    </span>
+    <p>
+      Two character code for country.
+    </p>
+  </li>
+  <li>
+    <span>
+      <code>country_name</code>
+      <small class="type">string</small>
+    </span>
+    <p>
+      Name of country.
+    </p>
+  </li>
+  <li>
+    <span>
+      <code>distance</code>
+      <small class="type">decimal</small>
+    </span>
+    <p>
+      Distance in kilometers from the Feature to the center point(latitude,
+      longitude).
+    </p>
+  </li>
+  <li>
+    <span>
+      <code>feature_class</code>
+      <small class="type">string</small>
+    </span>
+    <p>
+      Geonames <a href="http://www.geonames.org/source-code/javadoc/org/geonames/FeatureClass.html">
+      feature class</a> used to describe the Feature.
+    </p>
+  </li>
+  <li>
+    <span>
+      <code>feature_code</code>
+      <small class="type">string</small>
+    </span>
+    <p>
+      Geonames <a href="http://www.geonames.org/export/codes.html">feature
+      code</a> used to describe the Feature.
+    </p>
+  </li>
+  <li>
+    <span>
+      <code>name</code>
+      <small class="type">string</small>
+    </span>
+    <p>
+      Name of the Feature.
+    </p>
+  </li>
+  <li>
+    <span>
+      <code>population</code>
+      <small class="type">integer</small>
+    </span>
+    <p>
+      Population associated with the Feature.
+    </p>
+  </li>
+</ul>
+
+<h3>3. Examples</h3>
+
+<h4>3.1 Example Requests</h4>
+<ul>
+  <li>
+    <p>Five nearest places within 100km of a point</p>
+    <?php
+      $url = $HOST_URL_PREFIX . $MOUNT_PATH .
+          '/places?latitude=39.75&longitude=-105.2&maxradiuskm=100&limit=5';
+      echo '<a href="', $url, '">', $url, '</a>';
+    ?>
+  </li>
+  <li>
+    <p>All places within 100km of a point with at least 1,000 people</p>
+    <?php
+      $url = $HOST_URL_PREFIX . $MOUNT_PATH .
+          '/places?latitude=39.75&longitude=-105.2&maxradiuskm=100&minpopulation=1000';
+      echo '<a href="', $url, '">', $url, '</a>';
+    ?>
+  </li>
+</ul>
+
+<h4>3.2 Example Responses</h4>
 <p>
   Below is some example output that shows the nested GeoJSON structure.
   Each type has a nested GeoJSON FeatureCollection that may contain multiple
@@ -352,7 +371,7 @@ if (!isset($TEMPLATE)) {
 
 <div class="row">
   <div class="column one-of-two">
-    <h4>Generic Output</h4>
+    <h5>3.2.1 Generic Output</h5>
     <pre><code>{
   &lt;type&gt;: {
     type: "FeatureCollection",
@@ -384,14 +403,14 @@ if (!isset($TEMPLATE)) {
     url: &lt;web service request URL&gt;
     version: &lt;web service version number&gt;
     types: [
-      &lt;point type&gt;, ...
+      &lt;places type&gt;, ...
     ]
   }
 }</pre></code>
 
   </div>
   <div class="column one-of-two">
-    <h4>Sample Output</h4>
+    <h5>3.2.2 Sample Output</h5>
     <pre><code>{
   geonames: {
     type: "FeatureCollection",
