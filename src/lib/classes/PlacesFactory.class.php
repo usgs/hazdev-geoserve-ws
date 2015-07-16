@@ -32,9 +32,7 @@ class PlacesFactory extends GeoserveFactory {
     $data = array();
 
     if ($query->type === null || in_array('event', $query->type)) {
-      // getEventPlaces() modifies the query object, clone to create two copies
-      $eventPlacesQuery = clone $query;
-      $data['event'] = $this->getEventPlaces($eventPlacesQuery, $callback);
+      $data['event'] = $this->getEventPlaces($query, $callback);
     }
 
     if ($query->type === null || in_array('geonames', $query->type)) {
@@ -191,6 +189,9 @@ class PlacesFactory extends GeoserveFactory {
    * Get old event page places (five total)
    */
   public function getEventPlaces ($query, $callback = null) {
+    // do not modify $query
+    $query = clone $query;
+
     // array of places
     $eventplaces = array();
     $results = array();
