@@ -183,40 +183,52 @@ class PlacesFactory extends GeoserveFactory {
    * Get old event page places (five total)
    */
   public function getEventPlaces ($query) {
-    // do not modify $query
-    $query = clone $query;
+    // closest populated place
+    $closest = new PlacesQuery();
+    $closest->latitude = $query->latitude;
+    $closest->longitude = $query->longitude;
+    $closest->limit = 1;
 
-    // array of places
+    // capital
+    $capital = new PlacesQuery();
+    $capital->latitude = $query->latitude;
+    $capital->longitude = $query->longitude;
+    $capital->featurecode = 'PPLA';
+    $capital->limit = 1;
+
+    // rest are populated places with population > 10,000
+    $populated = new PlacesQuery();
+    $populated->latitude = $query->latitude;
+    $populated->longitude = $query->longitude;
+    $populated->minpopulation = 10000;
+    $populated->limit = 5;
+
+    // combine all places
+    $places = array_merge(
+        $this->getByCircle($closest),
+        $this->getByCircle($capital),
+        $this->getByCircle($populated));
+    // choose first 5 unique (closest and capital always included because first)
     $eventplaces = array();
-    $results = array();
-
-    /*** Find the closest populated place ***/
-    $query->limit = 1;
-    $results = $this->getByCircle($query, true);
-    $eventplaces = $this->_buildArray($eventplaces, $results, $query->limit);
-
-    /*** Find a capital ***/
-    $query->limit = 1;
-    $query->featurecode = 'PPLA';
-    $results = $this->getByCircle($query, true);
-    $eventplaces = $this->_buildArray($eventplaces, $results, $query->limit);
-
-    /*** Find five populated places with population > 10,000 ***/
-    $query->limit = 5;
-    $query->minpopulation = 10000;
-    $query->featurecode = null;
-    $results = $this->getByCircle($query, true);
-    $eventplaces = $this->_buildArray($eventplaces, $results, $query->limit);
-
-    // only return 5 places
-    $eventplaces = array_slice($eventplaces, 0, 5);
-
+    foreach ($places as $place) {
+      $eventplaces[$place['geoname_id']] = $place;
+      if (count($eventplaces) >= 5) {
+        break;
+      }
+    }
+    // extract places
+    $eventplaces = array_values($eventplaces);
     // sort by distance
     usort($eventplaces, function ($a, $b) {
-      return ($a['distance'] > $b['distance']);
+      $diff = $a['distance'] - $b['distance'];
+      if ($diff < 0) {
+        return -1;
+      } else if ($diff > 0) {
+        return 1;
+      }
+      return 0;
     });
 
-    // return all places
     return $eventplaces;
   }
 
@@ -236,20 +248,6 @@ class PlacesFactory extends GeoserveFactory {
    */
   public function getSupportedTypes () {
     return PlacesFactory::$SUPPORTED_TYPES;
-  }
-
-
-  /**
-   * Build an array keyed by geoname_id
-   */
-  private function _buildArray ($originalArray, $newArray, $count) {
-
-    for ($i = 0; $i < $count; $i++) {
-      $item = $newArray[$i];
-      $originalArray[$item['geoname_id']] = $item;
-    }
-
-    return $originalArray;
   }
 
   /**
