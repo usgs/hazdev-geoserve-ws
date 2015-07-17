@@ -21,16 +21,8 @@ class PlacesFactory extends GeoserveFactory {
     if ($query->type === null || in_array('event', $query->type)) {
       $data['event'] = $this->getEventPlaces($query);
     }
-
     if ($query->type === null || in_array('geonames', $query->type)) {
-      // determine circle or rectangle
-      if ($query->latitude !== null && $query->longitude !== null &&
-          $query->maxradiuskm !== null) {
-        $data['geonames'] = $this->getByCircle($query);
-      } else if ($query->minlatitude !== null && $query->maxlatitude !== null &&
-          $query->minlongitude !== null && $query->maxlongitude !== null) {
-        $data['geonames'] = $this->getByRectangle($query);
-      }
+      $data['geonames'] = $this->getGeonames($query);
     }
 
     return $data;
@@ -224,6 +216,17 @@ class PlacesFactory extends GeoserveFactory {
 
     // return all places
     return $eventplaces;
+  }
+
+  public function getGeonames ($query) {
+    // determine circle or rectangle
+    if ($query->latitude !== null && $query->longitude !== null &&
+        $query->maxradiuskm !== null) {
+      return $this->getByCircle($query);
+    } else if ($query->minlatitude !== null && $query->maxlatitude !== null &&
+        $query->minlongitude !== null && $query->maxlongitude !== null) {
+      return $this->getByRectangle($query);
+    }
   }
 
   /**
