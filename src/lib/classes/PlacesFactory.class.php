@@ -32,60 +32,75 @@ class PlacesFactory extends GeoserveFactory {
    * Get nearby places for circle searches.
    *
    */
-  public function getByCircle ($query) {
-    if ($query->latitude === null || $query->longitude === null ||
-        $query->maxradiuskm === null) {
-      throw new Exception('"latitude", "longitude", and "maxradiuskm"' .
-          ' are required');
+  public function getByCircle ($query, $expand = false) {
+
+    $results = array();
+    $search = true;
+
+    if ($query->maxradiuskm === null) {
+      $query->maxradiuskm = 500;
     }
 
-    // create sql
-    $sql = 'WITH search AS (SELECT' .
-        ' ST_SetSRID(ST_MakePoint(:longitude,:latitude),4326)::geography' .
-        ' AS point' .
-        ')';
+    while ($search === true) {
 
-    // bound parameters
-    $params = array(
-        ':latitude' => $query->latitude,
-        ':longitude' => $query->longitude);
+      // create sql
+      $sql = 'WITH search AS (SELECT' .
+          ' ST_SetSRID(ST_MakePoint(:longitude,:latitude),4326)::geography' .
+          ' AS point' .
+          ')';
 
-    // create sql
-    $sql .=  ' SELECT' .
-        ' geoname.*' .
-        ' ,admin1_codes_ascii.name as admin1_name' .
-        ' ,country_info.country as country_name' .
-        ' ,degrees(ST_Azimuth(search.point, geoname.shape)) AS azimuth' .
-        ' ,ST_Distance(search.point, geoname.shape) / 1000 AS distance' .
-        ' FROM search, geoname ' .
-        ' JOIN admin1_codes_ascii ON (geoname.country_code || \'.\' ||' .
-            ' geoname.admin1_code = admin1_codes_ascii.code)'.
-        ' JOIN country_info ON (geoname.country_code = country_info.iso)';
+      // bound parameters
+      $params = array(
+          ':latitude' => $query->latitude,
+          ':longitude' => $query->longitude);
 
-    // build where clause
-    $where = array();
-    if ($query->maxradiuskm !== null) {
-      $where[] = 'ST_DWithin(search.point, geoname.shape, :distance)';
-      $params[':distance'] = $query->maxradiuskm * 1000;
+      // create sql
+      $sql .=  ' SELECT' .
+          ' geoname.*' .
+          ' ,admin1_codes_ascii.name as admin1_name' .
+          ' ,country_info.country as country_name' .
+          ' ,degrees(ST_Azimuth(search.point, geoname.shape)) AS azimuth' .
+          ' ,ST_Distance(search.point, geoname.shape) / 1000 AS distance' .
+          ' FROM search, geoname ' .
+          ' JOIN admin1_codes_ascii ON (geoname.country_code || \'.\' ||' .
+              ' geoname.admin1_code = admin1_codes_ascii.code)'.
+          ' JOIN country_info ON (geoname.country_code = country_info.iso)';
+
+      // build where clause
+      $where = array();
+      if ($query->maxradiuskm !== null) {
+        $where[] = 'ST_DWithin(search.point, geoname.shape, :distance)';
+        $params[':distance'] = $query->maxradiuskm * 1000;
+      }
+
+      $this->_buildGenericWhere($query, $where, $params);
+
+      if (count($where) > 0) {
+        $sql .= ' WHERE ' . implode(' AND ', $where);
+      }
+
+      // sort closest places first
+      $sql .= ' ORDER BY distance';
+
+      // limit number of results
+      if ($query->limit !== null) {
+        $sql .= ' LIMIT :limit';
+        $params[':limit'] = $query->limit;
+      }
+
+      // execute query
+      $results = $this->execute($sql, $params);
+
+      // increase search bounds or stop searching
+      if ($expand === true && count($results) < $query->limit) {
+        $query->maxradiuskm = $query->maxradiuskm * 2;
+      } else {
+        $search = false;
+      }
+
     }
 
-    $this->_buildGenericWhere($query, $where, $params);
-
-    if (count($where) > 0) {
-      $sql .= ' WHERE ' . implode(' AND ', $where);
-    }
-
-    // sort closest places first
-    $sql .= ' ORDER BY distance';
-
-    // limit number of results
-    if ($query->limit !== null) {
-      $sql .= ' LIMIT :limit';
-      $params[':limit'] = $query->limit;
-    }
-
-    // execute query
-    return $this->execute($sql, $params);
+    return $results;
   }
 
   /**
@@ -173,20 +188,20 @@ class PlacesFactory extends GeoserveFactory {
 
     /*** Find the closest populated place ***/
     $query->limit = 1;
-    $results = $this->_expandSearch($query);
+    $results = $this->getByCircle($query, true);
     $eventplaces = $this->_buildArray($eventplaces, $results, $query->limit);
 
     /*** Find a capital ***/
     $query->limit = 1;
     $query->featurecode = 'PPLA';
-    $results = $this->_expandSearch($query);
+    $results = $this->getByCircle($query, true);
     $eventplaces = $this->_buildArray($eventplaces, $results, $query->limit);
 
     /*** Find five populated places with population > 10,000 ***/
     $query->limit = 5;
     $query->minpopulation = 10000;
     $query->featurecode = null;
-    $results = $this->_expandSearch($query);
+    $results = $this->getByCircle($query, true);
     $eventplaces = $this->_buildArray($eventplaces, $results, $query->limit);
 
     // only return 5 places
@@ -203,13 +218,8 @@ class PlacesFactory extends GeoserveFactory {
 
   public function getGeonames ($query) {
     // determine circle or rectangle
-    if ($query->latitude !== null && $query->longitude !== null &&
-        $query->maxradiuskm !== null) {
+    if ($query->latitude !== null && $query->longitude !== null) {
       return $this->getByCircle($query);
-    } else if ($query->latitude !== null && $query->longitude !== null &&
-        $query->limit !== null) {
-      // if maxradiuskm is not specified expand search radius until limit is met
-      return $this->_expandSearch($query);
     } else if ($query->minlatitude !== null && $query->maxlatitude !== null &&
         $query->minlongitude !== null && $query->maxlongitude !== null) {
       return $this->getByRectangle($query);
@@ -252,27 +262,6 @@ class PlacesFactory extends GeoserveFactory {
       $where[] = 'geoname.feature_code = :featurecode';
       $params[':featurecode'] = $query->featurecode;
     }
-  }
-
-  /**
-   * expands query->maxradiuskm if $query->limit has not been satisfied.
-   */
-  private function _expandSearch($query) {
-    $results = array();
-
-    if ($query->maxradiuskm === null) {
-      $query->maxradiuskm = 500;
-    }
-
-    while (count($results) < $query->limit) {
-      $results = $this->getByCircle($query);
-      if (count($results) < $query->limit) {
-        // increase search bounds
-        $query->maxradiuskm = $query->maxradiuskm * 2;
-      }
-    }
-
-    return $results;
   }
 
   /**
