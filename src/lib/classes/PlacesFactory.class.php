@@ -281,7 +281,7 @@ class PlacesFactory extends GeoserveFactory {
    * checks for a capital city in an array of places
    */
   private function _hasCapital($places) {
-    for ($i = 0; $i < count($places); $i++) {
+    for ($i = 0; $i < 5; $i++) {
       // check for duplicate
       if ($places[$i]['feature_code'] === 'PPLA' ||
           $places[$i]['feature_code'] === 'PPLC') {
