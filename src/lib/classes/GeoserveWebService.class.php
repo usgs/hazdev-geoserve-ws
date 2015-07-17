@@ -204,9 +204,9 @@ class GeoserveWebService {
     }
 
     if ($circleSearch && $query->type !== 'event' &&
-        $query->maxradiuskm === null) {
+        $query->maxradiuskm === null && $query->limit === null) {
       $this->error(self::BAD_REQUEST,
-          'maxradiuskm is required');
+          'maxradiuskm or limit is required for circle searches');
     }
 
     if ($circleSearch === null) {

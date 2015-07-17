@@ -172,7 +172,6 @@ class PlacesFactory extends GeoserveFactory {
     $results = array();
 
     /*** Find the closest populated place ***/
-    $query->maxradiuskm = 500;
     $query->limit = 1;
     $results = $this->_expandSearch($query);
     $eventplaces = array_merge($eventplaces, $results);
@@ -223,6 +222,10 @@ class PlacesFactory extends GeoserveFactory {
     if ($query->latitude !== null && $query->longitude !== null &&
         $query->maxradiuskm !== null) {
       return $this->getByCircle($query);
+    } else if ($query->latitude !== null && $query->longitude !== null &&
+        $query->limit !== null) {
+      // if maxradiuskm is not specified expand search radius until limit is met
+      return $this->_expandSearch($query);
     } else if ($query->minlatitude !== null && $query->maxlatitude !== null &&
         $query->minlongitude !== null && $query->maxlongitude !== null) {
       return $this->getByRectangle($query);
@@ -254,10 +257,14 @@ class PlacesFactory extends GeoserveFactory {
   }
 
   /**
-   * expands query->maxradiuskm if $query-> limit has not been satisfied.
+   * expands query->maxradiuskm if $query->limit has not been satisfied.
    */
   private function _expandSearch($query) {
     $results = array();
+
+    if ($query->maxradiuskm === null) {
+      $query->maxradiuskm = 500;
+    }
 
     while (count($results) < $query->limit) {
       $results = $this->getByCircle($query);
