@@ -259,9 +259,9 @@ class PlacesFactory extends GeoserveFactory {
   private function _expandSearch($query) {
     $results = array();
 
-    while (count($results) !== $query->limit) {
+    while (count($results) < $query->limit) {
       $results = $this->getByCircle($query);
-      if (count($results) !== $query->limit) {
+      if (count($results) < $query->limit) {
         // increase search bounds
         $query->maxradiuskm = $query->maxradiuskm * 2;
       }
