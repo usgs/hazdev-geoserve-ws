@@ -174,44 +174,28 @@ class PlacesFactory extends GeoserveFactory {
     /*** Find the closest populated place ***/
     $query->limit = 1;
     $results = $this->_expandSearch($query);
-    $eventplaces = array_merge($eventplaces, $results);
+    $eventplaces = $this->_buildArray($eventplaces, $results, $query->limit);
+
+    /*** Find a capital ***/
+    $query->limit = 1;
+    $query->featurecode = 'PPLA';
+    $results = $this->_expandSearch($query);
+    $eventplaces = $this->_buildArray($eventplaces, $results, $query->limit);
 
     /*** Find five populated places with population > 10,000 ***/
     $query->limit = 5;
     $query->minpopulation = 10000;
+    $query->featurecode = null;
     $results = $this->_expandSearch($query);
-    $eventplaces = array_merge($eventplaces, $results);
+    $eventplaces = $this->_buildArray($eventplaces, $results, $query->limit);
 
-    /*** remove potential duplicates ***/
-    $eventplaces = $this->_removeDuplicates($eventplaces);
+    // only return 5 places
+    $eventplaces = array_slice($eventplaces, 0, 5);
 
-    /*** Add capital city ***/
-    $capital = array();
-    if ($this->_hasCapital($eventplaces) === false) {
-      $query->limit = 1;
-      $query->minpopulation = null;
-      $query->featurecode = 'PPLA';
-      $capital = $this->_expandSearch($query);
-    }
-
-    /*** limit to 5, make sure capital is in top 5 ***/
-    $hasCapital = false;
-
-    for ($i = 0; $i < 5; $i++) {
-      // check for capital
-      if ($eventplaces[$i]['feature_code'] === 'PPLA' ||
-          $eventplaces[$i]['feature_code'] === 'PPLC') {
-        $hasCapital = true;
-      }
-    }
-
-    // build array with 5 places (including capital)
-    if ($hasCapital === true) {
-      $eventplaces = array_slice($eventplaces, 0, 5);
-    } else {
-      $eventplaces = array_slice($eventplaces, 0, 4);
-      $eventplaces = array_merge($eventplaces, $capital);
-    }
+    // sort by distance
+    usort($eventplaces, function ($a, $b) {
+      return ($a['distance'] > $b['distance']);
+    });
 
     // return all places
     return $eventplaces;
@@ -238,6 +222,20 @@ class PlacesFactory extends GeoserveFactory {
    */
   public function getSupportedTypes () {
     return PlacesFactory::$SUPPORTED_TYPES;
+  }
+
+
+  /**
+   * Build an array keyed by geoname_id
+   */
+  private function _buildArray ($originalArray, $newArray, $count) {
+
+    for ($i = 0; $i < $count; $i++) {
+      $item = $newArray[$i];
+      $originalArray[$item['geoname_id']] = $item;
+    }
+
+    return $originalArray;
   }
 
   /**
@@ -278,20 +276,6 @@ class PlacesFactory extends GeoserveFactory {
   }
 
   /**
-   * checks for a capital city in an array of places
-   */
-  private function _hasCapital($places) {
-    for ($i = 0; $i < 5; $i++) {
-      // check for duplicate
-      if ($places[$i]['feature_code'] === 'PPLA' ||
-          $places[$i]['feature_code'] === 'PPLC') {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  /**
    * Maps the input longitude into a [-180,.0 +180.0] range.
    *
    */
@@ -309,28 +293,5 @@ class PlacesFactory extends GeoserveFactory {
     }
 
     return $longitude;
-  }
-
-  /**
-   * removes duplicates from a distance ordered array
-   */
-  private function _removeDuplicates($places) {
-    $previousId = null;
-    $duplicateIndex = null;
-
-    for ($i = 0; $i < count($places); $i++) {
-      // check for duplicate
-      if ($previousId === $places[$i]['geoname_id']) {
-        $duplicateIndex = $i;
-      }
-      $previousId = $places[$i]['geoname_id'];
-    }
-
-    if ($duplicateIndex !== null) {
-      unset($places[$duplicateIndex]);
-      $places = array_values($places);
-    }
-
-    return $places;
   }
 }
