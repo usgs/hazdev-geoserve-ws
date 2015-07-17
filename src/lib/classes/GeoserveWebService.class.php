@@ -225,7 +225,6 @@ class GeoserveWebService {
 
   public function parseRegionsQuery ($params) {
     $query = new RegionsQuery();
-    $types = $this->regionsFactory->getSupportedTypes();
 
     foreach ($params as $name => $value) {
       if ($values === '') {
