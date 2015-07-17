@@ -1,6 +1,6 @@
 <?php
 
-include_once $CLASSES_DIR . '/PlacesCallback.class.php';
+include_once $CLASSES_DIR . '/PlacesFormatter.class.php';
 include_once $CLASSES_DIR . '/PlacesQuery.class.php';
 
 include_once $CLASSES_DIR . '/RegionsFormatter.class.php';
@@ -37,18 +37,11 @@ class GeoserveWebService {
   }
 
 
-  public function places () {
-    global $APP_DIR;
-    global $HOST_URL_PREFIX;
-
-    $callback = new PlacesCallback();
-    $query = $this->parsePlacesQuery();
-
-    // cache results for 1 hour
-    $CACHE_MAXAGE = 3600;
-    include $APP_DIR . '/lib/cache.inc.php';
-
-    $places = $this->placesFactory->get($query, $callback);
+  public function places ($params) {
+    $placesFormatter = new PlacesFormatter();
+    $placesQuery = $this->parsePlacesQuery($params);
+    $places = $this->placesFactory->get($placesQuery, null);
+    $this->output($places, $placesFormatter);
   }
 
   public function regions ($params) {
@@ -140,12 +133,12 @@ class GeoserveWebService {
   }
 
 
-  public function parsePlacesQuery () {
+  public function parsePlacesQuery ($params) {
     $query = new PlacesQuery();
+    $query->type = $this->placesFactory->getSupportedTypes();
     $circleSearch = false;
     $rectangleSearch = false;
 
-    $params = $_GET;
     foreach ($params as $name => $value) {
       if ($value === '') {
         // check for empty values in non-javascript
@@ -178,6 +171,15 @@ class GeoserveWebService {
         $query->minpopulation = $this->validateInteger($name, $value, 0, null);
       } else if ($name ==='limit') {
         $query->limit = $this->validateInteger($name, $value, 1, null);
+      } else if ($name === 'type') {
+        $supportedTypes = $this->placesFactory->getSupportedTypes();
+        $query->type = array();
+        $types = explode(',', $value);
+
+        foreach ($types as $type) {
+          $query->type[] = $this->validateEnumerated(
+              $name, $type, $supportedTypes);
+        }
       } else {
         $this->error(self::BAD_REQUEST,
             'Unknown parameter "' . $name . '".');
@@ -202,10 +204,22 @@ class GeoserveWebService {
           'min/max latitude/longitude are required for rectangle searches');
     }
 
-    if ($circleSearch && $query->maxradiuskm === null) {
+    if ($circleSearch && !in_array('event', $query->type) &&
+        $query->maxradiuskm === null && $query->limit === null) {
       $this->error(self::BAD_REQUEST,
-          'maxradiuskm is required');
+          'maxradiuskm or limit is required for circle searches');
     }
+
+    if ($circleSearch === null) {
+      if (in_array('event', $query->type)) {
+        $this->error(self::BAD_REQUEST,
+            'latitude and longitude are required');
+      } else if (in_array('geonames', $query->type) && $rectangleSearch === null) {
+        $this->error(self::BAD_REQUEST,
+            'latitude/longitude OR min/max latitude/longitude are required');
+      }
+    }
+
 
     return $query;
   }

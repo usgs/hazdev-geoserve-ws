@@ -5,94 +5,102 @@ include_once $CLASSES_DIR . '/GeoserveFactory.class.php';
 
 class PlacesFactory extends GeoserveFactory {
 
+  protected static $SUPPORTED_TYPES = array('event', 'geonames');
+
   /**
    * Get nearby places.
    *
    * @param $query {PlacesQuery}
    *        query object.
-   * @param $callback {PlacesCallback}
-   *        callback object.
-   * @return when callback is not null, nothing;
-   *         when callback is null:
-   *         array of places, with these additional columns:
-   *         "azimuth" - direction from search point to place,
-   *                     in degrees clockwise from geographic north.
-   *         "distance" - distance in meters
+   * @return object of places keyed by type
    * @throws Exception
-   *         if at least one of $query->limit or $query->maxradiuskm
-   *         is not specified.
    */
-  public function get ($query, $callback=null) {
+  public function get ($query) {
+    $data = array();
 
-    if ($query->latitude !== null && $query->longitude !== null &&
-        $query->maxradiuskm !== null) {
-      return $this->getByCircle($query, $callback);
-    } else if ($query->minlatitude !== null && $query->maxlatitude !== null &&
-        $query->minlongitude !== null && $query->maxlongitude !== null) {
-      return $this->getByRectangle($query, $callback);
-    } else {
-      throw new Exception('Neither circle nor rectangle parameters provided.');
+    if ($query->type === array() || in_array('event', $query->type)) {
+      $data['event'] = $this->getEventPlaces($query);
     }
+    if ($query->type === array() || in_array('geonames', $query->type)) {
+      $data['geonames'] = $this->getGeonames($query);
+    }
+
+    return $data;
   }
 
   /**
    * Get nearby places for circle searches.
    *
    */
-  public function getByCircle ($query, $callback = null) {
-    if ($query->latitude === null || $query->longitude === null ||
-        $query->maxradiuskm === null) {
-      throw new Exception('"latitude", "longitude", and "maxradiuskm"' .
-          ' are required');
+  public function getByCircle ($query, $expand = false) {
+
+    $results = array();
+    $search = true;
+
+    if ($query->maxradiuskm === null) {
+      $query->maxradiuskm = 500;
     }
 
-    // create sql
-    $sql = 'WITH search AS (SELECT' .
-        ' ST_SetSRID(ST_MakePoint(:longitude,:latitude),4326)::geography' .
-        ' AS point' .
-        ')';
+    while ($search === true) {
 
-    // bound parameters
-    $params = array(
-        ':latitude' => $query->latitude,
-        ':longitude' => $query->longitude);
+      // create sql
+      $sql = 'WITH search AS (SELECT' .
+          ' ST_SetSRID(ST_MakePoint(:longitude,:latitude),4326)::geography' .
+          ' AS point' .
+          ')';
 
-    // create sql
-    $sql .=  ' SELECT' .
-        ' geoname.*' .
-        ' ,admin1_codes_ascii.name as admin1_name' .
-        ' ,country_info.country as country_name' .
-        ' ,degrees(ST_Azimuth(search.point, geoname.shape)) AS azimuth' .
-        ' ,ST_Distance(search.point, geoname.shape) / 1000 AS distance' .
-        ' FROM search, geoname ' .
-        ' JOIN admin1_codes_ascii ON (geoname.country_code || \'.\' ||' .
-            ' geoname.admin1_code = admin1_codes_ascii.code)'.
-        ' JOIN country_info ON (geoname.country_code = country_info.iso)';
+      // bound parameters
+      $params = array(
+          ':latitude' => $query->latitude,
+          ':longitude' => $query->longitude);
 
-    // build where clause
-    $where = array();
-    if ($query->maxradiuskm !== null) {
-      $where[] = 'ST_DWithin(search.point, geoname.shape, :distance)';
-      $params[':distance'] = $query->maxradiuskm * 1000;
+      // create sql
+      $sql .=  ' SELECT' .
+          ' geoname.*' .
+          ' ,admin1_codes_ascii.name as admin1_name' .
+          ' ,country_info.country as country_name' .
+          ' ,degrees(ST_Azimuth(search.point, geoname.shape)) AS azimuth' .
+          ' ,ST_Distance(search.point, geoname.shape) / 1000 AS distance' .
+          ' FROM search, geoname ' .
+          ' JOIN admin1_codes_ascii ON (geoname.country_code || \'.\' ||' .
+              ' geoname.admin1_code = admin1_codes_ascii.code)'.
+          ' JOIN country_info ON (geoname.country_code = country_info.iso)';
+
+      // build where clause
+      $where = array();
+      if ($query->maxradiuskm !== null) {
+        $where[] = 'ST_DWithin(search.point, geoname.shape, :distance)';
+        $params[':distance'] = $query->maxradiuskm * 1000;
+      }
+
+      $this->_buildGenericWhere($query, $where, $params);
+
+      if (count($where) > 0) {
+        $sql .= ' WHERE ' . implode(' AND ', $where);
+      }
+
+      // sort closest places first
+      $sql .= ' ORDER BY distance';
+
+      // limit number of results
+      if ($query->limit !== null) {
+        $sql .= ' LIMIT :limit';
+        $params[':limit'] = $query->limit;
+      }
+
+      // execute query
+      $results = $this->execute($sql, $params);
+
+      // increase search bounds or stop searching
+      if ($expand === true && count($results) < $query->limit) {
+        $query->maxradiuskm = $query->maxradiuskm * 2;
+      } else {
+        $search = false;
+      }
+
     }
 
-    $this->_buildGenericWhere($query, $where, $params);
-
-    if (count($where) > 0) {
-      $sql .= ' WHERE ' . implode(' AND ', $where);
-    }
-
-    // sort closest places first
-    $sql .= ' ORDER BY distance';
-
-    // limit number of results
-    if ($query->limit !== null) {
-      $sql .= ' LIMIT :limit';
-      $params[':limit'] = $query->limit;
-    }
-
-    // execute query
-    return $this->_execute($sql, $params, $callback);
+    return $results;
   }
 
   /**
@@ -102,7 +110,7 @@ class PlacesFactory extends GeoserveFactory {
    * since there is no "center" of interest per-se.
    *
    */
-  public function getByRectangle ($query, $callback = null) {
+  public function getByRectangle ($query) {
     if ($query->minlatitude === null || $query->maxlatitude === null ||
         $query->minlongitude === null || $query->maxlongitude === null) {
       throw new Exception('"minlatitude", "maxlatitude", "minlongitude", ',
@@ -164,7 +172,80 @@ class PlacesFactory extends GeoserveFactory {
     }
 
     // execute query
-    return $this->_execute($sql, $params, $callback);
+    return $this->execute($sql, $params);
+  }
+
+  /**
+   * Get old event page places (five total)
+   */
+  public function getEventPlaces ($query) {
+    // do not modify $query
+    $query = clone $query;
+
+    // array of places
+    $eventplaces = array();
+    $results = array();
+
+    /*** Find the closest populated place ***/
+    $query->limit = 1;
+    $results = $this->getByCircle($query, true);
+    $eventplaces = $this->_buildArray($eventplaces, $results, $query->limit);
+
+    /*** Find a capital ***/
+    $query->limit = 1;
+    $query->featurecode = 'PPLA';
+    $results = $this->getByCircle($query, true);
+    $eventplaces = $this->_buildArray($eventplaces, $results, $query->limit);
+
+    /*** Find five populated places with population > 10,000 ***/
+    $query->limit = 5;
+    $query->minpopulation = 10000;
+    $query->featurecode = null;
+    $results = $this->getByCircle($query, true);
+    $eventplaces = $this->_buildArray($eventplaces, $results, $query->limit);
+
+    // only return 5 places
+    $eventplaces = array_slice($eventplaces, 0, 5);
+
+    // sort by distance
+    usort($eventplaces, function ($a, $b) {
+      return ($a['distance'] > $b['distance']);
+    });
+
+    // return all places
+    return $eventplaces;
+  }
+
+  public function getGeonames ($query) {
+    // determine circle or rectangle
+    if ($query->latitude !== null && $query->longitude !== null) {
+      return $this->getByCircle($query);
+    } else if ($query->minlatitude !== null && $query->maxlatitude !== null &&
+        $query->minlongitude !== null && $query->maxlongitude !== null) {
+      return $this->getByRectangle($query);
+    }
+  }
+
+  /**
+   * @return {Array}
+   *         An array of supported types
+   */
+  public function getSupportedTypes () {
+    return PlacesFactory::$SUPPORTED_TYPES;
+  }
+
+
+  /**
+   * Build an array keyed by geoname_id
+   */
+  private function _buildArray ($originalArray, $newArray, $count) {
+
+    for ($i = 0; $i < $count; $i++) {
+      $item = $newArray[$i];
+      $originalArray[$item['geoname_id']] = $item;
+    }
+
+    return $originalArray;
   }
 
   /**
@@ -177,41 +258,9 @@ class PlacesFactory extends GeoserveFactory {
       $where[] = 'geoname.population >= :minpopulation';
       $params[':minpopulation'] = $query->minpopulation;
     }
-  }
-
-  /**
-   * Excutes the query either invoking the callback if provided or returning
-   * the result set otherwise.
-   *
-   */
-  private function _execute ($sql, $params, $callback = null) {
-    $db = $this->connect();
-    $query = $db->prepare($sql);
-
-    if (!$query->execute($params)) {
-      // handle error
-      $errorInfo = $db->errorInfo();
-      if ($callback !== null) {
-        $callback->onError($errorInfo);
-      } else {
-        throw new Exception($errorInfo[2]);
-      }
-    } else {
-      try {
-        if ($callback !== null) {
-          $callback->onStart($query);
-
-          while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
-            $callback->onPlace($row, $this);
-          }
-
-          $callback->onEnd();
-        } else {
-          return $query->fetchAll(PDO::FETCH_ASSOC);
-        }
-      } finally {
-        $query->closeCursor();
-      }
+    if ($query->featurecode !== null) {
+      $where[] = 'geoname.feature_code = :featurecode';
+      $params[':featurecode'] = $query->featurecode;
     }
   }
 

@@ -4,6 +4,17 @@ table.parameters th {
   min-width: 130px;
 }
 
+.note {
+  color: #999;
+  display: block;
+  font-size: 0.8125em;
+  margin: 1em 0 0;
+}
+
+.places-type > dt {
+  margin: 1em 0 0;
+}
+
 :not(pre)>code {
   display: inline-block;
   padding: 2px 6px
