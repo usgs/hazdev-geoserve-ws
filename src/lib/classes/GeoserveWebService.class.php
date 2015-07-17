@@ -135,12 +135,27 @@ class GeoserveWebService {
 
   public function parsePlacesQuery ($params) {
     $query = new PlacesQuery();
-    $query->type = $this->placesFactory->getSupportedTypes();
+    $supportedTypes = $this->placesFactory->getSupportedTypes();
+    // default to all types
+    $query->type = $supportedTypes;
     $circleSearch = false;
     $rectangleSearch = false;
 
     foreach ($params as $name => $value) {
-      if ($value === '') {
+      if ($value === '' && (
+          $name === 'method' ||
+          $name === 'latitude' ||
+          $name === 'lat' ||
+          $name === 'minlatitude' ||
+          $name === 'maxlatitude' ||
+          $name === 'longitude' ||
+          $name === 'lon' ||
+          $name === 'minlongitude' ||
+          $name === 'maxlongitude' ||
+          $name === 'maxradiuskm' ||
+          $name === 'minpopulation' ||
+          $name === 'limit' ||
+          $name === 'type')) {
         // check for empty values in non-javascript
         continue;
       } else if ($name === 'method') {
@@ -172,10 +187,8 @@ class GeoserveWebService {
       } else if ($name ==='limit') {
         $query->limit = $this->validateInteger($name, $value, 1, null);
       } else if ($name === 'type') {
-        $supportedTypes = $this->placesFactory->getSupportedTypes();
         $query->type = array();
         $types = explode(',', $value);
-
         foreach ($types as $type) {
           $query->type[] = $this->validateEnumerated(
               $name, $type, $supportedTypes);
@@ -226,9 +239,17 @@ class GeoserveWebService {
 
   public function parseRegionsQuery ($params) {
     $query = new RegionsQuery();
+    $supportedTypes = $this->regionsFactory->getSupportedTypes();
+    // default to all types
+    $query->type = $supportedTypes;
 
     foreach ($params as $name => $value) {
-      if ($values === '') {
+      if ($value === '' && (
+          $name === 'method' ||
+          $name === 'latitude' ||
+          $name === 'longitude' ||
+          $name === 'includeGeometry' ||
+          $name === 'type')) {
         continue;
       } else if ($name === 'method') {
         continue;
@@ -239,10 +260,8 @@ class GeoserveWebService {
       } else if ($name === 'includeGeometry') {
         $query->includeGeometry = $this->validateBoolean($name, $value);
       } else if ($name === 'type') {
-        $supportedTypes = $this->regionsFactory->getSupportedTypes();
-        $types = explode(',', $value);
         $query->type = array();
-
+        $types = explode(',', $value);
         foreach ($types as $type) {
           $query->type[] = $this->validateEnumerated(
               $name, $type, $supportedTypes);

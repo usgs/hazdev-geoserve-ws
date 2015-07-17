@@ -19,13 +19,13 @@ class RegionsFactory extends GeoserveFactory {
   public function get ($query) {
     $data = array();
 
-    if ($query->type === null || in_array('admin', $query->type)) {
+    if (in_array('admin', $query->type)) {
       $data['admin'] = $this->getAdmin($query);
     }
-    if ($query->type === null || in_array('authoritative', $query->type)) {
+    if (in_array('authoritative', $query->type)) {
       $data['authoritative'] = $this->getAuthoritative($query);
     }
-    if ($query->type === null || in_array('fe', $query->type)) {
+    if (in_array('fe', $query->type)) {
       $data['fe'] = $this->getFE($query);
     }
 
