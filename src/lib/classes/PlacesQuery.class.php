@@ -12,8 +12,10 @@ class PlacesQuery {
   public $maxlongitude = null;
 
   // places
+  public $featurecode = null;
   public $maxradiuskm = null;
   public $minpopulation = null;
   public $limit = null;
+  public $type = null;
 
 }

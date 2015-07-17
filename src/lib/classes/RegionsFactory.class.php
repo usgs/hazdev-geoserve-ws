@@ -13,25 +13,20 @@ class RegionsFactory extends GeoserveFactory {
    *
    * @param $query {RegionsQuery}
    *        query object
-   * @param $callback {RegionsCallback}
-   *        callback object.
-   *        no longer supported, kept only to conform to GeoserveFactory.
-   * @return when callback is not null, nothing
-   *         when callback is null:
-   *         object of regions keyed by type
+   * @return object of regions keyed by type
    * @throws Exception
    */
-  public function get ($query, $callback) {
+  public function get ($query) {
     $data = array();
 
-    if ($query->type === null || in_array('admin', $query->type)) {
-      $data['admin'] = $this->getAdmin($query, $callback);
+    if (in_array('admin', $query->type)) {
+      $data['admin'] = $this->getAdmin($query);
     }
-    if ($query->type === null || in_array('authoritative', $query->type)) {
-      $data['authoritative'] = $this->getAuthoritative($query, $callback);
+    if (in_array('authoritative', $query->type)) {
+      $data['authoritative'] = $this->getAuthoritative($query);
     }
-    if ($query->type === null || in_array('fe', $query->type)) {
-      $data['fe'] = $this->getFE($query, $callback);
+    if (in_array('fe', $query->type)) {
+      $data['fe'] = $this->getFE($query);
     }
 
     return $data;
@@ -51,7 +46,7 @@ class RegionsFactory extends GeoserveFactory {
    * @param $query {RegionsQuery}
    *        query object
    */
-  public function getAdmin ($query, $callback = null ) {
+  public function getAdmin ($query) {
     //Checks for latitude and longitude
     if ($query->latitude === null || $query->longitude === null) {
       throw new Exception('"latitude", and "longitude" are required');
@@ -92,7 +87,7 @@ class RegionsFactory extends GeoserveFactory {
   * @param $query {RegionsQuery}
   * query object
   */
-  public function getAuthoritative ($query, $callback = null) {
+  public function getAuthoritative ($query) {
     // Checks for latitude and longitude
     if ($query->latitude === null || $query->longitude === null) {
       throw new Exception('"latitude", and "longitude" are required');
@@ -132,7 +127,7 @@ class RegionsFactory extends GeoserveFactory {
    * @param $query {RegionsQuery}
    *        query object
    */
-  public function getFE ($query, $callback = null) {
+  public function getFE ($query) {
     // Checks for latitude and longitude
     if ($query->latitude === null || $query->longitude === null) {
       throw new Exception('"latitude", and "longitude" are required');

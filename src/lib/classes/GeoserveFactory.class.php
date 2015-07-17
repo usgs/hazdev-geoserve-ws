@@ -78,18 +78,11 @@ abstract class GeoserveFactory {
    *
    * @param $query {PlacesQuery}
    *        query object.
-   * @param $callback {PlacesCallback}
-   *        callback object.
-   * @return when callback is not null, nothing;
-   *         when callback is null:
-   *         array of places, with these additional columns:
-   *         "azimuth" - direction from search point to place,
-   *                     in degrees clockwise from geographic north.
-   *         "distance" - distance in meters
+   * @return array of features
    * @throws Exception
    *         if at least one of $query->limit or $query->maxradiuskm
    *         is not specified.
    */
-  public abstract function get ($query, $callback);
+  public abstract function get ($query);
 
 }
