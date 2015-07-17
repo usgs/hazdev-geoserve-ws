@@ -30,77 +30,81 @@ class PlacesFactory extends GeoserveFactory {
 
   /**
    * Get nearby places for circle searches.
-   *
    */
-  public function getByCircle ($query, $expand = false) {
-
-    $results = array();
-    $search = true;
+  public function getByCircle ($query) {
+    if ($query->latitude === null || $query->longitude === null) {
+      throw new Exception('"latitude" and "longitude" are required');
+    } else if ($query->maxradiuskm === null && $query->limit === null) {
+      throw new Exception('"limit" and/or "maxradiuskm" are required');
+    }
 
     if ($query->maxradiuskm === null) {
+      // expand search until at limit, starting at 500km.
+      $query = clone $query;
       $query->maxradiuskm = 500;
-    }
-
-    while ($search === true) {
-
-      // create sql
-      $sql = 'WITH search AS (SELECT' .
-          ' ST_SetSRID(ST_MakePoint(:longitude,:latitude),4326)::geography' .
-          ' AS point' .
-          ')';
-
-      // bound parameters
-      $params = array(
-          ':latitude' => $query->latitude,
-          ':longitude' => $query->longitude);
-
-      // create sql
-      $sql .=  ' SELECT' .
-          ' geoname.*' .
-          ' ,admin1_codes_ascii.name as admin1_name' .
-          ' ,country_info.country as country_name' .
-          ' ,degrees(ST_Azimuth(search.point, geoname.shape)) AS azimuth' .
-          ' ,ST_Distance(search.point, geoname.shape) / 1000 AS distance' .
-          ' FROM search, geoname ' .
-          ' JOIN admin1_codes_ascii ON (geoname.country_code || \'.\' ||' .
-              ' geoname.admin1_code = admin1_codes_ascii.code)'.
-          ' JOIN country_info ON (geoname.country_code = country_info.iso)';
-
-      // build where clause
-      $where = array();
-      if ($query->maxradiuskm !== null) {
-        $where[] = 'ST_DWithin(search.point, geoname.shape, :distance)';
-        $params[':distance'] = $query->maxradiuskm * 1000;
-      }
-
-      $this->_buildGenericWhere($query, $where, $params);
-
-      if (count($where) > 0) {
-        $sql .= ' WHERE ' . implode(' AND ', $where);
-      }
-
-      // sort closest places first
-      $sql .= ' ORDER BY distance';
-
-      // limit number of results
-      if ($query->limit !== null) {
-        $sql .= ' LIMIT :limit';
-        $params[':limit'] = $query->limit;
-      }
-
-      // execute query
-      $results = $this->execute($sql, $params);
-
-      // increase search bounds or stop searching
-      if ($expand === true && count($results) < $query->limit) {
+      $results = $this->getByCircle($query);
+      while (
+          // not enough results
+          count($results) < $query->limit &&
+          // window not "too large"
+          $query->maxradiuskm < 25000) {
+        // double search window
         $query->maxradiuskm = $query->maxradiuskm * 2;
-      } else {
-        $search = false;
+        $results = $this->getByCircle($query);
       }
-
+      // either found limit results, or at search window limit.
+      return $results;
     }
 
-    return $results;
+    // create sql
+    $sql = 'WITH search AS (SELECT' .
+        ' ST_SetSRID(ST_MakePoint(:longitude,:latitude),4326)::geography' .
+        ' AS point' .
+        ')';
+
+    // bound parameters
+    $params = array(
+        ':latitude' => $query->latitude,
+        ':longitude' => $query->longitude);
+
+    // create sql
+    $sql .=  '
+    SELECT
+      geoname.*,
+      admin1_codes_ascii.name as admin1_name,
+      country_info.country as country_name,
+      degrees(ST_Azimuth(search.point, geoname.shape)) AS azimuth,
+      ST_Distance(search.point, geoname.shape) / 1000 AS distance
+    FROM search, geoname
+    JOIN admin1_codes_ascii ON (admin1_codes_ascii.code =
+        geoname.country_code || \'.\' || geoname.admin1_code)
+    JOIN country_info ON (geoname.country_code = country_info.iso)
+    ';
+
+    // build where clause
+    $where = array();
+    if ($query->maxradiuskm !== null) {
+      $where[] = 'ST_DWithin(search.point, geoname.shape, :distance)';
+      $params[':distance'] = $query->maxradiuskm * 1000;
+    }
+
+    $this->_buildGenericWhere($query, $where, $params);
+
+    if (count($where) > 0) {
+      $sql .= ' WHERE ' . implode(' AND ', $where);
+    }
+
+    // sort closest places first
+    $sql .= ' ORDER BY distance';
+
+    // limit number of results
+    if ($query->limit !== null) {
+      $sql .= ' LIMIT :limit';
+      $params[':limit'] = $query->limit;
+    }
+
+    // execute query
+    return $this->execute($sql, $params);
   }
 
   /**
