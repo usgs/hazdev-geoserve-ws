@@ -203,17 +203,17 @@ class GeoserveWebService {
           'min/max latitude/longitude are required for rectangle searches');
     }
 
-    if ($circleSearch && $query->type !== 'event' &&
+    if ($circleSearch && !in_array('event', $query->type) &&
         $query->maxradiuskm === null && $query->limit === null) {
       $this->error(self::BAD_REQUEST,
           'maxradiuskm or limit is required for circle searches');
     }
 
     if ($circleSearch === null) {
-      if ($query->type === 'event') {
+      if (in_array('event', $query->type)) {
         $this->error(self::BAD_REQUEST,
             'latitude and longitude are required');
-      } else if ($query->type === 'geonames' && $rectangleSearch === null) {
+      } else if (in_array('geonames', $query->type) && $rectangleSearch === null) {
         $this->error(self::BAD_REQUEST,
             'latitude/longitude OR min/max latitude/longitude are required');
       }
