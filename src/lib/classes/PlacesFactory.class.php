@@ -12,33 +12,24 @@ class PlacesFactory extends GeoserveFactory {
    *
    * @param $query {PlacesQuery}
    *        query object.
-   * @param $callback {PlacesCallback}
-   *        callback object.
-   * @return when callback is not null, nothing;
-   *         when callback is null:
-   *         array of places, with these additional columns:
-   *         "azimuth" - direction from search point to place,
-   *                     in degrees clockwise from geographic north.
-   *         "distance" - distance in meters
+   * @return object of places keyed by type
    * @throws Exception
-   *         if at least one of $query->limit or $query->maxradiuskm
-   *         is not specified.
    */
-  public function get ($query, $callback=null) {
+  public function get ($query) {
     $data = array();
 
     if ($query->type === null || in_array('event', $query->type)) {
-      $data['event'] = $this->getEventPlaces($query, $callback);
+      $data['event'] = $this->getEventPlaces($query);
     }
 
     if ($query->type === null || in_array('geonames', $query->type)) {
       // determine circle or rectangle
       if ($query->latitude !== null && $query->longitude !== null &&
           $query->maxradiuskm !== null) {
-        $data['geonames'] = $this->getByCircle($query, $callback);
+        $data['geonames'] = $this->getByCircle($query);
       } else if ($query->minlatitude !== null && $query->maxlatitude !== null &&
           $query->minlongitude !== null && $query->maxlongitude !== null) {
-        $data['geonames'] = $this->getByRectangle($query, $callback);
+        $data['geonames'] = $this->getByRectangle($query);
       }
     }
 
@@ -49,7 +40,7 @@ class PlacesFactory extends GeoserveFactory {
    * Get nearby places for circle searches.
    *
    */
-  public function getByCircle ($query, $callback = null) {
+  public function getByCircle ($query) {
     if ($query->latitude === null || $query->longitude === null ||
         $query->maxradiuskm === null) {
       throw new Exception('"latitude", "longitude", and "maxradiuskm"' .
@@ -112,7 +103,7 @@ class PlacesFactory extends GeoserveFactory {
    * since there is no "center" of interest per-se.
    *
    */
-  public function getByRectangle ($query, $callback = null) {
+  public function getByRectangle ($query) {
     if ($query->minlatitude === null || $query->maxlatitude === null ||
         $query->minlongitude === null || $query->maxlongitude === null) {
       throw new Exception('"minlatitude", "maxlatitude", "minlongitude", ',
@@ -180,7 +171,7 @@ class PlacesFactory extends GeoserveFactory {
   /**
    * Get old event page places (five total)
    */
-  public function getEventPlaces ($query, $callback = null) {
+  public function getEventPlaces ($query) {
     // do not modify $query
     $query = clone $query;
 
