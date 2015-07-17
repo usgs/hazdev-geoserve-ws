@@ -135,6 +135,7 @@ class GeoserveWebService {
 
   public function parsePlacesQuery ($params) {
     $query = new PlacesQuery();
+    $query->type = array();
     $circleSearch = false;
     $rectangleSearch = false;
 
@@ -173,7 +174,6 @@ class GeoserveWebService {
       } else if ($name === 'type') {
         $supportedTypes = $this->placesFactory->getSupportedTypes();
         $types = explode(',', $value);
-        $query->type = array();
 
         foreach ($types as $type) {
           $query->type[] = $this->validateEnumerated(

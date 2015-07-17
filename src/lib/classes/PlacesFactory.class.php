@@ -18,10 +18,10 @@ class PlacesFactory extends GeoserveFactory {
   public function get ($query) {
     $data = array();
 
-    if ($query->type === null || in_array('event', $query->type)) {
+    if ($query->type === array() || in_array('event', $query->type)) {
       $data['event'] = $this->getEventPlaces($query);
     }
-    if ($query->type === null || in_array('geonames', $query->type)) {
+    if ($query->type === array() || in_array('geonames', $query->type)) {
       $data['geonames'] = $this->getGeonames($query);
     }
 
