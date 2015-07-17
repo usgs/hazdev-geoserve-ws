@@ -199,40 +199,44 @@ class GeoserveWebService {
       }
     }
 
+
     if ($circleSearch && $rectangleSearch) {
       $this->error(self::BAD_REQUEST,
           'can not search by both circles and rectangles');
-    }
+    } else if ($circleSearch) {
 
-    if ($circleSearch &&
-        ($query->latitude === null || $query->longitude === null)) {
-      $this->error(self::BAD_REQUEST,
-          'latitude and longitude are required for circle searches');
-    }
-
-    if ($rectangleSearch &&
-        ($query->minlatitude === null || $query->maxlatitude === null ||
-        $query->minlongitude === null || $query->maxlongitude === null)) {
-      $this->error(self::BAD_REQUEST,
-          'min/max latitude/longitude are required for rectangle searches');
-    }
-
-    if ($circleSearch && !in_array('event', $query->type) &&
-        $query->maxradiuskm === null && $query->limit === null) {
-      $this->error(self::BAD_REQUEST,
-          'maxradiuskm or limit is required for circle searches');
-    }
-
-    if ($circleSearch === null) {
-      if (in_array('event', $query->type)) {
+      // CIRCLE
+      if ($query->latitude === null || $query->longitude === null) {
         $this->error(self::BAD_REQUEST,
-            'latitude and longitude are required');
-      } else if (in_array('geonames', $query->type) && $rectangleSearch === null) {
-        $this->error(self::BAD_REQUEST,
-            'latitude/longitude OR min/max latitude/longitude are required');
+            'latitude and longitude are required for circle searches');
       }
-    }
+      if (!in_array('event', $query->type)) {
+        // not event type search
+        if ($query->limit === null && $query->maxradiuskm === null) {
+          $this->error('circle search requires "limit" and/or "maxradiuskm"');
+        }
+      }
 
+    } else if ($rectangleSearch) {
+
+      // RECTANGLE
+      if ($query->minlatitude === null || $query->maxlatitude === null ||
+          $query->minlongitude === null || $query->maxlongitude === null) {
+        $this->error(self::BAD_REQUEST,
+            'min/max latitude/longitude are required for rectangle searches');
+      }
+      if (in_array('event', $query->type)) {
+        $this->error(self::BAD_REQUEST, '"event" type requires circle search');
+      }
+      if ($query->limit !== null || $query->maxradiuskm !== null) {
+        $this->error(self::BAD_REQUEST,
+            'rectangle search cannot use "limit" or "maxradiuskm"');
+      }
+
+    } else {
+      // NOT RECTANGLE OR CIRCLE
+      $this->error(self::BAD_REQUEST, 'must use circle OR rectangle search');
+    }
 
     return $query;
   }
