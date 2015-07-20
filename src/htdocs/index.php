@@ -355,7 +355,7 @@ if (!isset($TEMPLATE)) {
     <p>Five nearest places within 100km of a point</p>
     <?php
       $url = $HOST_URL_PREFIX . $MOUNT_PATH .
-          '/places?latitude=39.75&longitude=-105.2&maxradiuskm=100&limit=5&type=geonames';
+          '/places?latitude=39.75&amp;longitude=-105.2&amp;maxradiuskm=100&amp;limit=5&amp;type=geonames';
       echo '<a href="', $url, '">', $url, '</a>';
     ?>
   </li>
@@ -363,7 +363,7 @@ if (!isset($TEMPLATE)) {
     <p>All places within 100km of a point with at least 1,000 people</p>
     <?php
       $url = $HOST_URL_PREFIX . $MOUNT_PATH .
-          '/places?latitude=39.75&longitude=-105.2&maxradiuskm=100&minpopulation=1000&type=geonames';
+          '/places?latitude=39.75&amp;longitude=-105.2&amp;maxradiuskm=100&amp;minpopulation=1000&amp;type=geonames';
       echo '<a href="', $url, '">', $url, '</a>';
     ?>
   </li>
@@ -375,7 +375,7 @@ if (!isset($TEMPLATE)) {
     <p>An event type request that always returns 5 places near a point</p>
     <?php
       $url = $HOST_URL_PREFIX . $MOUNT_PATH .
-          '/places?latitude=45.1&longitude=-70.1&type=event';
+          '/places?latitude=45.1&amp;longitude=-70.1&amp;type=event';
       echo '<a href="', $url, '">', $url, '</a>';
     ?>
   </li>
@@ -422,7 +422,7 @@ if (!isset($TEMPLATE)) {
       }
     ]
   }
-}</pre></code>
+}</code></pre>
 
   </div>
   <div class="column one-of-two">
