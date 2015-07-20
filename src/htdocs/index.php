@@ -206,14 +206,6 @@ if (!isset($TEMPLATE)) {
           A generic query where any combination of parameters may be
           specified.
         </dd>
-        <dt>
-          <code>type=event</code>
-        </dt>
-        <dd>
-          Returns the five nearby places displayed on the earthquake
-          event pages. All parameters other than latitude/longitude
-          are ignored.
-        </dd>
       </dl>
     </div>
   </li>
