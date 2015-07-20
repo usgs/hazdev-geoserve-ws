@@ -32,8 +32,8 @@ if (!is_dir($CONF_DIR)) {
 // configuration defaults
 $DEFAULTS = array(
   'MOUNT_PATH' => '/ws/geoserve',
-  'GEOSERVE_VERSION' => '0.0.1',
-  'DB_DSN' => 'pgsql:host=localhost;port=5432;dbname=geoserve;',
+  'GEOSERVE_VERSION' => '0.1.0',
+  'DB_DSN' => 'pgsql:host=localhost;port=5432;dbname=earthquake;',
   'DB_USER' => 'geoserve_web',
   'DB_PASS' => ''
 );
