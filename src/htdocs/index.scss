@@ -1,33 +1,11 @@
-table.parameters td,
-table.parameters th {
-  vertical-align: top;
-  min-width: 130px;
-}
-
-.note {
-  color: #999;
-  display: block;
-  font-size: 0.8125em;
-  margin: 1em 0 0;
-}
-
-.places-type > dt {
-  margin: 1em 0 0;
-}
-
 :not(pre)>code {
   display: inline-block;
   padding: 2px 6px;
 }
 
-@media screen and (max-width: 568px) {
-  table.parameters td:nth-of-type(1):before { content: 'Type:'; }
-  table.parameters td:nth-of-type(2):before { content: 'Description:'; }
+.places-type > dt {
+  margin: 1em 0 0;
 }
-
-
-
-
 
 ul.parameters {
   border-top: 1px solid #ddd;
@@ -65,6 +43,5 @@ ul.parameters {
         color: #999;
       }
     }
-
   }
 }
