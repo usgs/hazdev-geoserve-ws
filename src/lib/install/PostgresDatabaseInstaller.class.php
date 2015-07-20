@@ -102,7 +102,7 @@ class PostgresDatabaseInstaller extends DatabaseInstaller {
   public function dropUser ($roles, $user) {
     if ($this->userExists($user)) {
       $this->revokeRoles($roles, $user);
-      $this->run('DROP USER IF EXISTS ' . $user . ' CASCADE');
+      $this->run('DROP USER IF EXISTS ' . $user);
     }
   }
 
