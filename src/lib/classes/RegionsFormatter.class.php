@@ -26,7 +26,7 @@ class RegionsFormatter extends GeoserveFormatter {
    *        type of region.
    *        currently unused.
    */
-  public function formatItem ($item, $type) {
+  public function formatItem ($item, $type, $casts = array()) {
     $id = null;
     $properties = array();
     $shape = null;
@@ -37,7 +37,11 @@ class RegionsFormatter extends GeoserveFormatter {
       } else if ($key === 'shape') {
         $shape = $value;
       } else {
-        $properties[$key] = $value;
+        if (isset($casts[$key])) {
+          $properties[$key] = $this->cast($value, $casts[$key]);
+        } else {
+          $properties[$key] = $value;
+        }
       }
     }
 

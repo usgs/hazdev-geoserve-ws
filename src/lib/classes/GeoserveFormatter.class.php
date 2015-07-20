@@ -21,4 +21,30 @@ class GeoserveFormatter {
     return json_encode($item);
   }
 
+
+  protected function cast ($value, $type) {
+    if ($type === 'integer') {
+      $value = $this->safeIntval($value);
+    } else if ($type === 'float') {
+      $value = $this->safeFloatval($value);
+    }
+
+    return $value;
+  }
+
+  protected function safeIntval ($value) {
+    if ($value === null) {
+      return null;
+    }
+
+    return intval($value);
+  }
+
+  protected function safeFloatval ($value) {
+    if ($value === null) {
+      return null;
+    }
+
+    return floatval($value);
+  }
 }
