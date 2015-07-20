@@ -86,7 +86,7 @@ if (!isset($TEMPLATE)) {
    </tbody>
  </table>
 
- <h4>Optional Parameter</h4>
+ <h4>Optional Parameters</h4>
  <table class="tabular parameters responsive">
    <thead>
      <tr>
@@ -253,7 +253,7 @@ if (!isset($TEMPLATE)) {
       <th><code>name</code></th>
       <td>String</span></td>
       <td>
-        NEIC catalog name.
+        NEIC response name.
       </td>
     </tr>
     <tr id="magnitude">
