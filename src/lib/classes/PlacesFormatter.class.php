@@ -46,7 +46,7 @@ class PlacesFormatter extends GeoserveFormatter {
 
   protected function _round ($number, $decimals) {
     if ($number === null) {
-      return 'null';
+      return null;
     }
 
     return round($number, $decimals);
