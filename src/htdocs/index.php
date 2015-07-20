@@ -73,157 +73,152 @@ if (!isset($TEMPLATE)) {
 </p>
 
 
-<div class="row">
-  <div class="column one-of-two">
-    <h5>1.1.1 Circle Search</h5>
-    <ul class="parameters vertical separator no-style">
-      <li>
-        <span>
-          <code>latitude</code>
-        </span>
-        <p>Latitude in decimal degrees [-90,90].</p>
-      </li>
-      <li>
-        <span>
-          <code>longitude</code>
-        </span>
-        <p>Longitude in decimal degrees [-180,180].</p>
-      </li>
-      <li>
-        <span>
-          <code>maxradiuskm</code>
-        </span>
-        <p>
-          Search radius (in kilometers) from the center point (latitude, longitude).
-        </p>
-      </li>
-      <li>
-        <span>
-          <code>limit</code>
-          <small class="optional">optional</small>
-        </span>
-        <p>
-          Limit number of results, sorted by distance.
-        </p>
-      </li>
-      <li>
-        <span>
-          <code>minpopulation</code>
-          <small class="optional">optional</small>
-        </span>
-        <p>
-          Limit results to places where population is greater than, or equal
-          to, minpopulation.
-        </p>
-      </li>
-      <li>
-        <span>
-          <code>type</code>
-          <small class="optional">optional</small>
-        </span>
-        <div>
-          <p>
-            The type of search being performed.
-          </p>
-          <dl class="vertical places-type">
-            <dt>
-              <code>type=geonames</code>
-            </dt>
-            <dd>
-              A generic query where any combination of parameters may be
-              specified.
-            </dd>
-            <dt>
-              <code>type=event</code>
-            </dt>
-            <dd>
-              Returns the five nearby places displayed on the earthquake
-              event pages. All parameters other than latitude/longitude
-              are ignored.
-            </dd>
-          </dl>
-        </div>
-      </li>
-    </ul>
-  </div>
+<h5>1.1.1 Circle Search</h5>
+<ul class="parameters vertical separator no-style">
+  <li id="circle_latitude">
+    <span>
+      <code>latitude</code>
+    </span>
+    <p>Latitude in decimal degrees [-90,90].</p>
+  </li>
+  <li id="circle_longitude">
+    <span>
+      <code>longitude</code>
+    </span>
+    <p>Longitude in decimal degrees [-180,180].</p>
+  </li>
+  <li id="circle_latitude">
+    <span>
+      <code>maxradiuskm</code>
+    </span>
+    <p>
+      Search radius (in kilometers) from the center point (latitude, longitude).
+    </p>
+  </li>
+  <li id="circle_limit">
+    <span>
+      <code>limit</code>
+      <small class="optional">optional</small>
+    </span>
+    <p>
+      Limit number of results, sorted by distance.
+    </p>
+  </li>
+  <li id="circle_minpopulation">
+    <span>
+      <code>minpopulation</code>
+      <small class="optional">optional</small>
+    </span>
+    <p>
+      Limit results to places where population is greater than, or equal
+      to, minpopulation.
+    </p>
+  </li>
+  <li id="circle_type">
+    <span>
+      <code>type</code>
+      <small class="optional">optional</small>
+    </span>
+    <div>
+      <p>
+        The type of search being performed.
+      </p>
+      <dl class="vertical places-type">
+        <dt>
+          <code>type=geonames</code>
+        </dt>
+        <dd>
+          A generic query where any combination of parameters may be
+          specified.
+        </dd>
+        <dt>
+          <code>type=event</code>
+        </dt>
+        <dd>
+          Returns the five nearby places displayed on the earthquake
+          event pages. All parameters other than latitude/longitude
+          are ignored.
+        </dd>
+      </dl>
+    </div>
+  </li>
+</ul>
 
-  <div class="column one-of-two">
-    <h5>1.1.2 Rectangle Search</h5>
-    <ul class="parameters vertical separator no-style">
-      <li>
-        <span>
-          <code>maxlatitude</code>
-        </span>
-        <p>Upper latitude bounds in decimal degrees [-90,90].</p>
-      </li>
-      <li>
-        <span>
-          <code>minlatitude</code>
-        </span>
-        <p>Latitude in decimal degrees [-90,90].</p>
-      </li>
-      <li>
-        <span>
-          <code>maxlongitude</code>
-        </span>
-        <p>Longitude in decimal degrees [-180,180].</p>
-      </li>
-      <li>
-        <span>
-          <code>minlongitude</code>
-        </span>
-        <p>Longitude in decimal degrees [-180,180].</p>
-      </li>
-      <li>
-        <span>
-          <code>limit</code>
-          <small class="optional">optional</small>
-        </span>
-        <p>
-          Limit number of results, sorted by population.
-        </p>
-      </li>
-      <li>
-        <span>
-          <code>minpopulation</code>
-          <small class="optional">optional</small>
-        </span>
-        <p>
-          Limit results to places where population is greater than, or equal
-          to, minpopulation.
-        </p>
-      </li>
-      <li>
-        <span>
-          <code>type</code>
-          <small class="optional">optional</small>
-        </span>
-        <div>
-          <p>
-            The type of search being performed.
-          </p>
-          <dl class="vertical places-type">
-            <dt>
-              <code>type=geonames</code>
-            </dt>
-            <dd>
-              A generic query where any combination of parameters may be
-              specified.
-            </dd>
-            <dt>
-              <code>type=event</code>
-            </dt>
-            <dd>
-              Returns the five nearby places displayed on the earthquake
-              event pages. All parameters other than latitude/longitude
-              are ignored.
-            </dd>
-          </dl>
-        </div>
-      </li>
-    </ul>
-  </div>
-</div>
+<h5>1.1.2 Rectangle Search</h5>
+<ul class="parameters vertical separator no-style">
+  <li id="rectangle_maxlatitude">
+    <span>
+      <code>maxlatitude</code>
+    </span>
+    <p>Upper latitude bounds in decimal degrees [-90,90].</p>
+  </li>
+  <li id="rectangle_minlatitude">
+    <span>
+      <code>minlatitude</code>
+    </span>
+    <p>Latitude in decimal degrees [-90,90].</p>
+  </li>
+  <li id="rectangle_maxlongitude">
+    <span>
+      <code>maxlongitude</code>
+    </span>
+    <p>Longitude in decimal degrees [-180,180].</p>
+  </li>
+  <li id="rectangle_minlongitude">
+    <span>
+      <code>minlongitude</code>
+    </span>
+    <p>Longitude in decimal degrees [-180,180].</p>
+  </li>
+  <li id="rectangle_limit">
+    <span>
+      <code>limit</code>
+      <small class="optional">optional</small>
+    </span>
+    <p>
+      Limit number of results, sorted by population.
+    </p>
+  </li>
+  <li id="rectangle_minpopulation">
+    <span>
+      <code>minpopulation</code>
+      <small class="optional">optional</small>
+    </span>
+    <p>
+      Limit results to places where population is greater than, or equal
+      to, minpopulation.
+    </p>
+  </li>
+  <li id="rectangle_type">
+    <span>
+      <code>type</code>
+      <small class="optional">optional</small>
+    </span>
+    <div>
+      <p>
+        The type of search being performed.
+      </p>
+      <dl class="vertical places-type">
+        <dt>
+          <code>type=geonames</code>
+        </dt>
+        <dd>
+          A generic query where any combination of parameters may be
+          specified.
+        </dd>
+        <dt>
+          <code>type=event</code>
+        </dt>
+        <dd>
+          Returns the five nearby places displayed on the earthquake
+          event pages. All parameters other than latitude/longitude
+          are ignored.
+        </dd>
+      </dl>
+    </div>
+  </li>
+</ul>
+
 
 <h3>2. Response</h3>
 <p>
@@ -242,7 +237,7 @@ if (!isset($TEMPLATE)) {
 
 
 <ul class="parameters vertical separator no-style">
-  <li>
+  <li id="admin1_code">
     <span>
       <code>admin1_code</code>
       <small class="type">string</small>
@@ -252,7 +247,7 @@ if (!isset($TEMPLATE)) {
       such as a state in the United States.
     </p>
   </li>
-  <li>
+  <li id="admin1_name">
     <span>
       <code>admin1_name</code>
       <small class="type">string</small>
@@ -262,7 +257,7 @@ if (!isset($TEMPLATE)) {
       in the United States.
     </p>
   </li>
-  <li>
+  <li id="azimuth">
     <span>
       <code>azimuth</code>
       <small class="type">decimal</small>
@@ -272,7 +267,7 @@ if (!isset($TEMPLATE)) {
       point (latitude, longitude).
     </p>
   </li>
-  <li>
+  <li id="country_code">
     <span>
       <code>country_code</code>
       <small class="type">string</small>
@@ -281,7 +276,7 @@ if (!isset($TEMPLATE)) {
       Two character code for country.
     </p>
   </li>
-  <li>
+  <li id="country_name">
     <span>
       <code>country_name</code>
       <small class="type">string</small>
@@ -290,7 +285,7 @@ if (!isset($TEMPLATE)) {
       Name of country.
     </p>
   </li>
-  <li>
+  <li id="distance">
     <span>
       <code>distance</code>
       <small class="type">decimal</small>
@@ -300,7 +295,7 @@ if (!isset($TEMPLATE)) {
       longitude).
     </p>
   </li>
-  <li>
+  <li id="feature_class">
     <span>
       <code>feature_class</code>
       <small class="type">string</small>
@@ -310,7 +305,7 @@ if (!isset($TEMPLATE)) {
       feature class</a> used to describe the Feature.
     </p>
   </li>
-  <li>
+  <li id="feature_code">
     <span>
       <code>feature_code</code>
       <small class="type">string</small>
@@ -320,7 +315,7 @@ if (!isset($TEMPLATE)) {
       code</a> used to describe the Feature.
     </p>
   </li>
-  <li>
+  <li id="name">
     <span>
       <code>name</code>
       <small class="type">string</small>
@@ -329,7 +324,7 @@ if (!isset($TEMPLATE)) {
       Name of the Feature.
     </p>
   </li>
-  <li>
+  <li id="population">
     <span>
       <code>population</code>
       <small class="type">integer</small>
