@@ -35,7 +35,7 @@ class PlacesFactory extends GeoserveFactory {
     if ($query->latitude === null || $query->longitude === null) {
       throw new Exception('"latitude" and "longitude" are required');
     } else if ($query->maxradiuskm === null && $query->limit === null) {
-      throw new Exception('"limit" and/or "maxradiuskm" are required');
+      throw new Exception('"limit" or "maxradiuskm" are required');
     }
 
     if ($query->maxradiuskm === null) {
