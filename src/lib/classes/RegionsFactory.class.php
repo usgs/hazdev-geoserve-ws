@@ -173,11 +173,11 @@ class RegionsFactory extends GeoserveFactory {
    *
    * @param $query {RegionsQuery}
    *        query object
-   * @param $NEIC {String}
+   * @param $table {String}
    *        'neic_catalog' or 'neic_response'
    */
-  private function getNEIC ($query, $type) {
-    if ($type !== 'neic_catalog' && $type !== 'neic_response') {
+  private function getNEIC ($query, $table) {
+    if ($table !== 'neic_catalog' && $table !== 'neic_response') {
       throw new Exception('Type must be "neic_response" or "neic_catalog"');
     }
 
@@ -206,7 +206,7 @@ class RegionsFactory extends GeoserveFactory {
       $sql .= ', ST_AsGeoJSON(shape) as shape';
     }
 
-    $sql .= ' FROM search, ' . $type .
+    $sql .= ' FROM search, ' . $table .
         ' WHERE search.point && shape' .
         ' AND ST_Intersects(search.point, shape)' .
         ' ORDER BY ST_Area(shape) ASC';
