@@ -75,19 +75,19 @@ if (!isset($TEMPLATE)) {
 
 <h5>1.1.1 Circle Search</h5>
 <ul class="parameters vertical separator no-style">
-  <li id="circle_latitude">
+  <li id="latitude">
     <header>
       <code>latitude</code>
     </header>
     <p>Latitude in decimal degrees [-90,90].</p>
   </li>
-  <li id="circle_longitude">
+  <li id="longitude">
     <header>
       <code>longitude</code>
     </header>
     <p>Longitude in decimal degrees [-180,180].</p>
   </li>
-  <li id="circle_latitude">
+  <li id="maxradiuskm">
     <header>
       <code>maxradiuskm</code>
     </header>
@@ -146,29 +146,29 @@ if (!isset($TEMPLATE)) {
 
 <h5>1.1.2 Rectangle Search</h5>
 <ul class="parameters vertical separator no-style">
-  <li id="rectangle_maxlatitude">
+  <li id="maxlatitude">
     <header>
       <code>maxlatitude</code>
     </header>
     <p>Upper latitude bounds in decimal degrees [-90,90].</p>
   </li>
-  <li id="rectangle_minlatitude">
+  <li id="minlatitude">
     <header>
       <code>minlatitude</code>
     </header>
-    <p>Latitude in decimal degrees [-90,90].</p>
+    <p>Lower latitude bounds in decimal degrees [-90,90].</p>
   </li>
-  <li id="rectangle_maxlongitude">
+  <li id="maxlongitude">
     <header>
       <code>maxlongitude</code>
     </header>
-    <p>Longitude in decimal degrees [-180,180].</p>
+    <p>Upper longitude bounds in decimal degrees [-180,180].</p>
   </li>
-  <li id="rectangle_minlongitude">
+  <li id="minlongitude">
     <header>
       <code>minlongitude</code>
     </header>
-    <p>Longitude in decimal degrees [-180,180].</p>
+    <p>Lower longitude bounds in decimal degrees [-180,180].</p>
   </li>
   <li id="rectangle_limit">
     <header>
