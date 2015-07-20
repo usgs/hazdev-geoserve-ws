@@ -34,7 +34,7 @@ $DEFAULTS = array(
   'MOUNT_PATH' => '/ws/geoserve',
   'GEOSERVE_VERSION' => '0.1.0',
   'DB_DSN' => 'pgsql:host=localhost;port=5432;dbname=earthquake;',
-  'DB_USER' => 'geoserve_web',
+  'DB_USER' => 'web',
   'DB_PASS' => ''
 );
 $HELP_TEXT = array(
