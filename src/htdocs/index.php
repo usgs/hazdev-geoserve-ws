@@ -180,7 +180,7 @@ if (!isset($TEMPLATE)) {
           <small class="optional">optional</small>
         </span>
         <p>
-          Limit number of results, sorted by distance.
+          Limit number of results, sorted by population.
         </p>
       </li>
       <li>
