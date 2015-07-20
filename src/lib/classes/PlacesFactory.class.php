@@ -250,6 +250,10 @@ class PlacesFactory extends GeoserveFactory {
     return PlacesFactory::$SUPPORTED_TYPES;
   }
 
+  public function getCasts ($type) {
+    return array();
+  }
+
   /**
    * Generic method for parsing "WHERE" parameters that are common to both
    * circle and rectangle searches.
