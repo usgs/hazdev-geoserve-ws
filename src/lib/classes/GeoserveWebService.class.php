@@ -230,7 +230,7 @@ class GeoserveWebService {
       }
       if ($query->maxradiuskm !== null) {
         $this->error(self::BAD_REQUEST,
-            'rectangle search cannot use "limit" or "maxradiuskm"');
+            'rectangle search cannot use "maxradiuskm"');
       }
 
     } else {
