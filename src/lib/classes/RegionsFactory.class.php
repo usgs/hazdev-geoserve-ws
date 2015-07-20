@@ -6,8 +6,8 @@ class RegionsFactory extends GeoserveFactory {
     'admin',
     'authoritative',
     'fe',
-    'neic_catalog',
-    'neic_response'
+    'neiccatalog',
+    'neicresponse'
   );
 
   /**
@@ -30,11 +30,11 @@ class RegionsFactory extends GeoserveFactory {
     if (in_array('fe', $query->type)) {
       $data['fe'] = $this->getFE($query);
     }
-    if (in_array('neic_catalog', $query->type)) {
-      $data['neic_catalog'] = $this->getNEICCatalog($query);
+    if (in_array('neiccatalog', $query->type)) {
+      $data['neiccatalog'] = $this->getNEICCatalog($query);
     }
-    if (in_array('neic_response', $query->type)) {
-      $data['neic_response'] = $this->getNEICResponse($query);
+    if (in_array('neicresponse', $query->type)) {
+      $data['neicresponse'] = $this->getNEICResponse($query);
     }
 
     return $data;
@@ -176,7 +176,11 @@ class RegionsFactory extends GeoserveFactory {
    * @param $NEIC {String}
    *        'neic_catalog' or 'neic_response'
    */
-  public function getNEIC ($query, $NEIC) {
+  private function getNEIC ($query, $type) {
+    if ($type !== 'neic_catalog' && $type !== 'neic_response') {
+      throw new Exception('Type must be "neic_response" or "neic_catalog"');
+    }
+
     //Checks for latitude and longitude
     if ($query->latitude === null || $query->longitude === null) {
       throw new Exception('"latitude", and "longitude" are required');
@@ -202,7 +206,7 @@ class RegionsFactory extends GeoserveFactory {
       $sql .= ', ST_AsGeoJSON(shape) as shape';
     }
 
-    $sql .= ' FROM search, ' . $NEIC .
+    $sql .= ' FROM search, ' . $type .
         ' WHERE search.point && shape' .
         ' AND ST_Intersects(search.point, shape)' .
         ' ORDER BY ST_Area(shape) ASC';
