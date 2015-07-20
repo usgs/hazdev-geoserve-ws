@@ -41,17 +41,17 @@ class GeoserveWebService {
     $placesFormatter = new PlacesFormatter();
     $placesQuery = $this->parsePlacesQuery($params);
     $places = $this->placesFactory->get($placesQuery, null);
-    $this->output($places, $placesFormatter);
+    $this->output($places, $placesFormatter, $this->placesFactory);
   }
 
   public function regions ($params) {
     $regionsFormatter = new RegionsFormatter();
     $regionsQuery = $this->parseRegionsQuery($params);
     $regions = $this->regionsFactory->get($regionsQuery, null);
-    $this->output($regions, $regionsFormatter);
+    $this->output($regions, $regionsFormatter, $this->regionsFactory);
   }
 
-  public function output ($data, $formatter) {
+  public function output ($data, $formatter, $factory) {
     global $APP_DIR;
 
     $CACHE_MAXAGE = 3600;
@@ -72,7 +72,8 @@ class GeoserveWebService {
     foreach ($data as $type => $items) {
       $formatted = array();
       foreach ($items as $item) {
-        $formatted[] = $formatter->formatItem($item, $type);
+        $formatted[] = $formatter->formatItem($item, $type,
+            $factory->getCasts($type));
       }
 
       // each type is a separate feature collection
