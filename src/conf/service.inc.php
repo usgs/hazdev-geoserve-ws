@@ -10,9 +10,9 @@ include_once $CLASSES_DIR . '/GeoserveWebService.class.php';
 include_once $CLASSES_DIR . '/PlacesFactory.class.php';
 include_once $CLASSES_DIR . '/RegionsFactory.class.php';
 
-$PLACES_FACTORY = new PlacesFactory(
-    $CONFIG['DB_DSN'], $CONFIG['DB_USER'], $CONFIG['DB_PASS']);
-$REGIONS_FACTORY = new RegionsFactory(
-    $CONFIG['DB_DSN'], $CONFIG['DB_USER'], $CONFIG['DB_PASS']);
+$PLACES_FACTORY = new PlacesFactory($CONFIG['DB_DSN'], $CONFIG['DB_USER'],
+    $CONFIG['DB_PASS'], $CONFIG['DB_SCHEMA']);
+$REGIONS_FACTORY = new RegionsFactory($CONFIG['DB_DSN'], $CONFIG['DB_USER'],
+    $CONFIG['DB_PASS'], $CONFIG['DB_SCHEMA']);
 
 $SERVICE = new GeoserveWebService($PLACES_FACTORY, $REGIONS_FACTORY);

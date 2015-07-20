@@ -52,6 +52,14 @@ class SqliteDatabaseInstaller extends DatabaseInstaller {
 		// nothing to do
 	}
 
+	public function createSchema ($schema) {
+		// nothing to do
+	}
+
+	public function postgisEnabled () {
+		return false;
+	}
+
 	/**
 	 * Create database user.
 	 */

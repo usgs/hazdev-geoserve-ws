@@ -6,6 +6,7 @@ abstract class GeoserveFactory {
   protected $db_dsn;
   protected $db_user;
   protected $db_pass;
+  protected $db_schema;
 
   /**
    * Construct a new PlacesFactory.
@@ -18,11 +19,12 @@ abstract class GeoserveFactory {
    * @param $db_pass {String}
    *        database password.
    */
-  public function __construct($db_dsn, $db_user, $db_pass) {
+  public function __construct($db_dsn, $db_user, $db_pass, $db_schema = null) {
     $this->db = null;
     $this->db_dsn = $db_dsn;
     $this->db_user = $db_user;
     $this->db_pass = $db_pass;
+    $this->db_schema = $db_schema;
   }
 
 
@@ -35,6 +37,11 @@ abstract class GeoserveFactory {
       $this->db = new PDO($this->db_dsn, $this->db_user, $this->db_pass);
       $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
+
+    if ($this->db_schema !== null && $this->db_schema !== '') {
+      $this->db->exec('SET search_path = ' . $this->db_schema . ', public');
+    }
+
     return $this->db;
   }
 

@@ -37,43 +37,63 @@ $defaultDataDir = implode(DIRECTORY_SEPARATOR, array(
 // Schema loading configuration
 // ----------------------------------------------------------------------
 
-
 $dbInstaller = DatabaseInstaller::getInstaller($DB_DSN, $username, $password);
 
-$answer = promptYesNo("Would you like to create the database", true);
 
-if ($answer) {
-
-  $answer = promptYesNo("\nCreating the database will remove any existing " .
-      "schema and/or data.\nAre you sure you wish to continue", false);
+if (!$dbInstaller->databaseExists()) {
+  $answer = promptYesNo("Database does not exist, create it now?", true);
 
   if ($answer) {
-
-    // ----------------------------------------------------------------------
-    // Drop Database
-    // ----------------------------------------------------------------------
-
-    $dbInstaller->dropDatabase();
-
-    // ----------------------------------------------------------------------
-    // Create Database
-    // ----------------------------------------------------------------------
-
-    // make sure database doesn't exists
-    if (!$dbInstaller->databaseExists()) {
-      $dbInstaller->createDatabase();
-    }
-
-    // ----------------------------------------------------------------------
-    // Create Users
-    // ----------------------------------------------------------------------
-
-    // read-only user
-    $dbInstaller->createUser(array('SELECT'), $CONFIG['DB_USER'], $CONFIG['DB_PASS']);
-
-    echo "SUCCESS!!\n";
-
+    $dbInstaller->createDatabase();
+  } else {
+    echo "No database. Can not continue.\n";
   }
+}
+
+$dbInstaller->connect();
+
+
+if (!$dbInstaller->postgisEnabled()) {
+  $answer = promptYesNo("Postgis is not yet enabled. Enable it now?", true);
+
+  if ($answer) {
+    $dbInstaller->enablePostgis();
+  } else {
+    echo "Postgis not enabled. This may cause problems in a minute here.\n";
+  }
+}
+
+
+// ----------------------------------------------------------------------
+// Create User
+// ----------------------------------------------------------------------
+
+if (!$dbInstaller->userExists($CONFIG['DB_USER'])) {
+  $answer = promptYesNo("Readonly user does not yet exist. Create it now?",
+      true);
+
+  if ($answer) {
+    $dbInstaller->createUser(array('SELECT'), $CONFIG['DB_USER'],
+        $CONFIG['DB_PASS']);
+  }
+}
+
+
+// ----------------------------------------------------------------------
+// Create Schema
+// ----------------------------------------------------------------------
+
+if (isset($CONFIG['DB_SCHEMA']) && $CONFIG['DB_SCHEMA'] !== '') {
+
+  if (!$dbInstaller->schemaExists($CONFIG['DB_SCHEMA'])) {
+    $answer = promptYesNo("Schema does not yet exist. Create it now?", true);
+
+    if ($answer) {
+      $dbInstaller->createSchema($CONFIG['DB_SCHEMA']);
+    }
+  }
+
+  $dbInstaller->run('SET search_path = ' . $CONFIG['DB_SCHEMA'] . ', public');
 }
 
 
@@ -93,7 +113,8 @@ include_once 'load_neic.php';
 // ----------------------------------------------------------------------
 
 // read-only access
-$dbInstaller->grantRoles(array('SELECT'), $CONFIG['DB_USER']);
+$dbInstaller->grantRoles(array('SELECT'), $CONFIG['DB_USER'],
+    $CONFIG['DB_SCHEMA']);
 
 
 // ----------------------------------------------------------------------

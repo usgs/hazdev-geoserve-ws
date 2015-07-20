@@ -142,6 +142,17 @@ abstract class DatabaseInstaller {
 	 */
 	public abstract function createUser ($roles, $user, $password);
 
+	/**
+	 * Create database schema.
+	 */
+	public abstract function createSchema ($schema);
+
+
+	/**
+	 * Checks if postgis extension is enabled on current database.
+	 */
+	public abstract function postgisEnabled ();
+
 }
 
 

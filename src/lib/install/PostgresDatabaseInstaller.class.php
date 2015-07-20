@@ -23,6 +23,16 @@ class PostgresDatabaseInstaller extends DatabaseInstaller {
     $this->dbname = $matches[1];
   }
 
+  public function connect ($schema = null) {
+    $db = parent::connect();
+
+    if ($schema !== null) {
+      $db->exec('SET search_path = ' . $schema . ', public');
+    }
+
+    return $db;
+  }
+
   /**
    * Check if database exists.
    *
@@ -59,6 +69,10 @@ class PostgresDatabaseInstaller extends DatabaseInstaller {
     $this->enablePostgis();
   }
 
+  public function createSchema ($schema) {
+    $this->run('CREATE SCHEMA ' . $schema);
+  }
+
   /**
    * Disable postgis extension
    */
@@ -73,34 +87,45 @@ class PostgresDatabaseInstaller extends DatabaseInstaller {
     $this->run('CREATE EXTENSION postgis');
   }
 
+  public function postgisEnabled () {
+    try {
+      $this->dbh->exec('SELECT PostGIS_full_version()');
+      return true;
+    } catch (Exception $e) {
+      return false;
+    }
+  }
+
   /**
    * Drop $user with roles
    */
   public function dropUser ($roles, $user) {
     if ($this->userExists($user)) {
       $this->revokeRoles($roles, $user);
-      $this->run('DROP USER IF EXISTS ' . $user);
+      $this->run('DROP USER IF EXISTS ' . $user . ' CASCADE');
     }
   }
 
   /**
    * Create user with $roles
    */
-  public function createUser ($roles, $user, $password) {
-    // drop user if it already exists
-    $this->dropUser($roles, $user);
+  public function createUser ($roles, $user, $password, $schema = 'public') {
     // create read only user
     $this->run('CREATE USER ' . $user . ' WITH PASSWORD \'' . $password . '\'');
-    $this->grantRoles($roles, $user);
+    $this->grantRoles($roles, $user, $schema);
   }
 
   /**
    * Grant all $roles to $user
    */
-  public function grantRoles ($roles, $user) {
-    $this->run('GRANT USAGE ON SCHEMA public TO ' . $user);
+  public function grantRoles ($roles, $user, $schema = 'public') {
+    if ($schema === null || $schema === '') {
+      $schema = 'public';
+    }
+
+    $this->run('GRANT USAGE ON SCHEMA ' . $schema . ' TO ' . $user);
     $this->run('GRANT ' . implode(',', $roles) .
-        ' ON ALL TABLES IN SCHEMA public TO ' . $user);
+        ' ON ALL TABLES IN SCHEMA ' . $schema . ' TO ' . $user);
   }
 
   /**
@@ -129,6 +154,22 @@ class PostgresDatabaseInstaller extends DatabaseInstaller {
     }
 
     // $user exists
+    return true;
+  }
+
+  public function schemaExists ($schema) {
+    $db = $this->connect();
+
+    $sql = 'SELECT nspname FROM pg_catalog.pg_namespace WHERE nspname = \'' .
+        $schema . '\'';
+
+    $result = $db->query($sql)->fetchColumn();
+    $db = null;
+
+    if ($result === false) {
+      return false;
+    }
+
     return true;
   }
 
