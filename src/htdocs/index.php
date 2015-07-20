@@ -76,49 +76,49 @@ if (!isset($TEMPLATE)) {
 <h5>1.1.1 Circle Search</h5>
 <ul class="parameters vertical separator no-style">
   <li id="circle_latitude">
-    <span>
+    <header>
       <code>latitude</code>
-    </span>
+    </header>
     <p>Latitude in decimal degrees [-90,90].</p>
   </li>
   <li id="circle_longitude">
-    <span>
+    <header>
       <code>longitude</code>
-    </span>
+    </header>
     <p>Longitude in decimal degrees [-180,180].</p>
   </li>
   <li id="circle_latitude">
-    <span>
+    <header>
       <code>maxradiuskm</code>
-    </span>
+    </header>
     <p>
       Search radius (in kilometers) from the center point (latitude, longitude).
     </p>
   </li>
   <li id="circle_limit">
-    <span>
+    <header>
       <code>limit</code>
       <small class="optional">optional</small>
-    </span>
+    </header>
     <p>
       Limit number of results, sorted by distance.
     </p>
   </li>
   <li id="circle_minpopulation">
-    <span>
+    <header>
       <code>minpopulation</code>
       <small class="optional">optional</small>
-    </span>
+    </header>
     <p>
       Limit results to places where population is greater than, or equal
       to, minpopulation.
     </p>
   </li>
   <li id="circle_type">
-    <span>
+    <header>
       <code>type</code>
       <small class="optional">optional</small>
-    </span>
+    </header>
     <div>
       <p>
         The type of search being performed.
@@ -147,53 +147,53 @@ if (!isset($TEMPLATE)) {
 <h5>1.1.2 Rectangle Search</h5>
 <ul class="parameters vertical separator no-style">
   <li id="rectangle_maxlatitude">
-    <span>
+    <header>
       <code>maxlatitude</code>
-    </span>
+    </header>
     <p>Upper latitude bounds in decimal degrees [-90,90].</p>
   </li>
   <li id="rectangle_minlatitude">
-    <span>
+    <header>
       <code>minlatitude</code>
-    </span>
+    </header>
     <p>Latitude in decimal degrees [-90,90].</p>
   </li>
   <li id="rectangle_maxlongitude">
-    <span>
+    <header>
       <code>maxlongitude</code>
-    </span>
+    </header>
     <p>Longitude in decimal degrees [-180,180].</p>
   </li>
   <li id="rectangle_minlongitude">
-    <span>
+    <header>
       <code>minlongitude</code>
-    </span>
+    </header>
     <p>Longitude in decimal degrees [-180,180].</p>
   </li>
   <li id="rectangle_limit">
-    <span>
+    <header>
       <code>limit</code>
       <small class="optional">optional</small>
-    </span>
+    </header>
     <p>
       Limit number of results, sorted by population.
     </p>
   </li>
   <li id="rectangle_minpopulation">
-    <span>
+    <header>
       <code>minpopulation</code>
       <small class="optional">optional</small>
-    </span>
+    </header>
     <p>
       Limit results to places where population is greater than, or equal
       to, minpopulation.
     </p>
   </li>
   <li id="rectangle_type">
-    <span>
+    <header>
       <code>type</code>
       <small class="optional">optional</small>
-    </span>
+    </header>
     <div>
       <p>
         The type of search being performed.
@@ -222,113 +222,121 @@ if (!isset($TEMPLATE)) {
 
 <h3>2. Response</h3>
 <p>
-    The web service response is formatted as one or more nested
+    The response is formatted as one or more nested
     <a href="http://geojson.org/geojson-spec.html#feature-collection-objects">
-    GeoJSON FeatureCollections</a>. Each of these nested GeoJSON
-    FeatureCollections are keyed by &ldquo;type&rdquo;.
+    GeoJSON FeatureCollections</a>. Each nested GeoJSON FeatureCollections is
+    keyed by the request <code>type</code>.
 </p>
 
 <h4>2.1 Properties</h4>
 <p>
-  Each matching Feature includes an <code>id</code>, a geometry object with
-  <code>longitude</code>, <code>latitude</code>, and <code>elevation</code>,
+  Each returned Feature in the GeoJSON FeatureCollection includes an id,
+  a geometry object with longitude, latitude, and elevation,
   and a properties object with the following attributes:
 </p>
 
-
 <ul class="parameters vertical separator no-style">
   <li id="admin1_code">
-    <span>
+    <header>
       <code>admin1_code</code>
       <small class="type">string</small>
-    </span>
+    </header>
     <p>
       Three character code for a primary administrative division of a country,
       such as a state in the United States.
     </p>
   </li>
   <li id="admin1_name">
-    <span>
+    <header>
       <code>admin1_name</code>
       <small class="type">string</small>
-    </span>
+    </header>
     <p>
       Name of a primary administrative division of a country, such as a state
       in the United States.
     </p>
   </li>
   <li id="azimuth">
-    <span>
+    <header>
       <code>azimuth</code>
       <small class="type">decimal</small>
-    </span>
+    </header>
     <p>
       Direction in decimal degrees [0,360] from the Feature to the center
       point (latitude, longitude).
     </p>
   </li>
   <li id="country_code">
-    <span>
+    <header>
       <code>country_code</code>
       <small class="type">string</small>
-    </span>
+    </header>
     <p>
-      Two character code for country.
+      ISO-3166 2-character country code
     </p>
   </li>
   <li id="country_name">
-    <span>
+    <header>
       <code>country_name</code>
       <small class="type">string</small>
-    </span>
+    </header>
     <p>
       Name of country.
     </p>
   </li>
   <li id="distance">
-    <span>
+    <header>
       <code>distance</code>
       <small class="type">decimal</small>
-    </span>
+    </header>
     <p>
       Distance in kilometers from the Feature to the center point(latitude,
       longitude).
     </p>
   </li>
   <li id="feature_class">
-    <span>
+    <header>
       <code>feature_class</code>
       <small class="type">string</small>
-    </span>
+    </header>
     <p>
       Geonames <a href="http://www.geonames.org/source-code/javadoc/org/geonames/FeatureClass.html">
       feature class</a> used to describe the Feature.
     </p>
   </li>
   <li id="feature_code">
-    <span>
+    <header>
       <code>feature_code</code>
       <small class="type">string</small>
-    </span>
+    </header>
     <p>
       Geonames <a href="http://www.geonames.org/export/codes.html">feature
       code</a> used to describe the Feature.
     </p>
   </li>
+  <li id="geoname_id">
+    <header>
+      <code>id</code>
+      <small class="type">integer</small>
+    </header>
+    <p>
+     ID in geonames database.
+    </p>
+  </li>
   <li id="name">
-    <span>
+    <header>
       <code>name</code>
       <small class="type">string</small>
-    </span>
+    </header>
     <p>
       Name of the Feature.
     </p>
   </li>
   <li id="population">
-    <span>
+    <header>
       <code>population</code>
       <small class="type">integer</small>
-    </span>
+    </header>
     <p>
       Population associated with the Feature.
     </p>
@@ -359,6 +367,14 @@ if (!isset($TEMPLATE)) {
     <?php
       $url = $HOST_URL_PREFIX . $MOUNT_PATH .
           '/places?latitude=39.75&amp;longitude=-105.2&amp;maxradiuskm=100&amp;minpopulation=1000&amp;type=geonames';
+      echo '<a href="', $url, '">', $url, '</a>';
+    ?>
+  </li>
+  <li>
+    <p>All places within a rectangle with at least 10,000 people</p>
+    <?php
+      $url = $HOST_URL_PREFIX . $MOUNT_PATH .
+          '/places?minlatitude=39&maxlatitude=40&minlongitude=-105&maxlongitude=106&minpopulation=10000&type=geonames';
       echo '<a href="', $url, '">', $url, '</a>';
     ?>
   </li>
