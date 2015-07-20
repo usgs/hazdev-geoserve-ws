@@ -32,15 +32,17 @@ if (!is_dir($CONF_DIR)) {
 // configuration defaults
 $DEFAULTS = array(
   'MOUNT_PATH' => '/ws/geoserve',
-  'GEOSERVE_VERSION' => '0.0.1',
-  'DB_DSN' => 'pgsql:host=localhost;port=5432;dbname=geoserve;',
-  'DB_USER' => 'geoserve_web',
+  'GEOSERVE_VERSION' => '0.1.0',
+  'DB_DSN' => 'pgsql:host=localhost;port=5432;dbname=earthquake;',
+  'DB_SCHEMA' => 'geoserve',
+  'DB_USER' => 'web',
   'DB_PASS' => ''
 );
 $HELP_TEXT = array(
   'MOUNT_PATH' => 'Url path to application',
   'GEOSERVE_VERSION' => 'Webservice api version',
   'DB_DSN' => 'Database connection DSN string',
+  'DB_SCHEMA' => 'Schema name for database installation',
   'DB_USER' => 'Read/write username for database connections',
   'DB_PASS' => 'Password for database user'
 );

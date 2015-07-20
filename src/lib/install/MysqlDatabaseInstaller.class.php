@@ -66,6 +66,14 @@ class MysqlDatabaseInstaller extends DatabaseInstaller {
 				$password . '\'');
 	}
 
+	public function createSchema ($schema) {
+		// Do nothing, MySQL does not support schemas
+	}
+
+	public function postgisEnabled () {
+		return false;
+	}
+
 	/**
 	 * Connect to the mysql server without specifying a database name.
 	 * Used by dropDatabase() and createDatabase().
