@@ -113,6 +113,101 @@ if (!isset($TEMPLATE)) {
    </tbody>
  </table>
 
+ <h3>Response Properties</h3>
+ <p>
+   <h4>Admin Regions</h4>
+ </p>
+ <table class="tabular parameters responsive">
+   <thead>
+     <tr>
+       <th>property</th>
+       <th>type</th>
+       <th>description</th>
+     </tr>
+   </thead>
+   <tbody class="no-header-style">
+     <tr id="iso">
+       <th><code>iso</code></th>
+       <td>String</span></td>
+       <td>
+         Country Code.
+       </td>
+     </tr>
+     <tr id="country">
+       <th><code>Country</code></th>
+       <td>String</td>
+       <td>
+         Name of Country.
+       </td>
+     </tr>
+     <tr id="region">
+       <th><code>Region</code></th>
+       <td>String</td>
+       <td>
+         Name of region
+       </td>
+     </tr>
+   </tbody>
+ </table>
+
+ <p>
+   <h4>Authoritative Regions</h4>
+ </p>
+ <table class="tabular parameters responsive">
+   <thead>
+     <tr>
+       <th>property</th>
+       <th>type</th>
+       <th>description</th>
+     </tr>
+   </thead>
+   <tbody class="no-header-style">
+     <tr id="name">
+       <th><code>Name</code></th>
+       <td>String</span></td>
+       <td>
+         Name of place.
+       </td>
+     </tr>
+     <tr id="network">
+       <th><code>Network</code></th>
+       <td>String</td>
+       <td>
+         Name of network.
+       </td>
+     </tr>
+   </tbody>
+ </table>
+
+ <p>
+   <h4>FE Regions</h4>
+ </p>
+ <table class="tabular parameters responsive">
+   <thead>
+     <tr>
+       <th>property</th>
+       <th>type</th>
+       <th>description</th>
+     </tr>
+   </thead>
+   <tbody class="no-header-style">
+     <tr id="num">
+       <th><code>Num</code></th>
+       <td>Integer</span></td>
+       <td>
+         FE region identification number.
+       </td>
+     </tr>
+     <tr id="name">
+       <th><code>Name</code></th>
+       <td>String</td>
+       <td>
+         Name of FE region.
+       </td>
+     </tr>
+   </tbody>
+ </table>
+
  <h3>Example Requests</h3>
 
  <h4>Region search at latitude 39.5, longitude -105</h4>
