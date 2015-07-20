@@ -96,18 +96,18 @@ if (!isset($TEMPLATE)) {
      </tr>
    </thead>
    <tbody class="no-header-style">
-     <tr id="limit">
+     <tr id="includeGeometry">
        <th><code>includeGeometry</code></th>
        <td>Boolean</td>
        <td>
          Set to true returns poloygon points of the selected region.
        </td>
      </tr>
-     <tr id="limit">
+     <tr id="type">
       <th><code>type</code></th>
       <td>String</td>
       <td>
-        Region Types (admin, authoritative, fe, neic_catalog, neic_response).
+        Region Types (admin, authoritative, fe, neiccatalog, neicresponse).
       </td>
      </tr>
    </tbody>
