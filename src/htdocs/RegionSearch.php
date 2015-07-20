@@ -107,7 +107,7 @@ if (!isset($TEMPLATE)) {
       <th><code>type</code></th>
       <td>String</td>
       <td>
-        Region Types (admin, authoritative, fe, neic).
+        Region Types (admin, authoritative, fe, neic_catalog, neic_response).
       </td>
      </tr>
    </tbody>
@@ -208,6 +208,63 @@ if (!isset($TEMPLATE)) {
    </tbody>
  </table>
 
+<p>
+  <h4>NEIC Catalog Regions</h4>
+</p>
+<table class="tabular parameters responsive">
+  <thead>
+    <tr>
+      <th>property</th>
+      <th>type</th>
+      <th>description</th>
+    </tr>
+  </thead>
+  <tbody class="no-header-style">
+    <tr id="name">
+      <th><code>name</code></th>
+      <td>String</span></td>
+      <td>
+        NEIC catalog name.
+      </td>
+    </tr>
+    <tr id="magnitude">
+      <th><code>Magnitude</code></th>
+      <td>Decimal</td>
+      <td>
+        Magnitude associated with the place.
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<p>
+  <h4>NEIC Response Regions</h4>
+</p>
+<table class="tabular parameters responsive">
+  <thead>
+    <tr>
+      <th>property</th>
+      <th>type</th>
+      <th>description</th>
+    </tr>
+  </thead>
+  <tbody class="no-header-style">
+    <tr id="name">
+      <th><code>name</code></th>
+      <td>String</span></td>
+      <td>
+        NEIC catalog name.
+      </td>
+    </tr>
+    <tr id="magnitude">
+      <th><code>Magnitude</code></th>
+      <td>Decimal</td>
+      <td>
+        Magnitude associated with the place.
+      </td>
+    </tr>
+  </tbody>
+</table>
  <h3>Example Requests</h3>
 
  <h4>Region search at latitude 39.5, longitude -105</h4>
