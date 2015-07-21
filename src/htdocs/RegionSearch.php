@@ -56,8 +56,137 @@ if (!isset($TEMPLATE)) {
    Empty values for these parameters are not supported.
  </p>
 
+<h4>Required Parameters</h4>
+<ul class="parameters vertical separator no-style">
+  <li id="latitude">
+    <header>
+      <code>latitude</code>
+      <small class="type">Decimal</small>
+    </header>
+    <p>
+      Latitude in decimal degrees [-90,90].
+    </p>
+  </li>
+  <li id="longitude">
+    <header>
+      <code>Longitude</code>
+      <small class="type">Decimal</small>
+    </header>
+    <p>
+      Longitude in decimal degrees [-180,180].
+    </p>
+  </li>
+</ul>
 
- <h4>Required Parameters</h4>
+<h4>Optional parameters</h4>
+<ul class="optional-parameters vertical separator no-style">
+  <li id="includeGeometry">
+    <header>
+      <code>includeGeometry</code>
+      <small class="type">Boolean</small>
+    </header>
+      <p>
+        Set to true returns poloygon points of the selected region.
+      </p>
+  </li>
+  <li id="type">
+    <header>
+      <code>type</code>
+      <small class="type">String</small>
+    </header>
+    <p>
+      Region Types (admin, authoritative, fe, neiccatalog, neicresponse).
+    </p>
+  </li>
+</ul>
+
+<h3>Response Properties</h3>
+<p>
+  The response is formatted as one or more nested
+  <a href="http://geojson.org/geojson-spec.html#feature-collection-objects">
+  GeoJSON FeatureCollections</a>. Each nested GeoJSON FeatureCollections is
+  keyed by the request <code>type</code>.
+</p>
+
+<h4>Admin Regions</h4>
+<ul class="admin-region vertical separator no-style">
+  <li id="iso">
+    <header>
+      <code>iso</code>
+      <small class="type">String</small>
+    </header>
+    <p>
+      Country Code.
+    </p>
+  </li>
+  <li id="country">
+    <header>
+      <code>Country</code>
+      <small class="type">String</small>
+    </header>
+    <p>
+      Name of Country.
+    </p>
+  </li>
+  <li id="region">
+    <header>
+      <code>Region</code>
+      <small class="type">String</small>
+    </header>
+    <p>
+      Name of region.
+    </p>
+  </li>
+</ul>
+
+<h4>Authoritative Regions</h4>
+<ul class="authoritative-regions vertical separator no-style">
+  <li id="name">
+    <header>
+      <code>Name</code>
+      <small class="type">String</small>
+    </header>
+    <p>
+      Name of place.
+    </p>
+  </li>
+  <li id="network">
+    <header>
+      <code>Network</code>
+      <small class="type">String</small>
+    </header>
+    <p>
+      Name of network.
+    </p>
+  </li>
+</ul>
+
+<h4>FE Regions</h4>
+<ul class="fe-regions vertical separator no-style">
+  <li id="num">
+    <header>
+      <code>Num</code>
+      <small class="type">Integer</small>
+    </header>
+    <p>
+      FE region identification number.
+    </p>
+  </li>
+  <li id="name">
+    <header>
+      <code>Name</code>
+      <small class="type">String</small>
+    </header>
+    <p>
+      Name of FE region.
+    </p>
+  </li>
+</ul>
+
+
+
+
+
  <table class="tabular parameters responsive">
    <thead>
      <tr>
