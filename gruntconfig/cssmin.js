@@ -5,7 +5,6 @@ var config = require('./config');
 var cssmin = {
   options: {
     report: 'min',
-    root: config.dist + '/htdocs',
     processImport: false,
     noRebase: true
   },
@@ -13,7 +12,7 @@ var cssmin = {
     expand: true,
     cwd: config.build + '/' + config.src,
     dest: config.dist,
-    src: '**/*.css'
+    src: 'htdocs/index.css'
   }
 };
 
