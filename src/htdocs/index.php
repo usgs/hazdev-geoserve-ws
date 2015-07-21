@@ -98,7 +98,7 @@ if (!isset($TEMPLATE)) {
   <li id="circle_limit">
     <header>
       <code>limit</code>
-      <small class="optional">optional</small>
+      <small>optional</small>
     </header>
     <p>
       Limit number of results, sorted by distance.
@@ -107,7 +107,7 @@ if (!isset($TEMPLATE)) {
   <li id="circle_minpopulation">
     <header>
       <code>minpopulation</code>
-      <small class="optional">optional</small>
+      <small>optional</small>
     </header>
     <p>
       Limit results to places where population is greater than, or equal
@@ -117,7 +117,7 @@ if (!isset($TEMPLATE)) {
   <li id="circle_type">
     <header>
       <code>type</code>
-      <small class="optional">optional</small>
+      <small>optional</small>
     </header>
     <div>
       <p>
@@ -173,7 +173,7 @@ if (!isset($TEMPLATE)) {
   <li id="rectangle_limit">
     <header>
       <code>limit</code>
-      <small class="optional">optional</small>
+      <small>optional</small>
     </header>
     <p>
       Limit number of results, sorted by population.
@@ -182,7 +182,7 @@ if (!isset($TEMPLATE)) {
   <li id="rectangle_minpopulation">
     <header>
       <code>minpopulation</code>
-      <small class="optional">optional</small>
+      <small>optional</small>
     </header>
     <p>
       Limit results to places where population is greater than, or equal
@@ -192,7 +192,7 @@ if (!isset($TEMPLATE)) {
   <li id="rectangle_type">
     <header>
       <code>type</code>
-      <small class="optional">optional</small>
+      <small>optional</small>
     </header>
     <div>
       <p>
@@ -336,15 +336,19 @@ if (!isset($TEMPLATE)) {
 </ul>
 
 <h3>3. Example</h3>
-
-<h4>3.1 Example Requests</h4>
 <p>
   Below are example resquests and responses that detail the nested GeoJSON
   structure. Each type has a nested GeoJSON FeatureCollection that may contain
   multiple GeoJSON features.
 </p>
 
-<h5>3.1.1 Geonames Type Requests</h5>
+<h4>3.1 Requests</h4>
+<p>
+  The example requests are separated by type. There are examples for both
+  geonames and event type requests.
+</p>
+
+<h5>3.1.1 Geonames Type</h5>
 <ul>
   <li>
     <p>Five nearest places within 100km of a point</p>
@@ -372,7 +376,7 @@ if (!isset($TEMPLATE)) {
   </li>
 </ul>
 
-<h5>3.1.1 Event Type Request</h5>
+<h5>3.1.1 Event Type</h5>
 <ul>
   <li>
     <p>An event type request that always returns 5 places near a point</p>
@@ -384,7 +388,7 @@ if (!isset($TEMPLATE)) {
   </li>
 </ul>
 
-<h4>3.2 Example Responses</h4>
+<h4>3.2 Responses</h4>
 <p>
   The &ldquo;generic response&rdquo; details the data and structure returned by
   the web sevice, while the &ldquo;sample response&rdquo; depicts an actual
@@ -393,7 +397,7 @@ if (!isset($TEMPLATE)) {
 
 <div class="row">
   <div class="column one-of-two">
-    <h5>3.2.1 Generic Response</h5>
+    <h5>3.2.1 Pseudocode Response</h5>
     <pre><code>{
   metadata: {
     request: &lt;web service request URL&gt;,
@@ -429,7 +433,7 @@ if (!isset($TEMPLATE)) {
 
   </div>
   <div class="column one-of-two">
-    <h5>3.2.2 Sample Respons</h5>
+    <h5>3.2.2 Actual Response</h5>
     <pre><code>{
   metadata: {
     request: "/ws/geoserve/places?latitude=45.1&amp;longitude=-70.1&amp;maxradiuskm=10&amp;type=geonames",

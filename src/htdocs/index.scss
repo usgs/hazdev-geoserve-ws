@@ -32,15 +32,9 @@ ul.parameters {
       flex: 0 0 auto;
       align-items: flex-start;
 
-      > .optional,
-      > .required,
-      > .type {
+      > small {
         padding: 4px 1px;
         font-weight: 300;
-      }
-
-      > .optional,
-      > .type {
         color: #999;
       }
     }
