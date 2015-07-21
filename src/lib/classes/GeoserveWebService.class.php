@@ -210,10 +210,11 @@ class GeoserveWebService {
         $this->error(self::BAD_REQUEST,
             'latitude and longitude are required for circle searches');
       }
-      if (!in_array('event', $query->type)) {
+      if (in_array('geonames', $query->type)) {
         // not event type search
         if ($query->limit === null && $query->maxradiuskm === null) {
-          $this->error('circle search requires "limit" and/or "maxradiuskm"');
+          $this->error(self::BAD_REQUEST,
+            'circle search requires "limit" and/or "maxradiuskm"');
         }
       }
 
