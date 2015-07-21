@@ -229,9 +229,9 @@ class GeoserveWebService {
       if (in_array('event', $query->type)) {
         $this->error(self::BAD_REQUEST, '"event" type requires circle search');
       }
-      if ($query->limit !== null || $query->maxradiuskm !== null) {
+      if ($query->maxradiuskm !== null) {
         $this->error(self::BAD_REQUEST,
-            'rectangle search cannot use "limit" or "maxradiuskm"');
+            'rectangle search cannot use "maxradiuskm"');
       }
 
     } else {
