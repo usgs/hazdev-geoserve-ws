@@ -214,7 +214,7 @@ class GeoserveWebService {
         // not event type search
         if ($query->limit === null && $query->maxradiuskm === null) {
           $this->error(self::BAD_REQUEST,
-            'circle search requires "limit" or "maxradiuskm"');
+            'circle search requires "limit" and/or "maxradiuskm"');
         }
       }
 
