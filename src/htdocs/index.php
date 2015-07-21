@@ -123,7 +123,7 @@ if (!isset($TEMPLATE)) {
       <p>
         The type of search being performed.
       </p>
-      <dl class="vertical places-type">
+      <dl class="vertical types">
         <dt>
           <code>type=geonames</code>
         </dt>
@@ -198,7 +198,7 @@ if (!isset($TEMPLATE)) {
       <p>
         The type of search being performed.
       </p>
-      <dl class="vertical places-type">
+      <dl class="vertical types">
         <dt>
           <code>type=geonames</code>
         </dt>
