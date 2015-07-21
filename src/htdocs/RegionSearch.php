@@ -42,7 +42,7 @@ if (!isset($TEMPLATE)) {
 <p>
   All parameters must be passed in the query string.
   Only listed parameters may be used, others will generate an error.
-Empty values for these parameters are not supported.
+  Empty values for these parameters are not supported.
 </p>
 
 <p>
