@@ -87,25 +87,43 @@ if (!isset($TEMPLATE)) {
       <code>type</code>
       <small>Optional</small>
     </header>
-    <p>
-      <ul>
-        <li>
-          <code>type=admin</code> shows admin regions.
-        </li>
-        <li>
-          <code>type=authoritative</code> shows authoritative regions.
-        </li>
-        <li>
-          <code>type=fe</code> shows fe regions.
-        </li>
-        <li>
-          <code>type=neiccatalog</code> show neic catalog regions.
-        </li>
-        <li>
-          <code>type=neicresponse</code> show neic neic regions.
-        </li>
-      </ul>
-    </p>
+    <div>
+      <p>
+        Region Types
+      </p>
+      <dl class="vertical types">
+        <dt>
+          <code>type=admin</code>
+        </dt>
+          <dd>
+            Shows admin regions.
+          </dd>
+        <dt>
+          <code>type=authoritative</code>
+        </dt>
+          <dd>
+            Shows authoritative regions.
+          </dd>
+        <dt>
+          <code>type=fe</code>
+        </dt>
+          <dd>
+            Shows FE regions.
+          </dd>
+        <dt>
+          <code>type=neiccatalog</code>
+        </dt>
+          <dd>
+            Show NEIC catalog regions.
+          </dd>
+        <dt>
+          <code>type=neicresponse</code>
+        </dt>
+          <dd>
+            Show NEIC response regions.
+          </dd>
+      </dl>
+    </div>
   </li>
 </ul>
 
