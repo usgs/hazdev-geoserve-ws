@@ -92,4 +92,15 @@ abstract class GeoserveFactory {
    */
   public abstract function get ($query);
 
+  /**
+   *
+   * @param $type {String}
+   *      The type for which to get fields to cast.
+   * @return {Array}
+   *      An associative array keyed by fields to be cast with corresponding
+   *      values identifying the type to cast the field to. Current cast types
+   *      include "integer" and "float".
+   */
+  public abstract function getCasts ($type);
+
 }

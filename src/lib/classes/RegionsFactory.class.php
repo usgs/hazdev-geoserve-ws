@@ -236,4 +236,17 @@ class RegionsFactory extends GeoserveFactory {
     return $this->getNEIC($query, 'neic_response');
   }
 
+
+  public function getCasts ($type) {
+    if ($type === 'fe') {
+      return array(
+        'number' => 'integer'
+      );
+    } else if ($type === 'neiccatalog' || $type === 'neicresponse') {
+      return array(
+        'magnitude' => 'float'
+      );
+    }
+  }
+
 }
