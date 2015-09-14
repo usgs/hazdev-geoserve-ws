@@ -43,7 +43,7 @@ if (!isset($TEMPLATE)) {
 ?>
 
 <p>
-  The places enpoint allows users to search for places within a certian
+  The places endpoint allows users to search for places within a certain
   distance of a geographical point (circle search), or users can search for
   places within a latitude/longitudinal range (rectangle/box search).
 </p>
@@ -337,7 +337,7 @@ if (!isset($TEMPLATE)) {
 
 <h3>3. Example</h3>
 <p>
-  Below are example resquests and responses that detail the nested GeoJSON
+  Below are example requests and responses that detail the nested GeoJSON
   structure. Each type has a nested GeoJSON FeatureCollection that may contain
   multiple GeoJSON features.
 </p>
@@ -391,7 +391,7 @@ if (!isset($TEMPLATE)) {
 <h4>3.2 Responses</h4>
 <p>
   The &ldquo;generic response&rdquo; details the data and structure returned by
-  the web sevice, while the &ldquo;sample response&rdquo; depicts an actual
+  the web service, while the &ldquo;sample response&rdquo; depicts an actual
   response from the Geoserve API.
 </p>
 
