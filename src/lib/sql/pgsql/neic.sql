@@ -20,16 +20,16 @@ CREATE TABLE neic_catalog (
   id INTEGER PRIMARY KEY,
   name VARCHAR(50),
   magnitude DECIMAL(2, 1),
-  shape GEOGRAPHY(GEOMETRY, 4326),
-  type VARCHAR(50)
+  type VARCHAR(50),
+  shape GEOGRAPHY(GEOMETRY, 4326)
 );
 
 CREATE TABLE neic_response (
   id INTEGER PRIMARY KEY,
   name VARCHAR(50),
   magnitude DECIMAL(2, 1),
-  shape GEOGRAPHY(GEOMETRY, 4326),
-  type VARCHAR(50)
+  type VARCHAR(50),
+  shape GEOGRAPHY(GEOMETRY, 4326)
 );
 
 /* Indexes */
