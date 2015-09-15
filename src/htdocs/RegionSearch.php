@@ -122,6 +122,12 @@ if (!isset($TEMPLATE)) {
           <dd>
             Show NEIC response regions.
           </dd>
+        <dt>
+          <code>type=timezone</code>
+        </dt>
+          <dd>
+            Show timezone regions.
+          </dd>
       </dl>
     </div>
   </li>
@@ -148,7 +154,7 @@ if (!isset($TEMPLATE)) {
   </li>
   <li id="admin-country">
     <header>
-      <code>Country</code>
+      <code>country</code>
       <small class="type">String</small>
     </header>
     <p>
@@ -157,7 +163,7 @@ if (!isset($TEMPLATE)) {
   </li>
   <li id="admin-region">
     <header>
-      <code>Region</code>
+      <code>region</code>
       <small class="type">String</small>
     </header>
     <p>
@@ -170,7 +176,7 @@ if (!isset($TEMPLATE)) {
 <ul class="authoritative-regions parameters separator no-style">
   <li id="authoritative-name">
     <header>
-      <code>Name</code>
+      <code>name</code>
       <small class="type">String</small>
     </header>
     <p>
@@ -179,7 +185,7 @@ if (!isset($TEMPLATE)) {
   </li>
   <li id="authoritative-network">
     <header>
-      <code>Network</code>
+      <code>network</code>
       <small class="type">String</small>
     </header>
     <p>
@@ -192,7 +198,7 @@ if (!isset($TEMPLATE)) {
 <ul class="fe-regions parameters separator no-style">
   <li id="fe-num">
     <header>
-      <code>Num</code>
+      <code>num</code>
       <small class="type">Integer</small>
     </header>
     <p>
@@ -201,7 +207,7 @@ if (!isset($TEMPLATE)) {
   </li>
   <li id="fe-name">
     <header>
-      <code>Name</code>
+      <code>name</code>
       <small class="type">String</small>
     </header>
     <p>
@@ -214,7 +220,7 @@ if (!isset($TEMPLATE)) {
 <ul class="neiccatalog-regions parameters separator no-style">
   <li id="neiccatalog-name">
     <header>
-      <code>Name</code>
+      <code>name</code>
       <small>String</small>
     </header>
     <p>
@@ -223,7 +229,7 @@ if (!isset($TEMPLATE)) {
   </li>
   <li id="neiccatalog-magnitude">
     <header>
-      <code>Magnitude</code>
+      <code>magnitude</code>
       <small>Decimal</small>
     </header>
     <p>
@@ -236,7 +242,7 @@ if (!isset($TEMPLATE)) {
 <ul class="neicresponse-regions parameters separator no-style">
   <li id="neicresponse-name">
     <header>
-      <code>Name</code>
+      <code>name</code>
       <small>String</small>
     </header>
     <p>
@@ -245,11 +251,60 @@ if (!isset($TEMPLATE)) {
   </li>
   <li id="neicresponse-magnitude">
     <header>
-      <code>Magnitude</code>
+      <code>magnitude</code>
       <small>Decimal</small>
     </header>
     <p>
       Magnitude assocaiated with the place.
+    </p>
+  </li>
+</ul>
+
+<h3>2.7 Timezone Regions</h3>
+<ul class="timezone-regions parameters separator no-style">
+  <li id="timezone-name">
+    <header>
+      <code>name</code>
+      <small>String</small>
+    </header>
+    <p>
+      Timezone name
+    </p>
+  </li>
+  <li id="timezone-offset">
+    <header>
+      <code>offset</code>
+      <small>Integer</small>
+    </header>
+    <p>
+      Offset in minutes during standard time
+    </p>
+  </li>
+  <li id="timezone-dst-start">
+    <header>
+      <code>dststart</code>
+      <small>String</small>
+    </header>
+    <p>
+      Time descriptor when daylight savings beings
+    </p>
+  </li>
+  <li id="timezone-dst-end">
+    <header>
+      <code>dstend</code>
+      <small>String</small>
+    </header>
+    <p>
+      Time descriptor when daylight savings ends
+    </p>
+  </li>
+  <li id="timezone-dst-offset">
+    <header>
+      <code>dstoffset</code>
+      <small>Integer</small>
+    </header>
+    <p>
+      Offset in minutes during daylight savings time
     </p>
   </li>
 </ul>
