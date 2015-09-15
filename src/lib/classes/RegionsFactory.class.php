@@ -7,7 +7,8 @@ class RegionsFactory extends GeoserveFactory {
     'authoritative',
     'fe',
     'neiccatalog',
-    'neicresponse'
+    'neicresponse',
+    'timezone'
   );
 
   /**
@@ -35,6 +36,9 @@ class RegionsFactory extends GeoserveFactory {
     }
     if (in_array('neicresponse', $query->type)) {
       $data['neicresponse'] = $this->getNEICResponse($query);
+    }
+    if (in_array('timezone', $query->type)) {
+      $data['timezone'] = $this->getTimezone($query);
     }
 
     return $data;
@@ -235,6 +239,18 @@ class RegionsFactory extends GeoserveFactory {
    */
   public function getNEICResponse ($query) {
     return $this->getNEIC($query, 'neic_response');
+  }
+
+  /**
+   * Get Timezone Region
+   *
+   * @param $query {RegionsQuery}
+   *        query object
+   */
+  public function getTimezone ($query) {
+    // TODO :: Implementation will occur as part of GitHub issue
+    //         usgs/hazdev-geoserve-ws#79
+    return array();
   }
 
 
