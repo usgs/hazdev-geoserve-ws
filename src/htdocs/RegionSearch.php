@@ -277,9 +277,18 @@ if (!isset($TEMPLATE)) {
       Tectonic summary region name.
     </p>
   </li>
-  <li id="tectonicsummary-description">
+  <li id="tectonicsummary-type">
     <header>
-      <code>description</code>
+      <code>type</code>
+      <small>String</small>
+    </header>
+    <p>
+      Tectonic summary type.
+    </p>
+  </li>
+  <li id="tectonicsummary-summary">
+    <header>
+      <code>summary</code>
       <small>String</small>
     </header>
     <p>
