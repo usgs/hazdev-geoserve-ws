@@ -17,6 +17,7 @@ DROP TABLE IF EXISTS authoritative CASCADE;
 CREATE TABLE authoritative (
   id        INTEGER PRIMARY KEY,
   name      VARCHAR(10),
+  type      VARCHAR(50),
   priority  INTEGER,
   network   VARCHAR(10),
   shape     GEOGRAPHY(GEOMETRY, 4326)
