@@ -200,6 +200,7 @@ class RegionsFactory extends GeoserveFactory {
     $sql .= ' SELECT' .
         ' name as name' .
         ', magnitude as magnitude' .
+        ', type as type' .
         ', id';
 
     if ($query->includeGeometry) {
