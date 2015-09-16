@@ -23,7 +23,7 @@ echo "Success!!\n";
 
 // download geoname data
 echo "\nDownloading and loading geonames data:\n";
-$url = configure('GEONAMES_URL', 'http://download.geonames.org/export/dump/',
+$url = configure('GEONAMES_URL', 'ftp://hazards.cr.usgs.gov/web/hazdev-geoserve-ws/geonames/',
     "Geonames download url");
 $filenames = array('cities1000.zip', 'US.zip', 'admin1CodesASCII.txt',
     'countryInfo.txt');
