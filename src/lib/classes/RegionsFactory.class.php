@@ -8,6 +8,7 @@ class RegionsFactory extends GeoserveFactory {
     'fe',
     'neiccatalog',
     'neicresponse',
+    'tectonicsummary',
     'timezone'
   );
 
@@ -36,6 +37,9 @@ class RegionsFactory extends GeoserveFactory {
     }
     if (in_array('neicresponse', $query->type)) {
       $data['neicresponse'] = $this->getNEICResponse($query);
+    }
+    if (in_array('tectonicsummary', $query->type)) {
+      $data['tectonicsummary'] = $this->getTectonicSummary($query);
     }
     if (in_array('timezone', $query->type)) {
       $data['timezone'] = $this->getTimezone($query);
@@ -239,6 +243,18 @@ class RegionsFactory extends GeoserveFactory {
    */
   public function getNEICResponse ($query) {
     return $this->getNEIC($query, 'neic_response');
+  }
+
+  /**
+   * Get tectonic summary regions
+   *
+   * @param $query {RegionsQuery}
+   *        query object
+   */
+  public function getTectonicSummary ($query) {
+    // TODO :: Function implementation will be done in GitHub issue
+    //         usgs/hazdev-geoserve-ws#20
+    return array();
   }
 
   /**

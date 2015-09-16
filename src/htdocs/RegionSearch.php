@@ -123,6 +123,12 @@ if (!isset($TEMPLATE)) {
             Show NEIC response regions.
           </dd>
         <dt>
+          <code>type=tectonicsummary</code>
+        </dt>
+          <dd>
+            Show tectonic summary regions.
+          </dd>
+        <dt>
           <code>type=timezone</code>
         </dt>
           <dd>
@@ -256,6 +262,37 @@ if (!isset($TEMPLATE)) {
     </header>
     <p>
       Magnitude assocaiated with the place.
+    </p>
+  </li>
+</ul>
+
+<h3>2.6 Tectonic Summary Regions</h3>
+<ul class="tectonicsummary-regions parameters separator no-style">
+  <li id="tectonicsummary-name">
+    <header>
+      <code>name</code>
+      <small>String</small>
+    </header>
+    <p>
+      Tectonic summary region name.
+    </p>
+  </li>
+  <li id="tectonicsummary-type">
+    <header>
+      <code>type</code>
+      <small>String</small>
+    </header>
+    <p>
+      Tectonic summary type.
+    </p>
+  </li>
+  <li id="tectonicsummary-summary">
+    <header>
+      <code>summary</code>
+      <small>String</small>
+    </header>
+    <p>
+      Tectonic summary content.
     </p>
   </li>
 </ul>
