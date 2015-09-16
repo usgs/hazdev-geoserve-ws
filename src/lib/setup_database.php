@@ -107,7 +107,7 @@ include_once 'load_admin.php';
 include_once 'load_authoritative.php';
 include_once 'load_neic.php';
 include_once 'load_tectonicsummary.php';
-
+include_once 'load_timezone.php';
 
 // ----------------------------------------------------------------------
 // Grant Roles
