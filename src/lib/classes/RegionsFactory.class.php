@@ -292,7 +292,7 @@ class RegionsFactory extends GeoserveFactory {
       $sql .= ', ST_AsGeoJSON(shape) as shape';
     }
 
-    $sql .= ' FROM search, timezones' .
+    $sql .= ' FROM search, timezone' .
         ' WHERE search.point && shape' .
         ' AND ST_Intersects(search.point, shape)' .
         ' ORDER BY ST_Area(shape) ASC';
