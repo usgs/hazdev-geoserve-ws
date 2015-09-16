@@ -16,7 +16,7 @@ if (!$answer) {
 
 
 $timezoneSql = configure('TIMEZONE_SQL',
-    $defaultScriptDir . DIRECTORY_SEPARATOR . 'timezones.sql',
+    $defaultScriptDir . DIRECTORY_SEPARATOR . 'timezone.sql',
     "Timezone regions schema script");
 $dbInstaller->runScript($timezoneSql);
 echo "Success!!\n";
@@ -24,10 +24,10 @@ echo "Success!!\n";
 // download timezone region data
 echo "\nDownloading and loading timezone region data:\n";
 $url = configure('GLOBAL_ADMIN_URL',
-    'ftp://hazards.cr.usgs.gov/web/hazdev-geoserve-ws/timezones/',
+    'ftp://hazards.cr.usgs.gov/web/hazdev-geoserve-ws/timezone/',
     "Timezone download url");
 $filenames = array('timezones.dat');
-$download_path = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'timezones'
+$download_path = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'timezone'
     . DIRECTORY_SEPARATOR;
 
 // create temp directory
@@ -39,13 +39,13 @@ foreach ($filenames as $filename) {
 
 
 // ----------------------------------------------------------------------
-// timezones data load
+// timezone data load
 // ----------------------------------------------------------------------
 
 // TIMEZONE
 
-echo "\nLoading timezones data ... ";
-$dbInstaller->copyFrom($download_path . 'timezones.dat', 'timezones',
+echo "\nLoading timezone data ... ";
+$dbInstaller->copyFrom($download_path . 'timezones.dat', 'timezone',
     array('NULL AS \'\'', 'CSV', 'HEADER'));
 echo "SUCCESS!!\n";
 

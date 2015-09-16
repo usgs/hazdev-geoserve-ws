@@ -3,10 +3,10 @@
 ------------------------------------------------------------------------
 
 /* Indexes */
-DROP INDEX IF EXISTS timezones_shape_index;
+DROP INDEX IF EXISTS timezone_shape_index;
 
 /* Tables */
-DROP TABLE IF EXISTS timezones CASCADE;
+DROP TABLE IF EXISTS timezone CASCADE;
 
 
 ------------------------------------------------------------------------------
@@ -14,15 +14,15 @@ DROP TABLE IF EXISTS timezones CASCADE;
 ------------------------------------------------------------------------------
 
 /* Tables */
-CREATE TABLE timezones (
+CREATE TABLE timezone (
   id             INT PRIMARY KEY,
   timezone       VARCHAR(255),
   dststart       VARCHAR(20),
   dstend         VARCHAR(20),
   standardoffset int,
   dstoffset      int,
-  geometry       GEOGRAPHY(GEOMETRY, 4326)
+  shape          GEOGRAPHY(GEOMETRY, 4326)
 );
 
 /* Indexes */
-CREATE INDEX timezones_shape_index ON timezones USING GIST (geometry);
+CREATE INDEX timezone_shape_index ON timezone USING GIST (shape);
