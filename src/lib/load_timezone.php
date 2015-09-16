@@ -24,7 +24,7 @@ echo "Success!!\n";
 // download timezone region data
 echo "\nDownloading and loading timezone region data:\n";
 $url = configure('GLOBAL_ADMIN_URL',
-    'ftp://hazards.cr.usgs.gov/web/hazdev-geoserve-ws/timezone/',
+    'ftp://hazards.cr.usgs.gov/web/hazdev-geoserve-ws/timezones/',
     "Timezone download url");
 $filenames = array('timezones.dat');
 $download_path = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'timezone'
