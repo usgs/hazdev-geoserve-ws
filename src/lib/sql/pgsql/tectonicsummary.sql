@@ -17,8 +17,8 @@ DROP TABLE IF EXISTS tectonic_summary CASCADE;
 CREATE TABLE tectonic_summary (
   id       INTEGER PRIMARY KEY,
   name     VARCHAR(255),
-  type     VARCHAR(255),
   summary  text,
+  type     VARCHAR(255),
   shape    GEOGRAPHY(GEOMETRY, 4326)
 
 );
