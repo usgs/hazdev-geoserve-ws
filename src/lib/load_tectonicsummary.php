@@ -28,7 +28,8 @@ echo "\nDownloading and loading tectonic summary data:\n";
 $url = configure('GLOBAL_TECTONIC_SUMMARY_URL',
     'ftp://hazards.cr.usgs.gov/web/hazdev-geoserve-ws/tectonic/',
     "Tectonic summary download url");
-$filenames = array('tectonicsummary.zip');
+$filenames = array('tectonicsummary_nc.dat', 'tectonicsummary_neic.dat',
+    'tectonicsummary_ut.dat');
 $download_path = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'tectonic_summary'
     . DIRECTORY_SEPARATOR;
 
