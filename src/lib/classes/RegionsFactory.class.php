@@ -280,7 +280,7 @@ class RegionsFactory extends GeoserveFactory {
     $sql .= ' FROM search, tectonic_summary' .
         ' WHERE search.point && shape' .
         ' AND ST_Intersects(search.point, shape)' .
-        ' ORDER BY priority ASC, ST_Area(shape) ASC';
+        ' ORDER BY ST_Area(shape) ASC';
 
     return $this->execute($sql, $params);
   }
