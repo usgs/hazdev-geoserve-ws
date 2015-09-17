@@ -252,9 +252,37 @@ class RegionsFactory extends GeoserveFactory {
    *        query object
    */
   public function getTectonicSummary ($query) {
-    // TODO :: Function implementation will be done in GitHub issue
-    //         usgs/hazdev-geoserve-ws#20
-    return array();
+    // Checks for latitude and longitude
+    if ($query->latitude === null || $query->longitude === null) {
+      throw new Exception('"latitude", and "longitude" are required');
+    }
+
+    // create sql
+    $sql = 'WITH search AS (SELECT' .
+        ' ST_SetSRID(ST_MakePoint(:longitude,:latitude),4326)::geography' .
+        ' AS point' .
+        ')';
+    // bound parameters
+    $params = array(
+        ':latitude' => $query->latitude,
+        ':longitude' => $query->longitude);
+
+    $sql .= ' SELECT' .
+        ' name as name' .
+        ', summary as summary' .
+        ', type as type' .
+        ', id';
+
+    if ($query->includeGeometry) {
+      $sql .= ', ST_AsGeoJSON(shape) as shape';
+    }
+
+    $sql .= ' FROM search, tectonic_summary' .
+        ' WHERE search.point && shape' .
+        ' AND ST_Intersects(search.point, shape)' .
+        ' ORDER BY priority ASC, ST_Area(shape) ASC';
+
+    return $this->execute($sql, $params);
   }
 
   /**
