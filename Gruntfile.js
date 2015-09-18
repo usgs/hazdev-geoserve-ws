@@ -12,6 +12,13 @@ module.exports = function (grunt) {
     grunt.config(['jshint', 'scripts'], filepath);
   });
 
+  grunt.registerTask('test', [
+    'copy:test',
+    'browserify:test',
+    'connect:test',
+    'mocha_phantomjs'
+  ]);
+
   grunt.registerTask('build', [
     'clean:build',
     'concurrent:build'
@@ -29,6 +36,7 @@ module.exports = function (grunt) {
 
   grunt.registerTask('default', [
     'build',
+    'test',
     'connect:template',
     'configureRewriteRules',
     'configureProxies:dev',

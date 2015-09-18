@@ -23,7 +23,7 @@ var connect = {
     {
       context: '/theme/',
       host: 'localhost',
-      port: 8103,
+      port: config.templatePort,
       rewrite: {
         '^/theme': ''
       }
@@ -33,9 +33,9 @@ var connect = {
   dev: {
     options: {
       base: [config.build + '/' + config.src + '/htdocs'],
-      port: 8100,
+      port: config.srcPort,
       livereload: true,
-      open: 'http://localhost:8100/',
+      open: true,
       middleware: function (connect, options, middlewares) {
         middlewares.unshift(
           require('grunt-connect-rewrite/lib/utils').rewriteRequest,
@@ -51,12 +51,25 @@ var connect = {
       }
     }
   },
+
+  test: {
+    options: {
+      base: [
+        config.build + '/' + config.src + '/htdocs',
+        config.build + '/' + config.test,
+        'node_modules'
+      ],
+      port: config.testPort,
+      open: 'http://localhost:' + config.testPort + '/test.html'
+    }
+  },
+
   dist: {
     options: {
       base: [config.dist + '/htdocs'],
-      port: 8102,
+      port: config.distPort,
       keepalive: true,
-      open: 'http://localhost:8102/',
+      open: true,
       middleware: function (connect, options, middlewares) {
         middlewares.unshift(
           require('grunt-connect-rewrite/lib/utils').rewriteRequest,
@@ -75,7 +88,7 @@ var connect = {
   template: {
     options: {
       base: ['node_modules/hazdev-template/dist/htdocs'],
-      port: 8103
+      port: config.templatePort
     }
   }
 };

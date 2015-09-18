@@ -3,12 +3,14 @@
 var concurrent = {
   scripts: [
     'jshint:scripts',
-    'copy:build'
+    'jshint:tests',
+    'browserify'
   ],
   build: [
     'compass:dev',
     'copy:build',
-    'jshint:scripts'
+    'jshint:scripts',
+    'browserify'
   ],
   dist: [
     'copy:dist',

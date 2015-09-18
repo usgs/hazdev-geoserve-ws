@@ -9,6 +9,7 @@ var copy = {
     dest: config.build + '/' + config.src,
     src: [
       '**/*',
+      '!**/*.js',
       '!**/*.scss',
       '!**/*.orig'
     ]
@@ -21,6 +22,17 @@ var copy = {
       '**/*',
       '!**/*.js',
       '!**/*.css'
+    ]
+  },
+  test: {
+    expand: true,
+    cwd: config.test,
+    dest: config.build + '/' + config.test,
+    src: [
+      '**/*',
+      '!**/*.js',
+      '!**/*.scss',
+      '!**/*.orig'
     ]
   }
 };

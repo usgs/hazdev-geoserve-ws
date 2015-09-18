@@ -2,7 +2,8 @@
 
 var gruntConfig = {
   config: require('./config'),
-  
+
+  browserify: require('./browserify'),
   clean: require('./clean'),
   compass: require('./compass'),
   concurrent: require('./concurrent'),
@@ -10,10 +11,12 @@ var gruntConfig = {
   copy: require('./copy'),
   cssmin: require('./cssmin'),
   jshint: require('./jshint'),
+  mocha_phantomjs: require('./mocha_phantomjs'),
   uglify: require('./uglify'),
   watch: require('./watch'),
 
   tasks: [
+    'grunt-browserify',
     'grunt-concurrent',
     'grunt-connect-proxy',
     'grunt-connect-rewrite',
@@ -24,7 +27,8 @@ var gruntConfig = {
     'grunt-contrib-cssmin',
     'grunt-contrib-jshint',
     'grunt-contrib-uglify',
-    'grunt-contrib-watch'
+    'grunt-contrib-watch',
+    'grunt-mocha-phantomjs'
   ]
 };
 
