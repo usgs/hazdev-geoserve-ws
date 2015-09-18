@@ -10,6 +10,10 @@ var watch = {
       livereload: true
     }
   },
+  tests: {
+    files: [config.src + '/htdocs/**/*.js'],
+    tasks: ['concurrent:scripts']
+  },
   scss: {
     files: [config.src + '/htdocs/**/*.scss'],
     tasks: ['compass:dev'],
