@@ -1,0 +1,128 @@
+{
+  "url": "http://136.177.31.150:8100/ws/geoserve/layers.json?{parameters}",
+  "notes": [
+    "Underlying <a href=\"ftp://hazards.cr.usgs.gov/web/hazdev-geoserve-ws/\">data files are available via FTP</a> for each data layer."
+  ],
+  "parameters": {
+    "required": {
+      "type": {
+        "type": "Enumeration",
+        "description": "Name of layer.",
+        "values": [
+          {
+            "name": "authoritative",
+            "description": "ANSS authoritative regions. For more information about this dataset, please see the <a href=\"ftp://hazards.cr.usgs.gov/web/hazdev-geoserve-ws/authoritative/README.md\">dataset README file</a>."
+          },
+          {
+            "name": "fe",
+            "description": "Flinn-Engdahl regions. For more information about this dataset, please see the <a href=\"ftp://hazards.cr.usgs.gov/web/hazdev-geoserve-ws/fe/README.md\">dataset README file</a>."
+          },
+          {
+            "name": "neicresponse",
+            "description": "NEIC response regions. For more information about this dataset, please see the <a href=\"ftp://hazards.cr.usgs.gov/web/hazdev-geoserve-ws/fe/README.md\">dataset README file</a>."
+          },
+          {
+            "name": "neiccatalog",
+            "description": "NEIC catalog regions. For more information about this dataset, please see the <a href=\"ftp://hazards.cr.usgs.gov/web/hazdev-geoserve-ws/fe/README.md\">dataset README file</a>."
+          },
+          {
+            "name": "tectonicsummary",
+            "description": "Tectonic summary regions. For more information about this dataset, please see the <a href=\"ftp://hazards.cr.usgs.gov/web/hazdev-geoserve-ws/fe/README.md\">dataset README file</a>."
+          },
+          {
+            "name": "timezone",
+            "description": "Timezone regions for the world. For more information about this dataset, please see the <a href=\"ftp://hazards.cr.usgs.gov/web/hazdev-geoserve-ws/fe/README.md\">dataset README file</a>."
+          }
+        ]
+      }
+    }
+  },
+  "output": {
+    "authoritative": {
+      "name": {
+        "type": "String",
+        "description": "Name of place."
+      },
+      "network": {
+        "type": "String",
+        "description": "Name of network."
+      }
+    },
+    "fe": {
+      "num": {
+        "type": "String",
+        "description": "FE region identification number."
+      },
+      "name": {
+        "type": "String",
+        "description": "Name of FE region."
+      }
+    },
+    "neiccatalog": {
+      "name": {
+        "type": "String",
+        "description": "NEIC catalog name."
+      },
+      "magnitude": {
+        "type": "String",
+        "description": "Magnitude associated with the place."
+      }
+    },
+    "neicresponse": {
+      "name": {
+        "type": "String",
+        "description": "NEIC response name."
+      },
+      "magnitude": {
+        "type": "String",
+        "description": "Magnitude associated with the place."
+      }
+    },
+    "tectonicsummary": {
+      "name": {
+        "type": "String",
+        "description": "Tectonic summary region name."
+      },
+      "type": {
+        "type": "String",
+        "description": "Tectonic summary type."
+      },
+      "summary": {
+        "type": "String",
+        "description": "Tectonic summary content."
+      }
+    },
+    "timezone": {
+      "name": {
+        "type": "String",
+        "description": "Timezone name."
+      },
+      "offset": {
+        "type": "String",
+        "description": "UTC offset in minutes during standard time."
+      },
+      "dststart": {
+        "type": "String",
+        "description": "Time descriptor when daylight savings time begins."
+      },
+      "dstend": {
+        "type": "String",
+        "description": "Time descriptor when daylight savings time ends."
+      },
+      "dstoffset": {
+        "type": "String",
+        "description": "UTC offset in minutes during DST."
+      }
+    }
+  },
+  "examples": [
+    {
+      "description": "All regions in the <code>neicresponse</code> layer",
+      "url": "http://136.177.31.150:8100/ws/geoserve/layers.json?type=neicresponse"
+    },
+    {
+      "description": "All regions in the <code>timezone</code> layer",
+      "url": "http://136.177.31.150:8100/ws/geoserve/layers.json?type=timezone"
+    }
+  ]
+}
