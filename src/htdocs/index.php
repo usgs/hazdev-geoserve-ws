@@ -25,10 +25,10 @@ if (!isset($TEMPLATE)) {
 
 <p>
   The Geoserve Web Service consists of
-  <?php print count($GEOSERVE_ENDPOINTS); ?> end point
-  <?php print (count($GEOSERVE_ENDPOINTS)>1)?'s':''; ?>. Each end point has
-  a slightly different API and different available data. For more
-  details about each end point, please click a link below.
+  <?php print count($GEOSERVE_ENDPOINTS); ?>
+  endpoint<?php print (count($GEOSERVE_ENDPOINTS)>1)?'s':''; ?>. Each end
+  point has a slightly different API and different available data. For more
+  details about each endpoint, please click a link below.
 </p>
 
 <ul class="endpoints">
