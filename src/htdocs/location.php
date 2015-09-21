@@ -5,8 +5,12 @@
 if (!isset($TEMPLATE)) {
   $TITLE = 'Location';
   $NAVIGATION = true;
-  $HEAD = '<link rel="stylesheet" href="location.css"/>';
-  $FOOT = '<script src="location.js"></script>';
+  $HEAD =
+      '<link rel="stylesheet" href="lib/leaflet.css"/>' .
+      '<link rel="stylesheet" href="location.css"/>';
+  $FOOT =
+      '<script src="lib/leaflet.js"></script>' .
+      '<script src="location.js"></script>';
   include 'template.inc.php';
 }
 ?>

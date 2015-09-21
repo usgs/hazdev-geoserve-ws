@@ -1,6 +1,10 @@
+/* global L */
 'use strict';
 
-var Util = require('util/Util'),
+var FullscreenControl = require('leaflet/FullscreenControl'),
+    LocationControl = require('locationview/LocationControl'),
+    MousePositionControl = require('leaflet/MousePositionControl'),
+    Util = require('util/Util'),
     View = require('mvc/View');
 
 
@@ -14,31 +18,104 @@ var LocationMapView = function (options) {
   var _this,
       _initialize,
 
-      _button,
+      _locationControl,
+      _map,
 
-      _onButtonClick;
+      _onLocationChange;
 
 
   _this = View(options);
 
   _initialize = function (options) {
+    var el;
+
     options = Util.extend({}, _DEFAULTS, options);
 
-    _this.el.innerHTML = '<button>Set Location</button>';
-    _button = _this.el.querySelector('button');
-    _button.addEventListener('click', _onButtonClick);
+    _this.el.classList.add('location-map-view');
+    _this.el.innerHTML = '<div class="map"></div>';
+
+    el = _this.el.querySelector('.map');
+    _map = L.map(el, {
+      scrollWheelZoom: false,
+      zoomAnimation: false,
+      attributionControl: false // This is added later, but order matters
+    });
+    _map.fitBounds([[24.6, -125.0], [50.0, -65.0]]);
+
+    _map.addLayer(L.tileLayer('http://{s}.arcgisonline.com/ArcGIS/rest/services/' +
+        'NatGeo_World_Map/MapServer/tile/{z}/{y}/{x}.jpg', {
+      subdomains: ['server', 'services'],
+      attribution: 'Content may not reflect National Geographic\'s ' +
+          'current map policy. Sources: National Geographic, Esri, ' +
+          'DeLorme, HERE, UNEP-WCMC, USGS, NASA, ESA, METI, NRCAN, ' +
+          'GEBCO, NOAA, increment P Corp.'
+    }));
+
+    // Add Map Controls
+    if (!Util.isMobile()) {
+      _map.addControl(new FullscreenControl());
+      _map.addControl(L.control.scale({position: 'bottomright'}));
+      _map.addControl(new MousePositionControl());
+      _map.addControl(L.control.attribution());
+    }
+
+    // Add location control
+    _locationControl = new LocationControl({
+      el: el,
+      includeGeolocationControl: true,
+      includeGeocodeControl: true,
+      includeCoordinateControl: true,
+      includePointControl: true
+    });
+    _locationControl.on('location', _onLocationChange);
+    _map.addControl(_locationControl);
+    _locationControl.enable();
   };
 
   /**
-   * Set app location when button is clicked.
+   * Update app location when location control changes location.
    */
-  _onButtonClick = function () {
-    _this.model.set({
-      location: {
-        latitude: 34,
-        longitude: -118
+  _onLocationChange = function () {
+    var controlLocation,
+        location;
+
+    controlLocation = _locationControl.getLocation();
+    location = _this.model.get('location');
+    if (controlLocation !== location &&
+        (
+          !location ||
+          location.latitude !== controlLocation.latitude ||
+          location.longitude !== controlLocation.longitude
+        )) {
+      _this.model.set({
+        location: controlLocation
+      });
+    }
+  };
+
+  /**
+   * Update map to display current location.
+   */
+  _this.render = function () {
+    var controlLocation,
+        location;
+
+    controlLocation = _locationControl.getLocation();
+    location = _this.model.get('location');
+    if (location) {
+      if (controlLocation &&
+          controlLocation !== location &&
+          (
+            location.latitude !== controlLocation.latitude ||
+            location.longitude !== controlLocation.longitude
+          )) {
+        _locationControl.setLocation(location);
+        _locationControl.disable();
       }
-    });
+    } else {
+      _locationControl.setLocation(null);
+      _locationControl.enable();
+    }
   };
 
   /**
@@ -46,11 +123,15 @@ var LocationMapView = function (options) {
    */
   _this.destroy = Util.compose(function () {
     // remove event listeners
-    _button.removeEventListener('click', _onButtonClick);
+    _locationControl.off('location', _onLocationChange);
+    _map.removeControl(_locationControl);
 
-    // free references
-    _button = null;
-    _onButtonClick = null;
+    // variables
+    _locationControl = null;
+    _map = null;
+
+    // methods
+    _onLocationChange = null;
 
     _initialize = null;
     _this = null;
