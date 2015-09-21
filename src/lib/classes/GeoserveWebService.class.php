@@ -6,12 +6,16 @@ include_once $CLASSES_DIR . '/PlacesQuery.class.php';
 include_once $CLASSES_DIR . '/RegionsFormatter.class.php';
 include_once $CLASSES_DIR . '/RegionsQuery.class.php';
 
+include_once $CLASSES_DIR . '/LayersFormatter.class.php';
+include_once $CLASSES_DIR . '/LayersQuery.class.php';
+
 
 class GeoserveWebService {
 
   // the GeoserveFactory to use
   public $placesFactory;
   public $regionsFactory;
+  public $layersFactory;
 
   // service version number
   public $version;
@@ -28,11 +32,13 @@ class GeoserveWebService {
   );
 
 
-  public function __construct($placesFactory, $regionsFactory) {
+  public function __construct($placesFactory, $regionsFactory, $layersFactory) {
+    global $CONFIG;
+
     $this->placesFactory = $placesFactory;
     $this->regionsFactory = $regionsFactory;
+    $this->layersFactory = $layersFactory;
 
-    global $CONFIG;
     $this->version = $CONFIG['GEOSERVE_VERSION'];
   }
 
@@ -49,6 +55,13 @@ class GeoserveWebService {
     $regionsQuery = $this->parseRegionsQuery($params);
     $regions = $this->regionsFactory->get($regionsQuery, null);
     $this->output($regions, $regionsFormatter, $this->regionsFactory);
+  }
+
+  public function layers ($params) {
+    $layersFormatter = new LayersFormatter();
+    $layersQuery = $this->parseLayersQuery($params);
+    $layers = $this->layersFactory->get($layersQuery, null);
+    $this->output($layers, $layersFormatter, $this->layersFactory);
   }
 
   public function output ($data, $formatter, $factory) {
@@ -134,6 +147,37 @@ class GeoserveWebService {
   }
 
 
+  public function parseLayersQuery ($params) {
+    $query = new LayersQuery();
+    $supportedTypes = $this->layersFactory->getSupportedTypes();
+
+    foreach ($params as $name => $value) {
+      if ($value === '' && (
+          $name === 'method' ||
+          $name === 'format' ||
+          $name === 'type')) {
+        // check for empty values in non-javascript
+        continue;
+      } else if ($name === 'method' || $name === 'format') {
+        // used by apache rewrites
+        continue;
+      } else if ($name === 'type') {
+        $query->type = $this->validateEnumerated(
+              $name, $value, $supportedTypes);
+      } else {
+        $this->error(self::BAD_REQUEST,
+            'Unknown parameter "' . $name . '".');
+      }
+    }
+
+    if ($query->type === null) {
+      $this->error(self::BAD_REQUEST,
+          'type is a required parameter');
+    }
+
+    return $query;
+  }
+
   public function parsePlacesQuery ($params) {
     $query = new PlacesQuery();
     $supportedTypes = $this->placesFactory->getSupportedTypes();
@@ -159,7 +203,7 @@ class GeoserveWebService {
           $name === 'type')) {
         // check for empty values in non-javascript
         continue;
-      } else if ($name === 'method') {
+      } else if ($name === 'method' || $name === 'format') {
         // used by apache rewrites
         continue;
       } else if ($name ==='latitude' || $name ==='lat') {
@@ -257,7 +301,7 @@ class GeoserveWebService {
           $name === 'includeGeometry' ||
           $name === 'type')) {
         continue;
-      } else if ($name === 'method') {
+      } else if ($name === 'method' || $name === 'format') {
         continue;
       } else if ($name === 'latitude') {
         $query->latitude = $this->validateFloat($name, $value, -90, 90);
