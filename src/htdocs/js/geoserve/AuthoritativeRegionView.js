@@ -33,9 +33,10 @@ var AuthoritativeRegionView = function (params) {
 		} else {
 			region = _data.get();
 			markup = '<dl>' +
-						'<dt>Name (Network)</dt>' +
-						'<dd>' + region.name + ' (' +
-								region.network + ')</dd>' +
+						'<dt>Name</dt>' +
+						'<dd>' + region.name + '</dd>' +
+						'<dt>Network</dt>' +
+						'<dd>' + region.network + '</dd>' +
 					'</dl>';
 		}
 
