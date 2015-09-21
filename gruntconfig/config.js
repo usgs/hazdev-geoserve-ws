@@ -15,6 +15,9 @@ var config = {
   lib: 'lib',
   src: 'src',
   srcPort: 8100,
+  etc: 'etc',
+  example: 'example',
+  examplePort: 8004,
   templatePort: 8103,
   test: 'test',
   testPort: 8101

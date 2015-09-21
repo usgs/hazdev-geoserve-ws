@@ -4,7 +4,13 @@ var config = require('./config');
 
 
 var CWD = process.cwd(),
+    EXPORTS = [],
     NODE_MODULES = CWD + '/node_modules';
+
+EXPORTS = [
+  NODE_MODULES + '/hazdev-webutils/src/util/Util.js:util/Util',
+  NODE_MODULES + '/hazdev-webutils/src/util/Xhr.js:util/Xhr',
+];
 
 
 var browserify = {
@@ -22,7 +28,10 @@ var browserify = {
   // source bundles
   index: {
     src: [config.src + '/htdocs/location.js'],
-    dest: config.build + '/' + config.src + '/htdocs/location.js'
+    dest: config.build + '/' + config.src + '/htdocs/location.js',
+    options: {
+      alias: EXPORTS
+    }
   },
 
   // test bundle

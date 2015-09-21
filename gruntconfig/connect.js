@@ -64,6 +64,18 @@ var connect = {
     }
   },
 
+  example: {
+    options: {
+      base: [
+        config.build + '/' + config.src + '/htdocs',
+        config.example,
+        config.etc
+      ],
+      open: 'http://localhost:' + config.examplePort + '/example.html',
+      port: config.examplePort
+    }
+  },
+
   dist: {
     options: {
       base: [config.dist + '/htdocs'],
