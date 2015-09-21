@@ -28,7 +28,14 @@ var browserify = {
   // source bundles
   index: {
     src: [config.src + '/htdocs/location.js'],
-    dest: config.build + '/' + config.src + '/htdocs/location.js',
+    dest: config.build + '/' + config.src + '/htdocs/location.js'
+  },
+
+
+  // the bundle used by tests
+  bundle: {
+    src: [],
+    dest: config.build + '/' + config.test + '/js/bundle.js',
     options: {
       alias: EXPORTS
     }
