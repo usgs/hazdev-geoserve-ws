@@ -81,7 +81,7 @@ var LocationApp = function (options) {
     if (location !== null) {
       // request nearby
       Xhr.ajax({
-        url: _url + '/places',
+        url: _url + '/places.json',
         data: {
           latitude: location.latitude,
           longitude: location.longitude,
@@ -96,7 +96,7 @@ var LocationApp = function (options) {
 
       // request region information
       Xhr.ajax({
-        url: _url + '/regions',
+        url: _url + '/regions.json',
         data: {
           latitude: location.latitude,
           longitude: location.longitude
