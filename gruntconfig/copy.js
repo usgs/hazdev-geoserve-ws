@@ -24,6 +24,22 @@ var copy = {
       '!**/*.css'
     ]
   },
+  leaflet: {
+    expand: true,
+    cwd: 'node_modules/leaflet/dist',
+    dest: config.build + '/' + config.src + '/htdocs/lib',
+    src: [
+      '**/*'
+    ]
+  },
+  locationview: {
+    expand: true,
+    cwd: 'node_modules/hazdev-location-view/src/locationview',
+    dest: config.build + '/' + config.src + '/htdocs',
+    src: [
+      'images/**'
+    ]
+  },
   test: {
     expand: true,
     cwd: config.test,

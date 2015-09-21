@@ -19,8 +19,10 @@ var browserify = {
       debug: true,
       paths: [
         CWD + '/' + config.src + '/htdocs/js',
+        NODE_MODULES + '/hazdev-leaflet/src',
         NODE_MODULES + '/hazdev-location-view/src',
-        NODE_MODULES + '/hazdev-webutils/src'
+        NODE_MODULES + '/hazdev-webutils/src',
+        NODE_MODULES + '/leaflet/dist'
       ]
     }
   },
