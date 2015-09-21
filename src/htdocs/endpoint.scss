@@ -38,5 +38,16 @@ ul.parameters {
         color: #999;
       }
     }
+
+    > section {
+      margin: 1em 0 0;
+    }
   }
+}
+
+.parameter-note {
+  display: block;
+  margin: 1em 0;
+  font-size: smaller;
+  color: #666;
 }
