@@ -8,6 +8,7 @@ var CWD = '.',
     NODE_MODULES = CWD + '/node_modules';
 
 EXPORTS = [
+  CWD + '/src/htdocs/js/geoserve/AuthoritativeRegionView:geoserve/AuthoritativeRegionView',
   CWD + '/src/htdocs/js/geoserve/LocationOutputView.js:geoserve/LocationOutputView',
   CWD + '/src/htdocs/js/geoserve/NeicResponseView.js:geoserve/NeicResponseView',
   CWD + '/src/htdocs/js/geoserve/TectonicSummaryView.js:geoserve/TectonicSummaryView',
@@ -18,6 +19,7 @@ EXPORTS = [
   NODE_MODULES + '/hazdev-webutils/src/util/Util.js:util/Util',
   NODE_MODULES + '/hazdev-webutils/src/util/Xhr.js:util/Xhr'
 ];
+
 
 var browserify = {
   options: {
