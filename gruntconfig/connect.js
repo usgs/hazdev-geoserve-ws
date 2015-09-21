@@ -35,7 +35,7 @@ var connect = {
       base: [config.build + '/' + config.src + '/htdocs'],
       port: config.srcPort,
       livereload: true,
-      open: true,
+      open: 'http://127.0.0.1:' + config.srcPort + config.ini.MOUNT_PATH + '/index.html',
       middleware: function (connect, options, middlewares) {
         middlewares.unshift(
           require('grunt-connect-rewrite/lib/utils').rewriteRequest,
