@@ -13,7 +13,7 @@ class LayersFactory extends RegionsFactory {
     'fe' => 'fe_view',
     'neiccatalog' => 'neic_catalog',
     'neicresponse' => 'neic_response',
-    'tectonicsummary' => 'tectonicsummary',
+    'tectonicsummary' => 'tectonic_summary',
     'timezone' => 'timezone'
   );
 
