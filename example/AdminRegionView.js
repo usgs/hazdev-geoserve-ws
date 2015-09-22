@@ -13,7 +13,7 @@ Xhr.ajax({
 			model: Model({
 				regions: data
 			}),
-			header: '<h3>Admin Region</h3>'
+			header: '<h3>Administrative Region</h3>'
 		});
 	}
 });
