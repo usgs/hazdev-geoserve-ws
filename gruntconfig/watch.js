@@ -13,7 +13,7 @@ var watch = {
   tests: {
     files: [
       config.src + '/htdocs/**/*.js',
-      config.test + '**/*.js'
+      config.test + '/**/*.js'
     ],
     tasks: ['concurrent:scripts']
   },
