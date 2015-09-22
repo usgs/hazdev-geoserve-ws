@@ -48,12 +48,12 @@ var NeicResponseView = function (params) {
 
   _this.render = function () {
     var markup,
-        neiccatalog,
+        neicresponse,
         properties;
 
     try {
-      neiccatalog = _this.model.get('regions').neiccatalog;
-      properties = neiccatalog.features[0].properties;
+      neicresponse = _this.model.get('regions').neicresponse;
+      properties = neicresponse.features[0].properties;
 
       markup = [
         '<dl>',
