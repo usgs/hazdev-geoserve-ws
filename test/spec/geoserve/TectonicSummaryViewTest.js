@@ -81,12 +81,12 @@ describe('TectonicSummaryView', function () {
 
   describe('View', function () {
 
-		it('shows custom message when no data is available', function () {
+		it('shows a message when no data is available', function () {
 			var div,
 					text;
 
 			div = document.createElement('div');
-			text = 'hello';
+			text = 'No data to display.';
 
 			TectonicSummaryView({
 					el: div,
@@ -104,14 +104,15 @@ describe('TectonicSummaryView', function () {
 
 			div = document.createElement('div');
 			text = 'Header';
-			header = '<h3 class="header">' + text + '</h3>';
+			header = '<h2 class="tectonic-summary-header">' + text + '</h2>';
 
-			AdminRegionView({
+			TectonicSummaryView({
+          header: header,
 					el: div,
 					model: Model()
 				});
 
-			expect(div.querySelector('.header').innerHTML).to.be.equal(text);
+			expect(div.querySelector('.tectonic-summary-header').innerHTML).to.be.equal(text);
 		});
 
 	});

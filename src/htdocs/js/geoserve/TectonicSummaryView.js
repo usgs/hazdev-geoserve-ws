@@ -9,7 +9,7 @@ var _NO_DATA_MESSAGE = '<p class="alert info">No data to display.</p>';
 
 
 var _DEFAULTS = {
-  header: '<h2>Tectonic Summary View</h2>'
+  header: '<h2 class="tectonic-summary-header">Tectonic Summary View</h2>'
 };
 
 /**
