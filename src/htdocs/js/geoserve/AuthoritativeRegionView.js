@@ -12,12 +12,12 @@ var AuthoritativeRegionView = function (params) {
 			_initialize,
 
 			_header,
-			_noDataText;
+			_noDataMessage;
 
 	_this = View(params||{});
 
 	_initialize = function (params) {
-		_noDataText = params.noDataText || NO_DATA_TEXT;
+		_noDataMessage = params.noDataMessage || NO_DATA_TEXT;
 		_header = params.header;
 
 		_this.el.className = 'authoritative-region';
@@ -36,7 +36,7 @@ var AuthoritativeRegionView = function (params) {
 		}
 
 		if (auth === null) {
-			markup = '<p class="alert info">' + _noDataText + '</p>';
+			markup = '<p class="alert info">' + _noDataMessage + '</p>';
 		} else {
 			markup = '<dl>' +
 						'<dt>Name</dt>' +
@@ -59,7 +59,7 @@ var AuthoritativeRegionView = function (params) {
 	 */
 	_this.destroy = Util.compose(function () {
 		_header = null;
-		_noDataText = null;
+		_noDataMessage = null;
 
 		_initialize = null;
 		_this = null;
