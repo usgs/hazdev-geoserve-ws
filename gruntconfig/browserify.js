@@ -3,7 +3,7 @@
 var config = require('./config');
 
 
-var CWD = '.',
+var CWD = process.cwd(),
     EXPORTS = [],
     NODE_MODULES = CWD + '/node_modules';
 
@@ -21,6 +21,12 @@ EXPORTS = [
   NODE_MODULES + '/hazdev-webutils/src/util/Xhr.js:util/Xhr'
 ];
 
+  NODE_MODULES + '/hazdev-webutils/src/mvc/Model.js:mvc/Model',
+  NODE_MODULES + '/hazdev-webutils/src/util/Util.js:util/Util',
+  NODE_MODULES + '/hazdev-webutils/src/util/Xhr.js:util/Xhr',
+
+  CWD + '/src/htdocs/js/geoserve/NeicCatalogView:geoserve/NeicCatalogView'
+];
 
 var browserify = {
   options: {
@@ -46,7 +52,7 @@ var browserify = {
   // the bundle used by tests
   bundle: {
     src: [],
-    dest: config.build + '/' + config.test + '/bundle.js',
+    dest: config.build + '/' + config.test + '/js/bundle.js',
     options: {
       alias: EXPORTS
     }
