@@ -26,8 +26,8 @@ var copy = {
   },
   leaflet: {
     expand: true,
-    cwd: 'node_modules/leaflet/dist',
-    dest: config.build + '/' + config.src + '/htdocs/lib',
+    cwd: 'node_modules/leaflet/dist/images',
+    dest: config.build + '/' + config.src + '/htdocs/images',
     src: [
       '**/*'
     ]
