@@ -2,16 +2,19 @@
 
 var NeicCatalogView = require('geoserve/NeicCatalogView'),
     Model = require('mvc/Model'),
-    Xhr = require('util/Xhr'),
-    tmp;
+    Xhr = require('util/Xhr');
 
 Xhr.ajax({
-  url: 'neiccatalog.json',
-  success: function (data) {
-    tmp = 'hello';
+  url: 'regions.json',
+  success: function (regions) {
     NeicCatalogView({
       el: document.querySelector('#example'),
-      data: Model(data.neiccatalog.features[0].properties)
+      model: Model({regions:regions}),
     });
+  },
+  error: function () {
+    var p = document.body.appendChild(document.createElement('p'));
+    p.className = 'alert error';
+    p.innerHTML = 'Failed to load regions.json data.';
   }
 });
