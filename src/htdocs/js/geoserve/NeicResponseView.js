@@ -10,7 +10,7 @@ var _NO_DATA_MESSAGE = '<p class="alert info">No data to display.</p>';
 
 // Default values to be used by constructor
 var _DEFAULTS = {
-   // ... some defaults ...
+  header: '<h2>NEIC Response View</h2>'
 };
 
 
@@ -24,6 +24,8 @@ var NeicResponseView = function (params) {
   var _this,
       _initialize,
 
+      _header,
+
       _formatMagnitude;
 
 
@@ -36,6 +38,9 @@ var NeicResponseView = function (params) {
    */
   _initialize = function (params) {
     params = Util.extend({}, _DEFAULTS, params);
+
+    _header = params.header;
+
     _this.render();
   };
 
@@ -51,25 +56,27 @@ var NeicResponseView = function (params) {
         neicresponse,
         properties;
 
+    markup = [(_header !== null) ? _header : ''];
+
     try {
       neicresponse = _this.model.get('regions').neicresponse;
       properties = neicresponse.features[0].properties;
 
-      markup = [
-        '<dl>',
-          '<dt>Name</dt>',
-            '<dd>', properties.name, '</dd>',
-          '<dt>Type</dt>',
-            '<dd>', properties.type, '</dd>',
-          '<dt>Magnitude</dt>',
-            '<dd>', _formatMagnitude(properties.magnitude), '</dd>',
+      markup.push(
+        '<dl>' +
+          '<dt>Name</dt>' +
+            '<dd>' + properties.name + '</dd>' +
+          '<dt>Type</dt>' +
+            '<dd>' + properties.type + '</dd>' +
+          '<dt>Magnitude</dt>' +
+            '<dd>' + _formatMagnitude(properties.magnitude) + '</dd>' +
         '</dl>'
-      ].join('');
+      );
     } catch (e) {
-      markup = _NO_DATA_MESSAGE;
+      markup.push(_NO_DATA_MESSAGE);
     }
 
-    _this.el.innerHTML = '<h3>NEIC Response Region</h3>' + markup;
+    _this.el.innerHTML = markup.join('');
   };
 
 
