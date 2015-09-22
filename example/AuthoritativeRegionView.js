@@ -12,7 +12,8 @@ Xhr.ajax({
 				el: document.querySelector('#example'),
 				model: Model({
 					regions: data
-				})
+				}),
+				header: '<h3>Authoritative Region</h3>'
 		});
 	}
 });

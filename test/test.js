@@ -37,6 +37,7 @@ mocha.setup('bdd');
 // Add each test class here as they are implemented
 require('./spec/geoserve/LocationAppTest');
 require('./spec/geoserve/NeicResponseViewTest');
+require('./spec/geoserve/AuthoritativeRegionViewTest');
 
 
 if (window.mochaPhantomJS) {
