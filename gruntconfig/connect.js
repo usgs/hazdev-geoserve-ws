@@ -67,7 +67,7 @@ var connect = {
   example: {
     options: {
       base: [
-        config.build + '/' + config.src + '/htdocs',
+        config.build + '/' + config.test + '/htdocs',
         config.example,
         config.etc
       ],
