@@ -1,18 +1,27 @@
 'use strict';
 
-var AuthoritativeRegionView = require('geoserve/TimezoneRegionView'),
+var TimezoneRegionView = require('geoserve/TimezoneRegionView'),
 
-  Model = require('mvc/Model'),
-  Xhr = require('util/Xhr');
+    Model = require('mvc/Model'),
+    Xhr = require('util/Xhr');
+
+var model;
+
+model = Model({
+  regions:null
+});
+
+TimezoneRegionView({
+  el: document.querySelector('#example'),
+  model: model,
+  header: '<h3>Time Zone</h3>'
+});
 
 Xhr.ajax({
   url: 'regions.json',
   success:function (data) {
-    TimezoneRegionView({
-      el: document.querySelector('#example'),
-      data: Model({
-        regions: data
-      })
+    model.set({
+      regions: data
     });
   }
 });
