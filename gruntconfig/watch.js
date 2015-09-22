@@ -15,8 +15,13 @@ var watch = {
     tasks: ['concurrent:scripts']
   },
   scss: {
-    files: [config.src + '/htdocs/**/*.scss'],
-    tasks: ['compass:dev'],
+    files: [
+      config.src + '/htdocs/**/*.css',
+      config.src + '/htdocs/**/*.scss'
+    ],
+    tasks: [
+      'postcss:dev'
+    ],
     options: {
       livereload: true
     }

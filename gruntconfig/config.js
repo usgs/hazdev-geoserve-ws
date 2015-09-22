@@ -17,7 +17,7 @@ var config = {
   srcPort: 8100,
   etc: 'etc',
   example: 'example',
-  examplePort: 8004,
+  examplePort: 8104,
   templatePort: 8103,
   test: 'test',
   testPort: 8101

@@ -7,14 +7,16 @@ var concurrent = {
     'browserify'
   ],
   build: [
-    'compass:dev',
+    'postcss:dev',
     'copy:build',
+    'copy:leaflet',
+    'copy:locationview',
     'jshint:scripts',
     'browserify'
   ],
   dist: [
     'copy:dist',
-    'cssmin',
+    'postcss:dist',
     'uglify'
   ]
 };
