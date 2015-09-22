@@ -10,8 +10,8 @@ Xhr.ajax({
 		success: function (data) {
 			AuthoritativeRegionView({
 				el: document.querySelector('#example'),
-				data: Model({
-					region: data
+				model: Model({
+					regions: data
 				})
 		});
 	}
