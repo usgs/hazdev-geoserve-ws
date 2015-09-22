@@ -16,7 +16,7 @@ var TimezoneRegionView = function (params) {
   _initialize = function (params) {
     params = params || {};
 
-    _data = params.data || Model({});
+    _data = params.regions || Model({});
 
     _this.render();
   };
@@ -24,7 +24,7 @@ var TimezoneRegionView = function (params) {
   _this.render = function () {
     var timeData;
 
-    timeData = _data.get('timezone');
+    timeData = _data.get('region').timezone.features;
 
     if (timeData === null) {
       _this.el.innerHTML =[
