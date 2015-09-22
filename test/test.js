@@ -38,7 +38,7 @@ mocha.setup('bdd');
 require('./spec/geoserve/LocationAppTest');
 require('./spec/geoserve/LocationOutputViewTest');
 require('./spec/geoserve/NeicResponseViewTest');
-require('./spec/geoserve/TectonicSummaryView');
+require('./spec/geoserve/TectonicSummaryViewTest');
 
 
 if (window.mochaPhantomJS) {
