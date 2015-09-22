@@ -57,6 +57,7 @@ var connect = {
       base: [
         config.build + '/' + config.src + '/htdocs',
         config.build + '/' + config.test,
+        config.etc,
         'node_modules'
       ],
       port: config.testPort,
