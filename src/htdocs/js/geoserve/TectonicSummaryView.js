@@ -49,17 +49,13 @@ var TectonicSummaryView = function (options) {
 
     try {
       tectonicResponse = _this.model.get('regions').tectonicsummary;
+      // properties include: name, type and summary
       properties = tectonicResponse.features[0].properties;
-      console.log(properties);
+
       markup.push(
-        '<dl>' +
-          '<dt>Name</dt>' +
-            '<dt>' + properties.name + '</dt>' +
-          '<dt>Type</dt>' +
-            '<dt>' + properties.type + '</dt>' +
-          '<dt>Summary</dt>' +
-            '<dt>' + properties.summary + '</dt>' +
-        '</dl>'
+        '<div class="tectonic-summary">' +
+          properties.summary +
+        '</div>'
       );
     } catch (e) {
       markup.push(_NO_DATA_MESSAGE);
