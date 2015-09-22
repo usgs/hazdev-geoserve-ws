@@ -4,6 +4,8 @@
 @import 'leaflet/_FullscreenControl.scss';
 @import 'leaflet/_MousePositionControl.scss';
 
+@import 'locationview/_mixins.scss';
+@import 'locationview/LeafletControls.scss';
 @import 'locationview/CoordinateControl.scss';
 @import 'locationview/GeocodeControl.scss';
 @import 'locationview/GeolocationControl.scss';
