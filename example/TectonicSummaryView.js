@@ -8,7 +8,9 @@ var TectonicSummaryView = require('geoserve/TectonicSummaryView'),
 
 
 var _initialize,
-    _model;
+    _model,
+    _onRegions,
+    _onRegionsError;
 
 _initialize = function () {
   _model = Model({
@@ -16,13 +18,17 @@ _initialize = function () {
   });
 
   TectonicSummaryView({
-    header: '<h2>Example with data</h2>',
-    el: document.querySelector('#example')
+    header: '<h2>Example without data</h2>',
+    el: document.querySelector('#example-nodata'),
+    model: Model({
+      regions: null
+    })
   });
 
   TectonicSummaryView({
-    header: '<h2>Example without data</h2>',
-    el: document.querySelector('#example-nodata')
+    header: '<h2>Example with data</h2>',
+    el: document.querySelector('#example'),
+    model: _model
   });
 
   Xhr.ajax({
