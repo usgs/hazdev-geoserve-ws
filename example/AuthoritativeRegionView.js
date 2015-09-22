@@ -6,11 +6,13 @@ var AuthoritativeRegionView = require('geoserve/AuthoritativeRegionView'),
     Xhr = require('util/Xhr');
 
 Xhr.ajax({
-  url: 'data.json',
-  success: function (data) {
-    AuthoritativeRegionView({
-      el: document.querySelector('#example'),
-      data: Model(data.authoritative.features[0].properties)
-    });
-  }
+	url: 'data.json',
+		success: function (data) {
+			AuthoritativeRegionView({
+				el: document.querySelector('#example'),
+				data: Model({
+					region: data
+				})
+		});
+	}
 });

@@ -52,19 +52,6 @@ var connect = {
     }
   },
 
-  example: {
-    options: {
-      base: [
-        config.build + '/' + config.src + '/htdocs',
-        config.build + '/' + config.test,
-        config.etc,
-        config.example
-      ],
-      open: 'http://localhost:' + config.examplePort + '/example.html',
-      port: config.examplePort
-    }
-  },
-
   test: {
     options: {
       base: [
