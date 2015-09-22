@@ -15,11 +15,13 @@ _initialize = function () {
   _model = Model({regions: null});
 
   NeicResponseView({
+    header: '<h2>Example with data</h2>',
     el: document.querySelector('#example'),
     model: _model
   });
 
   NeicResponseView({
+    header: '<h2>Example without data</h2>',
     el: document.querySelector('#example-nodata'),
     model: Model({regions: null})
   });

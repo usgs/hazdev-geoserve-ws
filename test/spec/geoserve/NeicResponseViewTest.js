@@ -53,15 +53,13 @@ describe('NeicResponseView', function () {
       var view;
 
       // ... with no data ...
-      view = NeicResponseView({model: Model()});
-      expect(view.el.innerHTML).to.equal('<h3>NEIC Response Region</h3>' +
-          NeicResponseView.NO_DATA_MESSAGE);
+      view = NeicResponseView({header: null, model: Model()});
+      expect(view.el.innerHTML).to.equal(NeicResponseView.NO_DATA_MESSAGE);
       view.destroy();
 
       // ... with data ...
-      view = NeicResponseView({model: Model({regions: regions})});
+      view = NeicResponseView({header: null, model: Model({regions: regions})});
       expect(view.el.innerHTML).to.equal([
-        '<h3>NEIC Response Region</h3>',
         '<dl>',
           '<dt>Name</dt>',
             '<dd>Eastern US</dd>',
