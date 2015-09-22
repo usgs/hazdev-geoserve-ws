@@ -6,11 +6,13 @@ var AuthoritativeRegionView = require('geoserve/TimezoneRegionView'),
   Xhr = require('util/Xhr');
 
 Xhr.ajax({
-  url: 'data.json',
+  url: 'regions.json',
   success:function (data) {
     TimezoneRegionView({
       el: document.querySelector('#example'),
-      data: Model(data.timezone.features[0])
+      data: Model({
+        regions: data
+      })
     });
   }
 });
