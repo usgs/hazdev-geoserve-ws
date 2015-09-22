@@ -54,6 +54,11 @@ var TectonicSummaryView = function (options) {
       markup.push(
         '<dl>' +
           '<dt>Name</dt>' +
+            '<dt>' + properties.name + '</dt>' +
+          '<dt>Type</dt>' +
+            '<dt>' + properties.type + '</dt>' +
+          '<dt>Summary</dt>' +
+            '<dt>' + properties.summary + '</dt>' +
         '</dl>'
       );
     } catch (e) {
