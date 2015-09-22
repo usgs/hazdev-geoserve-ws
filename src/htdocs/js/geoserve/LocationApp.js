@@ -55,7 +55,7 @@ var LocationApp = function (options) {
     options = Util.extend({}, _DEFAULTS, options);
     _url = options.url;
 
-    el = _this.el || document.createElement('div');
+    el = _this.el;
     el.innerHTML = '<section class="location-map-view"></section>' +
         '<section class="location-output-view"></section>' +
         '<section class="neicresponse-view"></section>';
