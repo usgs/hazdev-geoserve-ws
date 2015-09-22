@@ -46,7 +46,12 @@ var AuthoritativeRegionView = function (params) {
 					'</dl>';
 		}
 
-		_this.el.innerHTML = _header + markup;
+		// Do not display blank header
+		if (_header) {
+			markup = _header + markup;
+		}
+
+		_this.el.innerHTML = markup;
 	};
 
 	/**
