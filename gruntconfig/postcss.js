@@ -30,8 +30,10 @@ var postcss = {
     },
     expand: true,
     cwd: config.src + '/htdocs',
-    src: '*.css',
-    dest: config.build + '/' + config.src + '/htdocs'
+    src: '*.scss',
+    dest: config.build + '/' + config.src + '/htdocs',
+    ext: '.css',
+    extDot: 'last'
   },
 
   dist: {
