@@ -36,7 +36,7 @@
     "grunt-contrib-watch": "^0.6.1",
     "grunt-mocha-phantomjs": "^2.0.0",
     "grunt-postcss": "^0.6.0",
-    "hazdev-leaflet": "file:../hazdev-leaflet",
+    "hazdev-leaflet": "usgs/hazdev-leaflet",
     "hazdev-location-view": "usgs/hazdev-location-view",
     "hazdev-template": "usgs/hazdev-template",
     "hazdev-webutils": "usgs/hazdev-webutils",
