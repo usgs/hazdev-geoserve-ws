@@ -7,12 +7,15 @@ var View = require('mvc/View'),
 
 var AuthoritativeRegionView = function (params) {
 	var _this,
-			_initialize;
+			_initialize,
+
+			_noDataText;
 
 	_this = View(params||{});
 
 	_initialize = function () {
 		_this.el.className = 'authoritative-region';
+		_noDataText = 'No Authoritative Region Data';
 		_this.render();
 	};
 
@@ -34,7 +37,7 @@ var AuthoritativeRegionView = function (params) {
 		}
 
 		if (auth === null) {
-			markup = '<p class="alert info">No Authoritative Region Data</p>';
+			markup = '<p class="alert info">' + _noDataText + '</p>';
 		} else {
 			markup = '<dl>' +
 						'<dt>Name</dt>' +
@@ -47,13 +50,15 @@ var AuthoritativeRegionView = function (params) {
 		_this.el.innerHTML = '<h3>Authoritative Region</h3>' + markup;
 	};
 
-  /**
-   * View destroy method.
-   */
-  _this.destroy = Util.compose(function () {
-    _initialize = null;
-    _this = null;
-  }, _this.destroy);
+	/**
+	 * View destroy method.
+	 */
+	_this.destroy = Util.compose(function () {
+		_noDataText = null;
+
+		_initialize = null;
+		_this = null;
+	}, _this.destroy);
 
 
 	_initialize();
