@@ -4,8 +4,10 @@ var View = require('mvc/View'),
 
 		Util = require('util/Util');
 
-var NO_DATA_TEXT = 'No Authoritative Region Data';
-
+var DEFAULTS = {
+	noDataMessage: 'Authoritative region data, not available.',
+	header: null
+};
 
 var AuthoritativeRegionView = function (params) {
 	var _this,
@@ -17,7 +19,10 @@ var AuthoritativeRegionView = function (params) {
 	_this = View(params||{});
 
 	_initialize = function (params) {
-		_noDataMessage = params.noDataMessage || NO_DATA_TEXT;
+
+		params = Util.extend({}, DEFAULTS, params);
+
+		_noDataMessage = params.noDataMessage;
 		_header = params.header;
 
 		_this.el.className = 'authoritative-region';
