@@ -78,4 +78,41 @@ describe('TectonicSummaryView', function () {
       view.destroy();
     });
   });
+
+  describe('View', function () {
+
+		it('shows custom message when no data is available', function () {
+			var div,
+					text;
+
+			div = document.createElement('div');
+			text = 'hello';
+
+			TectonicSummaryView({
+					el: div,
+					model: Model()
+				});
+
+			expect(div.querySelector('.alert').innerHTML).to.be.equal(text);
+		});
+
+
+		it('shows custom header when header is passed', function () {
+			var div,
+					header,
+					text;
+
+			div = document.createElement('div');
+			text = 'Header';
+			header = '<h3 class="header">' + text + '</h3>';
+
+			AdminRegionView({
+					el: div,
+					model: Model()
+				});
+
+			expect(div.querySelector('.header').innerHTML).to.be.equal(text);
+		});
+
+	});
 });
