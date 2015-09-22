@@ -10,6 +10,7 @@ var CWD = '.',
 EXPORTS = [
   CWD + '/src/htdocs/js/geoserve/LocationOutputView.js:geoserve/LocationOutputView',
   CWD + '/src/htdocs/js/geoserve/NeicResponseView.js:geoserve/NeicResponseView',
+  CWD + '/src/htdocs/js/geoserve/TectonicSummaryView.js:geoserve/TectonicSummaryView',
 
   NODE_MODULES + '/hazdev-webutils/src/mvc/Model.js:mvc/Model',
 
