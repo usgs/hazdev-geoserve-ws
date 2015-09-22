@@ -35,7 +35,7 @@ var browserify = {
   // the bundle used by tests
   bundle: {
     src: [],
-    dest: config.build + '/' + config.test + '/js/bundle.js',
+    dest: config.build + '/' + config.test + '/bundle.js',
     options: {
       alias: EXPORTS
     }
