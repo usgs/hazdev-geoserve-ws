@@ -1,43 +1,35 @@
 'use strict';
 
 var View = require('mvc/View'),
-		Model = require('mvc/Model'),
 
 		Util = require('util/Util');
 
 
 var AuthoritativeRegionView = function (params) {
 	var _this,
-			_initialize,
-
-			_data;
+			_initialize;
 
 	_this = View(params||{});
 
-	_initialize = function (params) {
-		params = params || {};
-
-		_data = params.data || Model({});
-
+	_initialize = function () {
 		_this.el.className = 'authoritative-region';
-
 		_this.render();
 	};
 
 	_this.render = function () {
 		var auth,
-				region,
+				regions,
 				markup;
 
 		auth = null;
 
-		if (_data && _data.get('region')) {
-			region = _data.get('region');
+		if (_this.model.get('regions')) {
+			regions = _this.model.get('regions');
 
-			if (region.authoritative &&
-					region.authoritative.features &&
-					region.authoritative.features.length !== 0) {
-				auth = region.authoritative.features[0];
+			if (regions.authoritative &&
+					regions.authoritative.features &&
+					regions.authoritative.features.length !== 0) {
+				auth = regions.authoritative.features[0];
 			}
 		}
 
@@ -59,13 +51,12 @@ var AuthoritativeRegionView = function (params) {
    * View destroy method.
    */
   _this.destroy = Util.compose(function () {
-    _data = null;
     _initialize = null;
     _this = null;
   }, _this.destroy);
 
 
-	_initialize(params);
+	_initialize();
 	params = null;
 	return _this;
 
