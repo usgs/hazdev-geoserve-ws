@@ -8,6 +8,7 @@ var CWD = '.',
     NODE_MODULES = CWD + '/node_modules';
 
 EXPORTS = [
+  CWD + '/src/htdocs/js/geoserve/AdminRegionView.js:geoserve/AdminRegionView',
   CWD + '/src/htdocs/js/geoserve/AuthoritativeRegionView.js:geoserve/AuthoritativeRegionView',
   CWD + '/src/htdocs/js/geoserve/LocationOutputView.js:geoserve/LocationOutputView',
   CWD + '/src/htdocs/js/geoserve/NeicResponseView.js:geoserve/NeicResponseView',

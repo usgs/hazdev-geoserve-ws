@@ -1,23 +1,23 @@
 'use strict';
 
 var View = require('mvc/View'),
-		Model = require('mvc/Model'),
-
 		Util = require('util/Util');
 
+var NO_DATA_MESSAGE = 'No Data Available';
 
 var AdminRegionView = function (params) {
 	var _this,
 			_initialize,
 
-			_data;
+			_header,
+			_noDataMessage;
 
 	_this = View(params||{});
 
 	_initialize = function (params) {
-		params = params || {};
 
-		_data = params.data || Model({});
+		_noDataMessage = params.noDataMessage || NO_DATA_MESSAGE;
+		_header = params.header;
 
 		_this.el.className = 'administrative-region';
 
@@ -25,34 +25,46 @@ var AdminRegionView = function (params) {
 	};
 
 	_this.render = function () {
-		var region,
+		var admin,
 				markup;
 
-		if (_data.get('country') === null) {
-			markup = '<p class="alert info">No Administrative Region Data</p>';
+		try {
+			admin = _this.model.get('regions').admin.features[0].properties;
+		} catch (e) {
+			admin = null;
+		}
+
+		if (admin === null) {
+			markup = '<p class="alert info">' + _noDataMessage + '</p>';
 		} else {
-			region = _data.get();
 			markup = '<dl>' +
 						'<dt>ISO</dt>' +
-						'<dd>' + region.iso + '</dd>' +
+						'<dd>' + admin.iso + '</dd>' +
 						'<dt>Country</dt>' +
-						'<dd>' + region.country + '</dd>' +
+						'<dd>' + admin.country + '</dd>' +
 						'<dt>Region</dt>' +
-						'<dd>' + region.region + '</dd>' +
+						'<dd>' + admin.region + '</dd>' +
 					'</dl>';
 		}
 
-		_this.el.innerHTML = '<h3>Administrative Region</h3>' + markup;
+		// Do not display a blank header
+		if (_header) {
+			markup = _header + markup;
+		}
+
+		_this.el.innerHTML = markup;
 	};
 
-  /**
-   * View destroy method.
-   */
-  _this.destroy = Util.compose(function () {
-    _data = null;
-    _initialize = null;
-    _this = null;
-  }, _this.destroy);
+	/**
+	 * View destroy method.
+	 */
+	_this.destroy = Util.compose(function () {
+		_header = null;
+		_noDataMessage = null;
+
+		_initialize = null;
+		_this = null;
+	}, _this.destroy);
 
 
 	_initialize(params);
