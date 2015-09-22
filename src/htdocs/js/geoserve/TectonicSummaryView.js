@@ -40,6 +40,17 @@ var TectonicSummaryView = function (options) {
   };
 
 
+  _this.destroy = Util.compose(
+    // Sub class destroy method
+    function () {
+      // Clean up private variables
+      _header = null;
+
+      _this = null;
+    },
+    // Parent class destroy method
+    _this.destroy);
+
   _this.render = function () {
     var markup,
         properties,
