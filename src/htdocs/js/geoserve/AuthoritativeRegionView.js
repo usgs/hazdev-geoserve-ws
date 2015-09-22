@@ -25,18 +25,30 @@ var AuthoritativeRegionView = function (params) {
 	};
 
 	_this.render = function () {
-		var region,
+		var auth,
+				region,
 				markup;
 
-		if (_data.get('name') === null && _data.get('network') === null) {
+		auth = null;
+
+		if (_data && _data.get('region')) {
+			region = _data.get('region');
+
+			if (region.authoritative &&
+					region.authoritative.features &&
+					region.authoritative.features.length !== 0) {
+				auth = region.authoritative.features[0];
+			}
+		}
+
+		if (auth === null) {
 			markup = '<p class="alert info">No Authoritative Region Data</p>';
 		} else {
-			region = _data.get();
 			markup = '<dl>' +
 						'<dt>Name</dt>' +
-						'<dd>' + region.name + '</dd>' +
+						'<dd>' + auth.properties.name + '</dd>' +
 						'<dt>Network</dt>' +
-						'<dd>' + region.network + '</dd>' +
+						'<dd>' + auth.properties.network + '</dd>' +
 					'</dl>';
 		}
 
