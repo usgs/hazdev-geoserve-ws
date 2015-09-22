@@ -30,7 +30,7 @@ describe('AuthoritativeRegionView test suite.', function () {
 			AuthoritativeRegionView({
 					el: div,
 					model: Model(),
-					noDataText: text
+					noDataMessage: text
 				});
 
 			expect(div.querySelector('.alert').innerHTML).to.be.equal(text);
