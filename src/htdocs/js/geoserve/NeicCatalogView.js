@@ -1,59 +1,92 @@
 'use strict';
 
-var Model = require('mvc/Model'),
-    View = require('mvc/View'),
+var View = require('mvc/View'),
 
     Util = require('util/Util');
 
-var NeicCatalogView = function (options) {
+var _NO_DATA_MESSAGE = '<p class="alert info">No NEIC Catalog data.</p>';
+
+// Default values to be used by constructor
+var _DEFAULTS = {
+  header: '<h2>NEIC Catalog View</h2>'
+};
+
+/**
+ * Class: NeicCatalogView
+ *
+ * @param params {Object}
+ *      Configuration options. See _DEFAULTS for more details.
+ */
+var NeicCatalogView = function (params) {
   var _this,
       _initialize,
 
-      _data;
+      _header,
 
-  _this = View(options);
+      _formatMagnitude;
 
-  _initialize = function (options) {
-    options = options || {};
+  // Inherit from parent class
+  _this = View(params||{});
 
-    _data = options.data || Model({});
+  /**
+  * @constructor
+  *
+  */
+  _initialize = function (params) {
+  params = Util.extend({}, _DEFAULTS, params);
 
-    _this.el.classname = 'neic-catalog-view';
+  _header = params.header;
+
+  _this.el.className = 'neic-catalog';
 
   _this.render();
   };
 
+  _formatMagnitude = function (magnitude) {
+    // TODO :: Use generic formatter here ...
+    return magnitude.toFixed(1);
+  };
+
   _this.destroy = Util.compose(function () {
-    _data = null;
-    _initialize = null;
-    _this = null;
+    _header = null;
+    _formatMagnitude = null;
   }, _this.destroy);
 
   _this.render = function () {
-    var catalog,
-        markup;
+    var markup,
+        neiccatalog,
+        properties;
 
-  if (_data.get('name') === null && _data.get('type') === null) {
-    markup = '<p class="alert info">No NEIC Catalog data</p>';
-  } else {
-    catalog = _data.get();
-    markup = '<dl>' +
-          '<dt>Name</dt>' +
-          '<dd>' + catalog.name + '</dd>' +
-          '<dt>Magnitude</dt>' +
-          '<dd>' + catalog.magnitude + '</dd>' +
-          '<dt>type</dt>' +
-          '<dd>' + catalog.type + '</dd>' +
-      '<dl>';
-  }
+    markup = [(_header !== null) ? _header : ''];
 
-  _this.el.innerHTML = '<h3>Neic Catalog:</h3>' + markup;
+    try {
+      neiccatalog = params.model.get('regions').neiccatalog;
+
+      properties = neiccatalog.features[0].properties;
+
+      markup.push( '<dl>' +
+            '<dt>Name</dt>' +
+            '<dd>' + properties.name + '</dd>' +
+            '<dt>type</dt>' +
+            '<dd>' + properties.type + '</dd>' +
+            '<dt>Magnitude</dt>' +
+            '<dd>' + properties.magnitude + '</dd>' +
+        '<dl>'
+      );
+    }
+    catch (e) {
+      markup.push(_NO_DATA_MESSAGE);
+    }
+
+  _this.el.innerHTML = markup.join('');
 
   };
 
-  _initialize(options);
-  options = null;
+  _initialize(params);
+  params = null;
   return _this;
 };
+
+NeicCatalogView.NO_DATA_MESSAGE = _NO_DATA_MESSAGE;
 
 module.exports = NeicCatalogView;
