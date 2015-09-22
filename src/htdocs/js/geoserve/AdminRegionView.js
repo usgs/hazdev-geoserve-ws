@@ -3,7 +3,10 @@
 var View = require('mvc/View'),
 		Util = require('util/Util');
 
-var NO_DATA_MESSAGE = 'No Data Available';
+var DEFAULTS = {
+	header: null,
+	noDataMessage: 'Administrative region data, not available.',
+};
 
 var AdminRegionView = function (params) {
 	var _this,
@@ -16,9 +19,10 @@ var AdminRegionView = function (params) {
 
 	_initialize = function (params) {
 
-		_noDataMessage = params.noDataMessage || NO_DATA_MESSAGE;
-		_header = params.header;
+		params = Util.extend({}, DEFAULTS, params);
 
+		_header = params.header;
+		_noDataMessage = params.noDataMessage;
 		_this.el.className = 'administrative-region';
 
 		_this.render();
