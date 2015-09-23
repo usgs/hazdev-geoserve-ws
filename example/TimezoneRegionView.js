@@ -25,3 +25,8 @@ Xhr.ajax({
     });
   }
 });
+
+TimezoneRegionView({
+  el: document.querySelector('#example-no-data'),
+  header: '<h3>Time Zone No Data</h3>'
+});
