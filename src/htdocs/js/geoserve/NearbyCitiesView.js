@@ -33,6 +33,7 @@ var NearbyCitiesView = function (params) {
   /**
    * @constructor
    *
+   *
    */
   _initialize = function (params) {
     params = Util.extend({}, _DEFAULTS, params);
@@ -42,7 +43,10 @@ var NearbyCitiesView = function (params) {
     _this.render();
   };
 
-  _this.compasswinds = function(azimuth) {
+  /**
+   * Convert azimuth in degree's into compass points.
+   */
+  _this._compasswinds = function(azimuth) {
     var fullwind = 22.5,
         directions = ['N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE',
             'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW', 'N'];
@@ -50,10 +54,25 @@ var NearbyCitiesView = function (params) {
     return directions[(Math.round((azimuth%360)/fullwind))];
   };
 
-  _this.kmToMi = function (km) {
+  /**
+   * Convert Kilometers to miles
+   */
+  _this._kmToMi = function (km) {
     return (km * 0.621371);
   };
 
+  /**
+   * Put commas into a number for display.
+   */
+  _this._numberWithCommas = function (x) {
+    var parts = x.toString().split('.');
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    return parts.join('.');
+  };
+
+  /**
+   * Update map to display current location.
+   */
   _this.render = function () {
     var markup,
         nearbycitiesresponse,
@@ -75,10 +94,10 @@ var NearbyCitiesView = function (params) {
             '<span class="citydistance">' +
               properties.distance +
               'km (' +
-              Math.round(this.kmToMi(properties.distance)) + 'mi) ' +
+              Math.round(this._kmToMi(properties.distance)) + 'mi) ' +
             '</span>' +
             '<span class="direction">' +
-              _this.compasswinds(properties.azimuth) + ' of ' +
+              _this._compasswinds(properties.azimuth) + ' of ' +
             '</span>' +
             '<span class="cityname">' +
               properties.name +
@@ -90,7 +109,7 @@ var NearbyCitiesView = function (params) {
               ', ' + properties.country_name +
             '</span>' +
             '<span class="population">' +
-              ' (' + properties.population + ')' +
+              ' population ' +_this._numberWithCommas(properties.population) +
             '</span>' +
           '</li>'
         );
