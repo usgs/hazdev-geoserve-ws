@@ -39,7 +39,7 @@ require('./spec/geoserve/LocationAppTest');
 require('./spec/geoserve/LocationOutputViewTest');
 require('./spec/geoserve/NeicResponseViewTest');
 require('./spec/geoserve/TectonicSummaryViewTest');
-
+require('./spec/geoserve/TimezoneRegionViewTest');
 
 if (window.mochaPhantomJS) {
   window.mochaPhantomJS.run();
