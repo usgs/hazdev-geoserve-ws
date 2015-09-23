@@ -11,6 +11,7 @@ EXPORTS = [
   CWD + '/src/htdocs/js/geoserve/AdminRegionView.js:geoserve/AdminRegionView',
   CWD + '/src/htdocs/js/geoserve/AuthoritativeRegionView.js:geoserve/AuthoritativeRegionView',
   CWD + '/src/htdocs/js/geoserve/LocationOutputView.js:geoserve/LocationOutputView',
+  CWD + '/src/htdocs/js/geoserve/NearbyCitiesView.js:geoserve/NearbyCitiesView',
   CWD + '/src/htdocs/js/geoserve/NeicCatalogView.js:geoserve/NeicCatalogView',
   CWD + '/src/htdocs/js/geoserve/NeicResponseView.js:geoserve/NeicResponseView',
   CWD + '/src/htdocs/js/geoserve/TectonicSummaryView.js:geoserve/TectonicSummaryView',
