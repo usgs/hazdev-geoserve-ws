@@ -5,8 +5,9 @@ var Util = require('util/Util'),
     View = require('mvc/View'),
     Xhr = require('util/Xhr'),
 
-    LocationMapView = require('./LocationMapView'),
-    LocationOutputView = require('./LocationOutputView');
+    LocationMapView = require('geoserve/LocationMapView'),
+    LocationOutputView = require('geoserve/LocationOutputView'),
+    NeicResponseView = require('geoserve/NeicResponseView');
 
 
 var _DEFAULTS = {
@@ -33,6 +34,7 @@ var LocationApp = function (options) {
       _initialize,
 
       _mapView,
+      _neicResponseView,
       _outputView,
       _url,
 
@@ -49,7 +51,8 @@ var LocationApp = function (options) {
 
     el = _this.el;
     el.innerHTML = '<section class="location-map-view"></section>' +
-        '<section class="location-output-view"></section>';
+        '<section class="location-output-view"></section>' +
+        '<section class="neicresponse-view"></section>';
 
     _this.model.on('change:location', _onLocationChange);
 
@@ -60,6 +63,11 @@ var LocationApp = function (options) {
 
     _outputView = LocationOutputView({
       el: el.querySelector('.location-output-view'),
+      model: _this.model
+    });
+
+    _neicResponseView = NeicResponseView({
+      el: el.querySelector('.neicresponse-view'),
       model: _this.model
     });
   };
@@ -123,6 +131,7 @@ var LocationApp = function (options) {
 
     // destroy child views
     _mapView.destroy();
+    _neicResponseView.destroy();
     _outputView.destroy();
 
     // free references

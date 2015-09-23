@@ -10,7 +10,8 @@ var _NO_DATA_MESSAGE = '<p class="alert info">No data to display.</p>';
 
 // Default values to be used by constructor
 var _DEFAULTS = {
-  header: '<h2>NEIC Response View</h2>'
+  header: null,
+  noDataMessage: _NO_DATA_MESSAGE
 };
 
 
@@ -25,6 +26,7 @@ var NeicResponseView = function (params) {
       _initialize,
 
       _header,
+      _noDataMessage,
 
       _formatMagnitude;
 
@@ -40,6 +42,7 @@ var NeicResponseView = function (params) {
     params = Util.extend({}, _DEFAULTS, params);
 
     _header = params.header;
+    _noDataMessage = params.noDataMessage;
 
     _this.render();
   };
@@ -50,6 +53,16 @@ var NeicResponseView = function (params) {
     return magnitude.toFixed(1);
   };
 
+
+  _this.destroy = Util.compose(function () {
+    _header = null;
+    _noDataMessage = null;
+
+    _formatMagnitude = null;
+
+    _initialize = null;
+    _this = null;
+  }, _this.destroy);
 
   _this.render = function () {
     var markup,
@@ -73,7 +86,7 @@ var NeicResponseView = function (params) {
         '</dl>'
       );
     } catch (e) {
-      markup.push(_NO_DATA_MESSAGE);
+      markup.push(_noDataMessage);
     }
 
     _this.el.innerHTML = markup.join('');
