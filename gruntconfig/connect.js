@@ -68,9 +68,9 @@ var connect = {
   example: {
     options: {
       base: [
-        config.build + '/' + config.test,
-        config.example,
         config.build + '/' + config.src + '/htdocs',
+        config.example,
+        config.build + '/' + config.test,
         config.etc
       ],
       open: 'http://localhost:' + config.examplePort + '/example.html',

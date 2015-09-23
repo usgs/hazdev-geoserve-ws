@@ -8,14 +8,13 @@ var CWD = '.',
     NODE_MODULES = CWD + '/node_modules';
 
 EXPORTS = [
+  CWD + '/src/htdocs/js/geoserve/NeicCatalogView:geoserve/NeicCatalogView',
   CWD + '/src/htdocs/js/geoserve/NeicResponseView.js:geoserve/NeicResponseView',
 
   NODE_MODULES + '/hazdev-webutils/src/mvc/Model.js:mvc/Model',
-
   NODE_MODULES + '/hazdev-webutils/src/util/Util.js:util/Util',
   NODE_MODULES + '/hazdev-webutils/src/util/Xhr.js:util/Xhr'
 ];
-
 
 var browserify = {
   options: {

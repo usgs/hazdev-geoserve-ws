@@ -7,6 +7,7 @@ var Util = require('util/Util'),
 
     LocationMapView = require('geoserve/LocationMapView'),
     LocationOutputView = require('geoserve/LocationOutputView'),
+    NeicCatalogView = require('geoserve/NeicCatalogView'),
     NeicResponseView = require('geoserve/NeicResponseView');
 
 
@@ -34,6 +35,7 @@ var LocationApp = function (options) {
       _initialize,
 
       _mapView,
+      _neicCatalogView,
       _neicResponseView,
       _outputView,
       _url,
@@ -58,6 +60,7 @@ var LocationApp = function (options) {
     el = _this.el;
     el.innerHTML = '<section class="location-map-view"></section>' +
         '<section class="location-output-view"></section>' +
+        '<section class="neiccatalog-view"></section>' +
         '<section class="neicresponse-view"></section>';
 
     _this.model.on('change:location', _onLocationChange);
@@ -71,6 +74,12 @@ var LocationApp = function (options) {
     _outputView = LocationOutputView({
       el: el.querySelector('.location-output-view'),
       model: _this.model
+    });
+
+    _neicCatalogView = NeicCatalogView({
+      el: el.querySelector('.neiccatalog-view'),
+      model: _this.model,
+      header: '<h3>NEIC Catalog Data</h3>'
     });
 
     _neicResponseView = NeicResponseView({
