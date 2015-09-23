@@ -63,7 +63,7 @@ describe('TimezoneRegionView test suite.', function () {
       expect(div.querySelector('.header').innerHTML).to.be.equal(text);
     });
 
-    it('renders with and without data', function () {
+    it('Renders with and without data', function () {
       var noData,
           view;
 
