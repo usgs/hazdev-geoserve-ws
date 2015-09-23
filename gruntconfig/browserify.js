@@ -8,6 +8,7 @@ var CWD = '.',
     NODE_MODULES = CWD + '/node_modules';
 
 EXPORTS = [
+  CWD + '/src/htdocs/js/geoserve/NearbyCitiesView.js:geoserve/NearbyCitiesView',
   CWD + '/src/htdocs/js/geoserve/NeicResponseView.js:geoserve/NeicResponseView',
 
   NODE_MODULES + '/hazdev-webutils/src/mvc/Model.js:mvc/Model',
