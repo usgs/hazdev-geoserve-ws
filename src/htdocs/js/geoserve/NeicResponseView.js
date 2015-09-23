@@ -45,12 +45,25 @@ var NeicResponseView = function (params) {
   };
 
 
+  /**
+   * Formats a magnitude number for readability.
+   *
+   * @param magnitude {Number}
+   *      A number representing the magnitude to format.
+   *
+   * @return {String}
+   *      A readable representation of the magnitude.
+   */
   _formatMagnitude = function (magnitude) {
     // TODO :: Use generic formatter here ...
     return magnitude.toFixed(1);
   };
 
 
+  /**
+   * Free resources.
+   *
+   */
   _this.destroy = Util.compose(function () {
     _header = null;
     _noDataMessage = null;
@@ -61,6 +74,10 @@ var NeicResponseView = function (params) {
     _this = null;
   }, _this.destroy);
 
+  /**
+   * Updates the view to reflect the current state of the model.
+   *
+   */
   _this.render = function () {
     var markup,
         neicresponse,

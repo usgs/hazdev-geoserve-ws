@@ -43,6 +43,12 @@ var LocationApp = function (options) {
 
   _this = View(options);
 
+  /**
+   * @constructor
+   *
+   * @param options {Object}
+   *      Configuration options. See _DEFAULTS for details.
+   */
   _initialize = function (options) {
     var el;
 
