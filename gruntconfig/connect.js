@@ -52,19 +52,6 @@ var connect = {
     }
   },
 
-  example: {
-    options: {
-      base: [
-        config.build + '/' + config.src + '/htdocs',
-        config.build + '/' + config.test,
-        config.etc,
-        config.example
-      ],
-      open: 'http://localhost:' + config.examplePort + '/example.html',
-      port: config.examplePort
-    }
-  },
-
   test: {
     options: {
       base: [
@@ -75,6 +62,19 @@ var connect = {
       ],
       port: config.testPort,
       open: 'http://localhost:' + config.testPort + '/test.html'
+    }
+  },
+
+  example: {
+    options: {
+      base: [
+        config.build + '/' + config.src + '/htdocs',
+        config.example,
+        config.build + '/' + config.test,
+        config.etc
+      ],
+      open: 'http://localhost:' + config.examplePort + '/example.html',
+      port: config.examplePort
     }
   },
 
