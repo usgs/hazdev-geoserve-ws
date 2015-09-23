@@ -5,16 +5,18 @@ var View = require('mvc/View'),
     Util = require('util/Util');
 
 
+// Default values to be used by constructor
 var _DEFAULTS = {
   header: null,
   noDataMessage: 'Tectonic summary data not available.'
 };
 
+
 /**
  * Class: TectonicSummaryView
  *
  * @param options {Object}
- *
+ *        Configuration options. See _DEFAULTS for more details.
  */
 var TectonicSummaryView = function (options) {
   var _this,
@@ -24,10 +26,11 @@ var TectonicSummaryView = function (options) {
       _noDataMessage;
 
 
+  // Inherit from parent class
   _this = View(options || {});
 
   /**
-   * @Constructor
+   * @constructor
    *
    */
   _initialize = function (options) {
@@ -54,6 +57,7 @@ var TectonicSummaryView = function (options) {
       _header = null;
       _noDataMessage = null;
 
+      _initialize = null;
       _this = null;
     },
     // Parent class destroy method
@@ -62,14 +66,14 @@ var TectonicSummaryView = function (options) {
   _this.render = function () {
     var markup,
         properties,
-        tectonicResponse;
+        tectonicSummary;
 
     markup = [(_header !== null) ? _header : ''];
 
     try {
-      tectonicResponse = _this.model.get('regions').tectonicsummary;
+      tectonicSummary = _this.model.get('regions').tectonicsummary;
       // properties include: name, type and summary
-      properties = tectonicResponse.features[0].properties;
+      properties = tectonicSummary.features[0].properties;
 
       markup.push(properties.summary);
     } catch (e) {
@@ -79,6 +83,8 @@ var TectonicSummaryView = function (options) {
     _this.el.innerHTML = markup.join('');
   };
 
+
+  // Always call the constructor
   _initialize(options);
   options = null;
   return _this;
