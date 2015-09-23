@@ -4,7 +4,7 @@ var View = require('mvc/View'),
 
     Util = require('util/Util');
 
-var DEFAULTS = {
+var _DEFAULTS = {
   header: null
 };
 
@@ -17,7 +17,7 @@ var TimezoneRegionView = function (params) {
   _this = View(params || {});
 
   _initialize = function () {
-    params = Util.extend({}, DEFAULTS, params);
+    params = Util.extend({}, _DEFAULTS, params);
 
     _header = params.header;
 
