@@ -1,11 +1,12 @@
-/* global L */
 'use strict';
 
-var FullscreenControl = require('leaflet/FullscreenControl'),
+var L = require('leaflet'),
     LocationControl = require('locationview/LocationControl'),
-    MousePositionControl = require('leaflet/MousePositionControl'),
     Util = require('util/Util'),
     View = require('mvc/View');
+
+require('leaflet/control/Fullscreen');
+require('leaflet/control/MousePosition');
 
 
 var _DEFAULTS = {};
@@ -67,8 +68,8 @@ var LocationMapView = function (options) {
     if (!Util.isMobile()) {
       _map.addControl(L.control.attribution());
       _map.addControl(L.control.scale());
-      _map.addControl(new FullscreenControl());
-      _map.addControl(new MousePositionControl());
+      _map.addControl(L.control.fullscreen());
+      _map.addControl(L.control.mousePosition());
     }
   };
 
