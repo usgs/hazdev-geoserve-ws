@@ -34,12 +34,18 @@ describe('LocationOutputView', function () {
     });
 
     it('renders initially', function () {
-      var view;
+      var noData,
+          view;
+
+      noData = 'No data';
 
       // ... with no data ...
-      view = LocationOutputView({header: null, model: Model()});
-      expect(view.el.innerHTML).to.equal(
-          LocationOutputView.NO_LOCATION_MESSAGE);
+      view = LocationOutputView({
+        header: null,
+        model: Model(),
+        noDataMessage: noData
+      });
+      expect(view.el.innerHTML).to.equal(noData);
       view.destroy();
 
       // ... with data ...

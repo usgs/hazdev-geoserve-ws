@@ -6,11 +6,9 @@ var View = require('mvc/View'),
     Util = require('util/Util');
 
 
-var _NO_DATA_MESSAGE = '<p class="alert info">Use the map to select a location.</p>';
-
 var _DEFAULTS = {
   header: null,
-  noDataMessage: _NO_DATA_MESSAGE
+  noDataMessage: '<p class="alert info">Use the map to select a location.</p>'
 };
 
 
@@ -158,7 +156,7 @@ var LocationOutputView = function (params) {
         '</p>'
       ];
     } catch (e) {
-      markup = [_NO_DATA_MESSAGE];
+      markup = [_noDataMessage];
     }
 
     _this.el.innerHTML = ((_header !== null) ? _header : '') + markup.join('');
@@ -169,9 +167,6 @@ var LocationOutputView = function (params) {
   params = null;
   return _this;
 };
-
-
-LocationOutputView.NO_DATA_MESSAGE = _NO_DATA_MESSAGE;
 
 
 module.exports = LocationOutputView;
