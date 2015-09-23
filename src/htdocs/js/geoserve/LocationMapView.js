@@ -3,7 +3,8 @@
 var L = require('leaflet'),
     LocationControl = require('locationview/LocationControl'),
     Util = require('util/Util'),
-    View = require('mvc/View');
+    View = require('mvc/View'),
+    Xhr = require('util/Xhr');
 
 require('leaflet/control/Fullscreen');
 require('leaflet/control/MousePosition');
@@ -13,7 +14,9 @@ require('leaflet/layer/OpenAerialMap');
 require('leaflet/layer/OpenStreetMap');
 
 
-var _DEFAULTS = {};
+var _DEFAULTS = {
+  url: '/ws/geoserve'
+};
 
 
 /**
@@ -26,7 +29,9 @@ var LocationMapView = function (options) {
       _layersControl,
       _locationControl,
       _map,
+      _url,
 
+      _loadOverlays,
       _onLocationChange;
 
 
@@ -36,6 +41,7 @@ var LocationMapView = function (options) {
     var el;
 
     options = Util.extend({}, _DEFAULTS, options);
+    _url = options.url;
 
     _this.el.classList.add('location-map-view');
     _this.el.innerHTML = '<div class="map"></div>';
@@ -74,6 +80,29 @@ var LocationMapView = function (options) {
     _locationControl.on('location', _onLocationChange);
     _map.addControl(_locationControl);
     _locationControl.enable();
+
+    _loadOverlays();
+  };
+
+  /**
+   * Load overlays from the layers.json endpoint.
+   */
+  _loadOverlays = function () {
+    var url = _url + '/layers.json';
+
+    Xhr.ajax({
+      url: url,
+      success: function (data) {
+        var overlays;
+        overlays = data.parameters.required.type.values;
+        overlays.forEach(function (overlay) {
+          console.log(overlay);
+          // TODO: use "url" and "overlay" object to configure overlay
+          // add overlay to layers control using
+          // _layersControl.addOverlay(overlay, name)
+        });
+      }
+    });
   };
 
   /**
