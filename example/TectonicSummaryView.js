@@ -18,29 +18,31 @@ _initialize = function () {
   });
 
   TectonicSummaryView({
-    header: '<h2>Example without data</h2>',
     el: document.querySelector('#example-nodata'),
+    header: '<h2>Example without data</h2>',
     model: Model({
       regions: null
     })
   });
 
   TectonicSummaryView({
-    header: '<h2>Example with data</h2>',
     el: document.querySelector('#example'),
+    header: '<h2>Example with data</h2>',
     model: _model
   });
 
   Xhr.ajax({
-    url: 'regions.json',
-    success: _onRegions,
     error: _onRegionsError,
+    success: _onRegions,
+    url: 'regions.json'
   });
 };
 
 
 _onRegions = function (regions) {
-  _model.set({regions: regions});
+  _model.set({
+    regions: regions
+  });
 };
 
 _onRegionsError = function () {
