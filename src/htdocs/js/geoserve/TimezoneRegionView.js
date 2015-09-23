@@ -27,14 +27,12 @@ var TimezoneRegionView = function (params) {
 
   _this.render = function () {
     var markup,
-        regions,
         timeData;
 
     timeData = null;
-    regions = _this.model.get('regions');
 
     try {
-      timeData = regions.timezone.features[0].properties;
+      timeData = _this.model.get('regions').timezone.features[0].properties;
     } catch (e) {
       markup = '<p class="alert info">Time zone data unavailable.</p>';
     }
