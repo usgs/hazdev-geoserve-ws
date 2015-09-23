@@ -45,7 +45,7 @@ describe('TimezoneRegionView test suite.', function () {
         var view = TimezoneRegionView();
         view.destroy();
       };
-      expect(destroy).to.not.throw('Error');
+      expect(destroy).to.not.throw(Error);
     });
   });
 });
