@@ -14,9 +14,11 @@ EXPORTS = [
   CWD + '/src/htdocs/js/geoserve/TimezoneRegionView:geoserve/TimezoneRegionView',
 
   NODE_MODULES + '/hazdev-webutils/src/mvc/Model.js:mvc/Model',
+
   NODE_MODULES + '/hazdev-webutils/src/util/Util.js:util/Util',
   NODE_MODULES + '/hazdev-webutils/src/util/Xhr.js:util/Xhr'
 ];
+
 var browserify = {
   options: {
     browserifyOptions: {
