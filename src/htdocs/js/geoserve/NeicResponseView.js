@@ -5,13 +5,10 @@ var View = require('mvc/View'),
     Util = require('util/Util');
 
 
-var _NO_DATA_MESSAGE = '<p class="alert info">No data to display.</p>';
-
-
 // Default values to be used by constructor
 var _DEFAULTS = {
   header: null,
-  noDataMessage: _NO_DATA_MESSAGE
+  noDataMessage: '<p class="alert info">No data to display.</p>'
 };
 
 
@@ -99,7 +96,5 @@ var NeicResponseView = function (params) {
   return _this;
 };
 
-
-NeicResponseView.NO_DATA_MESSAGE = _NO_DATA_MESSAGE;
 
 module.exports = NeicResponseView;
