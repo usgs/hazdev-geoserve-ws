@@ -36,6 +36,7 @@ mocha.setup('bdd');
 
 // Add each test class here as they are implemented
 require('./spec/geoserve/LocationAppTest');
+require('./spec/geoserve/NearbyCitiesViewTest');
 require('./spec/geoserve/NeicResponseViewTest');
 
 
