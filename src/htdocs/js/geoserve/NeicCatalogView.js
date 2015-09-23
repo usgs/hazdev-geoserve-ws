@@ -1,5 +1,6 @@
 'use strict';
 
+
 var View = require('mvc/View'),
 
     Util = require('util/Util');
@@ -10,6 +11,7 @@ var _NO_DATA_MESSAGE = '<p class="alert info">No NEIC Catalog data.</p>';
 var _DEFAULTS = {
   header: '<h2>NEIC Catalog View</h2>'
 };
+
 
 /**
  * Class: NeicCatalogView
@@ -25,6 +27,7 @@ var NeicCatalogView = function (params) {
 
       _formatMagnitude;
 
+
   // Inherit from parent class
   _this = View(params||{});
 
@@ -33,13 +36,11 @@ var NeicCatalogView = function (params) {
   *
   */
   _initialize = function (params) {
-  params = Util.extend({}, _DEFAULTS, params);
+    params = Util.extend({}, _DEFAULTS, params);
 
-  _header = params.header;
+    _header = params.header;
 
-  _this.el.className = 'neic-catalog';
-
-  _this.render();
+    _this.render();
   };
 
   _formatMagnitude = function (magnitude) {
@@ -60,16 +61,17 @@ var NeicCatalogView = function (params) {
     markup = [(_header !== null) ? _header : ''];
 
     try {
-      neiccatalog = params.model.get('regions').neiccatalog;
+      neiccatalog = _this.model.get('regions').neiccatalog;
 
       properties = neiccatalog.features[0].properties;
 
-      markup.push( '<dl>' +
-            '<dt>Name</dt>' +
+      markup.push(
+        '<dl>' +
+          '<dt>Name</dt>' +
             '<dd>' + properties.name + '</dd>' +
-            '<dt>type</dt>' +
+          '<dt>type</dt>' +
             '<dd>' + properties.type + '</dd>' +
-            '<dt>Magnitude</dt>' +
+          '<dt>Magnitude</dt>' +
             '<dd>' + properties.magnitude + '</dd>' +
         '<dl>'
       );
@@ -79,13 +81,14 @@ var NeicCatalogView = function (params) {
     }
 
   _this.el.innerHTML = markup.join('');
-
   };
+
 
   _initialize(params);
   params = null;
   return _this;
 };
+
 
 NeicCatalogView.NO_DATA_MESSAGE = _NO_DATA_MESSAGE;
 
