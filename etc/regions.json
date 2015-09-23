@@ -1,1 +1,118 @@
-{"metadata":{"request":"\/ws\/geoserve\/regions.json?latitude=39.5&longitude=-105","submitted":"2015-09-21T19:53:00+00:00","types":["admin","authoritative","fe","neiccatalog","neicresponse","tectonicsummary","timezone"],"version":"0.1.0"},"admin":{"type":"FeatureCollection","count":1,"features":[{"type":"Feature","id":466,"geometry":null,"properties":{"iso":"USA","country":"United States","region":"Colorado"}}]},"authoritative":{"type":"FeatureCollection","count":0,"features":[]},"fe":{"type":"FeatureCollection","count":1,"features":[{"type":"Feature","id":544,"geometry":null,"properties":{"number":479,"name":"Colorado"}}]},"neiccatalog":{"type":"FeatureCollection","count":1,"features":[{"type":"Feature","id":7,"geometry":null,"properties":{"name":"Contiguous US","magnitude":2.5,"type":"US"}}]},"neicresponse":{"type":"FeatureCollection","count":1,"features":[{"type":"Feature","id":5,"geometry":null,"properties":{"name":"Eastern US","magnitude":3,"type":"US"}}]},"tectonicsummary":{"type":"FeatureCollection","count":1,"features":[{"type":"Feature","id":22,"geometry":null,"properties":{"name":"Background","summary":"<h4>Earthquakes in the Stable Continental Region<\/h4>\r\n\r\n<h4>Natural Occurring Earthquake Activity<\/h4>\r\n\r\n<p>\r\nMost of North America east of the Rocky Mountains has infrequent earthquakes. Here and there earthquakes are more numerous, for example in the New Madrid seismic zone centered on southeastern Missouri, in the Charlevoix-Kamouraska seismic zone of eastern Quebec, in New England, in the New York - Philadelphia - Wilmington urban corridor, and elsewhere. However, most of the enormous region from the Rockies to the Atlantic can go years without an earthquake large enough to be felt, and several U.S. states have never reported a damaging earthquake.\r\n<\/p>\r\n<p>\r\nEarthquakes east of the Rocky Mountains, although less frequent than in the West, are typically felt over a much broader region than earthquakes of similar magnitude in the west. East of the Rockies, an earthquake can be felt over an area more than ten times larger than a similar magnitude earthquake on the west coast. It would not be unusual for a magnitude 4.0 earthquake in eastern or central North America to be felt by a significant percentage of the population in many communities more than 100 km (60 mi) from its source. A magnitude 5.5 earthquake in eastern or central North America might be felt by much of the population out to more than 500 km (300 mi) from its source. Earthquakes east of the Rockies that are centered in populated areas and large enough to cause damage are, similarly, likely to cause damage out to greater distances than earthquakes of the same magnitude centered in western North America.\n<\/p>\r\n<p>\r\nMost earthquakes in North America east of the Rockies occur as faulting within bedrock, usually miles deep.   Few earthquakes east of the Rockies, however, have been definitely linked to mapped geologic faults, in contrast to the situation at plate boundaries such as California's San Andreas fault system, where scientists can commonly use  geologic evidence to identify a fault that has produced a large earthquake and that is likely  to produce large future earthquakes.  Scientists who study eastern and central North America earthquakes often work from the hypothesis that modern earthquakes occur as the result of slip on preexisting faults that were formed in earlier geologic eras and that have been reactivated under the current stress conditions. The bedrock of Eastern North America is, however, laced with faults that were active in earlier geologic eras, and few of these faults are known to have been active in the current geologic era.  In most areas east of the Rockies, the likelihood of future damaging earthquakes is currently estimated from the frequencies and sizes of instrumentally recorded earthquakes or earthquakes documented in historical records.\r\n<\/p>\r\n\r\n<h4>Induced Seismicity<\/h4>\r\n<p>\r\nAs is the case elsewhere in the world, there is evidence that some  central and eastern North America earthquakes have been triggered or caused  by human activities that have altered  the stress conditions in earth's crust sufficiently to induce faulting.   Activities that have induced felt earthquakes in some geologic environments have included impoundment of water behind dams, injection of fluid into the earth's crust, extraction of fluid or gas, and removal of rock in mining or quarrying operations.  In much of eastern and central North America, the number of earthquakes suspected of having been induced is much smaller than the number of natural earthquakes, but in some regions, such as the south-central states of the U.S., a significant majority of recent earthquakes are thought by many seismologists to have been human-induced.  Even within areas with many human-induced earthquakes, however, the activity that seems to induce seismicity at one location may be taking place at many other locations without inducing felt earthquakes.  In addition, regions with frequent induced earthquakes may also be subject to damaging earthquakes that would have occurred independently of human activity.  Making a strong scientific case for a causative link between a particular human activity and a particular sequence of earthquakes typically involves special studies devoted specifically to the question.  Such investigations usually address the process by which the suspected triggering activity might have significantly altered stresses in the bedrock at the earthquake source, and they commonly address the ways in which the characteristics of the suspected human-triggered earthquakes differ from the characteristics of natural earthquakes in the region.\r\n<\/p>\r\n<!--\r\n SCR.doc, 07\/23\/03, Page 1 of 1\r\n -->","type":"neic"}}]},"timezone":{"type":"FeatureCollection","count":1,"features":[{"type":"Feature","id":274,"geometry":null,"properties":{"timezone":"America\/Denver","dststart":"2015-03-08T09:00:00Z","dstend":"2015-11-01T08:00:00Z","standardoffset":-420,"dstoffset":-360}}]}}
+{
+    "metadata": {
+        "request": "/ws/geoserve/regions.json?latitude=39.5&longitude=-105",
+        "submitted": "2015-09-21T19:53:00+00:00",
+        "types": [
+            "admin",
+            "authoritative",
+            "fe",
+            "neiccatalog",
+            "neicresponse",
+            "tectonicsummary",
+            "timezone"
+        ],
+        "version": "0.1.0"
+    },
+    "admin": {
+        "type": "FeatureCollection",
+        "count": 1,
+        "features": [
+            {
+                "type": "Feature",
+                "id": 466,
+                "geometry": null,
+                "properties": {
+                    "iso": "USA",
+                    "country": "United States",
+                    "region": "Colorado"
+                }
+            }
+        ]
+    },
+    "authoritative": {
+        "type": "FeatureCollection",
+        "count": 0,
+        "features": []
+    },
+    "fe": {
+        "type": "FeatureCollection",
+        "count": 1,
+        "features": [
+            {
+                "type": "Feature",
+                "id": 544,
+                "geometry": null,
+                "properties": {
+                    "number": 479,
+                    "name": "Colorado"
+                }
+            }
+        ]
+    },
+    "neiccatalog": {
+        "type": "FeatureCollection",
+        "count": 1,
+        "features": [
+            {
+                "type": "Feature",
+                "id": 7,
+                "geometry": null,
+                "properties": {
+                    "name": "Contiguous US",
+                    "magnitude": 2.5,
+                    "type": "US"
+                }
+            }
+        ]
+    },
+    "neicresponse": {
+        "type": "FeatureCollection",
+        "count": 1,
+        "features": [
+            {
+                "type": "Feature",
+                "id": 5,
+                "geometry": null,
+                "properties": {
+                    "name": "Eastern US",
+                    "magnitude": 3,
+                    "type": "US"
+                }
+            }
+        ]
+    },
+    "tectonicsummary": {
+        "type": "FeatureCollection",
+        "count": 1,
+        "features": [
+            {
+                "type": "Feature",
+                "id": 22,
+                "geometry": null,
+                "properties": {
+                    "name": "Background",
+                    "summary": "<h4>Earthquakes in the Stable Continental Region</h4>\r\n\r\n<h4>Natural Occurring Earthquake Activity</h4>\r\n\r\n<p>\r\nMost of North America east of the Rocky Mountains has infrequent earthquakes. Here and there earthquakes are more numerous, for example in the New Madrid seismic zone centered on southeastern Missouri, in the Charlevoix-Kamouraska seismic zone of eastern Quebec, in New England, in the New York - Philadelphia - Wilmington urban corridor, and elsewhere. However, most of the enormous region from the Rockies to the Atlantic can go years without an earthquake large enough to be felt, and several U.S. states have never reported a damaging earthquake.\r\n</p>\r\n<p>\r\nEarthquakes east of the Rocky Mountains, although less frequent than in the West, are typically felt over a much broader region than earthquakes of similar magnitude in the west. East of the Rockies, an earthquake can be felt over an area more than ten times larger than a similar magnitude earthquake on the west coast. It would not be unusual for a magnitude 4.0 earthquake in eastern or central North America to be felt by a significant percentage of the population in many communities more than 100 km (60 mi) from its source. A magnitude 5.5 earthquake in eastern or central North America might be felt by much of the population out to more than 500 km (300 mi) from its source. Earthquakes east of the Rockies that are centered in populated areas and large enough to cause damage are, similarly, likely to cause damage out to greater distances than earthquakes of the same magnitude centered in western North America.\n</p>\r\n<p>\r\nMost earthquakes in North America east of the Rockies occur as faulting within bedrock, usually miles deep.   Few earthquakes east of the Rockies, however, have been definitely linked to mapped geologic faults, in contrast to the situation at plate boundaries such as California's San Andreas fault system, where scientists can commonly use  geologic evidence to identify a fault that has produced a large earthquake and that is likely  to produce large future earthquakes.  Scientists who study eastern and central North America earthquakes often work from the hypothesis that modern earthquakes occur as the result of slip on preexisting faults that were formed in earlier geologic eras and that have been reactivated under the current stress conditions. The bedrock of Eastern North America is, however, laced with faults that were active in earlier geologic eras, and few of these faults are known to have been active in the current geologic era.  In most areas east of the Rockies, the likelihood of future damaging earthquakes is currently estimated from the frequencies and sizes of instrumentally recorded earthquakes or earthquakes documented in historical records.\r\n</p>\r\n\r\n<h4>Induced Seismicity</h4>\r\n<p>\r\nAs is the case elsewhere in the world, there is evidence that some  central and eastern North America earthquakes have been triggered or caused  by human activities that have altered  the stress conditions in earth's crust sufficiently to induce faulting.   Activities that have induced felt earthquakes in some geologic environments have included impoundment of water behind dams, injection of fluid into the earth's crust, extraction of fluid or gas, and removal of rock in mining or quarrying operations.  In much of eastern and central North America, the number of earthquakes suspected of having been induced is much smaller than the number of natural earthquakes, but in some regions, such as the south-central states of the U.S., a significant majority of recent earthquakes are thought by many seismologists to have been human-induced.  Even within areas with many human-induced earthquakes, however, the activity that seems to induce seismicity at one location may be taking place at many other locations without inducing felt earthquakes.  In addition, regions with frequent induced earthquakes may also be subject to damaging earthquakes that would have occurred independently of human activity.  Making a strong scientific case for a causative link between a particular human activity and a particular sequence of earthquakes typically involves special studies devoted specifically to the question.  Such investigations usually address the process by which the suspected triggering activity might have significantly altered stresses in the bedrock at the earthquake source, and they commonly address the ways in which the characteristics of the suspected human-triggered earthquakes differ from the characteristics of natural earthquakes in the region.\r\n</p>\r\n<!--\r\n SCR.doc, 07/23/03, Page 1 of 1\r\n -->",
+                    "type": "neic"
+                }
+            }
+        ]
+    },
+    "timezone": {
+        "type": "FeatureCollection",
+        "count": 1,
+        "features": [
+            {
+                "type": "Feature",
+                "id": 274,
+                "geometry": null,
+                "properties": {
+                    "timezone": "America/Denver",
+                    "dststart": "2015-03-08T09:00:00Z",
+                    "dstend": "2015-11-01T08:00:00Z",
+                    "standardoffset": -420,
+                    "dstoffset": -360
+                }
+            }
+        ]
+    }
+}
