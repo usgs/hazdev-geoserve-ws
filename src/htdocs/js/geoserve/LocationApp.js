@@ -1,14 +1,16 @@
 'use strict';
 
 
-var Util = require('util/Util'),
-    View = require('mvc/View'),
-    Xhr = require('util/Xhr'),
-
-    LocationMapView = require('geoserve/LocationMapView'),
+var LocationMapView = require('geoserve/LocationMapView'),
     LocationOutputView = require('geoserve/LocationOutputView'),
+    NeicCatalogView = require('geoserve/NeicCatalogView'),
     NeicResponseView = require('geoserve/NeicResponseView'),
-    TectonicSummaryView = require('geoserve/TectonicSummaryView');
+    TectonicSummaryView = require('geoserve/TectonicSummaryView'),
+
+    View = require('mvc/View'),
+
+    Util = require('util/Util'),
+    Xhr = require('util/Xhr');
 
 
 var _DEFAULTS = {
@@ -35,6 +37,7 @@ var LocationApp = function (options) {
       _initialize,
 
       _mapView,
+      _neicCatalogView,
       _neicResponseView,
       _outputView,
       _tectonicSummaryView,
@@ -60,6 +63,7 @@ var LocationApp = function (options) {
     el = _this.el;
     el.innerHTML = '<section class="location-map-view"></section>' +
         '<section class="location-output-view"></section>' +
+        '<section class="neiccatalog-view"></section>' +
         '<section class="neicresponse-view"></section>' +
         '<section class="tectonic-summary-view"></section>';
 
@@ -74,6 +78,12 @@ var LocationApp = function (options) {
     _outputView = LocationOutputView({
       el: el.querySelector('.location-output-view'),
       model: _this.model
+    });
+
+    _neicCatalogView = NeicCatalogView({
+      el: el.querySelector('.neiccatalog-view'),
+      model: _this.model,
+      header: '<h3>NEIC Catalog Data</h3>'
     });
 
     _neicResponseView = NeicResponseView({
