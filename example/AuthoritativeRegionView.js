@@ -5,16 +5,31 @@ var AuthoritativeRegionView = require('geoserve/AuthoritativeRegionView'),
     Model = require('mvc/Model'),
     Xhr = require('util/Xhr');
 
+var model;
+
+model = Model({
+	region: null
+});
+
+AuthoritativeRegionView({
+	el: document.querySelector('#example1'),
+	model: model,
+	header: '<h3>Authoritative Region (With Data)</h3>'
+});
+
+AuthoritativeRegionView({
+	el: document.querySelector('#example2'),
+	model: Model({
+		regions: null
+	}),
+	header: '<h3>Authoritative Region (Without Data)</h3>'
+});
+
 Xhr.ajax({
-	url: 'data.json',
-		success: function (data) {
-			AuthoritativeRegionView({
-				el: document.querySelector('#example'),
-				model: Model({
-					regions: data
-				}),
-				header: '<h3>Authoritative Region</h3>',
-				noDataMessage: 'No authoritative region data.'
+	url: 'regions.json',
+	success: function (data) {
+		model.set({
+			region: data
 		});
 	}
 });

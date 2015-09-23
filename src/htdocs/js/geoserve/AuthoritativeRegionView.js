@@ -31,11 +31,10 @@ var AuthoritativeRegionView = function (params) {
 
 	_this.render = function () {
 		var auth,
-				regions,
 				markup;
 
 		try {
-			auth = regions.authoritative.features[0].properties;
+			auth = _this.model.get('region').authoritative.features[0].properties;
 		} catch (e) {
 			auth = null;
 		}
@@ -45,9 +44,9 @@ var AuthoritativeRegionView = function (params) {
 		} else {
 			markup = '<dl>' +
 						'<dt>Name</dt>' +
-						'<dd>' + auth.properties.name + '</dd>' +
+						'<dd>' + auth.name + '</dd>' +
 						'<dt>Network</dt>' +
-						'<dd>' + auth.properties.network + '</dd>' +
+						'<dd>' + auth.network + '</dd>' +
 					'</dl>';
 		}
 
