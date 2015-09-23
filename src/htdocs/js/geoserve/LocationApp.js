@@ -7,7 +7,8 @@ var Util = require('util/Util'),
 
     LocationMapView = require('geoserve/LocationMapView'),
     LocationOutputView = require('geoserve/LocationOutputView'),
-    NeicResponseView = require('geoserve/NeicResponseView');
+    NeicResponseView = require('geoserve/NeicResponseView'),
+    TectonicSummaryView = require('geoserve/TectonicSummaryView');
 
 
 var _DEFAULTS = {
@@ -36,6 +37,7 @@ var LocationApp = function (options) {
       _mapView,
       _neicResponseView,
       _outputView,
+      _tectonicSummaryView,
       _url,
 
       _onLocationChange;
@@ -58,7 +60,8 @@ var LocationApp = function (options) {
     el = _this.el;
     el.innerHTML = '<section class="location-map-view"></section>' +
         '<section class="location-output-view"></section>' +
-        '<section class="neicresponse-view"></section>';
+        '<section class="neicresponse-view"></section>' +
+        '<section class="tectonic-summary-view"></section>';
 
     _this.model.on('change:location', _onLocationChange);
 
@@ -77,6 +80,12 @@ var LocationApp = function (options) {
       el: el.querySelector('.neicresponse-view'),
       model: _this.model,
       header: '<h3>NEIC Response Data</h3>'
+    });
+
+    _tectonicSummaryView = TectonicSummaryView({
+      el: el.querySelector('.tectonic-summary-view'),
+      header: '<h3>Tectonic Summary</h3>',
+      model: _this.model
     });
   };
 
@@ -141,11 +150,13 @@ var LocationApp = function (options) {
     _mapView.destroy();
     _neicResponseView.destroy();
     _outputView.destroy();
+    _tectonicSummaryView.destroy();
 
     // free references
     _mapView = null;
     _neicResponseView = null;
     _outputView = null;
+    _tectonicSummaryView = null;
     _url = null;
 
     _onLocationChange = null;
