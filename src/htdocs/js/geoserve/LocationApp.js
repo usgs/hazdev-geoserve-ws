@@ -136,6 +136,7 @@ var LocationApp = function (options) {
 
     // free references
     _mapView = null;
+    _neicResponseView = null;
     _outputView = null;
     _url = null;
 
