@@ -1,6 +1,7 @@
 'use strict';
 
-var L = require('leaflet'),
+var RegionsLayer = require('geoserve/RegionsLayer'),
+    L = require('leaflet'),
     LocationControl = require('locationview/LocationControl'),
     Util = require('util/Util'),
     View = require('mvc/View'),
@@ -99,7 +100,7 @@ var LocationMapView = function (options) {
           console.log(overlay);
           // TODO: use "url" and "overlay" object to configure overlay
           // add overlay to layers control using
-          // _layersControl.addOverlay(overlay, name)
+          _layersControl.addOverlay(RegionsLayer(overlay), name);
         });
       }
     });
