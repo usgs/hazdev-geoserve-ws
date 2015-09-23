@@ -17,8 +17,6 @@ EXPORTS = [
   NODE_MODULES + '/hazdev-webutils/src/util/Xhr.js:util/Xhr'
 ];
 
-];
-
 var browserify = {
   options: {
     browserifyOptions: {
