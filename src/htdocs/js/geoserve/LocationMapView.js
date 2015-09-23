@@ -52,6 +52,14 @@ var LocationMapView = function (options) {
           'GEBCO, NOAA, increment P Corp.'
     }));
 
+    // Add Map Controls
+    if (!Util.isMobile()) {
+      _map.addControl(L.control.attribution());
+      _map.addControl(L.control.scale());
+      _map.addControl(L.control.fullscreen());
+      _map.addControl(L.control.mousePosition());
+    }
+
     // Add location control
     _locationControl = new LocationControl({
       el: el,
@@ -63,14 +71,6 @@ var LocationMapView = function (options) {
     _locationControl.on('location', _onLocationChange);
     _map.addControl(_locationControl);
     _locationControl.enable();
-
-    // Add Map Controls
-    if (!Util.isMobile()) {
-      _map.addControl(L.control.attribution());
-      _map.addControl(L.control.scale());
-      _map.addControl(L.control.fullscreen());
-      _map.addControl(L.control.mousePosition());
-    }
   };
 
   /**
