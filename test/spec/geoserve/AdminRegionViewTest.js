@@ -1,10 +1,12 @@
-/* global chai, describe, it */
+/* global before, chai, describe, it */
 'use strict';
 
 var AdminRegionView = require('geoserve/AdminRegionView'),
-    Model = require('mvc/Model');
+    Model = require('mvc/Model'),
+    Xhr = require('util/Xhr');
 
-var expect = chai.expect;
+var expect = chai.expect,
+    regions;
 
 describe('AdminRegionView test suite.', function () {
   describe('Constructor', function () {
@@ -19,6 +21,33 @@ describe('AdminRegionView test suite.', function () {
   });
 
   describe('Render', function () {
+
+    before(function (done) {
+      Xhr.ajax({
+        url: 'regions.json',
+        success: function (data) {
+          regions = data;
+          done();
+        }
+      });
+    });
+
+    it('shows data when data is available', function () {
+      var div;
+
+      div = document.createElement('div');
+
+      AdminRegionView({
+        el: div,
+        model: Model({regions: regions})
+      });
+
+      expect(div.innerHTML).to.be.equal('<dl>' +
+          '<dt>ISO</dt><dd>USA</dd>' +
+          '<dt>Country</dt><dd>United States</dd>' +
+          '<dt>Region</dt><dd>Colorado</dd>' +
+        '</dl>');
+    });
 
     it('shows custom message when no data is available', function () {
       var div,
