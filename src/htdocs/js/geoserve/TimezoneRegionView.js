@@ -5,7 +5,8 @@ var View = require('mvc/View'),
     Util = require('util/Util');
 
 var _DEFAULTS = {
-  header: null
+  header: null,
+  noDataMessage: '<p class="alert info">Time zone data unavailable.</p>'
 };
 
 /**
@@ -17,7 +18,8 @@ var TimezoneRegionView = function (params) {
   var _this,
       _initialize,
 
-      _header;
+      _header,
+      _noDataMessage;
 
   _this = View(params || {});
 
@@ -28,8 +30,9 @@ var TimezoneRegionView = function (params) {
     params = Util.extend({}, _DEFAULTS, params);
 
     _header = params.header;
+    _noDataMessage = params.noDataMessage;
 
-    _this.el.className = 'timezone-region';
+    _this.el.classList.add('timezone-region');
     _this.render();
   };
 
@@ -42,17 +45,16 @@ var TimezoneRegionView = function (params) {
 
     timeData = null;
 
+    markup = [(_header !== null) ? _header : ''];
+
     try {
       timeData = _this.model.get('regions').timezone.features[0].properties;
-    } catch (e) {
-      markup = '<p class="alert info">Time zone data unavailable.</p>';
-    }
 
-    if (timeData !== null) {
-      markup = '<dl>' +
+      markup.push(
+        '<dl>' +
           '<dt>Time Zone</dt>' +
             '<dd>' + timeData.timezone + '</dd>' +
-          '<dt>Standard Offset</td>' +
+          '<dt>Standard Offset</dt>' +
             '<dd>' + timeData.standardoffset + '</dd>' +
           '<dt>DST Start</dt>' +
             '<dd>' + timeData.dststart + '</dd>' +
@@ -60,16 +62,22 @@ var TimezoneRegionView = function (params) {
             '<dd>' + timeData.dstend + '</dd>' +
           '<dt>DST Offset</dt>' +
             '<dd>' + timeData.dstoffset + '</dd>' +
-        '</dl>';
+        '</dl>'
+      );
+    } catch (e) {
+      markup.push(_noDataMessage);
     }
 
-    _this.el.innerHTML = _header + markup;
+    _this.el.innerHTML = markup.join('');
   };
 
   /**
    * Destroy all the things
    */
   _this.destroy = Util.compose(function () {
+    _header = null;
+    _noDataMessage = null;
+
     _initialize = null;
     _this = null;
   }, _this.destroy);
