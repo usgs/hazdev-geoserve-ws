@@ -11,10 +11,7 @@ var watch = {
     }
   },
   tests: {
-    files: [
-      config.src + '/htdocs/**/*.js',
-      config.test + '/**/*.js'
-    ],
+    files: [config.test + '/**/*.js'],
     tasks: ['concurrent:scripts']
   },
   scss: {
