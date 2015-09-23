@@ -57,7 +57,10 @@ describe('TectonicSummaryView', function () {
         header: null,
         model: Model()
       });
-      expect(view.el.innerHTML).to.equal(TectonicSummaryView.NO_DATA_MESSAGE);
+      expect(view.el.innerHTML).to.equal(
+        '<p class="alert info">' +
+          'Tectonic summary data not available.' +
+        '</p>');
       view.destroy();
 
       // ... with data ...
@@ -82,7 +85,7 @@ describe('TectonicSummaryView', function () {
 
   describe('View', function () {
 
-		it('shows a message when no data is available', function () {
+		it('shows a custom message when no data is available', function () {
 			var div,
 					text;
 
@@ -91,7 +94,8 @@ describe('TectonicSummaryView', function () {
 
 			TectonicSummaryView({
 					el: div,
-					model: Model()
+					model: Model(),
+          noDataMessage: text
 				});
 
 			expect(div.querySelector('.alert').innerHTML).to.be.equal(text);

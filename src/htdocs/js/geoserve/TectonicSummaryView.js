@@ -5,11 +5,9 @@ var View = require('mvc/View'),
     Util = require('util/Util');
 
 
-var _NO_DATA_MESSAGE = '<p class="alert info">No data to display.</p>';
-
-
 var _DEFAULTS = {
-  header: '<h2 class="tectonic-summary-header">Tectonic Summary View</h2>'
+  header: null,
+  noDataMessage: 'Tectonic summary data not available.'
 };
 
 /**
@@ -22,7 +20,8 @@ var TectonicSummaryView = function (options) {
   var _this,
       _initialize,
 
-      _header;
+      _header,
+      _noDataMessage;
 
 
   _this = View(options || {});
@@ -35,6 +34,9 @@ var TectonicSummaryView = function (options) {
     options = Util.extend({}, _DEFAULTS, options);
 
     _header = options.header;
+    _noDataMessage = options.noDataMessage;
+
+    _this.el.className = 'tectonic-summary-view';
 
     _this.render();
   };
@@ -45,6 +47,7 @@ var TectonicSummaryView = function (options) {
     function () {
       // Clean up private variables
       _header = null;
+      _noDataMessage = null;
 
       _this = null;
     },
@@ -69,7 +72,7 @@ var TectonicSummaryView = function (options) {
         '</div>'
       );
     } catch (e) {
-      markup.push(_NO_DATA_MESSAGE);
+      markup.push('<p class="alert info">' + _noDataMessage + '</p>');
     }
 
     _this.el.innerHTML = markup.join('');
@@ -79,8 +82,5 @@ var TectonicSummaryView = function (options) {
   options = null;
   return _this;
 };
-
-
-TectonicSummaryView.NO_DATA_MESSAGE = _NO_DATA_MESSAGE;
 
 module.exports = TectonicSummaryView;
