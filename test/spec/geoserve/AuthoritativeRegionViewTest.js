@@ -14,7 +14,7 @@ describe('AuthoritativeRegionView test suite.', function () {
         view.destroy();
       };
 
-      expect(createDestroy).to.not.throw('Error');
+      expect(createDestroy).to.not.throw(Error);
     });
   });
 
