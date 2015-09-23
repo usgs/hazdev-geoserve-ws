@@ -64,7 +64,8 @@ var LocationApp = function (options) {
 
     _mapView = LocationMapView({
       el: el.querySelector('.location-map-view'),
-      model: _this.model
+      model: _this.model,
+      url: _url
     });
 
     _outputView = LocationOutputView({

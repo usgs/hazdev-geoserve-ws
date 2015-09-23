@@ -3,25 +3,35 @@
 var L = require('leaflet'),
     LocationControl = require('locationview/LocationControl'),
     Util = require('util/Util'),
-    View = require('mvc/View');
+    View = require('mvc/View'),
+    Xhr = require('util/Xhr');
 
 require('leaflet/control/Fullscreen');
 require('leaflet/control/MousePosition');
+require('leaflet/layer/EsriGrayscale');
+require('leaflet/layer/EsriTerrain');
+require('leaflet/layer/OpenAerialMap');
+require('leaflet/layer/OpenStreetMap');
 
 
-var _DEFAULTS = {};
+var _DEFAULTS = {
+  url: '/ws/geoserve'
+};
 
 
 /**
- * TODO: leaflet map with location view control to show/set location.
+ * Leaflet map with location view control to show/set location.
  */
 var LocationMapView = function (options) {
   var _this,
       _initialize,
 
+      _layersControl,
       _locationControl,
       _map,
+      _url,
 
+      _loadOverlays,
       _onLocationChange;
 
 
@@ -31,6 +41,7 @@ var LocationMapView = function (options) {
     var el;
 
     options = Util.extend({}, _DEFAULTS, options);
+    _url = options.url;
 
     _this.el.classList.add('location-map-view');
     _this.el.innerHTML = '<div class="map"></div>';
@@ -43,14 +54,12 @@ var LocationMapView = function (options) {
     });
     _map.fitBounds([[24.6, -125.0], [50.0, -65.0]]);
 
-    _map.addLayer(L.tileLayer('http://{s}.arcgisonline.com/ArcGIS/rest/services/' +
-        'NatGeo_World_Map/MapServer/tile/{z}/{y}/{x}.jpg', {
-      subdomains: ['server', 'services'],
-      attribution: 'Content may not reflect National Geographic\'s ' +
-          'current map policy. Sources: National Geographic, Esri, ' +
-          'DeLorme, HERE, UNEP-WCMC, USGS, NASA, ESA, METI, NRCAN, ' +
-          'GEBCO, NOAA, increment P Corp.'
-    }));
+    _layersControl = L.control.layers({
+      'Terrain': L.esriTerrain().addTo(_map),
+      'Satellite': L.openAerialMap(),
+      'Street': L.openStreetMap(),
+      'Grayscale': L.esriGrayscale()
+    }).addTo(_map);
 
     // Add Map Controls
     if (!Util.isMobile()) {
@@ -71,6 +80,29 @@ var LocationMapView = function (options) {
     _locationControl.on('location', _onLocationChange);
     _map.addControl(_locationControl);
     _locationControl.enable();
+
+    _loadOverlays();
+  };
+
+  /**
+   * Load overlays from the layers.json endpoint.
+   */
+  _loadOverlays = function () {
+    var url = _url + '/layers.json';
+
+    Xhr.ajax({
+      url: url,
+      success: function (data) {
+        var overlays;
+        overlays = data.parameters.required.type.values;
+        overlays.forEach(function (overlay) {
+          console.log(overlay);
+          // TODO: use "url" and "overlay" object to configure overlay
+          // add overlay to layers control using
+          // _layersControl.addOverlay(overlay, name)
+        });
+      }
+    });
   };
 
   /**
@@ -126,8 +158,10 @@ var LocationMapView = function (options) {
     // remove event listeners
     _locationControl.off('location', _onLocationChange);
     _map.removeControl(_locationControl);
+    _map.removeControl(_layersControl);
 
     // variables
+    _layersControl = null;
     _locationControl = null;
     _map = null;
 
