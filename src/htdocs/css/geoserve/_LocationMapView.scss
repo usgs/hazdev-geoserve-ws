@@ -8,3 +8,13 @@
     height: 100%;
   }
 }
+
+
+/* temporary overrides for location controls */
+.leaflet-coordinate-control,
+.leaflet-geocode-control,
+.leaflet-geolocation-control,
+.leaflet-location-control,
+.leaflet-point-control {
+  padding: 0;
+}

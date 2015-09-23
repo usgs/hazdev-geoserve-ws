@@ -1,8 +1,5 @@
-@import 'leaflet.css';
 
-@import 'leaflet/_Controls.scss';
-@import 'leaflet/_FullscreenControl.scss';
-@import 'leaflet/_MousePositionControl.scss';
+@import 'hazdev-leaflet.scss';
 
 @import 'locationview/_mixins.scss';
 @import 'locationview/LeafletControls.scss';
