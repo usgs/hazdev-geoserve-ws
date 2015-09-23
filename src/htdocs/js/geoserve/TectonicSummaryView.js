@@ -31,12 +31,17 @@ var TectonicSummaryView = function (options) {
    *
    */
   _initialize = function (options) {
+    var classes;
+
     options = Util.extend({}, _DEFAULTS, options);
 
     _header = options.header;
     _noDataMessage = options.noDataMessage;
 
-    _this.el.className = 'tectonic-summary-view';
+    classes = _this.el.classList;
+    if (!classes.contains('tectonic-summary-view')) {
+      classes.add('tectonic-summary-view');
+    }
 
     _this.render();
   };
