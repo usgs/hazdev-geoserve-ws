@@ -36,7 +36,7 @@ var TimezoneRegionView = function (params) {
     try {
       timeData = regions.timezone.features[0].properties;
     } catch (e) {
-      markup = '<p class="alert info">Time zone data unavailable</p>';
+      markup = '<p class="alert info">Time zone data unavailable.</p>';
     }
 
     if (timeData !== null) {
