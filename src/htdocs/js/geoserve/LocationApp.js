@@ -7,6 +7,7 @@ var Util = require('util/Util'),
 
     LocationMapView = require('geoserve/LocationMapView'),
     LocationOutputView = require('geoserve/LocationOutputView'),
+    NearbyCitiesView = require('geoserve/NearbyCitiesView'),
     NeicResponseView = require('geoserve/NeicResponseView');
 
 
@@ -34,6 +35,7 @@ var LocationApp = function (options) {
       _initialize,
 
       _mapView,
+      _nearbyCitiesView,
       _neicResponseView,
       _outputView,
       _url,
@@ -58,6 +60,7 @@ var LocationApp = function (options) {
     el = _this.el;
     el.innerHTML = '<section class="location-map-view"></section>' +
         '<section class="location-output-view"></section>' +
+        '<section class="nearbycities-view"></section>' +
         '<section class="neicresponse-view"></section>';
 
     _this.model.on('change:location', _onLocationChange);
@@ -71,6 +74,12 @@ var LocationApp = function (options) {
     _outputView = LocationOutputView({
       el: el.querySelector('.location-output-view'),
       model: _this.model
+    });
+
+    _nearbyCitiesView = NearbyCitiesView({
+      el: el.querySelector('.nearbycities-view'),
+      model: _this.model,
+      header: '<h3>Nearby Cities</h3>'
     });
 
     _neicResponseView = NeicResponseView({
