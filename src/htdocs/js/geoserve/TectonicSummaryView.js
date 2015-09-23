@@ -66,11 +66,7 @@ var TectonicSummaryView = function (options) {
       // properties include: name, type and summary
       properties = tectonicResponse.features[0].properties;
 
-      markup.push(
-        '<div class="tectonic-summary">' +
-          properties.summary +
-        '</div>'
-      );
+      markup.push(properties.summary);
     } catch (e) {
       markup.push('<p class="alert info">' + _noDataMessage + '</p>');
     }
