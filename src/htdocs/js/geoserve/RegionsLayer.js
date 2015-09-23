@@ -3,10 +3,22 @@
 var L = require('leaflet'),
 		Xhr = require('util/Xhr');
 
+var COLORS = [
+	'red',
+	'green',
+	'blue'
+];
+
+var COLORS_INDEX = 0;
+
 var RegionsLayer = L.GeoJSON.extend({
 
 	initialize: function (url, type) {
-		L.GeoJSON.prototype.initialize.call(this);
+		L.GeoJSON.prototype.initialize.call(this, null, {
+			'style': {
+				'color': COLORS[COLORS_INDEX++ % COLORS.length]
+			}
+		});
 
 		// overlay data
 		this._data = null;
