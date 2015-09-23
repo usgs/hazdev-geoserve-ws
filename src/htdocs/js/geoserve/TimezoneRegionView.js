@@ -36,24 +36,22 @@ var TimezoneRegionView = function (params) {
     try {
       timeData = regions.timezone.features[0].properties;
     } catch (e) {
-      timeData = null;
+      markup = '<p class="alert info">Time zone data unavailable</p>';
     }
 
-    if (timeData === null || timeData === undefined) {
-      markup = '<p>Time zone data unavailable</p>';
-    } else {
+    if (timeData !== null) {
       markup = '<dl>' +
-            '<dt>Time Zone</dt>' +
-              '<dd>' + timeData.timezone + '</dd>' +
-            '<dt>Standard Offset</td>' +
-              '<dd>' + timeData.standardoffset + '</dd>' +
-            '<dt>DST Start</dt>' +
-              '<dd>' + timeData.dststart + '</dd>' +
-            '<dt>DST End</dt>' +
-              '<dd>' + timeData.dstend + '</dd>' +
-            '<dt>DST Offset</dt>' +
-              '<dd>' + timeData.dstoffset + '</dd>' +
-          '</dl>';
+          '<dt>Time Zone</dt>' +
+            '<dd>' + timeData.timezone + '</dd>' +
+          '<dt>Standard Offset</td>' +
+            '<dd>' + timeData.standardoffset + '</dd>' +
+          '<dt>DST Start</dt>' +
+            '<dd>' + timeData.dststart + '</dd>' +
+          '<dt>DST End</dt>' +
+            '<dd>' + timeData.dstend + '</dd>' +
+          '<dt>DST Offset</dt>' +
+            '<dd>' + timeData.dstoffset + '</dd>' +
+        '</dl>';
     }
 
     _this.el.innerHTML = _header + markup;
