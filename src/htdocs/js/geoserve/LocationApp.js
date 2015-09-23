@@ -68,7 +68,8 @@ var LocationApp = function (options) {
 
     _neicResponseView = NeicResponseView({
       el: el.querySelector('.neicresponse-view'),
-      model: _this.model
+      model: _this.model,
+      header: '<h3>NEIC Response Data</h3>'
     });
   };
 
