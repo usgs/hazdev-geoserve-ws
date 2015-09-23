@@ -17,7 +17,7 @@ $GEOSERVE_LAYERS = array(
           $GEOSERVE_METADATA['neiccatalog'],
           $GEOSERVE_METADATA['neicresponse'],
           $GEOSERVE_METADATA['tectonic'],
-          $GEOSERVE_METADATA['timezones']
+          $GEOSERVE_METADATA['timezone']
         )
       )
     ),
@@ -28,7 +28,7 @@ $GEOSERVE_LAYERS = array(
     'neiccatalog' => $GEOSERVE_METADATA['neiccatalog']['fields'],
     'neicresponse' => $GEOSERVE_METADATA['neicresponse']['fields'],
     'tectonic' => $GEOSERVE_METADATA['tectonic']['fields'],
-    'timezones' => $GEOSERVE_METADATA['timezones']['fields']
+    'timezone' => $GEOSERVE_METADATA['timezone']['fields']
   ),
   'examples' => array(
     array(

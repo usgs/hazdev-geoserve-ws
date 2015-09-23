@@ -5,7 +5,7 @@ include_once $CLASSES_DIR . '/RegionsFactory.class.php';
 class LayersFactory extends RegionsFactory {
 
   protected static $SUPPORTED_TYPES = array('authoritative', 'fe',
-      'neicresponse', 'neiccatalog', 'tectonicsummary', 'timezone');
+      'neicresponse', 'neiccatalog', 'tectonic', 'timezone');
 
   protected static $TABLE_NAMES = array(
     // endpoint => table
@@ -13,7 +13,7 @@ class LayersFactory extends RegionsFactory {
     'fe' => 'fe_view',
     'neiccatalog' => 'neic_catalog',
     'neicresponse' => 'neic_response',
-    'tectonicsummary' => 'tectonic_summary',
+    'tectonic' => 'tectonic_summary',
     'timezone' => 'timezone'
   );
 
@@ -46,7 +46,7 @@ class LayersFactory extends RegionsFactory {
       'type',
       'ST_AsGeoJSON(shape) AS shape'
     ),
-    'tectonicsummary' => array(
+    'tectonic' => array(
       'id',
       'name',
       'summary',

@@ -8,7 +8,7 @@ class RegionsFactory extends GeoserveFactory {
     'fe',
     'neiccatalog',
     'neicresponse',
-    'tectonicsummary',
+    'tectonic',
     'timezone'
   );
 
@@ -38,8 +38,8 @@ class RegionsFactory extends GeoserveFactory {
     if (in_array('neicresponse', $query->type)) {
       $data['neicresponse'] = $this->getNEICResponse($query);
     }
-    if (in_array('tectonicsummary', $query->type)) {
-      $data['tectonicsummary'] = $this->getTectonicSummary($query);
+    if (in_array('tectonic', $query->type)) {
+      $data['tectonic'] = $this->getTectonicSummary($query);
     }
     if (in_array('timezone', $query->type)) {
       $data['timezone'] = $this->getTimezone($query);

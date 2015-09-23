@@ -98,7 +98,8 @@ var LocationMapView = function (options) {
         overlays = data.parameters.required.type.values;
         overlays.forEach(function (overlay) {
           // add overlay to layers control using
-          _layersControl.addOverlay(new RegionsLayer(url,overlay.name), overlay.name);
+          _layersControl.addOverlay(new RegionsLayer(url,overlay.name),
+              overlay.title);
         });
       }
     });

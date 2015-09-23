@@ -70,7 +70,7 @@ if (!isset($TEMPLATE)) {
         $formatted = 'NEIC Response';
       } else if ($title === 'neiccatalog') {
         $formatted = 'NEIC Catalog';
-      } else if ($title === 'tectonicsummary') {
+      } else if ($title === 'tectonic') {
         $formatted = 'Tectonic Summary';
       }
 
