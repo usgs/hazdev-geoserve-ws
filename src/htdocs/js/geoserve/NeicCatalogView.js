@@ -1,15 +1,14 @@
 'use strict';
 
-
 var View = require('mvc/View'),
 
     Util = require('util/Util');
 
-var _NO_DATA_MESSAGE = '<p class="alert info">No NEIC Catalog data.</p>';
 
 // Default values to be used by constructor
 var _DEFAULTS = {
-  header: '<h2>NEIC Catalog View</h2>'
+  header: null,
+  noDataMessage: '<p class="alert info">No data to display data.</p>'
 };
 
 
@@ -24,6 +23,7 @@ var NeicCatalogView = function (params) {
       _initialize,
 
       _header,
+      _noDataMessage,
 
       _formatMagnitude;
 
@@ -39,20 +39,43 @@ var NeicCatalogView = function (params) {
     params = Util.extend({}, _DEFAULTS, params);
 
     _header = params.header;
+    _noDataMessage = params.noDataMessage;
 
     _this.render();
   };
 
+  /**
+   * Formats a magnitude number for readability.
+   *
+   * @param magnitude {Number}
+   *      A number representing the magnitude to format.
+   *
+   * @return {String}
+   *      A readable representation of the magnitude.
+   */
   _formatMagnitude = function (magnitude) {
     // TODO :: Use generic formatter here ...
     return magnitude.toFixed(1);
   };
 
+  /**
+   * Free resources.
+   *
+   */
   _this.destroy = Util.compose(function () {
     _header = null;
+    _noDataMessage = null;
+
     _formatMagnitude = null;
+
+    _initialize = null;
+    _this = null;
   }, _this.destroy);
 
+  /**
+   * Updates the view to reflect the current state of the model.
+   *
+   */
   _this.render = function () {
     var markup,
         neiccatalog,
@@ -77,7 +100,7 @@ var NeicCatalogView = function (params) {
       );
     }
     catch (e) {
-      markup.push(_NO_DATA_MESSAGE);
+      markup.push(_noDataMessage);
     }
 
   _this.el.innerHTML = markup.join('');
@@ -88,8 +111,5 @@ var NeicCatalogView = function (params) {
   params = null;
   return _this;
 };
-
-
-NeicCatalogView.NO_DATA_MESSAGE = _NO_DATA_MESSAGE;
 
 module.exports = NeicCatalogView;
