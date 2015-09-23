@@ -18,7 +18,7 @@ describe('AuthoritativeRegionView test suite.', function () {
     });
   });
 
-  describe('View', function () {
+  describe('Render', function () {
 
     it('shows custom message when no data is available', function () {
       var div,
