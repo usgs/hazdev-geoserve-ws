@@ -3,6 +3,7 @@
 
 var LocationMapView = require('geoserve/LocationMapView'),
     LocationOutputView = require('geoserve/LocationOutputView'),
+    NearbyCitiesView = require('geoserve/NearbyCitiesView'),
     NeicCatalogView = require('geoserve/NeicCatalogView'),
     NeicResponseView = require('geoserve/NeicResponseView'),
     TectonicSummaryView = require('geoserve/TectonicSummaryView'),
@@ -37,6 +38,7 @@ var LocationApp = function (options) {
       _initialize,
 
       _mapView,
+      _nearbyCitiesView,
       _neicCatalogView,
       _neicResponseView,
       _outputView,
@@ -63,6 +65,7 @@ var LocationApp = function (options) {
     el = _this.el;
     el.innerHTML = '<section class="location-map-view"></section>' +
         '<section class="location-output-view"></section>' +
+        '<section class="nearbycities-view"></section>' +
         '<section class="neiccatalog-view"></section>' +
         '<section class="neicresponse-view"></section>' +
         '<section class="tectonic-summary-view"></section>';
@@ -78,6 +81,12 @@ var LocationApp = function (options) {
     _outputView = LocationOutputView({
       el: el.querySelector('.location-output-view'),
       model: _this.model
+    });
+
+    _nearbyCitiesView = NearbyCitiesView({
+      el: el.querySelector('.nearbycities-view'),
+      model: _this.model,
+      header: '<h3>Nearby Cities</h3>'
     });
 
     _neicCatalogView = NeicCatalogView({
