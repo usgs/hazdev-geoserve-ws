@@ -6,10 +6,11 @@ var View = require('mvc/View'),
     Util = require('util/Util');
 
 
-var _NO_LOCATION_MESSAGE = '<p class="alert info">Use the map to select a location.</p>';
+var _NO_DATA_MESSAGE = '<p class="alert info">Use the map to select a location.</p>';
 
 var _DEFAULTS = {
-  header: '<h3>Current Location</h3>'
+  header: null,
+  noDataMessage: _NO_DATA_MESSAGE
 };
 
 
@@ -25,6 +26,7 @@ var LocationOutputView = function (params) {
       _initialize,
 
       _header,
+      _noDataMessage,
 
       _formatLatitude,
       _formatLocation,
@@ -37,6 +39,7 @@ var LocationOutputView = function (params) {
     params = Util.extend({}, _DEFAULTS, params);
 
     _header = params.header;
+    _noDataMessage = params.noDataMessage;
 
     _this.el.classList.add('location-output-view');
     _this.render();
@@ -122,6 +125,26 @@ var LocationOutputView = function (params) {
   };
 
 
+  /**
+   * Frees resources.
+   *
+   */
+  _this.destroy = Util.compose(function () {
+      _header = null;
+      _noDataMessage = null;
+
+      _formatLatitude = null;
+      _formatLocation = null;
+      _formatLongitude = null;
+
+      _initialize = null;
+      _this = null;
+  }, _this.destroy);
+
+  /**
+   * Render the current state of the model.
+   *
+   */
   _this.render = function () {
     var location,
         markup;
@@ -135,7 +158,7 @@ var LocationOutputView = function (params) {
         '</p>'
       ];
     } catch (e) {
-      markup = [_NO_LOCATION_MESSAGE];
+      markup = [_NO_DATA_MESSAGE];
     }
 
     _this.el.innerHTML = ((_header !== null) ? _header : '') + markup.join('');
@@ -148,7 +171,7 @@ var LocationOutputView = function (params) {
 };
 
 
-LocationOutputView.NO_LOCATION_MESSAGE = _NO_LOCATION_MESSAGE;
+LocationOutputView.NO_DATA_MESSAGE = _NO_DATA_MESSAGE;
 
 
 module.exports = LocationOutputView;
