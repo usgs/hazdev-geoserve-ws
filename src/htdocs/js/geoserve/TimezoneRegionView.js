@@ -8,6 +8,11 @@ var _DEFAULTS = {
   header: null
 };
 
+/**
+ * Class: TimezoneRegionView
+ * @param params {object}
+ *      Configuration options. See _DEFAULTS for more details
+ */
 var TimezoneRegionView = function (params) {
   var _this,
       _initialize,
@@ -16,6 +21,9 @@ var TimezoneRegionView = function (params) {
 
   _this = View(params || {});
 
+  /**
+   * @constructor
+   */
   _initialize = function () {
     params = Util.extend({}, _DEFAULTS, params);
 
@@ -25,6 +33,9 @@ var TimezoneRegionView = function (params) {
     _this.render();
   };
 
+  /**
+   * updates the view to reflect the current state of the model
+   */
   _this.render = function () {
     var markup,
         timeData;
