@@ -64,7 +64,7 @@ var AdminRegionView = function (params) {
         '</dl>'
       );
     } catch (e) {
-      markup = _this.noDataMessage;
+      markup.push(_this.noDataMessage);
     }
 
     _this.el.innerHTML = markup.join('');

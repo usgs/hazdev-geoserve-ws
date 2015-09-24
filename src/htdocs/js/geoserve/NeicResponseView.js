@@ -9,7 +9,7 @@ var BaseView = require('geoserve/BaseView'),
 // Default values to be used by constructor
 var _DEFAULTS = {
   header: null,
-  noDataMessage: 'Neic response data not available.'
+  noDataMessage: '<p class="alert info">Neic response data not available.</p>'
 };
 
 
@@ -79,11 +79,7 @@ var NeicResponseView = function (params) {
         '</dl>'
       );
     } catch (e) {
-      markup.push(
-        '<p class="alert info">' +
-          _this.noDataMessage +
-        '</p>'
-      );
+      markup.push(_this.noDataMessage);
     }
 
     _this.el.innerHTML = markup.join('');

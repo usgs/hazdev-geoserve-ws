@@ -9,7 +9,7 @@ var BaseView = require('geoserve/BaseView'),
 // Default values to be used by constructor
 var _DEFAULTS = {
   header: null,
-  noDataMessage: 'Nearby city data not available.'
+  noDataMessage: '<p class="alert info">Nearby city data not available.</p>'
 };
 
 

@@ -13,3 +13,9 @@
 @import 'geoserve/_LocationMapView.scss';
 @import 'geoserve/_LocationOutputView.scss';
 @import 'geoserve/_NearbyCitiesView.scss';
+
+.no-data-message {
+  font-size: smaller;
+  color: #666;
+  font-style: italic;
+}

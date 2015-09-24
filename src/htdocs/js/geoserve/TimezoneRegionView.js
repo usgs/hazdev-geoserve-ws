@@ -1,6 +1,6 @@
 'use strict';
 
-var View = require('mvc/View'),
+var BaseView = require('geoserve/BaseView'),
 
     Util = require('util/Util');
 
@@ -8,7 +8,7 @@ var View = require('mvc/View'),
 // Default values to be used by constructor
 var _DEFAULTS = {
   header: null,
-  noDataMessage: 'Time zone data not available.'
+  noDataMessage: '<p class="alert info">Time zone data not available.</p>'
 };
 
 
@@ -20,14 +20,12 @@ var _DEFAULTS = {
  */
 var TimezoneRegionView = function (params) {
   var _this,
-      _initialize,
-
-      _header,
-      _noDataMessage;
+      _initialize;
 
 
   // Inherit from parent class
-  _this = View(params || {});
+  params = params = Util.extend({}, _DEFAULTS, params);
+  _this = BaseView(params || {});
 
 
   /**
@@ -36,11 +34,6 @@ var TimezoneRegionView = function (params) {
    */
   _initialize = function () {
     var classes;
-
-    params = Util.extend({}, _DEFAULTS, params);
-
-    _header = params.header;
-    _noDataMessage = params.noDataMessage;
 
     classes = _this.el.classList;
     if (!classes.contains('timezone-region-view')) {
@@ -58,7 +51,7 @@ var TimezoneRegionView = function (params) {
         properties,
         timeZoneRegions;
 
-    markup = [(_header !== null) ? _header : ''];
+    markup = [(_this.header !== null) ? _this.header : ''];
 
     try {
       timeZoneRegions = _this.model.get('regions').timezone;
@@ -79,11 +72,7 @@ var TimezoneRegionView = function (params) {
         '</dl>'
       );
     } catch (e) {
-      markup.push(
-        '<p class="alert info">' +
-          _noDataMessage +
-        '</p>'
-      );
+      markup.push(_this.noDataMessage);
     }
 
     _this.el.innerHTML = markup.join('');
@@ -93,9 +82,6 @@ var TimezoneRegionView = function (params) {
    * Destroy all the things
    */
   _this.destroy = Util.compose(function () {
-    _header = null;
-    _noDataMessage = null;
-
     _initialize = null;
     _this = null;
   }, _this.destroy);
