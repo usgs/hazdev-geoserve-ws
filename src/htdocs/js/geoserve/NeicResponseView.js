@@ -29,17 +29,24 @@ var NeicResponseView = function (params) {
 
 
   // Inherit from parent class
-  _this = View(params||{});
+  _this = View(params || {});
 
   /**
    * @constructor
    *
    */
   _initialize = function (params) {
+    var classes;
+
     params = Util.extend({}, _DEFAULTS, params);
 
     _header = params.header;
     _noDataMessage = params.noDataMessage;
+
+    classes = _this.el.classList;
+    if (!classes.contains('neic-response-view')) {
+      classes.add('neic-response-view');
+    }
 
     _this.render();
   };

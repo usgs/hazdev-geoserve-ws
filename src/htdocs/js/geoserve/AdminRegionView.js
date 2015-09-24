@@ -34,11 +34,17 @@ var AdminRegionView = function (params) {
    *
    */
   _initialize = function (params) {
+    var classes;
+
     params = Util.extend({}, _DEFAULTS, params);
 
     _header = params.header;
     _noDataMessage = params.noDataMessage;
-    _this.el.className = 'administrative-region';
+
+    classes = _this.el.classList;
+    if (!classes.contains('admin-region-view')) {
+      classes.add('admin-region-view');
+    }
 
     _this.render();
   };

@@ -34,10 +34,17 @@ var NearbyCitiesView = function (params) {
    *
    */
   _initialize = function (params) {
+    var classes;
+
     params = Util.extend({}, _DEFAULTS, params);
 
     _header = params.header;
     _noDataMessage = params.noDataMessage;
+
+    classes = _this.el.classList;
+    if (!classes.contains('nearby-cities-view')) {
+      classes.add('nearby-cities-view');
+    }
 
     _this.render();
   };
@@ -95,13 +102,13 @@ var NearbyCitiesView = function (params) {
     try {
       nearbycitiesresponse = _this.model.get('places').event;
 
-      markup.push('<ol class="nearbyCities no-style">');
+      markup.push('<ol class="no-style">');
       for (i = 0; i < nearbycitiesresponse.count; i++) {
         feature = nearbycitiesresponse.features[i];
         properties = feature.properties;
         markup.push(
           '<li>' +
-            '<span class="citydistance">' +
+            '<span class="city-distance">' +
               properties.distance +
               'km (' +
               Math.round(this._kmToMi(properties.distance)) + 'mi) ' +
@@ -109,13 +116,13 @@ var NearbyCitiesView = function (params) {
             '<span class="direction">' +
               _this._compasswinds(properties.azimuth) + ' of ' +
             '</span>' +
-            '<span class="cityname">' +
+            '<span class="city-name">' +
               properties.name +
             '</span>' +
-            '<span class="admin1name">' +
+            '<span class="admin1-name">' +
               ', ' + properties.admin1_name +
             '</span>' +
-            '<span class="countryname">' +
+            '<span class="country-name">' +
               ', ' + properties.country_name +
             '</span>' +
             '<span class="population">' +

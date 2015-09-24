@@ -35,12 +35,18 @@ var TimezoneRegionView = function (params) {
    *
    */
   _initialize = function () {
+    var classes;
+
     params = Util.extend({}, _DEFAULTS, params);
 
     _header = params.header;
     _noDataMessage = params.noDataMessage;
 
-    _this.el.classList.add('timezone-region');
+    classes = _this.el.classList;
+    if (!classes.contains('timezone-region-view')) {
+      classes.add('timezone-region-view');
+    }
+
     _this.render();
   };
 

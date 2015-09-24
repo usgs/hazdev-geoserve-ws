@@ -39,12 +39,16 @@ var LocationMapView = function (options) {
   _this = View(options);
 
   _initialize = function (options) {
-    var el;
+    var classes,
+        el;
 
     options = Util.extend({}, _DEFAULTS, options);
     _url = options.url;
 
-    _this.el.classList.add('location-map-view');
+    classes = _this.el.classList;
+    if (!classes.contains('location-map-view')) {
+      classes.add('location-map-view');
+    }
     _this.el.innerHTML = '<div class="map"></div>';
 
     el = _this.el.querySelector('.map');

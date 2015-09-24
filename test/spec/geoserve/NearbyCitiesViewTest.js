@@ -72,8 +72,8 @@ describe('NearbyCitiesView', function () {
         model: Model({places: places})
       });
       expect(view.el.innerHTML).to.have.string([
-        '<ol class="nearbyCities no-style">',
-        '<li><span class="citydistance">9.156km (6mi)'
+        '<ol class="no-style">',
+        '<li><span class="city-distance">9.156km (6mi)'
       ].join(''));
       view.destroy();
     });
