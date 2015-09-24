@@ -95,15 +95,14 @@ var NeicCatalogView = function (params) {
           '<dt>type</dt>' +
             '<dd>' + properties.type + '</dd>' +
           '<dt>Magnitude</dt>' +
-            '<dd>' + properties.magnitude + '</dd>' +
+            '<dd>' + _formatMagnitude(properties.magnitude) + '</dd>' +
         '<dl>'
       );
-    }
-    catch (e) {
+    } catch (e) {
       markup.push(_noDataMessage);
     }
 
-  _this.el.innerHTML = markup.join('');
+    _this.el.innerHTML = markup.join('');
   };
 
 
