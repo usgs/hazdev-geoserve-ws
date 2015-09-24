@@ -10,7 +10,7 @@ var NeicCatalogView = require('geoserve/NeicCatalogView'),
 var expect,
     regions;
 
-expect = chai.expect,
+expect = chai.expect;
 
 describe('NeicCatalogView test suite.', function () {
 

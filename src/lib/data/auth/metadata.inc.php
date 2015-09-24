@@ -1,7 +1,8 @@
 <?php
 
 $GEOSERVE_METADATA['auth'] = array(
-  'name' => 'auth',
+  'name' => 'authoritative',
+  'title' => 'Authoritative',
   'contact' => 'TODO',
   'lastUpdated' => '2015-09-21T00:00:00Z',
   'raw' => 'ftp://hazards.cr.usgs.gov/web/hazdev-geoserve-ws/auth/',

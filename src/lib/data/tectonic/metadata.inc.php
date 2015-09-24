@@ -2,6 +2,7 @@
 
 $GEOSERVE_METADATA['tectonic'] = array(
   'name' => 'tectonic',
+  'title' => 'Tectonic Summary',
   'contact' => 'TODO',
   'lastUpdated' => '2015-09-21T00:00:00Z',
   'raw' => 'ftp://hazards.cr.usgs.gov/web/hazdev-geoserve-ws/tectonic/',
