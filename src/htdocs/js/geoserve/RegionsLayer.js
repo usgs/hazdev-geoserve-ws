@@ -23,7 +23,8 @@ var RegionsLayer = L.GeoJSON.extend({
 				'color': COLORS[COLORS_INDEX++ % COLORS.length],
 				'fillOpacity': 0.4,
 				'opacity': 1,
-				'weight': 2
+				'weight': 2,
+				'clickable': false
 			}
 		});
 
