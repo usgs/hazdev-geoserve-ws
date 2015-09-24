@@ -49,31 +49,35 @@ var TimezoneRegionView = function (params) {
    */
   _this.render = function () {
     var markup,
-        timeData;
-
-    timeData = null;
+        properties,
+        timeZoneRegions;
 
     markup = [(_header !== null) ? _header : ''];
 
     try {
-      timeData = _this.model.get('regions').timezone.features[0].properties;
+      timeZoneRegions = _this.model.get('regions').timezone;
+      properties = timeZoneRegions.features[0].properties;
 
       markup.push(
         '<dl>' +
           '<dt>Time Zone</dt>' +
-            '<dd>' + timeData.timezone + '</dd>' +
+            '<dd>' + properties.timezone + '</dd>' +
           '<dt>Standard Offset</dt>' +
-            '<dd>' + timeData.standardoffset + '</dd>' +
+            '<dd>' + properties.standardoffset + '</dd>' +
           '<dt>DST Start</dt>' +
-            '<dd>' + timeData.dststart + '</dd>' +
+            '<dd>' + properties.dststart + '</dd>' +
           '<dt>DST End</dt>' +
-            '<dd>' + timeData.dstend + '</dd>' +
+            '<dd>' + properties.dstend + '</dd>' +
           '<dt>DST Offset</dt>' +
-            '<dd>' + timeData.dstoffset + '</dd>' +
+            '<dd>' + properties.dstoffset + '</dd>' +
         '</dl>'
       );
     } catch (e) {
-      markup.push('<p class="alert info">' + _noDataMessage + '</p>');
+      markup.push(
+        '<p class="alert info">' +
+          _noDataMessage +
+        '</p>'
+      );
     }
 
     _this.el.innerHTML = markup.join('');

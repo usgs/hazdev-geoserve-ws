@@ -44,32 +44,33 @@ var AuthoritativeRegionView = function (params) {
   };
 
   _this.render = function () {
-    var auth,
-        markup;
+    var authoritativeRegions,
+        markup,
+        properties;
+
+    markup = [(_header !== null) ? _header : ''];
 
     try {
-      auth = _this.model.get('region').authoritative.features[0].properties;
+      authoritativeRegions = _this.model.get('region').authoritative;
+      properties = authoritativeRegions.features[0].properties;
+
+      markup.push(
+        '<dl>' +
+          '<dt>Name</dt>' +
+            '<dd>' + properties.name + '</dd>' +
+          '<dt>Network</dt>' +
+            '<dd>' + properties.network + '</dd>' +
+        '</dl>'
+      );
     } catch (e) {
-      auth = null;
+      markup.push(
+        '<p class="alert info">' +
+          _noDataMessage +
+        '</p>'
+      );
     }
 
-    if (auth === null) {
-      markup = '<p class="alert info">' + _noDataMessage + '</p>';
-    } else {
-      markup = '<dl>' +
-            '<dt>Name</dt>' +
-            '<dd>' + auth.name + '</dd>' +
-            '<dt>Network</dt>' +
-            '<dd>' + auth.network + '</dd>' +
-          '</dl>';
-    }
-
-    // Do not display blank header
-    if (_header) {
-      markup = _header + markup;
-    }
-
-    _this.el.innerHTML = markup;
+    _this.el.innerHTML = markup.join('');
   };
 
   /**

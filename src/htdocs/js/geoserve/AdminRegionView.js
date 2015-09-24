@@ -44,34 +44,35 @@ var AdminRegionView = function (params) {
   };
 
   _this.render = function () {
-    var admin,
-        markup;
+    var adminRegions,
+        markup,
+        properties;
+
+    markup = [(_header !== null) ? _header : ''];
 
     try {
-      admin = _this.model.get('regions').admin.features[0].properties;
+      adminRegions = _this.model.get('regions').admin;
+      properties = adminRegions.features[0].properties;
+
+      markup.push(
+        '<dl>' +
+          '<dt>ISO</dt>' +
+            '<dd>' + properties.iso + '</dd>' +
+          '<dt>Country</dt>' +
+            '<dd>' + properties.country + '</dd>' +
+          '<dt>Region</dt>' +
+            '<dd>' + properties.region + '</dd>' +
+        '</dl>'
+      );
     } catch (e) {
-      admin = null;
+      markup.push(
+        '<p class="alert info">' +
+          _noDataMessage +
+        '</p>'
+      );
     }
 
-    if (admin === null) {
-      markup = '<p class="alert info">' + _noDataMessage + '</p>';
-    } else {
-      markup = '<dl>' +
-            '<dt>ISO</dt>' +
-            '<dd>' + admin.iso + '</dd>' +
-            '<dt>Country</dt>' +
-            '<dd>' + admin.country + '</dd>' +
-            '<dt>Region</dt>' +
-            '<dd>' + admin.region + '</dd>' +
-          '</dl>';
-    }
-
-    // Do not display a blank header
-    if (_header) {
-      markup = _header + markup;
-    }
-
-    _this.el.innerHTML = markup;
+    _this.el.innerHTML = markup.join('');
   };
 
   /**

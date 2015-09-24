@@ -78,15 +78,14 @@ var NeicCatalogView = function (params) {
    */
   _this.render = function () {
     var markup,
-        neiccatalog,
+        neicCatalog,
         properties;
 
     markup = [(_header !== null) ? _header : ''];
 
     try {
-      neiccatalog = _this.model.get('regions').neiccatalog;
-
-      properties = neiccatalog.features[0].properties;
+      neicCatalog = _this.model.get('regions').neiccatalog;
+      properties = neicCatalog.features[0].properties;
 
       markup.push(
         '<dl>' +
@@ -99,7 +98,11 @@ var NeicCatalogView = function (params) {
         '<dl>'
       );
     } catch (e) {
-      markup.push('<p class="alert info">' + _noDataMessage + '</p>');
+      markup.push(
+        '<p class="alert info">' +
+          _noDataMessage +
+        '</p>'
+      );
     }
 
     _this.el.innerHTML = markup.join('');

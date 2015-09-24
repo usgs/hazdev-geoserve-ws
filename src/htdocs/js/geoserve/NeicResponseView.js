@@ -80,14 +80,14 @@ var NeicResponseView = function (params) {
    */
   _this.render = function () {
     var markup,
-        neicresponse,
+        neicResponse,
         properties;
 
     markup = [(_header !== null) ? _header : ''];
 
     try {
-      neicresponse = _this.model.get('regions').neicresponse;
-      properties = neicresponse.features[0].properties;
+      neicResponse = _this.model.get('regions').neicresponse;
+      properties = neicResponse.features[0].properties;
 
       markup.push(
         '<dl>' +
@@ -100,7 +100,11 @@ var NeicResponseView = function (params) {
         '</dl>'
       );
     } catch (e) {
-      markup.push('<p class="alert info">' + _noDataMessage + '</p>');
+      markup.push(
+        '<p class="alert info">' +
+          _noDataMessage +
+        '</p>'
+      );
     }
 
     _this.el.innerHTML = markup.join('');

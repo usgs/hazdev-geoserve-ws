@@ -126,7 +126,11 @@ var NearbyCitiesView = function (params) {
       }
       markup.push('</ol>');
     } catch (e) {
-      markup.push('<p class="alert info">' + _noDataMessage + '</p>');
+      markup.push(
+        '<p class="alert info">' +
+          _noDataMessage +
+        '</p>'
+      );
     }
 
     _this.el.innerHTML = markup.join('');

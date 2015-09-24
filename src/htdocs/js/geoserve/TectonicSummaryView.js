@@ -77,7 +77,11 @@ var TectonicSummaryView = function (options) {
 
       markup.push(properties.summary);
     } catch (e) {
-      markup.push('<p class="alert info">' + _noDataMessage + '</p>');
+      markup.push(
+        '<p class="alert info">' +
+          _noDataMessage +
+        '</p>'
+      );
     }
 
     _this.el.innerHTML = markup.join('');

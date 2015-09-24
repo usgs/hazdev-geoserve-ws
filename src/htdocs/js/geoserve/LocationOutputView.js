@@ -152,20 +152,25 @@ var LocationOutputView = function (params) {
     var location,
         markup;
 
+    markup = [(_header !== null) ? _header : ''];
+
     try {
       location = _this.model.get('location');
 
-      markup = [
+      markup.push(
         '<p class="alert success">',
           _formatLocation(location),
         '</p>'
-      ];
+      );
     } catch (e) {
-      markup = [];
-      markup.push('<p class="alert info">' + _noDataMessage + '</p>');
+      markup.push(
+        '<p class="alert info">' +
+          _noDataMessage +
+        '</p>'
+      );
     }
 
-    _this.el.innerHTML = ((_header !== null) ? _header : '') + markup.join('');
+    _this.el.innerHTML = markup.join('');
   };
 
 
