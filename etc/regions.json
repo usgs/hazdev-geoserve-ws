@@ -91,7 +91,7 @@
             }
         ]
     },
-    "tectonicsummary": {
+    "tectonic": {
         "type": "FeatureCollection",
         "count": 1,
         "features": [
