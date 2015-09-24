@@ -167,12 +167,16 @@ var LocationApp = function (options) {
 
     // destroy child views
     _mapView.destroy();
+    _nearbyCitiesView.destroy();
+    _neicCatalogView.destroy();
     _neicResponseView.destroy();
     _outputView.destroy();
     _tectonicSummaryView.destroy();
 
     // free references
     _mapView = null;
+    _nearbyCitiesView = null;
+    _neicCatalogView = null;
     _neicResponseView = null;
     _outputView = null;
     _tectonicSummaryView = null;
