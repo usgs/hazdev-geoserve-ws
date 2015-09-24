@@ -1,13 +1,33 @@
 /* global after, before, chai, describe, it*/
 'use strict';
 
-var expect = chai.expect,
-    NeicCatalogView = require('geoserve/NeicCatalogView'),
+var NeicCatalogView = require('geoserve/NeicCatalogView'),
+
     Model = require('mvc/Model'),
+
     Xhr = require('util/Xhr');
 
+var expect,
+    regions;
+
+expect = chai.expect,
 
 describe('NeicCatalogView test suite.', function () {
+
+  before(function (done) {
+    Xhr.ajax({
+      url: 'regions.json',
+      success: function (data) {
+        regions = data;
+        done();
+      }
+    });
+  });
+
+  after(function () {
+    regions = null;
+  });
+
   describe('Constructor', function () {
     it('Can be defined', function () {
       /* jshint -W030 */
@@ -24,23 +44,8 @@ describe('NeicCatalogView test suite.', function () {
   });
 
   describe('destroy', function () {
-    var regions;
     it('has such a method', function () {
       expect(NeicCatalogView()).to.respondTo('destroy');
-    });
-
-    before(function (done) {
-      Xhr.ajax({
-        url: 'regions.json',
-        success: function (regions) {
-          regions = regions;
-          done();
-        }
-      });
-    });
-
-    after(function () {
-      regions = null;
     });
 
     it('can be destroyed', function () {
@@ -53,7 +58,43 @@ describe('NeicCatalogView test suite.', function () {
       neicCatalogView.destroy();
       expect(neicCatalogView.el).to.equal(null);
     });
-
   });
 
+  describe('Test View', function () {
+    it('Renders with and without data', function () {
+      var noData,
+          view;
+
+      noData = 'No data';
+
+      // No data
+      view = NeicCatalogView({
+        header: null,
+        model: Model(),
+        noDataMessage: noData
+      });
+      expect(view.el.innerHTML).to.equal(noData);
+      view.destroy();
+
+      // Has data
+      view = NeicCatalogView({
+        header: null,
+        model: Model({
+          regions: regions
+        })
+      });
+      expect(view.el.innerHTML).to.equal([
+        '<dl>',
+          '<dt>Name</dt>',
+            '<dd>Contiguous US</dd>',
+          '<dt>type</dt>',
+            '<dd>US</dd>',
+          '<dt>Magnitude</dt>',
+            '<dd>2.5</dd>',
+              '<dl></dl>',
+        '</dl>'
+      ].join(''));
+      view.destroy();
+    });
+  });
 });
