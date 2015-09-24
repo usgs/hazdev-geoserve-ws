@@ -39,7 +39,8 @@
                 "geometry": null,
                 "properties": {
                     "name": "PAS",
-                    "network": "CI"
+                    "network": "CI",
+                    "type": "ANSS"
                 }
             }
         ]

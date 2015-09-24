@@ -19,6 +19,10 @@ $GEOSERVE_METADATA['auth'] = array(
     'network' => array(
       'type' => 'String',
       'description' => 'Name of network.'
+    ),
+    'type' => array(
+      'type' => 'String',
+      'description' => 'Type of authoritative region'
     )
   )
 );

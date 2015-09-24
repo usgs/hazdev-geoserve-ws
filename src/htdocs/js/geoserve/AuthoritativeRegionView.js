@@ -59,6 +59,8 @@ var AuthoritativeRegionView = function (params) {
             '<dd>' + properties.name + '</dd>' +
           '<dt>Network</dt>' +
             '<dd>' + properties.network + '</dd>' +
+          '<dt>Type</dt>' +
+            '<dd>' + properties.type + '</dd>' +
         '</dl>'
       );
     } catch (e) {
