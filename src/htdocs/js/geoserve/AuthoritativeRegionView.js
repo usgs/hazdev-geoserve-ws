@@ -50,7 +50,7 @@ var AuthoritativeRegionView = function (params) {
     markup = [(_this.header !== null) ? _this.header : ''];
 
     try {
-      authoritativeRegions = _this.model.get('region').authoritative;
+      authoritativeRegions = _this.model.get('regions').authoritative;
       properties = authoritativeRegions.features[0].properties;
 
       markup.push(

@@ -39,7 +39,7 @@ describe('AuthoritativeRegionView test suite.', function () {
 
       AuthoritativeRegionView({
         el: div,
-        model: Model({region: region})
+        model: Model({regions: region})
       });
 
       expect(div.innerHTML).to.be.equal('<dl class="horizontal">' +
