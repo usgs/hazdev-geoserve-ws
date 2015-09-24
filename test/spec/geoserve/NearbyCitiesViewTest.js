@@ -60,11 +60,7 @@ describe('NearbyCitiesView', function () {
         noDataMessage: noData,
         model: Model()
       });
-      expect(view.el.innerHTML).to.equal(
-        '<p class="alert info">' +
-          noData +
-        '</p>'
-      );
+      expect(view.el.innerHTML).to.equal(noData);
       view.destroy();
 
       // ... with data ...
@@ -72,8 +68,7 @@ describe('NearbyCitiesView', function () {
         model: Model({places: places})
       });
       expect(view.el.innerHTML).to.have.string([
-        '<ol class="no-style">',
-        '<li><span class="city-distance">9.156km (6mi)'
+        '<aside class="distance">9.2km (5.7mi)'
       ].join(''));
       view.destroy();
     });

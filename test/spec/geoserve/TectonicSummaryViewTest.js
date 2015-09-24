@@ -59,7 +59,7 @@ describe('TectonicSummaryView', function () {
       });
       expect(view.el.innerHTML).to.equal(
         '<p class="alert info">' +
-          'Tectonic summary data not available.' +
+          'Tectonic summary not available.' +
         '</p>');
       view.destroy();
 
@@ -96,7 +96,7 @@ describe('TectonicSummaryView', function () {
           noDataMessage: text
 				});
 
-			expect(div.querySelector('.alert').innerHTML).to.be.equal(text);
+			expect(div.innerHTML).to.be.equal(text);
 		});
 
 

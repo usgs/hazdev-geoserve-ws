@@ -61,17 +61,13 @@ describe('NeicResponseView', function () {
         model: Model(),
         noDataMessage: noData
       });
-      expect(view.el.innerHTML).to.equal(
-        '<p class="alert info">' +
-          noData +
-        '</p>'
-      );
+      expect(view.el.innerHTML).to.equal(noData);
       view.destroy();
 
       // ... with data ...
       view = NeicResponseView({header: null, model: Model({regions: regions})});
       expect(view.el.innerHTML).to.equal([
-        '<dl>',
+        '<dl class="horizontal">',
           '<dt>Name</dt>',
             '<dd>Eastern US</dd>',
           '<dt>Type</dt>',

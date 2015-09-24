@@ -28,7 +28,7 @@ var NearbyCitiesView = function (params) {
 
   // Inherit from parent class
   params = Util.extend({}, _DEFAULTS, params);
-  _this = BaseView(params || {});
+  _this = BaseView(params);
 
   /**
    * @constructor
@@ -48,7 +48,7 @@ var NearbyCitiesView = function (params) {
   _formatDistance = function (km) {
     var mi;
 
-    mi = _this._kmToMi(km);
+    mi = Format.kilometersToMiles(km);
 
     return km.toFixed(1) + 'km (' + mi.toFixed(1) + 'mi)';
   };
@@ -92,7 +92,7 @@ var NearbyCitiesView = function (params) {
             '</span>' +
             '<aside class="distance">' +
               _formatDistance(properties.distance) + ' ' +
-              Format.compasswinds(properties.azimuth) +
+              Format.compassWinds(properties.azimuth) +
             '</aside>' +
             '<aside class="population">Population: ' +
               Format.numberWithCommas(properties.population) +
@@ -102,7 +102,7 @@ var NearbyCitiesView = function (params) {
       }
       markup.push('</ol>');
     } catch (e) {
-      markup.push(_this.noDataMessage);
+      markup = [_this.noDataMessage];
     }
 
     _this.el.innerHTML = markup.join('');

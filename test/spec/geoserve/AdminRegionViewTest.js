@@ -42,7 +42,7 @@ describe('AdminRegionView test suite.', function () {
         model: Model({regions: regions})
       });
 
-      expect(div.innerHTML).to.be.equal('<dl>' +
+      expect(div.innerHTML).to.be.equal('<dl class="horizontal">' +
           '<dt>ISO</dt><dd>USA</dd>' +
           '<dt>Country</dt><dd>United States</dd>' +
           '<dt>Region</dt><dd>Colorado</dd>' +
@@ -62,7 +62,7 @@ describe('AdminRegionView test suite.', function () {
           noDataMessage: text
         });
 
-      expect(div.querySelector('.alert').innerHTML).to.be.equal(text);
+      expect(div.innerHTML).to.be.equal(text);
     });
 
 

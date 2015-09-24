@@ -75,11 +75,7 @@ describe('TimezoneRegionView test suite.', function () {
         model: Model(),
         noDataMessage: noData
       });
-      expect(view.el.innerHTML).to.equal(
-        '<p class="alert info">' +
-          noData +
-        '</p>'
-      );
+      expect(view.el.innerHTML).to.equal(noData);
       view.destroy();
 
       // Has data
@@ -90,7 +86,7 @@ describe('TimezoneRegionView test suite.', function () {
         })
       });
       expect(view.el.innerHTML).to.equal([
-        '<dl>',
+        '<dl class="horizontal">',
           '<dt>Time Zone</dt>',
             '<dd>America/Denver</dd>',
           '<dt>Standard Offset</dt>',

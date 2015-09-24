@@ -107,7 +107,7 @@ var formatMagnitude = function (magnitude) {
 /**
  * Convert Kilometers to miles
  */
-var kilometersmToMiles = function (km) {
+var kilometersToMiles = function (km) {
   return (km * 0.621371);
 };
 
@@ -126,7 +126,7 @@ var Formatter = {
   compassWinds: compassWinds,
   formatLocation: formatLocation,
   formatMagnitude: formatMagnitude,
-  kilometersmToMiles: kilometersmToMiles,
+  kilometersToMiles: kilometersToMiles,
   numberWithCommas: numberWithCommas
 };
 

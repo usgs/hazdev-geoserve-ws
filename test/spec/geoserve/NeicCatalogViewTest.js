@@ -73,11 +73,7 @@ describe('NeicCatalogView test suite.', function () {
         model: Model(),
         noDataMessage: noData
       });
-      expect(view.el.innerHTML).to.equal(
-        '<p class="alert info">' +
-          noData +
-        '</p>'
-      );
+      expect(view.el.innerHTML).to.equal(noData);
       view.destroy();
 
       // Has data
@@ -88,10 +84,10 @@ describe('NeicCatalogView test suite.', function () {
         })
       });
       expect(view.el.innerHTML).to.equal([
-        '<dl>',
+        '<dl class="horizontal">',
           '<dt>Name</dt>',
             '<dd>Contiguous US</dd>',
-          '<dt>type</dt>',
+          '<dt>Type</dt>',
             '<dd>US</dd>',
           '<dt>Magnitude</dt>',
             '<dd>2.5</dd>',

@@ -115,7 +115,7 @@ var LocationApp = function (options) {
       el: el.querySelector('.nearbycities-view'),
       model: _this.model,
       header: '<h3>Nearby Cities</h3>',
-      noDataMessage: '<aside class="no-data-message">Data not available</aside>'
+      noDataMessage: ''
     });
 
     _authoritativeRegionView = AuthoritativeRegionView({

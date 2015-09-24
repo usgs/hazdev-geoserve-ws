@@ -42,7 +42,7 @@ describe('AuthoritativeRegionView test suite.', function () {
         model: Model({region: region})
       });
 
-      expect(div.innerHTML).to.be.equal('<dl>' +
+      expect(div.innerHTML).to.be.equal('<dl class="horizontal">' +
           '<dt>Name</dt><dd>PAS</dd>' +
           '<dt>Network</dt><dd>CI</dd>' +
         '</dl>');
@@ -61,7 +61,7 @@ describe('AuthoritativeRegionView test suite.', function () {
           noDataMessage: text
         });
 
-      expect(div.querySelector('.alert').innerHTML).to.be.equal(text);
+      expect(div.innerHTML).to.be.equal(text);
     });
 
 
