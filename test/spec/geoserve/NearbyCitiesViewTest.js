@@ -50,15 +50,23 @@ describe('NearbyCitiesView', function () {
     });
 
     it('renders initially', function () {
-      var view;
+      var noData,
+          view;
+
+      noData = 'No Data';
 
       // ... with no data ...
-      view = NearbyCitiesView({header: null, model: Model()});
-      expect(view.el.innerHTML).to.equal(NearbyCitiesView.NO_DATA_MESSAGE);
+      view = NearbyCitiesView({
+        noDataMessage: noData,
+        model: Model()
+      });
+      expect(view.el.innerHTML).to.equal(noData);
       view.destroy();
 
       // ... with data ...
-      view = NearbyCitiesView({header: null, model: Model({places: places})});
+      view = NearbyCitiesView({
+        model: Model({places: places})
+      });
       expect(view.el.innerHTML).to.have.string([
         '<ol class="nearbyCities no-style">',
         '<li><span class="citydistance">9.156km (6mi)'

@@ -5,12 +5,10 @@ var View = require('mvc/View'),
     Util = require('util/Util');
 
 
-var _NO_DATA_MESSAGE = '<p class="alert info">No data to display.</p>';
-
-
 // Default values to be used by constructor
 var _DEFAULTS = {
-  header: '<h2>Nearby Cities View</h2>'
+  header: null,
+  noDataMessage: '<p class="alert info">No data to display.</p>'
 };
 
 
@@ -24,7 +22,8 @@ var NearbyCitiesView = function (params) {
   var _this,
       _initialize,
 
-      _header;
+      _header,
+      _noDataMessage;
 
 
   // Inherit from parent class
@@ -39,6 +38,7 @@ var NearbyCitiesView = function (params) {
     params = Util.extend({}, _DEFAULTS, params);
 
     _header = params.header;
+    _noDataMessage = params.noDataMessage;
 
     _this.render();
   };
@@ -116,7 +116,7 @@ var NearbyCitiesView = function (params) {
       }
       markup.push('</ol>');
     } catch (e) {
-      markup.push(_NO_DATA_MESSAGE);
+      markup.push(_noDataMessage);
     }
 
     _this.el.innerHTML = markup.join('');
@@ -129,7 +129,5 @@ var NearbyCitiesView = function (params) {
   return _this;
 };
 
-
-NearbyCitiesView.NO_DATA_MESSAGE = _NO_DATA_MESSAGE;
 
 module.exports = NearbyCitiesView;
