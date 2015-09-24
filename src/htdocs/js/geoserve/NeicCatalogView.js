@@ -1,6 +1,8 @@
 'use strict';
 
-var View = require('mvc/View'),
+var Format = require('geoserve/Formatter'),
+
+    View = require('mvc/View'),
 
     Util = require('util/Util');
 
@@ -23,9 +25,7 @@ var NeicCatalogView = function (params) {
       _initialize,
 
       _header,
-      _noDataMessage,
-
-      _formatMagnitude;
+      _noDataMessage;
 
 
   // Inherit from parent class
@@ -37,7 +37,7 @@ var NeicCatalogView = function (params) {
   */
   _initialize = function (params) {
     var classes;
-    
+
     params = Util.extend({}, _DEFAULTS, params);
 
     _header = params.header;
@@ -51,19 +51,6 @@ var NeicCatalogView = function (params) {
     _this.render();
   };
 
-  /**
-   * Formats a magnitude number for readability.
-   *
-   * @param magnitude {Number}
-   *      A number representing the magnitude to format.
-   *
-   * @return {String}
-   *      A readable representation of the magnitude.
-   */
-  _formatMagnitude = function (magnitude) {
-    // TODO :: Use generic formatter here ...
-    return magnitude.toFixed(1);
-  };
 
   /**
    * Free resources.
@@ -72,8 +59,6 @@ var NeicCatalogView = function (params) {
   _this.destroy = Util.compose(function () {
     _header = null;
     _noDataMessage = null;
-
-    _formatMagnitude = null;
 
     _initialize = null;
     _this = null;
@@ -101,7 +86,7 @@ var NeicCatalogView = function (params) {
           '<dt>type</dt>' +
             '<dd>' + properties.type + '</dd>' +
           '<dt>Magnitude</dt>' +
-            '<dd>' + _formatMagnitude(properties.magnitude) + '</dd>' +
+            '<dd>' + Format.formatMagnitude(properties.magnitude) + '</dd>' +
         '<dl>'
       );
     } catch (e) {

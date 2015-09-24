@@ -1,6 +1,8 @@
 'use strict';
 
-var View = require('mvc/View'),
+var Format = require('geoserve/Formatter'),
+
+    View = require('mvc/View'),
 
     Util = require('util/Util');
 
@@ -24,11 +26,7 @@ var LocationOutputView = function (params) {
       _initialize,
 
       _header,
-      _noDataMessage,
-
-      _formatLatitude,
-      _formatLocation,
-      _formatLongitude;
+      _noDataMessage;
 
 
   // Inherit from parent class
@@ -56,95 +54,12 @@ var LocationOutputView = function (params) {
 
 
   /**
-   * Formats a number as a latitude with the specified number of decimals.
-   *
-   * @param latitude {Number}
-   *      The number to be formatted.
-   * @param decimals {Integer}
-   *      The number of decimals to include in the formatted output.
-   *
-   * @return {String}
-   *      A formatted representation of the input latitude.
-   */
-  _formatLatitude = function (latitude, decimals) {
-    var direction;
-
-    direction = '&deg;N';
-    if (latitude < 0) {
-      latitude *= -1;
-      direction = '&deg;S';
-    }
-
-    if (typeof decimals === 'undefined') {
-      decimals = 3;
-    }
-
-    return latitude.toFixed(decimals) + direction;
-  };
-
-  /**
-   * @param location {Object}
-   *      An object with "latitude" and "longitude" attributes.
-   *
-   * @return {String}
-   *      A formatted representation of the place
-   */
-  _formatLocation = function (location) {
-    var markup = [];
-
-    if (location.place) {
-      markup.push('<strong>', location.place, '</strong><small>');
-    }
-
-    markup.push(_formatLatitude(location.latitude), ', ',
-        _formatLongitude(location.longitude));
-
-    if (location.place) {
-      markup.push('</small>');
-    }
-
-    return markup.join('');
-  };
-
-  /**
-   * Formats a number as a longitude with the specified number of decimals.
-   *
-   * @param longitude {Number}
-   *      The number to be formatted.
-   * @param decimals {Integer}
-   *      The number of decimals to include in the formatted output.
-   *
-   * @return {String}
-   *      A formatted representation of the input longitude.
-   */
-  _formatLongitude = function (longitude, decimals) {
-    var direction;
-
-    direction = '&deg;E';
-    if (longitude < 0) {
-      longitude *= -1;
-      direction = '&deg;W';
-    }
-
-    if (typeof decimals === 'undefined') {
-      decimals = 3;
-    }
-
-    return longitude.toFixed(decimals) + direction;
-  };
-
-
-  /**
    * Frees resources.
    *
    */
   _this.destroy = Util.compose(function () {
       _header = null;
       _noDataMessage = null;
-
-      _formatLatitude = null;
-      _formatLocation = null;
-      _formatLongitude = null;
 
       _initialize = null;
       _this = null;
@@ -165,7 +80,7 @@ var LocationOutputView = function (params) {
 
       markup.push(
         '<p class="alert success">',
-          _formatLocation(location),
+          Format.formatLocation(location),
         '</p>'
       );
     } catch (e) {
