@@ -69,11 +69,10 @@ var LocationApp = function (options) {
     _url = options.url;
 
     el = _this.el;
-    el.classList.add('row');
 
     el.innerHTML = '<div class="row">' +
         '<div class="column two-of-three">' +
-          '<section class="column two-of-three location-map-view"></section>' +
+          '<section class="location-map-view"></section>' +
         '</div>' +
         '<div class="column one-of-three region-view-wrapper">' +
           '<section class="location-output-view"></section>' +
