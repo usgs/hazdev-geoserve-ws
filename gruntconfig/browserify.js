@@ -10,6 +10,7 @@ var CWD = '.',
 EXPORTS = [
   CWD + '/src/htdocs/js/geoserve/AdminRegionView.js:geoserve/AdminRegionView',
   CWD + '/src/htdocs/js/geoserve/AuthoritativeRegionView.js:geoserve/AuthoritativeRegionView',
+  CWD + '/src/htdocs/js/geoserve/BaseView.js:geoserve/BaseView',
   CWD + '/src/htdocs/js/geoserve/Formatter.js:geoserve/Formatter',
   CWD + '/src/htdocs/js/geoserve/LocationOutputView.js:geoserve/LocationOutputView',
   CWD + '/src/htdocs/js/geoserve/NearbyCitiesView.js:geoserve/NearbyCitiesView',

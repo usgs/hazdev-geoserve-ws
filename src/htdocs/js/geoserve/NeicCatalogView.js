@@ -1,8 +1,7 @@
 'use strict';
 
-var Format = require('geoserve/Formatter'),
-
-    View = require('mvc/View'),
+var BaseView = require('geoserve/BaseView'),
+    Format = require('geoserve/Formatter'),
 
     Util = require('util/Util');
 
@@ -22,26 +21,19 @@ var _DEFAULTS = {
  */
 var NeicCatalogView = function (params) {
   var _this,
-      _initialize,
-
-      _header,
-      _noDataMessage;
+      _initialize;
 
 
   // Inherit from parent class
-  _this = View(params||{});
+  params = Util.extend({}, _DEFAULTS, params);
+  _this = BaseView(params || {});
 
   /**
   * @constructor
   *
   */
-  _initialize = function (params) {
+  _initialize = function () {
     var classes;
-
-    params = Util.extend({}, _DEFAULTS, params);
-
-    _header = params.header;
-    _noDataMessage = params.noDataMessage;
 
     classes = _this.el.classList;
     if (!classes.contains('neic-catalog-view')) {
@@ -57,9 +49,6 @@ var NeicCatalogView = function (params) {
    *
    */
   _this.destroy = Util.compose(function () {
-    _header = null;
-    _noDataMessage = null;
-
     _initialize = null;
     _this = null;
   }, _this.destroy);
@@ -73,7 +62,7 @@ var NeicCatalogView = function (params) {
         neicCatalog,
         properties;
 
-    markup = [(_header !== null) ? _header : ''];
+    markup = [(_this.header !== null) ? _this.header : ''];
 
     try {
       neicCatalog = _this.model.get('regions').neiccatalog;
@@ -92,7 +81,7 @@ var NeicCatalogView = function (params) {
     } catch (e) {
       markup.push(
         '<p class="alert info">' +
-          _noDataMessage +
+          _this.noDataMessage +
         '</p>'
       );
     }
@@ -102,7 +91,7 @@ var NeicCatalogView = function (params) {
 
 
   // Always call the constructor
-  _initialize(params);
+  _initialize();
   params = null;
   return _this;
 };

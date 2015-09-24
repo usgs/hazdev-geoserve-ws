@@ -1,6 +1,6 @@
 'use strict';
 
-var View = require('mvc/View'),
+var BaseView = require('geoserve/BaseView'),
 
     Util = require('util/Util');
 
@@ -20,26 +20,19 @@ var _DEFAULTS = {
  */
 var TectonicSummaryView = function (options) {
   var _this,
-      _initialize,
-
-      _header,
-      _noDataMessage;
+      _initialize;
 
 
   // Inherit from parent class
-  _this = View(options || {});
+  options = Util.extend({}, _DEFAULTS, options);
+  _this = BaseView(options || {});
 
   /**
    * @constructor
    *
    */
-  _initialize = function (options) {
+  _initialize = function () {
     var classes;
-
-    options = Util.extend({}, _DEFAULTS, options);
-
-    _header = options.header;
-    _noDataMessage = options.noDataMessage;
 
     classes = _this.el.classList;
     if (!classes.contains('tectonic-summary-view')) {
@@ -54,9 +47,6 @@ var TectonicSummaryView = function (options) {
     // Sub class destroy method
     function () {
       // Clean up private variables
-      _header = null;
-      _noDataMessage = null;
-
       _initialize = null;
       _this = null;
     },
@@ -68,7 +58,7 @@ var TectonicSummaryView = function (options) {
         properties,
         tectonicSummary;
 
-    markup = [(_header !== null) ? _header : ''];
+    markup = [(_this.header !== null) ? _this.header : ''];
 
     try {
       tectonicSummary = _this.model.get('regions').tectonicsummary;
@@ -79,7 +69,7 @@ var TectonicSummaryView = function (options) {
     } catch (e) {
       markup.push(
         '<p class="alert info">' +
-          _noDataMessage +
+          _this.noDataMessage +
         '</p>'
       );
     }
@@ -89,7 +79,7 @@ var TectonicSummaryView = function (options) {
 
 
   // Always call the constructor
-  _initialize(options);
+  _initialize();
   options = null;
   return _this;
 };

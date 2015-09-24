@@ -1,6 +1,6 @@
 'use strict';
 
-var View = require('mvc/View'),
+var BaseView = require('geoserve/BaseView'),
 
     Util = require('util/Util');
 
@@ -20,26 +20,19 @@ var _DEFAULTS = {
  */
 var AuthoritativeRegionView = function (params) {
   var _this,
-      _initialize,
-
-      _header,
-      _noDataMessage;
+      _initialize;
 
 
   // Inherit from parent class
-  _this = View(params||{});
+  params = Util.extend({}, _DEFAULTS, params);
+  _this = BaseView(params || {});
 
   /**
    * @constructor
    *
    */
-  _initialize = function (params) {
+  _initialize = function () {
     var classes;
-
-    params = Util.extend({}, _DEFAULTS, params);
-
-    _header = params.header;
-    _noDataMessage = params.noDataMessage;
 
     classes = _this.el.classList;
     if (!classes.contains('authoritative-region-view')) {
@@ -54,7 +47,7 @@ var AuthoritativeRegionView = function (params) {
         markup,
         properties;
 
-    markup = [(_header !== null) ? _header : ''];
+    markup = [(_this.header !== null) ? _this.header : ''];
 
     try {
       authoritativeRegions = _this.model.get('region').authoritative;
@@ -71,7 +64,7 @@ var AuthoritativeRegionView = function (params) {
     } catch (e) {
       markup.push(
         '<p class="alert info">' +
-          _noDataMessage +
+          _this.noDataMessage +
         '</p>'
       );
     }
@@ -83,19 +76,15 @@ var AuthoritativeRegionView = function (params) {
    * View destroy method.
    */
   _this.destroy = Util.compose(function () {
-    _header = null;
-    _noDataMessage = null;
-
     _initialize = null;
     _this = null;
   }, _this.destroy);
 
 
   // Always call the constructor
-  _initialize(params);
+  _initialize();
   params = null;
   return _this;
-
 };
 
 module.exports = AuthoritativeRegionView;
