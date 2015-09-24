@@ -42,6 +42,7 @@ require('./spec/geoserve/LocationOutputViewTest');
 require('./spec/geoserve/NearbyCitiesViewTest');
 require('./spec/geoserve/NeicCatalogViewTest');
 require('./spec/geoserve/NeicResponseViewTest');
+require('./spec/geoserve/RegionsLayerTest');
 require('./spec/geoserve/TectonicSummaryViewTest');
 require('./spec/geoserve/TimezoneRegionViewTest');
 
