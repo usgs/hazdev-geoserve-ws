@@ -42,10 +42,16 @@ describe('AuthoritativeRegionView test suite.', function () {
         model: Model({regions: region})
       });
 
-      expect(div.innerHTML).to.be.equal('<dl class="horizontal">' +
-          '<dt>Name</dt><dd>PAS</dd>' +
-          '<dt>Network</dt><dd>CI</dd>' +
-        '</dl>');
+      expect(div.innerHTML).to.be.equal(
+        '<dl class="horizontal">' +
+          '<dt>Name</dt>' +
+            '<dd>PAS</dd>' +
+          '<dt>Network</dt>' +
+            '<dd>CI</dd>' +
+          '<dt>Type</dt>' +
+            '<dd>ANSS</dd>' +
+        '</dl>'
+      );
     });
 
     it('shows custom message when no data is available', function () {
