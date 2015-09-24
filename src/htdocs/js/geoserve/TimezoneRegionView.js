@@ -4,6 +4,8 @@ var View = require('mvc/View'),
 
     Util = require('util/Util');
 
+
+// Default values to be used by constructor
 var _DEFAULTS = {
   header: null,
   noDataMessage: '<p class="alert info">Time zone data unavailable.</p>'

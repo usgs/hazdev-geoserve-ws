@@ -4,9 +4,11 @@ var View = require('mvc/View'),
 
     Util = require('util/Util');
 
-var DEFAULTS = {
-  noDataMessage: 'Authoritative region data, not available.',
+
+// Default values to be used by constructor
+var _DEFAULTS = {
   header: null
+  noDataMessage: 'Authoritative region data, not available.',
 };
 
 var AuthoritativeRegionView = function (params) {
@@ -20,7 +22,7 @@ var AuthoritativeRegionView = function (params) {
 
   _initialize = function (params) {
 
-    params = Util.extend({}, DEFAULTS, params);
+    params = Util.extend({}, _DEFAULTS, params);
 
     _noDataMessage = params.noDataMessage;
     _header = params.header;

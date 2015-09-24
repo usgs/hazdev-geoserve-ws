@@ -1,9 +1,12 @@
 'use strict';
 
 var View = require('mvc/View'),
+
     Util = require('util/Util');
 
-var DEFAULTS = {
+
+// Default values to be used by constructor
+var _DEFAULTS = {
   header: null,
   noDataMessage: 'Administrative region data, not available.',
 };
@@ -19,7 +22,7 @@ var AdminRegionView = function (params) {
 
   _initialize = function (params) {
 
-    params = Util.extend({}, DEFAULTS, params);
+    params = Util.extend({}, _DEFAULTS, params);
 
     _header = params.header;
     _noDataMessage = params.noDataMessage;
