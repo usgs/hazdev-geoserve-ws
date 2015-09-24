@@ -55,6 +55,17 @@ var NearbyCitiesView = function (params) {
   };
 
   /**
+   * Destroy all the things.
+   */
+  _this.destroy = Util.compose(function () {
+    _header = null;
+    _noDataMessage = null;
+
+    _initialize = null;
+    _this = null;
+  }, _this.destroy);
+
+  /**
    * Convert Kilometers to miles
    */
   _this._kmToMi = function (km) {
@@ -121,17 +132,6 @@ var NearbyCitiesView = function (params) {
 
     _this.el.innerHTML = markup.join('');
   };
-
-  /**
-   * Destroy all the things.
-   */
-  _this.destroy = Util.compose(function () {
-    _header = null;
-    _noDataMessage = null;
-
-    _initialize = null;
-    _this = null;
-  }, _this.destroy);
 
   // Always call the constructor
   _initialize(params);
