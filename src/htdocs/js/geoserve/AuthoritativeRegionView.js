@@ -7,10 +7,17 @@ var View = require('mvc/View'),
 
 // Default values to be used by constructor
 var _DEFAULTS = {
-  header: null
-  noDataMessage: 'Authoritative region data, not available.',
+  header: null,
+  noDataMessage: 'Authoritative region data, not available.'
 };
 
+
+/**
+ * Class: AuthoritativeRegionView
+ *
+ * @param params {object}
+ *      Configuration options. See _DEFAULTS for more details
+ */
 var AuthoritativeRegionView = function (params) {
   var _this,
       _initialize,
@@ -18,14 +25,19 @@ var AuthoritativeRegionView = function (params) {
       _header,
       _noDataMessage;
 
+
+  // Inherit from parent class
   _this = View(params||{});
 
+  /**
+   * @constructor
+   *
+   */
   _initialize = function (params) {
-
     params = Util.extend({}, _DEFAULTS, params);
 
-    _noDataMessage = params.noDataMessage;
     _header = params.header;
+    _noDataMessage = params.noDataMessage;
 
     _this.el.className = 'authoritative-region';
     _this.render();
@@ -72,6 +84,7 @@ var AuthoritativeRegionView = function (params) {
   }, _this.destroy);
 
 
+  // Always call the constructor
   _initialize(params);
   params = null;
   return _this;

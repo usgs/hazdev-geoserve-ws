@@ -8,12 +8,12 @@ var View = require('mvc/View'),
 // Default values to be used by constructor
 var _DEFAULTS = {
   header: null,
-  noDataMessage: '<p class="alert info">No data to display.</p>'
+  noDataMessage: 'Nearby city data not available.'
 };
 
 
 /**
- * Class: Nearby Cities View
+ * Class: NearbyCitiesView
  *
  * @param params {Object}
  *      Configuration options. See _DEFAULTS for more details.
@@ -31,7 +31,6 @@ var NearbyCitiesView = function (params) {
 
   /**
    * @constructor
-   *
    *
    */
   _initialize = function (params) {
@@ -127,7 +126,7 @@ var NearbyCitiesView = function (params) {
       }
       markup.push('</ol>');
     } catch (e) {
-      markup.push(_noDataMessage);
+      markup.push('<p class="alert info">' + _noDataMessage + '</p>');
     }
 
     _this.el.innerHTML = markup.join('');

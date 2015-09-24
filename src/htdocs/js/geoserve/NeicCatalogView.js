@@ -8,7 +8,7 @@ var View = require('mvc/View'),
 // Default values to be used by constructor
 var _DEFAULTS = {
   header: null,
-  noDataMessage: '<p class="alert info">No data to display data.</p>'
+  noDataMessage: 'Neic catalog data not available.'
 };
 
 
@@ -99,13 +99,14 @@ var NeicCatalogView = function (params) {
         '<dl>'
       );
     } catch (e) {
-      markup.push(_noDataMessage);
+      markup.push('<p class="alert info">' + _noDataMessage + '</p>');
     }
 
     _this.el.innerHTML = markup.join('');
   };
 
 
+  // Always call the constructor
   _initialize(params);
   params = null;
   return _this;

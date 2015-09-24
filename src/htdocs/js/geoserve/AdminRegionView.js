@@ -8,9 +8,16 @@ var View = require('mvc/View'),
 // Default values to be used by constructor
 var _DEFAULTS = {
   header: null,
-  noDataMessage: 'Administrative region data, not available.',
+  noDataMessage: 'Administrative region data not available.'
 };
 
+
+/**
+ * Class: AdminRegionView
+ *
+ * @param params {object}
+ *      Configuration options. See _DEFAULTS for more details
+ */
 var AdminRegionView = function (params) {
   var _this,
       _initialize,
@@ -18,10 +25,15 @@ var AdminRegionView = function (params) {
       _header,
       _noDataMessage;
 
+
+  // Inherit from parent class
   _this = View(params||{});
 
+  /**
+   * @constructor
+   *
+   */
   _initialize = function (params) {
-
     params = Util.extend({}, _DEFAULTS, params);
 
     _header = params.header;
@@ -74,6 +86,7 @@ var AdminRegionView = function (params) {
   }, _this.destroy);
 
 
+  // Always call the constructor
   _initialize(params);
   params = null;
   return _this;

@@ -8,11 +8,13 @@ var View = require('mvc/View'),
 // Default values to be used by constructor
 var _DEFAULTS = {
   header: null,
-  noDataMessage: '<p class="alert info">Time zone data unavailable.</p>'
+  noDataMessage: 'Time zone data not available.'
 };
+
 
 /**
  * Class: TimezoneRegionView
+ *
  * @param params {object}
  *      Configuration options. See _DEFAULTS for more details
  */
@@ -23,10 +25,14 @@ var TimezoneRegionView = function (params) {
       _header,
       _noDataMessage;
 
+
+  // Inherit from parent class
   _this = View(params || {});
+
 
   /**
    * @constructor
+   *
    */
   _initialize = function () {
     params = Util.extend({}, _DEFAULTS, params);
@@ -67,7 +73,7 @@ var TimezoneRegionView = function (params) {
         '</dl>'
       );
     } catch (e) {
-      markup.push(_noDataMessage);
+      markup.push('<p class="alert info">' + _noDataMessage + '</p>');
     }
 
     _this.el.innerHTML = markup.join('');
@@ -84,6 +90,8 @@ var TimezoneRegionView = function (params) {
     _this = null;
   }, _this.destroy);
 
+
+  // Always call the constructor
   _initialize();
   params = null;
   return _this;

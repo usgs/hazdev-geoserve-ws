@@ -8,13 +8,13 @@ var View = require('mvc/View'),
 // Default values to be used by constructor
 var _DEFAULTS = {
   header: null,
-  noDataMessage: '<p class="alert info">Use the map to select a location.</p>'
+  noDataMessage: 'Use the map to select a location.'
 };
 
 
 /**
- * A view to show current location information.
- *
+ * Class: LocationOutputView
+ *        A view to show current location information.
  *
  * @param params {Object}
  *      Configuration parameters. See _DEFAULTS for available options.
@@ -31,8 +31,13 @@ var LocationOutputView = function (params) {
       _formatLongitude;
 
 
+  // Inherit from parent class
   _this = View(params||{});
 
+  /**
+   * @constructor
+   *
+   */
   _initialize = function (params) {
     params = Util.extend({}, _DEFAULTS, params);
 
@@ -156,13 +161,15 @@ var LocationOutputView = function (params) {
         '</p>'
       ];
     } catch (e) {
-      markup = [_noDataMessage];
+      markup = [];
+      markup.push('<p class="alert info">' + _noDataMessage + '</p>');
     }
 
     _this.el.innerHTML = ((_header !== null) ? _header : '') + markup.join('');
   };
 
 
+  // Always call the constructor
   _initialize(params);
   params = null;
   return _this;

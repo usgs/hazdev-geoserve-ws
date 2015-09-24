@@ -8,7 +8,7 @@ var View = require('mvc/View'),
 // Default values to be used by constructor
 var _DEFAULTS = {
   header: null,
-  noDataMessage: '<p class="alert info">No data to display.</p>'
+  noDataMessage: 'Neic response data not available.'
 };
 
 
@@ -100,7 +100,7 @@ var NeicResponseView = function (params) {
         '</dl>'
       );
     } catch (e) {
-      markup.push(_noDataMessage);
+      markup.push('<p class="alert info">' + _noDataMessage + '</p>');
     }
 
     _this.el.innerHTML = markup.join('');
@@ -112,6 +112,5 @@ var NeicResponseView = function (params) {
   params = null;
   return _this;
 };
-
 
 module.exports = NeicResponseView;
