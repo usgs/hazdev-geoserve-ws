@@ -65,7 +65,7 @@ describe('NeicCatalogView test suite.', function () {
       var noData,
           view;
 
-      noData = 'No data';
+      noData = 'Neic catalog not available.';
 
       // No data
       view = NeicCatalogView({
@@ -73,7 +73,11 @@ describe('NeicCatalogView test suite.', function () {
         model: Model(),
         noDataMessage: noData
       });
-      expect(view.el.innerHTML).to.equal(noData);
+      expect(view.el.innerHTML).to.equal(
+        '<p class="alert info">' +
+          noData +
+        '</p>'
+      );
       view.destroy();
 
       // Has data

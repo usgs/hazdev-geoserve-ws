@@ -53,14 +53,18 @@ describe('NearbyCitiesView', function () {
       var noData,
           view;
 
-      noData = 'No Data';
+      noData = 'Nearby city data not available.';
 
       // ... with no data ...
       view = NearbyCitiesView({
         noDataMessage: noData,
         model: Model()
       });
-      expect(view.el.innerHTML).to.equal(noData);
+      expect(view.el.innerHTML).to.equal(
+        '<p class="alert info">' +
+          noData +
+        '</p>'
+      );
       view.destroy();
 
       // ... with data ...

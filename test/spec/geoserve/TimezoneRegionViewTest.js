@@ -67,7 +67,7 @@ describe('TimezoneRegionView test suite.', function () {
       var noData,
           view;
 
-      noData = 'No data';
+      noData = 'Time zone data not available.';
 
       // No data
       view = TimezoneRegionView({
@@ -75,7 +75,11 @@ describe('TimezoneRegionView test suite.', function () {
         model: Model(),
         noDataMessage: noData
       });
-      expect(view.el.innerHTML).to.equal(noData);
+      expect(view.el.innerHTML).to.equal(
+        '<p class="alert info">' +
+          noData +
+        '</p>'
+      );
       view.destroy();
 
       // Has data

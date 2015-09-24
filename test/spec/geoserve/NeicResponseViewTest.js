@@ -53,7 +53,7 @@ describe('NeicResponseView', function () {
       var noData,
           view;
 
-      noData = 'No data';
+      noData = 'Neic response data not available.';
 
       // ... with no data ...
       view = NeicResponseView({
@@ -61,7 +61,11 @@ describe('NeicResponseView', function () {
         model: Model(),
         noDataMessage: noData
       });
-      expect(view.el.innerHTML).to.equal(noData);
+      expect(view.el.innerHTML).to.equal(
+        '<p class="alert info">' +
+          noData +
+        '</p>'
+      );
       view.destroy();
 
       // ... with data ...
