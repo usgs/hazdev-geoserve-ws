@@ -65,7 +65,7 @@ var TimezoneRegionView = function (params) {
       properties = timeZoneRegions.features[0].properties;
 
       markup.push(
-        '<dl>' +
+        '<dl class="horizontal">' +
           '<dt>Time Zone</dt>' +
             '<dd>' + properties.timezone + '</dd>' +
           '<dt>Standard Offset</dt>' +

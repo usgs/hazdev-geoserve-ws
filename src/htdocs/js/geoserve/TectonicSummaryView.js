@@ -8,7 +8,7 @@ var BaseView = require('geoserve/BaseView'),
 // Default values to be used by constructor
 var _DEFAULTS = {
   header: null,
-  noDataMessage: 'Tectonic summary data not available.'
+  noDataMessage: '<p class=alert info">Tectonic summary not available.</p>'
 };
 
 
@@ -67,11 +67,7 @@ var TectonicSummaryView = function (options) {
 
       markup.push(properties.summary);
     } catch (e) {
-      markup.push(
-        '<p class="alert info">' +
-          _this.noDataMessage +
-        '</p>'
-      );
+      markup.push(_this.noDataMessage);
     }
 
     _this.el.innerHTML = markup.join('');

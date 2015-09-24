@@ -21,7 +21,9 @@ var _DEFAULTS = {
  */
 var NearbyCitiesView = function (params) {
   var _this,
-      _initialize;
+      _initialize,
+
+      _formatDistance;
 
 
   // Inherit from parent class
@@ -43,12 +45,22 @@ var NearbyCitiesView = function (params) {
     _this.render();
   };
 
+  _formatDistance = function (km) {
+    var mi;
+
+    mi = _this._kmToMi(km);
+
+    return km.toFixed(1) + 'km (' + mi.toFixed(1) + 'mi)';
+  };
+
 
   /**
    * Destroy all the things.
    */
   _this.destroy = Util.compose(function () {
-    _initialize = null;
+    _formatDistance = null;
+
+  _initialize = null;
     _this = null;
   }, _this.destroy);
 
@@ -73,38 +85,24 @@ var NearbyCitiesView = function (params) {
         properties = feature.properties;
         markup.push(
           '<li>' +
-            '<span class="city-distance">' +
-              properties.distance +
-              'km (' +
-                Math.round(Format.kilometersmToMiles(properties.distance)) +
-              'mi) ' +
+            '<span class="name">' +
+              properties.name + ', ' +
+              properties.admin1_name + ', ' +
+              properties.country_name +
             '</span>' +
-            '<span class="direction">' +
-              Format.compassWinds(properties.azimuth) + ' of ' +
-            '</span>' +
-            '<span class="city-name">' +
-              properties.name +
-            '</span>' +
-            '<span class="admin1-name">' +
-              ', ' + properties.admin1_name +
-            '</span>' +
-            '<span class="country-name">' +
-              ', ' + properties.country_name +
-            '</span>' +
-            '<span class="population">' +
-              ' population ' +
+            '<aside class="distance">' +
+              _formatDistance(properties.distance) + ' ' +
+              Format.compasswinds(properties.azimuth) +
+            '</aside>' +
+            '<aside class="population">Population: ' +
               Format.numberWithCommas(properties.population) +
-            '</span>' +
+            '</aside>' +
           '</li>'
         );
       }
       markup.push('</ol>');
     } catch (e) {
-      markup.push(
-        '<p class="alert info">' +
-          _this.noDataMessage +
-        '</p>'
-      );
+      markup.push(_this.noDataMessage);
     }
 
     _this.el.innerHTML = markup.join('');

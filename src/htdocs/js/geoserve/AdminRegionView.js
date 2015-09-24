@@ -8,7 +8,7 @@ var BaseView = require('geoserve/BaseView'),
 // Default values to be used by constructor
 var _DEFAULTS = {
   header: null,
-  noDataMessage: 'Administrative region data not available.'
+  noDataMessage: '<p class="alert info">Administrative region not available.</p>'
 };
 
 
@@ -54,7 +54,7 @@ var AdminRegionView = function (params) {
       properties = adminRegions.features[0].properties;
 
       markup.push(
-        '<dl>' +
+        '<dl class="horizontal">' +
           '<dt>ISO</dt>' +
             '<dd>' + properties.iso + '</dd>' +
           '<dt>Country</dt>' +
@@ -64,11 +64,7 @@ var AdminRegionView = function (params) {
         '</dl>'
       );
     } catch (e) {
-      markup.push(
-        '<p class="alert info">' +
-          _this.noDataMessage +
-        '</p>'
-      );
+      markup = _this.noDataMessage;
     }
 
     _this.el.innerHTML = markup.join('');

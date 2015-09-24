@@ -69,7 +69,7 @@ var NeicResponseView = function (params) {
       properties = neicResponse.features[0].properties;
 
       markup.push(
-        '<dl>' +
+        '<dl class="horizontal">' +
           '<dt>Name</dt>' +
             '<dd>' + properties.name + '</dd>' +
           '<dt>Type</dt>' +

@@ -54,7 +54,7 @@ describe('AdminRegionView test suite.', function () {
           text;
 
       div = document.createElement('div');
-      text = 'hello';
+      text = '<p class="alert">hello</p>';
 
       AdminRegionView({
           el: div,

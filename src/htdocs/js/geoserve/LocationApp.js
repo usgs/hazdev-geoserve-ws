@@ -1,12 +1,15 @@
 'use strict';
 
 
-var LocationMapView = require('geoserve/LocationMapView'),
+var AdminRegionView = require('geoserve/AdminRegionView'),
+    AuthoritativeRegionView = require('geoserve/AuthoritativeRegionView'),
+    LocationMapView = require('geoserve/LocationMapView'),
     LocationOutputView = require('geoserve/LocationOutputView'),
     NearbyCitiesView = require('geoserve/NearbyCitiesView'),
     NeicCatalogView = require('geoserve/NeicCatalogView'),
     NeicResponseView = require('geoserve/NeicResponseView'),
     TectonicSummaryView = require('geoserve/TectonicSummaryView'),
+    TimezoneRegionView = require('geoserve/TimezoneRegionView'),
 
     View = require('mvc/View'),
 
@@ -37,12 +40,15 @@ var LocationApp = function (options) {
   var _this,
       _initialize,
 
-      _mapView,
+      _adminRegionView,
+      _authoritativeRegionView,
+      _locationMapView,
       _nearbyCitiesView,
       _neicCatalogView,
       _neicResponseView,
-      _outputView,
+      _locationOutputView,
       _tectonicSummaryView,
+      _timezoneRegionView,
       _url,
 
       _onLocationChange;
@@ -63,24 +69,46 @@ var LocationApp = function (options) {
     _url = options.url;
 
     el = _this.el;
-    el.innerHTML = '<section class="location-map-view"></section>' +
-        '<section class="location-output-view"></section>' +
-        '<section class="nearbycities-view"></section>' +
-        '<section class="neiccatalog-view"></section>' +
-        '<section class="neicresponse-view"></section>' +
-        '<section class="tectonic-summary-view"></section>';
+    el.classList.add('row');
+
+    el.innerHTML = '<div class="row">' +
+        '<div class="column two-of-three">' +
+          '<section class="column two-of-three location-map-view"></section>' +
+        '</div>' +
+        '<div class="column one-of-three region-view-wrapper">' +
+          '<section class="location-output-view"></section>' +
+          '<section class="admin-region-view"></section>' +
+          '<section class="nearbycities-view"></section>' +
+        '</div>' +
+      '</div>' +
+      '<section class="tectonic-summary-view"></section>' +
+      '<div class="row">' +
+        '<section class="column one-of-two timezone-region-view"></section>' +
+        '<section class="column one-of-two authoritative-region-view">' +
+            '</section>' +
+      '</div>' +
+      '<div class="row">' +
+        '<section class="column one-of-two neiccatalog-view"></section>' +
+        '<section class="column one-of-two neicresponse-view"></section>' +
+      '</div>';
 
     _this.model.on('change:location', _onLocationChange);
 
-    _mapView = LocationMapView({
+    _locationMapView = LocationMapView({
       el: el.querySelector('.location-map-view'),
       model: _this.model,
       url: _url
     });
 
-    _outputView = LocationOutputView({
+    _locationOutputView = LocationOutputView({
       el: el.querySelector('.location-output-view'),
       model: _this.model
+    });
+
+    _adminRegionView = AdminRegionView({
+      el: el.querySelector('.admin-region-view'),
+      model: _this.model,
+      noDataMessage: ''
     });
 
     _nearbyCitiesView = NearbyCitiesView({
@@ -89,22 +117,34 @@ var LocationApp = function (options) {
       header: '<h3>Nearby Cities</h3>'
     });
 
+    _authoritativeRegionView = AuthoritativeRegionView({
+      el: el.querySelector('.authoritative-region-view'),
+      model: _this.model,
+      header: '<h3>ANSS Authoritative Region</h3>'
+    });
+
+    _timezoneRegionView = TimezoneRegionView({
+      el: el.querySelector('.timezone-region-view'),
+      model: _this.model,
+      header: '<h3>Timezone</h3>'
+    });
+
     _neicCatalogView = NeicCatalogView({
       el: el.querySelector('.neiccatalog-view'),
       model: _this.model,
-      header: '<h3>NEIC Catalog Data</h3>'
+      header: '<h3>NEIC Catalog Region</h3>'
     });
 
     _neicResponseView = NeicResponseView({
       el: el.querySelector('.neicresponse-view'),
       model: _this.model,
-      header: '<h3>NEIC Response Data</h3>'
+      header: '<h3>NEIC Response Region</h3>'
     });
 
     _tectonicSummaryView = TectonicSummaryView({
       el: el.querySelector('.tectonic-summary-view'),
-      header: '<h3>Tectonic Summary</h3>',
-      model: _this.model
+      model: _this.model,
+      noDataMessage: ''
     });
   };
 
@@ -166,20 +206,26 @@ var LocationApp = function (options) {
     _this.model.off('change:location', _onLocationChange);
 
     // destroy child views
-    _mapView.destroy();
+    _adminRegionView.destroy();
+    _authoritativeRegionView.destroy();
+    _locationMapView.destroy();
+    _locationOutputView.destroy();
     _nearbyCitiesView.destroy();
     _neicCatalogView.destroy();
     _neicResponseView.destroy();
-    _outputView.destroy();
     _tectonicSummaryView.destroy();
+    _timezoneRegionView.destroy();
 
     // free references
-    _mapView = null;
+    _adminRegionView = null;
+    _authoritativeRegionView = null;
+    _locationMapView = null;
+    _locationOutputView = null;
     _nearbyCitiesView = null;
     _neicCatalogView = null;
     _neicResponseView = null;
-    _outputView = null;
     _tectonicSummaryView = null;
+    _timezoneRegionView = null;
     _url = null;
 
     _onLocationChange = null;

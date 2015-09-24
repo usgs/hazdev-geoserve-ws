@@ -1,0 +1,23 @@
+.nearbyCities {
+  > li {
+    margin-bottom: .5em;
+    overflow: hidden;
+    clear: both;
+  }
+
+  .name {
+    display: block;
+  }
+
+  .distance,
+  .population {
+    display: block;
+    float: left;
+    font-size: smaller;
+    color: #666;
+  }
+
+  .population {
+    float: right;
+  }
+}

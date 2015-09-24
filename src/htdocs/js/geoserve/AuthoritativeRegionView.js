@@ -4,11 +4,10 @@ var BaseView = require('geoserve/BaseView'),
 
     Util = require('util/Util');
 
-
 // Default values to be used by constructor
-var _DEFAULTS = {
+var DEFAULTS = {
   header: null,
-  noDataMessage: 'Authoritative region data, not available.'
+  noDataMessage: '<p class="alert info">Authoritative region not available.<p>'
 };
 
 
@@ -39,6 +38,7 @@ var AuthoritativeRegionView = function (params) {
       classes.add('authoritative-region-view');
     }
 
+    _this.el.classList.add('authoritative-region');
     _this.render();
   };
 
@@ -54,7 +54,7 @@ var AuthoritativeRegionView = function (params) {
       properties = authoritativeRegions.features[0].properties;
 
       markup.push(
-        '<dl>' +
+        '<dl class="horizontal">' +
           '<dt>Name</dt>' +
             '<dd>' + properties.name + '</dd>' +
           '<dt>Network</dt>' +
@@ -62,11 +62,7 @@ var AuthoritativeRegionView = function (params) {
         '</dl>'
       );
     } catch (e) {
-      markup.push(
-        '<p class="alert info">' +
-          _this.noDataMessage +
-        '</p>'
-      );
+      markup.push(_this.noDataMessage);
     }
 
     _this.el.innerHTML = markup.join('');

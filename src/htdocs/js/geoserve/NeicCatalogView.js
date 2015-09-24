@@ -69,10 +69,10 @@ var NeicCatalogView = function (params) {
       properties = neicCatalog.features[0].properties;
 
       markup.push(
-        '<dl>' +
+        '<dl class="horizontal">' +
           '<dt>Name</dt>' +
             '<dd>' + properties.name + '</dd>' +
-          '<dt>type</dt>' +
+          '<dt>Type</dt>' +
             '<dd>' + properties.type + '</dd>' +
           '<dt>Magnitude</dt>' +
             '<dd>' + Format.formatMagnitude(properties.magnitude) + '</dd>' +
