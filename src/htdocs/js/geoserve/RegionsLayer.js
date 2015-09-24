@@ -4,9 +4,13 @@ var L = require('leaflet'),
 		Xhr = require('util/Xhr');
 
 var COLORS = [
-	'red',
-	'green',
-	'blue'
+	'#1f78b4', // teal
+	'#ffff99', // yellow
+	'#33a02c', // green
+	'#e31a1c', // red
+	'#ff7f00', // orange
+	'#6a3d9a', // purple
+	'#b15928' // brown
 ];
 
 var COLORS_INDEX = 0;
@@ -16,7 +20,10 @@ var RegionsLayer = L.GeoJSON.extend({
 	initialize: function (url, type) {
 		L.GeoJSON.prototype.initialize.call(this, null, {
 			'style': {
-				'color': COLORS[COLORS_INDEX++ % COLORS.length]
+				'color': COLORS[COLORS_INDEX++ % COLORS.length],
+				'fillOpacity': 0.4,
+				'opacity': 1,
+				'weight': 2
 			}
 		});
 
