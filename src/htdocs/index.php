@@ -16,8 +16,7 @@ if (!isset($TEMPLATE)) {
 
   // HTML output
   $TITLE = 'Geoserve Documentation';
-  $NAVIGATION = navGroup("<a href=\"${MOUNT_PATH}/\">Geoserve</a>",
-      implode('', $endpointLinks));
+  $NAVIGATION = True;
 
   include_once 'template.inc.php';
 }
