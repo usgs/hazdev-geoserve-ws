@@ -29,6 +29,10 @@ $GEOSERVE_ENDPOINTS = array(
   array(
     'name' => 'Layers',
     'url' => "${HOST_URL_PREFIX}${MOUNT_PATH}/layers.${format}"
+  ),
+  array(
+    'name' => 'Location',
+    'url' => "${HOST_URL_PREFIX}${MOUNT_PATH}/location.${format}"
   )
 );
 
