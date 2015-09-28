@@ -54,6 +54,13 @@ var _formatLongitude = function (longitude, decimals) {
   return longitude.toFixed(decimals) + direction;
 };
 
+/**
+ * Convert Kilometers to miles
+ */
+var _kilometersToMiles = function (km) {
+  return (km * 0.621371);
+};
+
 
 /**
  * Convert azimuth in degree's into compass points.
@@ -64,6 +71,14 @@ var compassWinds = function(azimuth) {
           'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW', 'N'];
 
   return directions[(Math.round((azimuth%360)/fullwind))];
+};
+
+var formatDistance = function (km) {
+  var mi;
+
+  mi = _kilometersToMiles(km);
+
+  return km.toFixed(1) + 'km (' + mi.toFixed(1) + 'mi)';
 };
 
 /**
@@ -105,13 +120,6 @@ var formatMagnitude = function (magnitude) {
 };
 
 /**
- * Convert Kilometers to miles
- */
-var kilometersToMiles = function (km) {
-  return (km * 0.621371);
-};
-
-/**
  * Put commas into a number for display.
  */
 var numberWithCommas = function (x) {
@@ -124,9 +132,9 @@ var numberWithCommas = function (x) {
 
 var Formatter = {
   compassWinds: compassWinds,
+  formatDistance: formatDistance,
   formatLocation: formatLocation,
   formatMagnitude: formatMagnitude,
-  kilometersToMiles: kilometersToMiles,
   numberWithCommas: numberWithCommas
 };
 

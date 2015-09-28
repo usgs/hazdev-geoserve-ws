@@ -21,9 +21,7 @@ var _DEFAULTS = {
  */
 var NearbyCitiesView = function (params) {
   var _this,
-      _initialize,
-
-      _formatDistance;
+      _initialize;
 
 
   // Inherit from parent class
@@ -45,22 +43,12 @@ var NearbyCitiesView = function (params) {
     _this.render();
   };
 
-  _formatDistance = function (km) {
-    var mi;
-
-    mi = Format.kilometersToMiles(km);
-
-    return km.toFixed(1) + 'km (' + mi.toFixed(1) + 'mi)';
-  };
-
 
   /**
    * Destroy all the things.
    */
   _this.destroy = Util.compose(function () {
-    _formatDistance = null;
-
-  _initialize = null;
+    _initialize = null;
     _this = null;
   }, _this.destroy);
 
@@ -91,7 +79,7 @@ var NearbyCitiesView = function (params) {
               properties.country_name +
             '</span>' +
             '<aside class="distance">' +
-              _formatDistance(properties.distance) + ' ' +
+              Format.formatDistance(properties.distance) + ' ' +
               Format.compassWinds(properties.azimuth) +
             '</aside>' +
             '<aside class="population">Population: ' +
