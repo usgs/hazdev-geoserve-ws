@@ -28,8 +28,7 @@ if (!isset($TEMPLATE)) {
   // HTML output
   $TITLE = 'Geoserve Regions Endpoint';
   $HEAD = '<link rel="stylesheet" href="endpoint.css"/>';
-  $NAVIGATION = navGroup("<a href=\"${MOUNT_PATH}/\">Geoserve</a>",
-      implode('', $endpointLinks));
+  $NAVIGATION = True;
 
   if (!function_exists('pinfo')) {
     function enumeration ($values) {
