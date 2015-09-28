@@ -27,7 +27,7 @@ var NeicResponseView = function (params) {
 
   // Inherit from parent class
   params = Util.extend({}, _DEFAULTS, params);
-  _this = BaseView(params || {});
+  _this = BaseView(params);
 
   /**
    * @constructor

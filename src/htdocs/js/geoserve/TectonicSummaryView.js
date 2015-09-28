@@ -26,7 +26,7 @@ var TectonicSummaryView = function (params) {
 
   // Inherit from parent class
   params = Util.extend({}, _DEFAULTS, params);
-  _this = BaseView(params || {});
+  _this = BaseView(params);
 
   /**
    * @constructor
@@ -77,7 +77,7 @@ var TectonicSummaryView = function (params) {
 
   // Always call the constructor
   _initialize();
-  options = null;
+  params = null;
   return _this;
 };
 
