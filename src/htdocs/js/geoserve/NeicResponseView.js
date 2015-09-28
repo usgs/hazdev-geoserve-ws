@@ -58,7 +58,7 @@ var NeicResponseView = function (params) {
         neicResponse,
         properties;
 
-    markup = [(_this.header !== null) ? _this.header : ''];
+    markup = [_this.header];
 
     try {
       neicResponse = _this.model.get('regions').neicresponse;

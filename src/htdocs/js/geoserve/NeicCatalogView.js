@@ -58,7 +58,7 @@ var NeicCatalogView = function (params) {
         neicCatalog,
         properties;
 
-    markup = [(_this.header !== null) ? _this.header : ''];
+    markup = [_this.header];
 
     try {
       neicCatalog = _this.model.get('regions').neiccatalog;

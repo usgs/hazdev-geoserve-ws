@@ -56,7 +56,7 @@ var AuthoritativeRegionView = function (params) {
         markup,
         properties;
 
-    markup = [(_this.header !== null) ? _this.header : ''];
+    markup = [_this.header];
 
     try {
       authoritativeRegions = _this.model.get('regions').authoritative;

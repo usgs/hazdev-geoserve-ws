@@ -61,7 +61,7 @@ var TectonicSummaryView = function (params) {
         properties,
         tectonicSummary;
 
-    markup = [(_this.header !== null) ? _this.header : ''];
+    markup = [_this.header];
 
     try {
       tectonicSummary = _this.model.get('regions').tectonic;

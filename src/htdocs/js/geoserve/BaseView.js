@@ -31,9 +31,14 @@ var BaseView = function (params) {
    *
    */
   _initialize = function (params) {
+    var header;
+
     params = Util.extend({}, _DEFAULTS, params);
 
-    _this.header = params.header;
+    // Make sure the header isn't null.
+    header = params.header;
+    _this.header = (header !== null) ? header : '';
+
     _this.noDataMessage = params.noDataMessage;
   };
 

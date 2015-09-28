@@ -59,7 +59,7 @@ var NearbyCitiesView = function (params) {
         i,
         feature;
 
-    markup = [(_this.header !== null) ? _this.header : ''];
+    markup = [_this.header];
 
     try {
       nearbycitiesresponse = _this.model.get('places').event;

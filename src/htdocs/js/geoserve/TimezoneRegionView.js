@@ -56,7 +56,7 @@ var TimezoneRegionView = function (params) {
         properties,
         timeZoneRegions;
 
-    markup = [(_this.header !== null) ? _this.header : ''];
+    markup = [_this.header];
 
     try {
       timeZoneRegions = _this.model.get('regions').timezone;

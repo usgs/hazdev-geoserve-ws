@@ -57,7 +57,7 @@ var LocationOutputView = function (params) {
     var location,
         markup;
 
-    markup = [(_this.header !== null) ? _this.header : ''];
+    markup = [_this.header];
 
     try {
       location = _this.model.get('location');
