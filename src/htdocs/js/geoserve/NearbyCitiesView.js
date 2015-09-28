@@ -41,7 +41,8 @@ var NearbyCitiesView = function (params) {
 
 
   /**
-   * Destroy all the things.
+   * Free resources using "View" destroy method.
+   *
    */
   _this.destroy = Util.compose(function () {
     _initialize = null;
@@ -91,6 +92,7 @@ var NearbyCitiesView = function (params) {
 
     _this.el.innerHTML = markup.join('');
   };
+
 
   // Always call the constructor
   _initialize();

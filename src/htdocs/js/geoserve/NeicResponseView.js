@@ -41,7 +41,7 @@ var NeicResponseView = function (params) {
 
 
   /**
-   * Free resources.
+   * Free resources using "View" destroy method.
    *
    */
   _this.destroy = Util.compose(function () {

@@ -39,6 +39,10 @@ var TectonicSummaryView = function (params) {
   };
 
 
+  /**
+   * Free resources using "View" destroy method.
+   *
+   */
   _this.destroy = Util.compose(
     // Sub class destroy method
     function () {
@@ -49,6 +53,9 @@ var TectonicSummaryView = function (params) {
     // Parent class destroy method
     _this.destroy);
 
+  /**
+   * Updates the view to reflect the current state of the model.
+   */
   _this.render = function () {
     var markup,
         properties,

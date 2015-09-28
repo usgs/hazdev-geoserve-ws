@@ -37,8 +37,20 @@ var AdminRegionView = function (params) {
 
     _this.render();
   };
-  
 
+
+  /**
+   * Free resources using "View" destroy method.
+   *
+   */
+  _this.destroy = Util.compose(function () {
+    _initialize = null;
+    _this = null;
+  }, _this.destroy);
+
+  /**
+   * Updates the view to reflect the current state of the model.
+   */
   _this.render = function () {
     var adminRegions,
         markup,
@@ -66,14 +78,6 @@ var AdminRegionView = function (params) {
 
     _this.el.innerHTML = markup.join('');
   };
-
-  /**
-   * View destroy method.
-   */
-  _this.destroy = Util.compose(function () {
-    _initialize = null;
-    _this = null;
-  }, _this.destroy);
 
 
   // Always call the constructor

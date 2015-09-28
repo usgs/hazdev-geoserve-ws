@@ -41,7 +41,7 @@ var LocationOutputView = function (params) {
 
 
   /**
-   * Frees resources.
+   * Free resources using "View" destroy method.
    *
    */
   _this.destroy = Util.compose(function () {
