@@ -33,15 +33,11 @@ var AuthoritativeRegionView = function (params) {
    *
    */
   _initialize = function () {
-    var classes;
-
-    classes = _this.el.classList;
-    if (!classes.contains('authoritative-region-view')) {
-      classes.add('authoritative-region-view');
-    }
+    _this.addClass('authoritative-region-view');
 
     _this.render();
   };
+
 
   _this.render = function () {
     var authoritativeRegions,

@@ -33,12 +33,7 @@ var TectonicSummaryView = function (params) {
    *
    */
   _initialize = function () {
-    var classes;
-
-    classes = _this.el.classList;
-    if (!classes.contains('tectonic-summary-view')) {
-      classes.add('tectonic-summary-view');
-    }
+    _this.addClass('tectonic-summary-view');
 
     _this.render();
   };

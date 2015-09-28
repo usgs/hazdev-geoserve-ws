@@ -34,12 +34,7 @@ var NearbyCitiesView = function (params) {
    *
    */
   _initialize = function () {
-    var classes;
-
-    classes = _this.el.classList;
-    if (!classes.contains('nearby-cities-view')) {
-      classes.add('nearby-cities-view');
-    }
+    _this.addClass('nearby-cities-view');
 
     _this.render();
   };

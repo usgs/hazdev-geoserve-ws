@@ -33,15 +33,11 @@ var AdminRegionView = function (params) {
    *
    */
   _initialize = function () {
-    var classes;
-
-    classes = _this.el.classList;
-    if (!classes.contains('admin-region-view')) {
-      classes.add('admin-region-view');
-    }
+    _this.addClass('admin-region-view');
 
     _this.render();
   };
+  
 
   _this.render = function () {
     var adminRegions,

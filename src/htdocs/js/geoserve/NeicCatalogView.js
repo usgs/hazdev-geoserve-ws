@@ -34,12 +34,7 @@ var NeicCatalogView = function (params) {
    *
    */
   _initialize = function () {
-    var classes;
-
-    classes = _this.el.classList;
-    if (!classes.contains('neic-catalog-view')) {
-      classes.add('neic-catalog-view');
-    }
+    _this.addClass('neic-catalog-view');
 
     _this.render();
   };

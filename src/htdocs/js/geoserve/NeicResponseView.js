@@ -34,12 +34,7 @@ var NeicResponseView = function (params) {
    *
    */
   _initialize = function () {
-    var classes;
-
-    classes = _this.el.classList;
-    if (!classes.contains('neic-response-view')) {
-      classes.add('neic-response-view');
-    }
+    _this.addClass('neic-response-view');
 
     _this.render();
   };

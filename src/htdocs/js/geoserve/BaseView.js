@@ -37,6 +37,17 @@ var BaseView = function (params) {
     _this.noDataMessage = params.noDataMessage;
   };
 
+
+  _this.addClass = function (newClass) {
+    var classes;
+
+    classes = _this.el.classList;
+    if (!classes.contains(newClass)) {
+      classes.add(newClass);
+    }
+  };
+
+
   // Always call the constructor
   _initialize(params);
   params = null;

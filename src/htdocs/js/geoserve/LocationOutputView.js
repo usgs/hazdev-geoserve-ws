@@ -34,12 +34,7 @@ var LocationOutputView = function (params) {
    *
    */
   _initialize = function () {
-    var classes;
-
-    classes = _this.el.classList;
-    if (!classes.contains('location-output-view')) {
-      classes.add('location-output-view');
-    }
+    _this.addClass('location-output-view');
 
     _this.render();
   };
