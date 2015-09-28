@@ -24,9 +24,8 @@ var TimezoneRegionView = function (params) {
 
 
   // Inherit from parent class
-  params = params = Util.extend({}, _DEFAULTS, params);
+  params = Util.extend({}, _DEFAULTS, params);
   _this = BaseView(params || {});
-
 
   /**
    * @constructor

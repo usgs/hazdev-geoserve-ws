@@ -39,7 +39,6 @@ var AuthoritativeRegionView = function (params) {
       classes.add('authoritative-region-view');
     }
 
-    _this.el.classList.add('authoritative-region');
     _this.render();
   };
 
