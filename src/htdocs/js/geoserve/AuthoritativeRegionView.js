@@ -4,6 +4,7 @@ var BaseView = require('geoserve/BaseView'),
 
     Util = require('util/Util');
 
+
 // Default values to be used by constructor
 var _DEFAULTS = {
   header: null,

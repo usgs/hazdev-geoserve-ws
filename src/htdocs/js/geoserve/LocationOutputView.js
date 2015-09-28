@@ -9,7 +9,7 @@ var BaseView = require('geoserve/BaseView'),
 // Default values to be used by constructor
 var _DEFAULTS = {
   header: null,
-  noDataMessage: 'Use the map to select a location.'
+  noDataMessage: '<p class="alert info">Use the map to select a location.</p>'
 };
 
 
@@ -73,11 +73,7 @@ var LocationOutputView = function (params) {
         '</p>'
       );
     } catch (e) {
-      markup.push(
-        '<p class="alert info">' +
-          _this.noDataMessage +
-        '</p>'
-      );
+      markup.push(_this.noDataMessage);
     }
 
     _this.el.innerHTML = markup.join('');

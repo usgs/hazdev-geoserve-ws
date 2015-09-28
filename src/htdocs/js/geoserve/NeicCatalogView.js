@@ -29,9 +29,9 @@ var NeicCatalogView = function (params) {
   _this = BaseView(params || {});
 
   /**
-  * @constructor
-  *
-  */
+   * @constructor
+   *
+   */
   _initialize = function () {
     var classes;
 
