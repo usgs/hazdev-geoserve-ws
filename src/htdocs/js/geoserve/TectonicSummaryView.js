@@ -15,17 +15,17 @@ var _DEFAULTS = {
 /**
  * Class: TectonicSummaryView
  *
- * @param options {Object}
+ * @param params {Object}
  *        Configuration options. See _DEFAULTS for more details.
  */
-var TectonicSummaryView = function (options) {
+var TectonicSummaryView = function (params) {
   var _this,
       _initialize;
 
 
   // Inherit from parent class
-  options = Util.extend({}, _DEFAULTS, options);
-  _this = BaseView(options || {});
+  params = Util.extend({}, _DEFAULTS, params);
+  _this = BaseView(params || {});
 
   /**
    * @constructor
