@@ -15,6 +15,7 @@ var _DEFAULTS = {
 
 /**
  * Class: NearbyCitiesView
+ *        A view to show current neary city information.
  *
  * @param params {Object}
  *      Configuration options. See _DEFAULTS for more details.

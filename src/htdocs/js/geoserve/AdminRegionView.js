@@ -14,6 +14,7 @@ var _DEFAULTS = {
 
 /**
  * Class: AdminRegionView
+ *        A view to show current administrative region information.
  *
  * @param params {object}
  *      Configuration options. See _DEFAULTS for more details

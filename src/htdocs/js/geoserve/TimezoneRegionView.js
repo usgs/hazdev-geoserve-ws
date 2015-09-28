@@ -14,6 +14,7 @@ var _DEFAULTS = {
 
 /**
  * Class: TimezoneRegionView
+ *        A view to show current timezone information.
  *
  * @param params {object}
  *      Configuration options. See _DEFAULTS for more details

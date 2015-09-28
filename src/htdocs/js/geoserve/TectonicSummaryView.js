@@ -14,6 +14,7 @@ var _DEFAULTS = {
 
 /**
  * Class: TectonicSummaryView
+ *        A view to show current tectonic summary information.
  *
  * @param params {Object}
  *        Configuration options. See _DEFAULTS for more details.

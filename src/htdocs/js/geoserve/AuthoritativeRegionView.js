@@ -14,6 +14,7 @@ var _DEFAULTS = {
 
 /**
  * Class: AuthoritativeRegionView
+ *        A view to show current authoritative region information.
  *
  * @param params {object}
  *      Configuration options. See _DEFAULTS for more details
