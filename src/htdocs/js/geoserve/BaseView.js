@@ -38,6 +38,12 @@ var BaseView = function (params) {
   };
 
 
+  /**
+   * Add a class to the view container.
+   *
+   * @param newClass {String}
+   *      The name of the class to be added to the container.
+   */
   _this.addClass = function (newClass) {
     var classes;
 
@@ -46,6 +52,15 @@ var BaseView = function (params) {
       classes.add(newClass);
     }
   };
+
+  /**
+   * Free resources using "View" destroy method.
+   *
+   */
+  _this.destroy = Util.compose(function () {
+      _initialize = null;
+      _this = null;
+  }, _this.destroy);
 
 
   // Always call the constructor
