@@ -1,7 +1,7 @@
 <?php
 
 $GEOSERVE_REGIONS = array(
-  'url' => "${HOST_URL_PREFIX}${MOUNT_PATH}/regions?{parameters}",
+  'url' => "${HOST_URL_PREFIX}${MOUNT_PATH}/regions.json?{parameters}",
   'notes' => array(
   ),
   'parameters' => array(
