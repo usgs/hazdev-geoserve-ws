@@ -30,13 +30,13 @@ var _DEFAULTS = {
  * places and regions information from geoserve and updates the corresponding
  * model keys.
  *
- * @param options {Object}
+ * @param params {Object}
  *        all options are passed to View().
- * @param options.url {String}
+ * @param params.url {String}
  *        default '/ws/geoserve'
  *        base url for geoserve web service.
  */
-var LocationApp = function (options) {
+var LocationApp = function (params) {
   var _this,
       _initialize,
 
@@ -54,19 +54,19 @@ var LocationApp = function (options) {
       _onLocationChange;
 
 
-  _this = View(options);
+  _this = View(params);
 
   /**
    * @constructor
    *
-   * @param options {Object}
+   * @param params {Object}
    *      Configuration options. See _DEFAULTS for details.
    */
-  _initialize = function (options) {
+  _initialize = function (params) {
     var el;
 
-    options = Util.extend({}, _DEFAULTS, options);
-    _url = options.url;
+    params = Util.extend({}, _DEFAULTS, params);
+    _url = params.url;
 
     el = _this.el;
 
@@ -112,36 +112,36 @@ var LocationApp = function (options) {
 
     _nearbyCitiesView = NearbyCitiesView({
       el: el.querySelector('.nearbycities-view'),
-      model: _this.model,
       header: '<h3>Nearby Cities</h3>',
+      model: _this.model,
       noDataMessage: ''
     });
 
     _authoritativeRegionView = AuthoritativeRegionView({
       el: el.querySelector('.authoritative-region-view'),
-      model: _this.model,
       header: '<h3>ANSS Authoritative Region</h3>',
+      model: _this.model,
       noDataMessage: '<aside class="no-data-message">Data not available</aside>'
     });
 
     _timezoneRegionView = TimezoneRegionView({
       el: el.querySelector('.timezone-region-view'),
-      model: _this.model,
       header: '<h3>Timezone</h3>',
+      model: _this.model,
       noDataMessage: '<aside class="no-data-message">Data not available</aside>'
     });
 
     _neicCatalogView = NeicCatalogView({
       el: el.querySelector('.neiccatalog-view'),
-      model: _this.model,
       header: '<h3>NEIC Catalog Region</h3>',
+      model: _this.model,
       noDataMessage: '<aside class="no-data-message">Data not available</aside>'
     });
 
     _neicResponseView = NeicResponseView({
       el: el.querySelector('.neicresponse-view'),
-      model: _this.model,
       header: '<h3>NEIC Response Region</h3>',
+      model: _this.model,
       noDataMessage: '<aside class="no-data-message">Data not available</aside>'
     });
 
@@ -239,8 +239,8 @@ var LocationApp = function (options) {
   }, _this.destroy);
 
 
-  _initialize(options);
-  options = null;
+  _initialize(params);
+  params = null;
   return _this;
 };
 

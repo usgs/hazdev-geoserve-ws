@@ -9,23 +9,23 @@ var TimezoneRegionView = require('geoserve/TimezoneRegionView'),
 var model;
 
 model = Model({
-  regions:null
+  regions: null
+});
+
+TimezoneRegionView({
+  el: document.querySelector('#example-nodata'),
+  header: '<h3>Time Zone No Data</h3>'
 });
 
 TimezoneRegionView({
   el: document.querySelector('#example'),
-  model: model,
-  header: '<h3>Time Zone</h3>'
-});
-
-TimezoneRegionView({
-  el: document.querySelector('#example-no-data'),
-  header: '<h3>Time Zone No Data</h3>'
+  header: '<h3>Time Zone</h3>',
+  model: model
 });
 
 Xhr.ajax({
   url: 'regions.json',
-  success:function (data) {
+  success: function (data) {
     model.set({
       regions: data
     });

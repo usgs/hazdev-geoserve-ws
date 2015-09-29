@@ -31,11 +31,42 @@ var BaseView = function (params) {
    *
    */
   _initialize = function (params) {
+    var header;
+
     params = Util.extend({}, _DEFAULTS, params);
 
-    _this.header = params.header;
+    // Make sure the header isn't null.
+    header = params.header;
+    _this.header = (header !== null) ? header : '';
+
     _this.noDataMessage = params.noDataMessage;
   };
+
+
+  /**
+   * Add a class to the view container.
+   *
+   * @param newClass {String}
+   *      The name of the class to be added to the container.
+   */
+  _this.addClass = function (newClass) {
+    var classes;
+
+    classes = _this.el.classList;
+    if (!classes.contains(newClass)) {
+      classes.add(newClass);
+    }
+  };
+
+  /**
+   * Free resources using "View" destroy method.
+   *
+   */
+  _this.destroy = Util.compose(function () {
+      _initialize = null;
+      _this = null;
+  }, _this.destroy);
+
 
   // Always call the constructor
   _initialize(params);

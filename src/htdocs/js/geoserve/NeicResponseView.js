@@ -15,6 +15,7 @@ var _DEFAULTS = {
 
 /**
  * Class: NeicResponseView
+ *        A view to show current neic response information.
  *
  * @param params {Object}
  *      Configuration options. See _DEFAULTS for more details.
@@ -26,26 +27,21 @@ var NeicResponseView = function (params) {
 
   // Inherit from parent class
   params = Util.extend({}, _DEFAULTS, params);
-  _this = BaseView(params || {});
+  _this = BaseView(params);
 
   /**
    * @constructor
    *
    */
   _initialize = function () {
-    var classes;
-
-    classes = _this.el.classList;
-    if (!classes.contains('neic-response-view')) {
-      classes.add('neic-response-view');
-    }
+    _this.addClass('neic-response-view');
 
     _this.render();
   };
 
 
   /**
-   * Free resources.
+   * Free resources using "View" destroy method.
    *
    */
   _this.destroy = Util.compose(function () {
@@ -62,7 +58,7 @@ var NeicResponseView = function (params) {
         neicResponse,
         properties;
 
-    markup = [(_this.header !== null) ? _this.header : ''];
+    markup = [_this.header];
 
     try {
       neicResponse = _this.model.get('regions').neicresponse;

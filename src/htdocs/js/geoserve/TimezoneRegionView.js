@@ -14,6 +14,7 @@ var _DEFAULTS = {
 
 /**
  * Class: TimezoneRegionView
+ *        A view to show current timezone information.
  *
  * @param params {object}
  *      Configuration options. See _DEFAULTS for more details
@@ -24,34 +25,38 @@ var TimezoneRegionView = function (params) {
 
 
   // Inherit from parent class
-  params = params = Util.extend({}, _DEFAULTS, params);
-  _this = BaseView(params || {});
-
+  params = Util.extend({}, _DEFAULTS, params);
+  _this = BaseView(params);
 
   /**
    * @constructor
    *
    */
   _initialize = function () {
-    var classes;
-
-    classes = _this.el.classList;
-    if (!classes.contains('timezone-region-view')) {
-      classes.add('timezone-region-view');
-    }
+    _this.addClass('timezone-region-view');
 
     _this.render();
   };
 
+
   /**
-   * updates the view to reflect the current state of the model
+   * Free resources using "View" destroy method.
+   *
+   */
+  _this.destroy = Util.compose(function () {
+    _initialize = null;
+    _this = null;
+  }, _this.destroy);
+
+  /**
+   * Updates the view to reflect the current state of the model.
    */
   _this.render = function () {
     var markup,
         properties,
         timeZoneRegions;
 
-    markup = [(_this.header !== null) ? _this.header : ''];
+    markup = [_this.header];
 
     try {
       timeZoneRegions = _this.model.get('regions').timezone;
@@ -77,14 +82,6 @@ var TimezoneRegionView = function (params) {
 
     _this.el.innerHTML = markup.join('');
   };
-
-  /**
-   * Destroy all the things
-   */
-  _this.destroy = Util.compose(function () {
-    _initialize = null;
-    _this = null;
-  }, _this.destroy);
 
 
   // Always call the constructor

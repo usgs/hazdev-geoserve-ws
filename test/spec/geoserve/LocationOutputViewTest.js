@@ -43,7 +43,7 @@ describe('LocationOutputView', function () {
       view = LocationOutputView({
         header: null,
         model: Model(),
-        noDataMessage: noData
+        noDataMessage: '<p class="alert info">' + noData + '</p>'
       });
       expect(view.el.innerHTML).to.equal(
         '<p class="alert info">' +

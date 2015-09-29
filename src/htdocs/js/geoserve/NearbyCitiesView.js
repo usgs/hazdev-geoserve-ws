@@ -15,15 +15,14 @@ var _DEFAULTS = {
 
 /**
  * Class: NearbyCitiesView
+ *        A view to show current neary city information.
  *
  * @param params {Object}
  *      Configuration options. See _DEFAULTS for more details.
  */
 var NearbyCitiesView = function (params) {
   var _this,
-      _initialize,
-
-      _formatDistance;
+      _initialize;
 
 
   // Inherit from parent class
@@ -35,32 +34,18 @@ var NearbyCitiesView = function (params) {
    *
    */
   _initialize = function () {
-    var classes;
-
-    classes = _this.el.classList;
-    if (!classes.contains('nearby-cities-view')) {
-      classes.add('nearby-cities-view');
-    }
+    _this.addClass('nearby-cities-view');
 
     _this.render();
   };
 
-  _formatDistance = function (km) {
-    var mi;
-
-    mi = Format.kilometersToMiles(km);
-
-    return km.toFixed(1) + 'km (' + mi.toFixed(1) + 'mi)';
-  };
-
 
   /**
-   * Destroy all the things.
+   * Free resources using "View" destroy method.
+   *
    */
   _this.destroy = Util.compose(function () {
-    _formatDistance = null;
-
-  _initialize = null;
+    _initialize = null;
     _this = null;
   }, _this.destroy);
 
@@ -74,7 +59,7 @@ var NearbyCitiesView = function (params) {
         i,
         feature;
 
-    markup = [(_this.header !== null) ? _this.header : ''];
+    markup = [_this.header];
 
     try {
       nearbycitiesresponse = _this.model.get('places').event;
@@ -91,7 +76,7 @@ var NearbyCitiesView = function (params) {
               properties.country_name +
             '</span>' +
             '<aside class="distance">' +
-              _formatDistance(properties.distance) + ' ' +
+              Format.formatDistance(properties.distance) + ' ' +
               Format.compassWinds(properties.azimuth) +
             '</aside>' +
             '<aside class="population">Population: ' +
@@ -107,6 +92,7 @@ var NearbyCitiesView = function (params) {
 
     _this.el.innerHTML = markup.join('');
   };
+
 
   // Always call the constructor
   _initialize();

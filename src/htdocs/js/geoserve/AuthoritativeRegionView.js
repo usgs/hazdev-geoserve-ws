@@ -4,6 +4,7 @@ var BaseView = require('geoserve/BaseView'),
 
     Util = require('util/Util');
 
+
 // Default values to be used by constructor
 var _DEFAULTS = {
   header: null,
@@ -13,6 +14,7 @@ var _DEFAULTS = {
 
 /**
  * Class: AuthoritativeRegionView
+ *        A view to show current authoritative region information.
  *
  * @param params {object}
  *      Configuration options. See _DEFAULTS for more details
@@ -24,30 +26,37 @@ var AuthoritativeRegionView = function (params) {
 
   // Inherit from parent class
   params = Util.extend({}, _DEFAULTS, params);
-  _this = BaseView(params || {});
+  _this = BaseView(params);
 
   /**
    * @constructor
    *
    */
   _initialize = function () {
-    var classes;
+    _this.addClass('authoritative-region-view');
 
-    classes = _this.el.classList;
-    if (!classes.contains('authoritative-region-view')) {
-      classes.add('authoritative-region-view');
-    }
-
-    _this.el.classList.add('authoritative-region');
     _this.render();
   };
 
+
+  /**
+   * Free resources using "View" destroy method.
+   *
+   */
+  _this.destroy = Util.compose(function () {
+    _initialize = null;
+    _this = null;
+  }, _this.destroy);
+
+  /**
+   * Updates the view to reflect the current state of the model.
+   */
   _this.render = function () {
     var authoritativeRegions,
         markup,
         properties;
 
-    markup = [(_this.header !== null) ? _this.header : ''];
+    markup = [_this.header];
 
     try {
       authoritativeRegions = _this.model.get('regions').authoritative;
@@ -69,14 +78,6 @@ var AuthoritativeRegionView = function (params) {
 
     _this.el.innerHTML = markup.join('');
   };
-
-  /**
-   * View destroy method.
-   */
-  _this.destroy = Util.compose(function () {
-    _initialize = null;
-    _this = null;
-  }, _this.destroy);
 
 
   // Always call the constructor

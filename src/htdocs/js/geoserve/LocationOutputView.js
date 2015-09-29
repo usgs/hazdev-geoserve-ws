@@ -9,7 +9,7 @@ var BaseView = require('geoserve/BaseView'),
 // Default values to be used by constructor
 var _DEFAULTS = {
   header: null,
-  noDataMessage: 'Use the map to select a location.'
+  noDataMessage: '<p class="alert info">Use the map to select a location.</p>'
 };
 
 
@@ -27,26 +27,21 @@ var LocationOutputView = function (params) {
 
   // Inherit from parent class
   params = Util.extend({}, _DEFAULTS, params);
-  _this = BaseView(params || {});
+  _this = BaseView(params);
 
   /**
    * @constructor
    *
    */
   _initialize = function () {
-    var classes;
-
-    classes = _this.el.classList;
-    if (!classes.contains('location-output-view')) {
-      classes.add('location-output-view');
-    }
+    _this.addClass('location-output-view');
 
     _this.render();
   };
 
 
   /**
-   * Frees resources.
+   * Free resources using "View" destroy method.
    *
    */
   _this.destroy = Util.compose(function () {
@@ -62,7 +57,7 @@ var LocationOutputView = function (params) {
     var location,
         markup;
 
-    markup = [(_this.header !== null) ? _this.header : ''];
+    markup = [_this.header];
 
     try {
       location = _this.model.get('location');
@@ -73,11 +68,7 @@ var LocationOutputView = function (params) {
         '</p>'
       );
     } catch (e) {
-      markup.push(
-        '<p class="alert info">' +
-          _this.noDataMessage +
-        '</p>'
-      );
+      markup.push(_this.noDataMessage);
     }
 
     _this.el.innerHTML = markup.join('');

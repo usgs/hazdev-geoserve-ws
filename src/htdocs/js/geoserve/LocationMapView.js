@@ -1,10 +1,12 @@
 'use strict';
 
-var RegionsLayer = require('geoserve/RegionsLayer'),
+var BaseView = require('geoserve/BaseView'),
+    RegionsLayer = require('geoserve/RegionsLayer'),
+
     L = require('leaflet'),
     LocationControl = require('locationview/LocationControl'),
+
     Util = require('util/Util'),
-    View = require('mvc/View'),
     Xhr = require('util/Xhr');
 
 require('leaflet/control/Fullscreen');
@@ -23,7 +25,7 @@ var _DEFAULTS = {
 /**
  * Leaflet map with location view control to show/set location.
  */
-var LocationMapView = function (options) {
+var LocationMapView = function (params) {
   var _this,
       _initialize,
 
@@ -36,19 +38,15 @@ var LocationMapView = function (options) {
       _onLocationChange;
 
 
-  _this = View(options);
+  _this = BaseView(params);
 
-  _initialize = function (options) {
-    var classes,
-        el;
+  _initialize = function (params) {
+    var el;
 
-    options = Util.extend({}, _DEFAULTS, options);
-    _url = options.url;
+    params = Util.extend({}, _DEFAULTS, params);
+    _url = params.url;
 
-    classes = _this.el.classList;
-    if (!classes.contains('location-map-view')) {
-      classes.add('location-map-view');
-    }
+    _this.addClass('location-map-view');
     _this.el.innerHTML = '<div class="map"></div>';
 
     el = _this.el.querySelector('.map');
@@ -177,8 +175,8 @@ var LocationMapView = function (options) {
   }, _this.destroy);
 
 
-  _initialize(options);
-  options = null;
+  _initialize(params);
+  params = null;
   return _this;
 };
 
