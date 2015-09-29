@@ -65,7 +65,6 @@ var TectonicSummaryView = function (params) {
 
     try {
       tectonicSummary = _this.model.get('regions').tectonic;
-      // properties include: name, type and summary
       properties = tectonicSummary.features[0].properties;
 
       markup.push(properties.summary);
