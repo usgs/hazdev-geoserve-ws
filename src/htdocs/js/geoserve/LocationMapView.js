@@ -1,10 +1,12 @@
 'use strict';
 
-var RegionsLayer = require('geoserve/RegionsLayer'),
+var BaseView = require('geoserve/BaseView'),
+    RegionsLayer = require('geoserve/RegionsLayer'),
+
     L = require('leaflet'),
     LocationControl = require('locationview/LocationControl'),
+
     Util = require('util/Util'),
-    View = require('mvc/View'),
     Xhr = require('util/Xhr');
 
 require('leaflet/control/Fullscreen');
@@ -36,19 +38,15 @@ var LocationMapView = function (options) {
       _onLocationChange;
 
 
-  _this = View(options);
+  _this = BaseView(options);
 
   _initialize = function (options) {
-    var classes,
-        el;
+    var el;
 
     options = Util.extend({}, _DEFAULTS, options);
     _url = options.url;
 
-    classes = _this.el.classList;
-    if (!classes.contains('location-map-view')) {
-      classes.add('location-map-view');
-    }
+    _this.addClass('location-map-view');
     _this.el.innerHTML = '<div class="map"></div>';
 
     el = _this.el.querySelector('.map');
