@@ -112,36 +112,36 @@ var LocationApp = function (params) {
 
     _nearbyCitiesView = NearbyCitiesView({
       el: el.querySelector('.nearbycities-view'),
-      model: _this.model,
       header: '<h3>Nearby Cities</h3>',
+      model: _this.model,
       noDataMessage: ''
     });
 
     _authoritativeRegionView = AuthoritativeRegionView({
       el: el.querySelector('.authoritative-region-view'),
-      model: _this.model,
       header: '<h3>ANSS Authoritative Region</h3>',
+      model: _this.model,
       noDataMessage: '<aside class="no-data-message">Data not available</aside>'
     });
 
     _timezoneRegionView = TimezoneRegionView({
       el: el.querySelector('.timezone-region-view'),
-      model: _this.model,
       header: '<h3>Timezone</h3>',
+      model: _this.model,
       noDataMessage: '<aside class="no-data-message">Data not available</aside>'
     });
 
     _neicCatalogView = NeicCatalogView({
       el: el.querySelector('.neiccatalog-view'),
-      model: _this.model,
       header: '<h3>NEIC Catalog Region</h3>',
+      model: _this.model,
       noDataMessage: '<aside class="no-data-message">Data not available</aside>'
     });
 
     _neicResponseView = NeicResponseView({
       el: el.querySelector('.neicresponse-view'),
-      model: _this.model,
       header: '<h3>NEIC Response Region</h3>',
+      model: _this.model,
       noDataMessage: '<aside class="no-data-message">Data not available</aside>'
     });
 
