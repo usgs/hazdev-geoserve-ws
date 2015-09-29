@@ -30,13 +30,13 @@ var _DEFAULTS = {
  * places and regions information from geoserve and updates the corresponding
  * model keys.
  *
- * @param options {Object}
+ * @param params {Object}
  *        all options are passed to View().
- * @param options.url {String}
+ * @param params.url {String}
  *        default '/ws/geoserve'
  *        base url for geoserve web service.
  */
-var LocationApp = function (options) {
+var LocationApp = function (params) {
   var _this,
       _initialize,
 
@@ -54,19 +54,19 @@ var LocationApp = function (options) {
       _onLocationChange;
 
 
-  _this = View(options);
+  _this = View(params);
 
   /**
    * @constructor
    *
-   * @param options {Object}
+   * @param params {Object}
    *      Configuration options. See _DEFAULTS for details.
    */
-  _initialize = function (options) {
+  _initialize = function (params) {
     var el;
 
-    options = Util.extend({}, _DEFAULTS, options);
-    _url = options.url;
+    params = Util.extend({}, _DEFAULTS, params);
+    _url = params.url;
 
     el = _this.el;
 
@@ -239,8 +239,8 @@ var LocationApp = function (options) {
   }, _this.destroy);
 
 
-  _initialize(options);
-  options = null;
+  _initialize(params);
+  params = null;
   return _this;
 };
 

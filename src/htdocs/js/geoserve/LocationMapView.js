@@ -25,7 +25,7 @@ var _DEFAULTS = {
 /**
  * Leaflet map with location view control to show/set location.
  */
-var LocationMapView = function (options) {
+var LocationMapView = function (params) {
   var _this,
       _initialize,
 
@@ -38,13 +38,13 @@ var LocationMapView = function (options) {
       _onLocationChange;
 
 
-  _this = BaseView(options);
+  _this = BaseView(params);
 
-  _initialize = function (options) {
+  _initialize = function (params) {
     var el;
 
-    options = Util.extend({}, _DEFAULTS, options);
-    _url = options.url;
+    params = Util.extend({}, _DEFAULTS, params);
+    _url = params.url;
 
     _this.addClass('location-map-view');
     _this.el.innerHTML = '<div class="map"></div>';
@@ -175,8 +175,8 @@ var LocationMapView = function (options) {
   }, _this.destroy);
 
 
-  _initialize(options);
-  options = null;
+  _initialize(params);
+  params = null;
   return _this;
 };
 
