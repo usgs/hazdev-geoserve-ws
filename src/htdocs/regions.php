@@ -28,7 +28,7 @@ if (!isset($TEMPLATE)) {
   // HTML output
   $TITLE = 'Geoserve Regions Endpoint';
   $HEAD = '<link rel="stylesheet" href="endpoint.css"/>';
-  $NAVIGATION = True;
+  $NAVIGATION = true;
 
   if (!function_exists('pinfo')) {
     function enumeration ($values) {
