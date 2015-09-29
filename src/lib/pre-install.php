@@ -60,7 +60,7 @@ file_put_contents($HTTPD_CONF, '
   Alias ' . $CONFIG['MOUNT_PATH'] . ' ' . $HTDOCS_DIR . '
 
   RewriteEngine on
-  RewriteRule ^' . $CONFIG['MOUNT_PATH'] . '/(places|regions)?$ ' . $CONFIG['MOUNT_PATH'] . '/index.php?method=$1 [L,PT,QSA]
+  RewriteRule ^' . $CONFIG['MOUNT_PATH'] . '/(services|places|regions|layers)\.(json|html)$ ' . $CONFIG['MOUNT_PATH'] . '/$1.php?format=$2 [L,PT,QSA]
 
   <Location ' . $CONFIG['MOUNT_PATH'] . '>
     Order allow,deny
