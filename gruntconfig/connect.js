@@ -10,7 +10,7 @@ var connect = {
 
   rules: [
     {
-      from: '^(' + config.ini.MOUNT_PATH + ')?/(index|places|regions|layers)\\.([^?]*)\\??(.*)$',
+      from: '^(' + config.ini.MOUNT_PATH + ')?/(services|places|regions|layers)\\.([^?]*)\\??(.*)$',
       to: '/$2.php?format=$3&$4'
     },
     {
@@ -35,7 +35,7 @@ var connect = {
       base: [config.build + '/' + config.src + '/htdocs'],
       port: config.srcPort,
       livereload: true,
-      open: 'http://127.0.0.1:' + config.srcPort + config.ini.MOUNT_PATH + '/index.html',
+      open: 'http://127.0.0.1:' + config.srcPort + config.ini.MOUNT_PATH + '/',
       middleware: function (connect, options, middlewares) {
         middlewares.unshift(
           require('grunt-connect-rewrite/lib/utils').rewriteRequest,

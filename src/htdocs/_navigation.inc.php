@@ -2,9 +2,10 @@
 
 include_once '../lib/data/metadata.inc.php';
 
-$navList = implode("", $endpointLinks);
-print navGroup(navItem('/index.php', 'Geoserve Web Service'),
-  $navList
-);
+
+echo navItem($MOUNT_PATH . '/index.php', 'Geoserve');
+echo navGroup(
+    navItem($MOUNT_PATH . '/services.html', 'Geoserve Documentation'),
+    implode("", $endpointLinks));
 
 ?>
