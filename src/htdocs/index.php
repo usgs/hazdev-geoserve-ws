@@ -16,7 +16,7 @@ if (!isset($TEMPLATE)) {
 
   // HTML output
   $TITLE = 'Geoserve Documentation';
-  $NAVIGATION = True;
+  $NAVIGATION = true;
 
   include_once 'template.inc.php';
 }
