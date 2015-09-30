@@ -69,13 +69,52 @@ describe('TectonicSummaryView', function () {
         model: Model({regions: regions})
       });
       expect(view.el.innerHTML).to.equal([
-        '<h4>Earthquakes in the Stable Continental Region</h4>\n\n' +
-        '<h4>Natural Occurring Earthquake Activity</h4>\n\n' +
-        '<p>\nMost of North America east of the Rocky Mountains has infrequent earthquakes. Here and there earthquakes are more numerous, for example in the New Madrid seismic zone centered on southeastern Missouri, in the Charlevoix-Kamouraska seismic zone of eastern Quebec, in New England, in the New York - Philadelphia - Wilmington urban corridor, and elsewhere. However, most of the enormous region from the Rockies to the Atlantic can go years without an earthquake large enough to be felt, and several U.S. states have never reported a damaging earthquake.\n</p>\n' +
-        '<p>\nEarthquakes east of the Rocky Mountains, although less frequent than in the West, are typically felt over a much broader region than earthquakes of similar magnitude in the west. East of the Rockies, an earthquake can be felt over an area more than ten times larger than a similar magnitude earthquake on the west coast. It would not be unusual for a magnitude 4.0 earthquake in eastern or central North America to be felt by a significant percentage of the population in many communities more than 100 km (60 mi) from its source. A magnitude 5.5 earthquake in eastern or central North America might be felt by much of the population out to more than 500 km (300 mi) from its source. Earthquakes east of the Rockies that are centered in populated areas and large enough to cause damage are, similarly, likely to cause damage out to greater distances than earthquakes of the same magnitude centered in western North America.\n</p>\n' +
-        '<p>\nMost earthquakes in North America east of the Rockies occur as faulting within bedrock, usually miles deep.   Few earthquakes east of the Rockies, however, have been definitely linked to mapped geologic faults, in contrast to the situation at plate boundaries such as California\'s San Andreas fault system, where scientists can commonly use  geologic evidence to identify a fault that has produced a large earthquake and that is likely  to produce large future earthquakes.  Scientists who study eastern and central North America earthquakes often work from the hypothesis that modern earthquakes occur as the result of slip on preexisting faults that were formed in earlier geologic eras and that have been reactivated under the current stress conditions. The bedrock of Eastern North America is, however, laced with faults that were active in earlier geologic eras, and few of these faults are known to have been active in the current geologic era.  In most areas east of the Rockies, the likelihood of future damaging earthquakes is currently estimated from the frequencies and sizes of instrumentally recorded earthquakes or earthquakes documented in historical records.\n</p>\n\n' +
-        '<h4>Induced Seismicity</h4>\n' +
-        '<p>\nAs is the case elsewhere in the world, there is evidence that some  central and eastern North America earthquakes have been triggered or caused  by human activities that have altered  the stress conditions in earth\'s crust sufficiently to induce faulting.   Activities that have induced felt earthquakes in some geologic environments have included impoundment of water behind dams, injection of fluid into the earth\'s crust, extraction of fluid or gas, and removal of rock in mining or quarrying operations.  In much of eastern and central North America, the number of earthquakes suspected of having been induced is much smaller than the number of natural earthquakes, but in some regions, such as the south-central states of the U.S., a significant majority of recent earthquakes are thought by many seismologists to have been human-induced.  Even within areas with many human-induced earthquakes, however, the activity that seems to induce seismicity at one location may be taking place at many other locations without inducing felt earthquakes.  In addition, regions with frequent induced earthquakes may also be subject to damaging earthquakes that would have occurred independently of human activity.  Making a strong scientific case for a causative link between a particular human activity and a particular sequence of earthquakes typically involves special studies devoted specifically to the question.  Such investigations usually address the process by which the suspected triggering activity might have significantly altered stresses in the bedrock at the earthquake source, and they commonly address the ways in which the characteristics of the suspected human-triggered earthquakes differ from the characteristics of natural earthquakes in the region.\n</p>\n<!--\n SCR.doc, 07/23/03, Page 1 of 1\n -->'
+        '<h4>San Andreas Fault</h4>\n',
+        '<p>\nThe San Andreas Fault forms the main strand of the plate ',
+        'boundary, running\n \nfrom the Gulf of California (Baja ',
+        'California, Mexico) north to the region\n \nof Cape Mendocino.  ',
+        'The fault in the San Francisco Bay region is a largely\n \n',
+        'strike-slip fault running through the Santa Cruz Mountains, the ',
+        'Gulf of the\n \nFarallons west of the Golden Gate, through Tomales ',
+        'Bay and Bodega Bay, and\n \nnorth to Fort Ross and Point Arena.  ',
+        'Northward of Point Arena, the location\n \nand character of the San ',
+        'Andreas Fault is less well known.   The fault in\n \nthis region ',
+        'is locked, exhibiting no creep at the surface and generating\n ',
+        '\nvery few microearthquakes that are associated with minor slipping ',
+        'at depth.\n \nThrough the San Francisco Bay Area, the slip rate on ',
+        'the San Andreas Fault\n \nis about 20 mm/yr (4/5 inch/year).\n \n</p>',
+        '\n<p>\nThe October 17, 1989 Loma Prieta earthquake was the most ',
+        'recent major\n \nearthquake associated with the San Andreas Fault. ',
+        'While the earthquake was\n \nnot produced by the main San Andreas ',
+        'Fault, it occurred on a closely\n \nassociated blind thrust fault ',
+        'that had formed as a result of a bend in the\n \nSan Andreas Fault, ',
+        'south of the bay.  Although that earthquake struck along\n \na ',
+        'remote segment of the Santa Cruz Mountains, 64 deaths resulted, ',
+        'most from\n \nthe collapse of the Cypress Freeway in Oakland.  ',
+        'About 16,000 homes and\n \napartment units were uninhabitable after ',
+        'the earthquake.  The San\n \nFrancisco-Oakland Bay Bridge was closed ',
+        'for more than a month because of a\n \ncollapse of a section of its ',
+        'eastern span.\n \n</p>\n<p>\nThe left bend in the San Andreas Fault ',
+        'in the Santa Cruz Mountains favors\n \nthickening of the crust and ',
+        'uplift of the Earth\'s surface, and is thought\n \nto be responsible ',
+        'to the formation of the Santa Cruz Mountains.\n \n</p>\n<p>\nThe ',
+        'M7.9 April 18, 1906 San Francisco earthquake was the most recent ',
+        'great\n \nearthquake on the San Andreas Fault and it ruptured from ',
+        'approximately Cape\n \nMendocino south to San Juan Bautista.  The ',
+        '1906 earthquake was the largest\n \nearthquake to strike Northern ',
+        'California in historic times, and is thought\n \nto have killed more ',
+        'than 3,000 Bay Area residents.  The epicenter of that\n \nearthquake ',
+        'is now estimated to be offshore about 2 miles west of San\n \n',
+        'Francisco. The fire following the 1906 earthquake burned 5 square ',
+        'miles of\n \nSan Francisco and resulted in 225,000 homeless refugees ',
+        'of the earthquake.\n \n</p>\n<p>\nA large (magnitude 6.8) earthquake ',
+        'in 1838 is often assumed to have\n \noccurred on the Peninsula ',
+        'segment of the San Andreas Fault.  To date,\n \nhowever, ',
+        'unambiguous observations placing that earthquake on the San\n \n',
+        'Andreas Fault have not been found.\n \n</p>\n<p>\nThe 2003 Working ',
+        'Group for California Earthquake Probability assigned a 21%\n \n',
+        'probability that the San Andreas Fault would produce a magnitude ',
+        '6.7 or\n \nlarger earthquake in the next 30 years.\n \n</p>'
       ].join(''));
       view.destroy();
     });

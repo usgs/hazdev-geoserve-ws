@@ -45,7 +45,7 @@ describe('AdminRegionView test suite.', function () {
       expect(div.innerHTML).to.be.equal('<dl class="horizontal">' +
           '<dt>ISO</dt><dd>USA</dd>' +
           '<dt>Country</dt><dd>United States</dd>' +
-          '<dt>Region</dt><dd>Colorado</dd>' +
+          '<dt>Region</dt><dd>California</dd>' +
         '</dl>');
     });
 

@@ -86,11 +86,11 @@ describe('NeicCatalogView test suite.', function () {
       expect(view.el.innerHTML).to.equal([
         '<dl class="horizontal">',
           '<dt>Name</dt>',
-            '<dd>Contiguous US</dd>',
+            '<dd>California</dd>',
           '<dt>Type</dt>',
             '<dd>US</dd>',
           '<dt>Magnitude</dt>',
-            '<dd>2.5</dd>',
+            '<dd>3.0</dd>',
               '<dl></dl>',
         '</dl>'
       ].join(''));

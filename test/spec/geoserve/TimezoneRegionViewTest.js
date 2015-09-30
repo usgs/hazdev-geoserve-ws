@@ -88,15 +88,15 @@ describe('TimezoneRegionView test suite.', function () {
       expect(view.el.innerHTML).to.equal([
         '<dl class="horizontal">',
           '<dt>Time Zone</dt>',
-            '<dd>America/Denver</dd>',
+            '<dd>America/Los_Angeles</dd>',
           '<dt>Standard Offset</dt>',
-            '<dd>-420</dd>',
+            '<dd>-480</dd>',
           '<dt>DST Start</dt>',
-            '<dd>2015-03-08T09:00:00Z</dd>',
+            '<dd>2015-03-08T10:00:00Z</dd>',
           '<dt>DST End</dt>',
-            '<dd>2015-11-01T08:00:00Z</dd>',
+            '<dd>2015-11-01T09:00:00Z</dd>',
           '<dt>DST Offset</dt>',
-            '<dd>-360</dd>',
+            '<dd>-420</dd>',
         '</dl>'
       ].join(''));
       view.destroy();

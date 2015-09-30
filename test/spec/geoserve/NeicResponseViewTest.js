@@ -69,11 +69,11 @@ describe('NeicResponseView', function () {
       expect(view.el.innerHTML).to.equal([
         '<dl class="horizontal">',
           '<dt>Name</dt>',
-            '<dd>Eastern US</dd>',
+            '<dd>Western US</dd>',
           '<dt>Type</dt>',
             '<dd>US</dd>',
           '<dt>Magnitude</dt>',
-            '<dd>3.0</dd>',
+            '<dd>4.0</dd>',
         '</dl>'
       ].join(''));
       view.destroy();

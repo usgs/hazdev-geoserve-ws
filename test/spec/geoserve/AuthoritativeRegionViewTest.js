@@ -45,11 +45,11 @@ describe('AuthoritativeRegionView test suite.', function () {
       expect(div.innerHTML).to.be.equal(
         '<dl class="horizontal">' +
           '<dt>Name</dt>' +
-            '<dd>PAS</dd>' +
+            '<dd>NC</dd>' +
           '<dt>Network</dt>' +
-            '<dd>CI</dd>' +
+            '<dd>NC</dd>' +
           '<dt>Type</dt>' +
-            '<dd>ANSS</dd>' +
+            '<dd>A</dd>' +
         '</dl>'
       );
     });
