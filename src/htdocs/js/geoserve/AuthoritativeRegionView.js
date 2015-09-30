@@ -8,7 +8,7 @@ var BaseView = require('geoserve/BaseView'),
 // Default values to be used by constructor
 var _DEFAULTS = {
   header: null,
-  noDataMessage: '<p class="alert info">Authoritative region not available.<p>'
+  noDataMessage: '<p class="alert info">Authoritative region not available.</p>'
 };
 
 
