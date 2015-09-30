@@ -5,7 +5,7 @@ if (!isset($TEMPLATE)) {
   include_once '../lib/data/metadata.inc.php';
   include_once 'functions.inc.php';
 
-  $format = param('format', 'html');
+  $format = param('format', 'php');
 
   if ($format === 'json') {
     // JSON output

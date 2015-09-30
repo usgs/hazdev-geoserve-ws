@@ -10,7 +10,7 @@ var connect = {
 
   rules: [
     {
-      from: '^(' + config.ini.MOUNT_PATH + ')?/(services|places|regions|layers)\\.([^?]*)\\??(.*)$',
+      from: '^(' + config.ini.MOUNT_PATH + ')?/(services|places|regions|layers)\\.(json)\\??(.*)$',
       to: '/$2.php?format=$3&$4'
     },
     {
