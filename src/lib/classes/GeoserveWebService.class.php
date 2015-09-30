@@ -66,6 +66,7 @@ class GeoserveWebService {
 
   public function output ($data, $formatter, $factory) {
     global $APP_DIR;
+    global $HOST_URL_PREFIX;
 
     $CACHE_MAXAGE = 3600;
     include $APP_DIR . '/lib/cache.inc.php';
@@ -76,7 +77,7 @@ class GeoserveWebService {
     // service/request metadata
     echo '"metadata":' .
         json_encode(array(
-          'request' => $_SERVER['REQUEST_URI'],
+          'request' => $HOST_URL_PREFIX . $_SERVER['REQUEST_URI'],
           'submitted' => gmdate('c'),
           'types' => array_keys($data),
           'version' => $this->version
@@ -130,7 +131,7 @@ class GeoserveWebService {
     header('Content-type: application/json');
     echo json_encode(array(
       'metadata' => array(
-        'request' => $_SERVER['REQUEST_URI'],
+        'request' => $HOST_URL_PREFIX . $_SERVER['REQUEST_URI'],
         'submitted' => gmdate('c'),
         'types' => array(),
         'version' => $this->version
@@ -139,7 +140,8 @@ class GeoserveWebService {
         'code' => $code,
         'codeMessage' => $codeMessage,
         'message' => $message,
-        'usage' => $HOST_URL_PREFIX . $MOUNT_PATH,
+        'usage' => $HOST_URL_PREFIX . $MOUNT_PATH . '/' .
+            preg_replace('/\?.*$/', '', basename($_SERVER['REQUEST_URI']))
       )
     ));
 
