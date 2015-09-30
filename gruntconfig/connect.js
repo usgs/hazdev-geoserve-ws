@@ -61,7 +61,7 @@ var connect = {
         'node_modules'
       ],
       port: config.testPort,
-      open: 'http://localhost:' + config.testPort + '/test.html'
+      open: 'http://127.0.0.1:' + config.testPort + '/test.html'
     }
   },
 
@@ -73,7 +73,7 @@ var connect = {
         config.build + '/' + config.test,
         config.etc
       ],
-      open: 'http://localhost:' + config.examplePort + '/example.html',
+      open: 'http://127.0.0.1:' + config.examplePort + '/example.html',
       port: config.examplePort
     }
   },
@@ -83,7 +83,7 @@ var connect = {
       base: [config.dist + '/htdocs'],
       port: config.distPort,
       keepalive: true,
-      open: true,
+      open: 'http://127.0.0.1:' + config.srcPort + config.ini.MOUNT_PATH + '/',
       middleware: function (connect, options, middlewares) {
         middlewares.unshift(
           require('grunt-connect-rewrite/lib/utils').rewriteRequest,
