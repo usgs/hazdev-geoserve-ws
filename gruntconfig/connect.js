@@ -83,7 +83,7 @@ var connect = {
       base: [config.dist + '/htdocs'],
       port: config.distPort,
       keepalive: true,
-      open: 'http://127.0.0.1:' + config.srcPort + config.ini.MOUNT_PATH + '/',
+      open: 'http://127.0.0.1:' + config.distPort + config.ini.MOUNT_PATH + '/',
       middleware: function (connect, options, middlewares) {
         middlewares.unshift(
           require('grunt-connect-rewrite/lib/utils').rewriteRequest,
