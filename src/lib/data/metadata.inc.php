@@ -34,7 +34,8 @@ $GEOSERVE_ENDPOINTS = array(
 
 $endpointLinks = array();
 foreach ($GEOSERVE_ENDPOINTS as $endpoint) {
-  $endpointLinks[] = navItem($endpoint['url'], $endpoint['name'] . ' Service');
+  $endpointLinks[] = navItem(str_replace($HOST_URL_PREFIX, '',
+      $endpoint['url']), $endpoint['name'] . ' Service');
 }
 
 include_once 'places.inc.php';
