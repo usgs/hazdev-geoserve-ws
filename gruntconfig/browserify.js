@@ -42,8 +42,8 @@ var browserify = {
 
   // source bundles
   index: {
-    src: [config.src + '/htdocs/location.js'],
-    dest: config.build + '/' + config.src + '/htdocs/location.js'
+    src: [config.src + '/htdocs/index.js'],
+    dest: config.build + '/' + config.src + '/htdocs/index.js'
   },
 
 

@@ -15,7 +15,7 @@ include_once 'neicresponse/metadata.inc.php';
 include_once 'tectonic/metadata.inc.php';
 include_once 'timezones/metadata.inc.php';
 
-$format = param('format', 'html');
+$format = param('format', 'php');
 
 $GEOSERVE_ENDPOINTS = array(
   array(
@@ -29,17 +29,12 @@ $GEOSERVE_ENDPOINTS = array(
   array(
     'name' => 'Layers',
     'url' => "${HOST_URL_PREFIX}${MOUNT_PATH}/layers.${format}"
-  ),
-  array(
-    'name' => 'Location',
-    'url' => "${HOST_URL_PREFIX}${MOUNT_PATH}/location.${format}"
   )
 );
 
 $endpointLinks = array();
 foreach ($GEOSERVE_ENDPOINTS as $endpoint) {
-  $endpointLinks[] = navItem($endpoint['url'],
-      $endpoint['name'] . ' Details');
+  $endpointLinks[] = navItem($endpoint['url'], $endpoint['name'] . ' Service');
 }
 
 include_once 'places.inc.php';
