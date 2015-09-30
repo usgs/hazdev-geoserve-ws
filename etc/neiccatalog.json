@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "request": "/ws/geoserve/layers.json?type=neiccatalog",
-    "submitted": "2015-09-17T20:15:34+00:00",
+    "request": "http://127.0.0.1:8100/ws/geoserve/layers.json?type=neiccatalog",
+    "submitted": "2015-09-30T14:57:14+00:00",
     "types": [
       "neiccatalog"
     ],
