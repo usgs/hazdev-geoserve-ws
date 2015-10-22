@@ -5,22 +5,26 @@ var fs = require('fs'),
 
 var configIni = ini.parse(fs.readFileSync('./src/conf/config.ini').toString());
 
+var BASE_PORT = 9040;
+
 
 var config = {
   ini: configIni,
 
   build: '.build',
   dist: 'dist',
-  distPort: 8102,
+  distPort: BASE_PORT + 2,
   etc: 'etc',
   example: 'example',
-  examplePort: 8104,
+  examplePort: BASE_PORT + 3,
   lib: 'lib',
+  liveReloadPort: BASE_PORT + 9,
   src: 'src',
-  srcPort: 8100,
-  templatePort: 8103,
+  srcPort: BASE_PORT,
+  templatePort: BASE_PORT + 8,
   test: 'test',
-  testPort: 8101
+  testPort: BASE_PORT + 1
 };
+
 
 module.exports = config;
