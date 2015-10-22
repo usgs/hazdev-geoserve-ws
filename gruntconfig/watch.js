@@ -7,7 +7,7 @@ var watch = {
     files: [config.src + '/htdocs/**/*.js'],
     tasks: ['concurrent:scripts'],
     options: {
-      livereload: true
+      livereload: config.liveReloadPort
     }
   },
   tests: {
@@ -23,7 +23,7 @@ var watch = {
       'postcss:dev'
     ],
     options: {
-      livereload: true
+      livereload: config.liveReloadPort
     }
   },
   livereload: {
@@ -34,7 +34,7 @@ var watch = {
     ],
     tasks: ['copy:build'],
     options: {
-      livereload: true
+      livereload: config.liveReloadPort
     }
   },
   gruntfile: {

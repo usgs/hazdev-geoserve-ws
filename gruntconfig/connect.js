@@ -34,7 +34,7 @@ var connect = {
     options: {
       base: [config.build + '/' + config.src + '/htdocs'],
       port: config.srcPort,
-      livereload: true,
+      livereload: config.liveReloadPort,
       open: 'http://127.0.0.1:' + config.srcPort + config.ini.MOUNT_PATH + '/',
       middleware: function (connect, options, middlewares) {
         middlewares.unshift(
