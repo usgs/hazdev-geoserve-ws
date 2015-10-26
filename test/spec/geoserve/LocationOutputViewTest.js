@@ -13,8 +13,6 @@ expect = chai.expect;
 
 describe('LocationOutputView', function () {
 
-
-
   describe('constructor', function () {
     it('is defined', function () {
       /* jshint -W030 */

@@ -30,6 +30,7 @@ describe('TimezoneRegionView test suite.', function () {
     regions = null;
   });
 
+
   describe('Constructor', function () {
     it('Can be defined', function () {
       /* jshint -W030 */

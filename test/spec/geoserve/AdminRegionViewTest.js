@@ -2,13 +2,19 @@
 'use strict';
 
 var AdminRegionView = require('geoserve/AdminRegionView'),
+
     Model = require('mvc/Model'),
     Xhr = require('util/Xhr');
 
-var expect = chai.expect,
+
+var expect,
     regions;
 
+expect = chai.expect;
+
+
 describe('AdminRegionView test suite.', function () {
+
   describe('Constructor', function () {
     it('can be created and destroyed', function () {
       var createDestroy = function () {

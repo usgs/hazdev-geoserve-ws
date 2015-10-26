@@ -7,10 +7,12 @@ var NeicCatalogView = require('geoserve/NeicCatalogView'),
 
     Xhr = require('util/Xhr');
 
+
 var expect,
     regions;
 
 expect = chai.expect;
+
 
 describe('NeicCatalogView test suite.', function () {
 
@@ -27,6 +29,7 @@ describe('NeicCatalogView test suite.', function () {
   after(function () {
     regions = null;
   });
+
 
   describe('Constructor', function () {
     it('Can be defined', function () {

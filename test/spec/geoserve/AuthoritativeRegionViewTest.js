@@ -2,13 +2,20 @@
 'use strict';
 
 var AuthoritativeRegionView = require('geoserve/AuthoritativeRegionView'),
+
     Model = require('mvc/Model'),
+
     Xhr = require('util/Xhr');
 
-var expect = chai.expect,
+
+var expect,
     region;
 
+expect = chai.expect;
+
+
 describe('AuthoritativeRegionView test suite.', function () {
+
   describe('Constructor', function () {
     it('can be created and destroyed', function () {
       var createDestroy = function () {
