@@ -43,6 +43,7 @@ describe('LocationOutputView', function () {
         model: Model(),
         noDataMessage: '<p class="alert info">' + noData + '</p>'
       });
+
       expect(view.el.innerHTML).to.equal(
         '<p class="alert info">' +
           noData +
@@ -51,11 +52,17 @@ describe('LocationOutputView', function () {
       view.destroy();
 
       // ... with data ...
-      view = LocationOutputView({header: null, model: Model({location: {
-        place: 'Denver, CO',
-        latitude: 39.739,
-        longitude: -104.985
-      }})});
+      view = LocationOutputView({
+        header: null,
+        model: Model({
+          location: {
+            latitude: 39.739,
+            longitude: -104.985,
+            place: 'Denver, CO'
+          }
+        })
+      });
+      
       expect(view.el.innerHTML).to.equal([
         '<p class="alert success">',
           '<strong>Denver, CO</strong>',

@@ -4,6 +4,7 @@
 var AdminRegionView = require('geoserve/AdminRegionView'),
 
     Model = require('mvc/Model'),
+
     Xhr = require('util/Xhr');
 
 
@@ -45,7 +46,9 @@ describe('AdminRegionView test suite.', function () {
 
       AdminRegionView({
         el: div,
-        model: Model({regions: regions})
+        model: Model({
+          regions: regions
+        })
       });
 
       expect(div.innerHTML).to.be.equal('<dl class="horizontal">' +
@@ -71,7 +74,6 @@ describe('AdminRegionView test suite.', function () {
       expect(div.innerHTML).to.be.equal(text);
     });
 
-
     it('shows custom header when header is passed', function () {
       var div,
           header,
@@ -83,13 +85,12 @@ describe('AdminRegionView test suite.', function () {
 
       AdminRegionView({
           el: div,
-          model: Model(),
-          header: header
+          header: header,
+          model: Model()
         });
 
       expect(div.querySelector('.header').innerHTML).to.be.equal(text);
     });
-
 
   });
 });

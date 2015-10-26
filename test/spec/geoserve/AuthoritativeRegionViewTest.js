@@ -39,6 +39,7 @@ describe('AuthoritativeRegionView test suite.', function () {
       });
     });
 
+
     it('shows data when data is available', function () {
       var div;
 
@@ -46,7 +47,9 @@ describe('AuthoritativeRegionView test suite.', function () {
 
       AuthoritativeRegionView({
         el: div,
-        model: Model({regions: region})
+        model: Model({
+          regions: region
+        })
       });
 
       expect(div.innerHTML).to.be.equal(
@@ -77,7 +80,6 @@ describe('AuthoritativeRegionView test suite.', function () {
       expect(div.innerHTML).to.be.equal(text);
     });
 
-
     it('shows custom header when header is passed', function () {
       var div,
           header,
@@ -89,13 +91,12 @@ describe('AuthoritativeRegionView test suite.', function () {
 
       AuthoritativeRegionView({
           el: div,
-          model: Model(),
-          header: header
+          header: header,
+          model: Model()
         });
 
       expect(div.querySelector('.header').innerHTML).to.be.equal(text);
     });
-
 
   });
 });

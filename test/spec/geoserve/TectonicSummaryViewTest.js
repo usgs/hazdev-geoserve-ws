@@ -138,7 +138,6 @@ describe('TectonicSummaryView', function () {
 			expect(div.innerHTML).to.be.equal(text);
 		});
 
-
 		it('shows custom header when header is passed', function () {
 			var div,
 					header,
@@ -149,8 +148,8 @@ describe('TectonicSummaryView', function () {
 			header = '<h2 class="tectonic-summary-header">' + text + '</h2>';
 
 			TectonicSummaryView({
-          header: header,
 					el: div,
+          header: header,
 					model: Model()
 				});
 

@@ -57,16 +57,20 @@ describe('NearbyCitiesView', function () {
 
       // ... with no data ...
       view = NearbyCitiesView({
-        noDataMessage: noData,
-        model: Model()
+        model: Model(),
+        noDataMessage: noData
       });
+
       expect(view.el.innerHTML).to.equal(noData);
       view.destroy();
 
       // ... with data ...
       view = NearbyCitiesView({
-        model: Model({places: places})
+        model: Model({
+          places: places
+        })
       });
+
       expect(view.el.innerHTML).to.have.string([
         '<aside class="distance">9.2km (5.7mi)'
       ].join(''));

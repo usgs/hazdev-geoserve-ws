@@ -57,8 +57,8 @@ describe('TimezoneRegionView test suite.', function () {
 
       TimezoneRegionView({
         el: div,
-        model: Model(),
-        header: header
+        header: header,
+        model: Model()
       });
 
       expect(div.querySelector('.header').innerHTML).to.be.equal(text);
@@ -76,6 +76,7 @@ describe('TimezoneRegionView test suite.', function () {
         model: Model(),
         noDataMessage: noData
       });
+
       expect(view.el.innerHTML).to.equal(noData);
       view.destroy();
 
@@ -86,6 +87,7 @@ describe('TimezoneRegionView test suite.', function () {
           regions: regions
         })
       });
+
       expect(view.el.innerHTML).to.equal([
         '<dl class="horizontal">',
           '<dt>Time Zone</dt>',

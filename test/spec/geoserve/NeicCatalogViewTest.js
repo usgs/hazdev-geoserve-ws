@@ -53,8 +53,11 @@ describe('NeicCatalogView test suite.', function () {
 
     it('can be destroyed', function () {
       var neicCatalogView = NeicCatalogView({
-        model: Model({regions:regions})
+        model: Model({
+          regions:regions
+        })
       });
+
       expect(neicCatalogView).to.not.equal(undefined);
       expect(neicCatalogView.el).to.not.equal(null);
 
@@ -76,6 +79,7 @@ describe('NeicCatalogView test suite.', function () {
         model: Model(),
         noDataMessage: noData
       });
+      
       expect(view.el.innerHTML).to.equal(noData);
       view.destroy();
 
@@ -86,6 +90,7 @@ describe('NeicCatalogView test suite.', function () {
           regions: regions
         })
       });
+
       expect(view.el.innerHTML).to.equal([
         '<dl class="horizontal">',
           '<dt>Name</dt>',

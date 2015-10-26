@@ -65,7 +65,13 @@ describe('NeicResponseView', function () {
       view.destroy();
 
       // ... with data ...
-      view = NeicResponseView({header: null, model: Model({regions: regions})});
+      view = NeicResponseView({
+        header: null,
+        model: Model({
+          regions: regions
+        })
+      });
+
       expect(view.el.innerHTML).to.equal([
         '<dl class="horizontal">',
           '<dt>Name</dt>',
