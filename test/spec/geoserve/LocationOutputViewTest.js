@@ -13,7 +13,7 @@ expect = chai.expect;
 
 describe('LocationOutputView test suite.', function () {
 
-  describe('constructor', function () {
+  describe('Constructor', function () {
     it('is defined', function () {
       /* jshint -W030 */
       expect(LocationOutputView).not.to.be.null;

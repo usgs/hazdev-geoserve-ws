@@ -31,7 +31,7 @@ describe('TectonicSummaryView test suite.', function () {
   });
 
 
-  describe('constructor', function () {
+  describe('Constructor', function () {
     it('is defined', function () {
       /* jshint -W030 */
       expect(TectonicSummaryView).not.to.be.null;
