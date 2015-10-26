@@ -37,7 +37,6 @@ mocha.setup('bdd');
 // Add each test class here as they are implemented
 require('./spec/geoserve/AdminRegionViewTest');
 require('./spec/geoserve/AuthoritativeRegionViewTest');
-require('./spec/geoserve/LocationAppTest');
 require('./spec/geoserve/LocationOutputViewTest');
 require('./spec/geoserve/NearbyCitiesViewTest');
 require('./spec/geoserve/NeicCatalogViewTest');
@@ -45,6 +44,7 @@ require('./spec/geoserve/NeicResponseViewTest');
 require('./spec/geoserve/RegionsLayerTest');
 require('./spec/geoserve/TectonicSummaryViewTest');
 require('./spec/geoserve/TimezoneRegionViewTest');
+require('./spec/geoserve/LocationAppTest');
 
 if (window.mochaPhantomJS) {
   window.mochaPhantomJS.run();
