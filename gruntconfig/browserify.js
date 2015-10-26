@@ -46,7 +46,6 @@ var browserify = {
     dest: config.build + '/' + config.src + '/htdocs/index.js'
   },
 
-
   // the bundle used by tests
   bundle: {
     src: [],

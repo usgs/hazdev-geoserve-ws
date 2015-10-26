@@ -2,6 +2,7 @@
 
 var config = require('./config');
 
+
 var watch = {
   scripts: {
     files: [config.src + '/htdocs/**/*.js'],
@@ -45,5 +46,6 @@ var watch = {
     tasks: ['jshint:gruntfile']
   }
 };
+
 
 module.exports = watch;

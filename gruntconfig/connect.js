@@ -99,6 +99,7 @@ var connect = {
       }
     }
   },
+  
   template: {
     options: {
       base: ['node_modules/hazdev-template/dist/htdocs'],

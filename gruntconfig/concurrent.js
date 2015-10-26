@@ -6,6 +6,7 @@ var concurrent = {
     'jshint:tests',
     'browserify'
   ],
+
   build: [
     'postcss:dev',
     'copy:build',
@@ -14,11 +15,13 @@ var concurrent = {
     'jshint:scripts',
     'browserify'
   ],
+
   dist: [
     'copy:dist',
     'postcss:dist',
     'uglify'
   ]
 };
+
 
 module.exports = concurrent;

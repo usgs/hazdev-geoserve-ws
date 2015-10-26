@@ -2,12 +2,14 @@
 
 var config = require('./config');
 
+
 var uglify = {
   options: {
     mangle: true,
     compress: {},
     report: 'gzip'
   },
+
   dist: {
     files: [{
       expand: true,
@@ -17,5 +19,6 @@ var uglify = {
     }]
   }
 };
+
 
 module.exports = uglify;

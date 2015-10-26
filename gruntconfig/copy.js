@@ -2,6 +2,7 @@
 
 var config = require('./config');
 
+
 var copy = {
   build: {
     expand: true,
@@ -14,6 +15,7 @@ var copy = {
       '!**/*.orig'
     ]
   },
+
   dist: {
     expand: true,
     cwd: config.build + '/' + config.src,
@@ -24,6 +26,7 @@ var copy = {
       '!**/*.css'
     ]
   },
+
   leaflet: {
     expand: true,
     cwd: 'node_modules/leaflet/dist/images',
@@ -32,6 +35,7 @@ var copy = {
       '**/*'
     ]
   },
+
   locationview: {
     expand: true,
     cwd: 'node_modules/hazdev-location-view/src/locationview',
@@ -40,6 +44,7 @@ var copy = {
       'images/**'
     ]
   },
+
   test: {
     expand: true,
     cwd: config.test,
@@ -52,5 +57,6 @@ var copy = {
     ]
   }
 };
+
 
 module.exports = copy;
