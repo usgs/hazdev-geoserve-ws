@@ -21,13 +21,20 @@ module.exports = function (grunt) {
 
   grunt.registerTask('build', [
     'clean:build',
-    'concurrent:build'
+    'postcss:dev',
+    'copy:build',
+    'copy:leaflet',
+    'copy:locationview',
+    'jshint:scripts',
+    'browserify'
   ]);
 
   grunt.registerTask('dist', [
     'build',
     'clean:dist',
-    'concurrent:dist',
+    'copy:dist',
+    'postcss:dist',
+    'uglify',
     'connect:template',
     'configureRewriteRules',
     'configureProxies:dist',
@@ -35,12 +42,12 @@ module.exports = function (grunt) {
   ]);
 
   grunt.registerTask('default', [
-    'build',
-    'test',
-    'connect:template',
     'configureRewriteRules',
     'configureProxies:dev',
     'configureProxies:test',
+    'build',
+    'test',
+    'connect:template',
     'connect:dev',
     'connect:example',
     'watch'

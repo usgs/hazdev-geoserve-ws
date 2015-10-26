@@ -6,14 +6,22 @@ var config = require('./config');
 var watch = {
   scripts: {
     files: [config.src + '/htdocs/**/*.js'],
-    tasks: ['concurrent:scripts'],
+    tasks: [
+      'jshint:scripts',
+      'jshint:tests',
+      'browserify'
+    ],
     options: {
       livereload: config.liveReloadPort
     }
   },
   tests: {
     files: [config.test + '/**/*.js'],
-    tasks: ['concurrent:scripts']
+    tasks: [
+      'jshint:scripts',
+      'jshint:tests',
+      'browserify'
+    ]
   },
   scss: {
     files: [
