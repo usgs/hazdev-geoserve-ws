@@ -14,7 +14,7 @@ var expect,
 expect = chai.expect;
 
 
-describe('NearbyCitiesView', function () {
+describe('NearbyCitiesView test suite.', function () {
 
   before(function (done) {
     Xhr.ajax({
@@ -39,42 +39,58 @@ describe('NearbyCitiesView', function () {
       /* jshint +W030 */
     });
 
-    it('can be constructed without blowing up', function () {
-      var construct;
-
-      construct = function () {
-        NearbyCitiesView();
-      };
-
-      expect(construct).not.to.throw(Error);
+    it('can be instantiated', function () {
+      var c = new NearbyCitiesView();
+      /* jshint -W030 */
+      expect(c).not.to.be.undefined;
+      /* jshint +W030 */
     });
 
-    it('renders initially', function () {
-      var noData,
-          view;
+    it('can be created and destroyed', function () {
+      var createDestroy;
 
-      noData = 'Nearby city data not available.';
+      createDestroy = function () {
+        var view = NearbyCitiesView();
+        view.destroy();
+      };
 
-      // ... with no data ...
-      view = NearbyCitiesView({
-        model: Model(),
-        noDataMessage: noData
-      });
+      expect(createDestroy).to.not.throw(Error);
+    });
+  });
 
-      expect(view.el.innerHTML).to.equal(noData);
-      view.destroy();
+  describe('Render', function () {
+    it('shows data when data is available', function () {
+      var div;
 
-      // ... with data ...
-      view = NearbyCitiesView({
+      div = document.createElement('div');
+
+      NearbyCitiesView({
+        el: div,
         model: Model({
           places: places
         })
       });
 
-      expect(view.el.innerHTML).to.have.string([
+      expect(div.innerHTML).to.have.string([
         '<aside class="distance">9.2km (5.7mi)'
       ].join(''));
-      view.destroy();
+    });
+
+    it('shows custom message when no data is available', function () {
+      var div,
+          text;
+
+      div = document.createElement('div');
+      text = '<p class="alert">hello</p>';
+
+      NearbyCitiesView({
+          el: div,
+          model: Model(),
+          noDataMessage: text
+        });
+
+      expect(div.innerHTML).to.be.equal(text);
     });
   });
+
 });

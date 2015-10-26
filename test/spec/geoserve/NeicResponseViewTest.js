@@ -14,7 +14,7 @@ var expect,
 expect = chai.expect;
 
 
-describe('NeicResponseView', function () {
+describe('NeicResponseView test suite.', function () {
 
   before(function (done) {
     Xhr.ajax({
@@ -39,40 +39,40 @@ describe('NeicResponseView', function () {
       /* jshint +W030 */
     });
 
-    it('can be constructed without blowing up', function () {
-      var construct;
-
-      construct = function () {
-        NeicResponseView();
-      };
-
-      expect(construct).not.to.throw(Error);
+    it('can be instantiated', function () {
+      var c = new NeicResponseView();
+      /* jshint -W030 */
+      expect(c).not.to.be.undefined;
+      /* jshint +W030 */
     });
 
-    it('renders initially', function () {
-      var noData,
-          view;
+    it('can be created and destroyed', function () {
+      var createDestroy;
 
-      noData = 'Neic response data not available.';
+      createDestroy = function () {
+        var view = NeicResponseView();
+        view.destroy();
+      };
 
-      // ... with no data ...
-      view = NeicResponseView({
-        header: null,
-        model: Model(),
-        noDataMessage: noData
-      });
-      expect(view.el.innerHTML).to.equal(noData);
-      view.destroy();
+      expect(createDestroy).to.not.throw(Error);
+    });
+  });
 
-      // ... with data ...
-      view = NeicResponseView({
+  describe('Render', function () {
+    it('shows data when data is available', function () {
+      var div;
+
+      div = document.createElement('div');
+
+      NeicResponseView({
+        el: div,
         header: null,
         model: Model({
           regions: regions
         })
       });
 
-      expect(view.el.innerHTML).to.equal([
+      expect(div.innerHTML).to.equal([
         '<dl class="horizontal">',
           '<dt>Name</dt>',
             '<dd>Western US</dd>',
@@ -82,7 +82,42 @@ describe('NeicResponseView', function () {
             '<dd>4.0</dd>',
         '</dl>'
       ].join(''));
-      view.destroy();
+    });
+
+    it('shows custom message when no data is available', function () {
+      var div,
+          text;
+
+      div = document.createElement('div');
+      text = '<p class="alert">hello</p>';
+
+      NeicResponseView({
+          el: div,
+          header: null,
+          model: Model(),
+          noDataMessage: text
+        });
+
+      expect(div.innerHTML).to.be.equal(text);
+    });
+
+    it('shows custom header when header is passed', function () {
+      var div,
+          header,
+          text;
+
+      div = document.createElement('div');
+      text = 'Header';
+      header = '<h3 class="header">' + text + '</h3>';
+
+      NeicResponseView({
+          el: div,
+          header: header,
+          model: Model()
+        });
+
+      expect(div.querySelector('.header').innerHTML).to.be.equal(text);
     });
   });
+
 });

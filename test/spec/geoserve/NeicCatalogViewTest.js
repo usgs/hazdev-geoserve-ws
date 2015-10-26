@@ -32,21 +32,33 @@ describe('NeicCatalogView test suite.', function () {
 
 
   describe('Constructor', function () {
-    it('Can be defined', function () {
+    it('is defined', function () {
       /* jshint -W030 */
+      expect(NeicCatalogView).not.to.be.null;
       expect(NeicCatalogView).not.to.be.undefined;
       /* jshint +W030 */
     });
 
-    it('Can be instantiated', function () {
-      var c = NeicCatalogView();
+    it('can be instantiated', function () {
+      var c = new NeicCatalogView();
       /* jshint -W030 */
       expect(c).not.to.be.undefined;
       /* jshint +W030 */
     });
+
+    it('can be created and destroyed', function () {
+      var createDestroy;
+
+      createDestroy = function () {
+        var view = NeicCatalogView();
+        view.destroy();
+      };
+
+      expect(createDestroy).to.not.throw(Error);
+    });
   });
 
-  describe('destroy', function () {
+  describe('Destroy', function () {
     it('has such a method', function () {
       expect(NeicCatalogView()).to.respondTo('destroy');
     });
@@ -54,7 +66,7 @@ describe('NeicCatalogView test suite.', function () {
     it('can be destroyed', function () {
       var neicCatalogView = NeicCatalogView({
         model: Model({
-          regions:regions
+          regions: regions
         })
       });
 
@@ -66,32 +78,21 @@ describe('NeicCatalogView test suite.', function () {
     });
   });
 
-  describe('Test View', function () {
-    it('Renders with and without data', function () {
-      var noData,
-          view;
+  describe('Render', function () {
+    it('shows data when data is available', function () {
+      var div;
 
-      noData = 'Neic catalog not available.';
+      div = document.createElement('div');
 
-      // No data
-      view = NeicCatalogView({
-        header: null,
-        model: Model(),
-        noDataMessage: noData
-      });
-      
-      expect(view.el.innerHTML).to.equal(noData);
-      view.destroy();
-
-      // Has data
-      view = NeicCatalogView({
+      NeicCatalogView({
+        el: div,
         header: null,
         model: Model({
           regions: regions
         })
       });
 
-      expect(view.el.innerHTML).to.equal([
+      expect(div.innerHTML).to.equal([
         '<dl class="horizontal">',
           '<dt>Name</dt>',
             '<dd>California</dd>',
@@ -102,7 +103,42 @@ describe('NeicCatalogView test suite.', function () {
               '<dl></dl>',
         '</dl>'
       ].join(''));
-      view.destroy();
+    });
+
+    it('shows custom message when no data is available', function () {
+      var div,
+          text;
+
+      div = document.createElement('div');
+      text = '<p class="alert">hello</p>';
+
+      NeicCatalogView({
+          el: div,
+          header: null,
+          model: Model(),
+          noDataMessage: text
+        });
+
+      expect(div.innerHTML).to.be.equal(text);
+    });
+
+    it('shows custom header when header is passed', function () {
+      var div,
+          header,
+          text;
+
+      div = document.createElement('div');
+      text = 'Header';
+      header = '<h3 class="header">' + text + '</h3>';
+
+      NeicCatalogView({
+          el: div,
+          header: header,
+          model: Model()
+        });
+
+      expect(div.querySelector('.header').innerHTML).to.be.equal(text);
     });
   });
+
 });

@@ -12,17 +12,19 @@ expect = chai.expect;
 describe('RegionsLayer test suite.', function () {
 
   describe('Constructor', function () {
-    it('Can be defined', function () {
+    it('is defined', function () {
       /* jshint -W030 */
+      expect(RegionsLayer).not.to.be.null;
       expect(RegionsLayer).not.to.be.undefined;
       /* jshint +W030 */
     });
 
-    it('Can be instantiated', function () {
+    it('can be instantiated', function () {
       var c = new RegionsLayer();
       /* jshint -W030 */
       expect(c).not.to.be.undefined;
       /* jshint +W030 */
     });
   });
+
 });

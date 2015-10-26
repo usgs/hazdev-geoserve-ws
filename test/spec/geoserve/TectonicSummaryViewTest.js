@@ -14,7 +14,7 @@ var expect,
 expect = chai.expect;
 
 
-describe('TectonicSummaryView', function () {
+describe('TectonicSummaryView test suite.', function () {
 
   before(function (done) {
     Xhr.ajax({
@@ -39,16 +39,26 @@ describe('TectonicSummaryView', function () {
       /* jshint +W030 */
     });
 
-    it('can be constructed without blowing up', function () {
-      var construct;
-
-      construct = function () {
-        TectonicSummaryView();
-      };
-
-      expect(construct).not.to.throw(Error);
+    it('can be instantiated', function () {
+      var c = TectonicSummaryView();
+      /* jshint -W030 */
+      expect(c).not.to.be.undefined;
+      /* jshint +W030 */
     });
 
+    it('can be created and destroyed', function () {
+      var createDestroy;
+
+      createDestroy = function () {
+        var view = TectonicSummaryView();
+        view.destroy();
+      };
+
+      expect(createDestroy).to.not.throw(Error);
+    });
+  });
+
+  describe('Render', function () {
     it('renders initially', function () {
       var view;
 
@@ -121,7 +131,6 @@ describe('TectonicSummaryView', function () {
   });
 
   describe('View', function () {
-
 		it('shows a custom message when no data is available', function () {
 			var div,
 					text;
@@ -155,6 +164,6 @@ describe('TectonicSummaryView', function () {
 
 			expect(div.querySelector('.tectonic-summary-header').innerHTML).to.be.equal(text);
 		});
-
 	});
+
 });

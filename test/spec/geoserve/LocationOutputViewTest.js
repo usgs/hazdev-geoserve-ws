@@ -11,7 +11,7 @@ var expect;
 expect = chai.expect;
 
 
-describe('LocationOutputView', function () {
+describe('LocationOutputView test suite.', function () {
 
   describe('constructor', function () {
     it('is defined', function () {
@@ -21,38 +21,33 @@ describe('LocationOutputView', function () {
       /* jshint +W030 */
     });
 
-    it('can be constructed without blowing up', function () {
-      var construct;
-
-      construct = function () {
-        LocationOutputView();
-      };
-
-      expect(construct).not.to.throw(Error);
+    it('can be instantiated', function () {
+      var c = new LocationOutputView();
+      /* jshint -W030 */
+      expect(c).not.to.be.undefined;
+      /* jshint +W030 */
     });
 
-    it('renders initially', function () {
-      var noData,
-          view;
+    it('can be created and destroyed', function () {
+      var createDestroy;
 
-      noData = 'Use the map to select a location.';
+      createDestroy = function () {
+        var view = LocationOutputView();
+        view.destroy();
+      };
 
-      // ... with no data ...
-      view = LocationOutputView({
-        header: null,
-        model: Model(),
-        noDataMessage: '<p class="alert info">' + noData + '</p>'
-      });
+      expect(createDestroy).to.not.throw(Error);
+    });
+  });
 
-      expect(view.el.innerHTML).to.equal(
-        '<p class="alert info">' +
-          noData +
-        '</p>'
-      );
-      view.destroy();
+  describe('Render', function () {
+    it('shows data when data is available', function () {
+      var div;
 
-      // ... with data ...
-      view = LocationOutputView({
+      div = document.createElement('div');
+
+      LocationOutputView({
+        el: div,
         header: null,
         model: Model({
           location: {
@@ -62,14 +57,49 @@ describe('LocationOutputView', function () {
           }
         })
       });
-      
-      expect(view.el.innerHTML).to.equal([
+
+      expect(div.innerHTML).to.equal([
         '<p class="alert success">',
           '<strong>Denver, CO</strong>',
           '<small>39.739°N, 104.985°W</small>',
         '</p>'
       ].join(''));
-      view.destroy();
+    });
+
+    it('shows custom message when no data is available', function () {
+      var div,
+          text;
+
+      div = document.createElement('div');
+      text = '<p class="alert info">Use the map to select a location.</p>';
+
+      LocationOutputView({
+          el: div,
+          header: null,
+          model: Model(),
+          noDataMessage: text
+        });
+
+      expect(div.innerHTML).to.be.equal(text);
+    });
+
+    it('shows custom header when header is passed', function () {
+      var div,
+          header,
+          text;
+
+      div = document.createElement('div');
+      text = 'Header';
+      header = '<h3 class="header">' + text + '</h3>';
+
+      LocationOutputView({
+          el: div,
+          header: header,
+          model: Model()
+        });
+
+      expect(div.querySelector('.header').innerHTML).to.be.equal(text);
     });
   });
+
 });

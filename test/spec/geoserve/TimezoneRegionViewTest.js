@@ -32,21 +32,34 @@ describe('TimezoneRegionView test suite.', function () {
 
 
   describe('Constructor', function () {
-    it('Can be defined', function () {
+    it('is defined', function () {
       /* jshint -W030 */
+      expect(TimezoneRegionView).not.to.be.null;
       expect(TimezoneRegionView).not.to.be.undefined;
       /* jshint +W030 */
     });
 
-    it('Can be instantiated', function () {
-      var c = TimezoneRegionView();
+    it('can be instantiated', function () {
+      var c = new TimezoneRegionView();
       /* jshint -W030 */
       expect(c).not.to.be.undefined;
       /* jshint +W030 */
     });
+
+    it('can be created and destroyed', function () {
+      var createDestroy;
+
+      createDestroy = function () {
+        var view = TimezoneRegionView();
+        view.destroy();
+      };
+
+      expect(createDestroy).to.not.throw(Error);
+    });
   });
-  describe('Test View', function () {
-    it('Shows header when header is passed', function () {
+
+  describe('Render', function () {
+    it('shows custom header when header is passed', function () {
       var div,
           header,
           text;
@@ -64,31 +77,20 @@ describe('TimezoneRegionView test suite.', function () {
       expect(div.querySelector('.header').innerHTML).to.be.equal(text);
     });
 
-    it('Renders with and without data', function () {
-      var noData,
-          view;
+    it('shows data when data is available', function () {
+      var div;
 
-      noData = 'Time zone data not available.';
+      div = document.createElement('div');
 
-      // No data
-      view = TimezoneRegionView({
-        header: null,
-        model: Model(),
-        noDataMessage: noData
-      });
-
-      expect(view.el.innerHTML).to.equal(noData);
-      view.destroy();
-
-      // Has data
-      view = TimezoneRegionView({
+      TimezoneRegionView({
+        el: div,
         header: null,
         model: Model({
           regions: regions
         })
       });
 
-      expect(view.el.innerHTML).to.equal([
+      expect(div.innerHTML).to.equal([
         '<dl class="horizontal">',
           '<dt>Time Zone</dt>',
             '<dd>America/Los_Angeles</dd>',
@@ -102,7 +104,23 @@ describe('TimezoneRegionView test suite.', function () {
             '<dd>-420</dd>',
         '</dl>'
       ].join(''));
-      view.destroy();
+    });
+
+    it('shows custom message when no data is available', function () {
+      var div,
+          text;
+
+      div = document.createElement('div');
+      text = '<p class="alert">hello</p>';
+
+      TimezoneRegionView({
+          el: div,
+          header: null,
+          model: Model(),
+          noDataMessage: text
+        });
+
+      expect(div.innerHTML).to.be.equal(text);
     });
 
     it('Can destroy all the things', function () {
@@ -113,4 +131,5 @@ describe('TimezoneRegionView test suite.', function () {
       expect(destroy).to.not.throw(Error);
     });
   });
+
 });

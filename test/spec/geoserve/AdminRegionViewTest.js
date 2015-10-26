@@ -32,8 +32,24 @@ describe('AdminRegionView test suite.', function () {
 
 
   describe('Constructor', function () {
+    it('is defined', function () {
+      /* jshint -W030 */
+      expect(AdminRegionView).not.to.be.null;
+      expect(AdminRegionView).not.to.be.undefined;
+      /* jshint +W030 */
+    });
+
+    it('can be instantiated', function () {
+      var c = new AdminRegionView();
+      /* jshint -W030 */
+      expect(c).not.to.be.undefined;
+      /* jshint +W030 */
+    });
+
     it('can be created and destroyed', function () {
-      var createDestroy = function () {
+      var createDestroy;
+
+      createDestroy = function () {
         var view = AdminRegionView();
         view.destroy();
       };
@@ -43,7 +59,6 @@ describe('AdminRegionView test suite.', function () {
   });
 
   describe('Render', function () {
-
     it('shows data when data is available', function () {
       var div;
 
@@ -96,6 +111,6 @@ describe('AdminRegionView test suite.', function () {
 
       expect(div.querySelector('.header').innerHTML).to.be.equal(text);
     });
-
   });
+
 });
