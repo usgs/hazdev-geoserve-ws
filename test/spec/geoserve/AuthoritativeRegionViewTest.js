@@ -1,4 +1,4 @@
-/* global before, chai, describe, it */
+/* global after, before, chai, describe, it */
 'use strict';
 
 var AuthoritativeRegionView = require('geoserve/AuthoritativeRegionView'),
@@ -16,6 +16,21 @@ expect = chai.expect;
 
 describe('AuthoritativeRegionView test suite.', function () {
 
+  before(function (done) {
+    Xhr.ajax({
+      url: 'regions.json',
+      success: function (data) {
+        region = data;
+        done();
+      }
+    });
+  });
+
+  after(function () {
+    region = null;
+  });
+
+
   describe('Constructor', function () {
     it('can be created and destroyed', function () {
       var createDestroy = function () {
@@ -28,17 +43,6 @@ describe('AuthoritativeRegionView test suite.', function () {
   });
 
   describe('Render', function () {
-
-    before(function (done) {
-      Xhr.ajax({
-        url: 'regions.json',
-        success: function (data) {
-          region = data;
-          done();
-        }
-      });
-    });
-
 
     it('shows data when data is available', function () {
       var div;
