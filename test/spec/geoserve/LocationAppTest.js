@@ -1,35 +1,51 @@
 /* global chai, sinon, describe, it, before, after */
 'use strict';
 
-var expect = chai.expect,
-    LocationApp = require('geoserve/LocationApp'),
+var LocationApp = require('geoserve/LocationApp'),
+
     Xhr = require('util/Xhr');
 
+var expect;
 
-describe('LocationApp test suite.', function () {
+expect = chai.expect;
+
+
+describe('a LocationApp test suite.', function () {
   describe('Constructor', function () {
-    it('Can be defined', function () {
+    it('is defined', function () {
       /* jshint -W030 */
+      expect(LocationApp).not.to.be.null;
       expect(LocationApp).not.to.be.undefined;
       /* jshint +W030 */
     });
 
-    it('Can be instantiated', function () {
-      var c = LocationApp();
+    it('can be instantiated', function () {
+      var c = new LocationApp();
       /* jshint -W030 */
       expect(c).not.to.be.undefined;
       /* jshint +W030 */
     });
+
+    it('can be created and destroyed', function () {
+      var createDestroy;
+
+      createDestroy = function () {
+        var view = LocationApp();
+        view.destroy();
+      };
+
+      expect(createDestroy).to.not.throw(Error);
+    });
   });
 
   // just testing inheritance from EventModule
-  describe('destroy', function () {
+  describe('Destroy', function () {
     it('has such a method', function () {
       expect(LocationApp()).to.respondTo('destroy');
     });
   });
 
-  describe('responds to location change', function () {
+  describe('Responds to location change', function () {
     var app,
         stub;
 
