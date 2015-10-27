@@ -77,7 +77,6 @@ From the root of the project directory:
 ### Install Sass and Compass with Ruby
 
     gem install sass
-    gem install compass
 
 ### Preview in a Browser
 
