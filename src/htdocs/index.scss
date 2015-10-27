@@ -1,6 +1,6 @@
 @import 'hazdev-leaflet.scss';
+@import 'locationview/_controls.scss';
 
-@import 'locationview/_mixins.scss';
 @import 'locationview/LeafletControls.scss';
 @import 'locationview/CoordinateControl.scss';
 @import 'locationview/GeocodeControl.scss';
@@ -16,4 +16,8 @@
   font-size: smaller;
   color: #666;
   font-style: italic;
+}
+
+.location-control {
+  padding: 0;
 }
