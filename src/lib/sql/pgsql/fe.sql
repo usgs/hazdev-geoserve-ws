@@ -23,13 +23,13 @@ CREATE TABLE fe (
   id     INTEGER PRIMARY KEY,
   num    INTEGER,
   place  VARCHAR(100),
-  shape  GEOGRAPHY(GEOMETRY, 4326)
+  shape  GEOMETRY(GEOMETRY, 4326)
 );
 
 CREATE TABLE fe_rename (
   id     INTEGER PRIMARY KEY,
   place  VARCHAR(100),
-  shape  GEOGRAPHY(GEOMETRY, 4326)
+  shape  GEOMETRY(GEOMETRY, 4326)
 );
 
 /* Indexes */
