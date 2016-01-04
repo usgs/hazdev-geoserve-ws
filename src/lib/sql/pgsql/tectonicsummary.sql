@@ -19,7 +19,7 @@ CREATE TABLE tectonic_summary (
   name     VARCHAR(255),
   summary  text,
   type     VARCHAR(255),
-  shape    GEOGRAPHY(GEOMETRY, 4326)
+  shape    GEOMETRY(GEOMETRY, 4326)
 
 );
 

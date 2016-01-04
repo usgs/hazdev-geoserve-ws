@@ -20,7 +20,7 @@ CREATE TABLE authoritative (
   type      VARCHAR(50),
   priority  INTEGER,
   network   VARCHAR(10),
-  shape     GEOGRAPHY(GEOMETRY, 4326)
+  shape     GEOMETRY(GEOMETRY, 4326)
 );
 
 /* Indexes */

@@ -70,7 +70,7 @@ class RegionsFactory extends GeoserveFactory {
 
     // create sql
     $sql = 'WITH search AS (SELECT' .
-        ' ST_SetSRID(ST_MakePoint(:longitude,:latitude),4326)::geography' .
+        ' ST_SetSRID(ST_MakePoint(:longitude,:latitude),4326)::geometry' .
         ' AS point' .
         ')';
     // bound parameters
@@ -111,7 +111,7 @@ class RegionsFactory extends GeoserveFactory {
 
     // create sql
     $sql = 'WITH search AS (SELECT' .
-      ' ST_SetSRID(ST_MakePoint(:longitude,:latitude),4326)::geography' .
+      ' ST_SetSRID(ST_MakePoint(:longitude,:latitude),4326)::geometry' .
       ' AS point' .
       ')';
     //bound parameters
@@ -152,7 +152,7 @@ class RegionsFactory extends GeoserveFactory {
 
     // create sql
     $sql = 'WITH search AS (SELECT' .
-        ' ST_SetSRID(ST_MakePoint(:longitude,:latitude),4326)::geography' .
+        ' ST_SetSRID(ST_MakePoint(:longitude,:latitude),4326)::geometry' .
         ' AS point' .
         ')';
     // bound parameters
@@ -197,7 +197,7 @@ class RegionsFactory extends GeoserveFactory {
 
     // create sql
     $sql = 'WITH search AS (SELECT' .
-        ' ST_SetSRID(ST_MakePoint(:longitude,:latitude),4326)::geography' .
+        ' ST_SetSRID(ST_MakePoint(:longitude,:latitude),4326)::geometry' .
         ' AS point' .
         ')';
     // bound parameters
@@ -260,7 +260,7 @@ class RegionsFactory extends GeoserveFactory {
 
     // create sql
     $sql = 'WITH search AS (SELECT' .
-        ' ST_SetSRID(ST_MakePoint(:longitude,:latitude),4326)::geography' .
+        ' ST_SetSRID(ST_MakePoint(:longitude,:latitude),4326)::geometry' .
         ' AS point' .
         ')';
     // bound parameters
@@ -300,7 +300,7 @@ class RegionsFactory extends GeoserveFactory {
 
     // create sql
     $sql = 'WITH search AS (SELECT' .
-        ' ST_SetSRID(ST_MakePoint(:longitude,:latitude),4326)::geography' .
+        ' ST_SetSRID(ST_MakePoint(:longitude,:latitude),4326)::geometry' .
         ' AS point' .
         ')';
     // bound parameters

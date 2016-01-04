@@ -21,7 +21,7 @@ CREATE TABLE neic_catalog (
   name VARCHAR(50),
   magnitude DECIMAL(2, 1),
   type VARCHAR(50),
-  shape GEOGRAPHY(GEOMETRY, 4326)
+  shape GEOMETRY(GEOMETRY, 4326)
 );
 
 CREATE TABLE neic_response (
@@ -29,7 +29,7 @@ CREATE TABLE neic_response (
   name VARCHAR(50),
   magnitude DECIMAL(2, 1),
   type VARCHAR(50),
-  shape GEOGRAPHY(GEOMETRY, 4326)
+  shape GEOMETRY(GEOMETRY, 4326)
 );
 
 /* Indexes */

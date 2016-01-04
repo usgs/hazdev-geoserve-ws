@@ -19,7 +19,7 @@ CREATE TABLE admin (
   iso      CHAR(3),
   country  VARCHAR(100),
   region   VARCHAR(100),
-  shape    GEOGRAPHY(GEOMETRY, 4326)
+  shape    GEOMETRY(GEOMETRY, 4326)
 );
 
 /* Indexes */

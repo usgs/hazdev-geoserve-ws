@@ -21,7 +21,7 @@ CREATE TABLE timezone (
   dstend         VARCHAR(20),
   standardoffset int,
   dstoffset      int,
-  shape          GEOGRAPHY(GEOMETRY, 4326)
+  shape          GEOMETRY(GEOMETRY, 4326)
 );
 
 /* Indexes */
