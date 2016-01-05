@@ -13,3 +13,5 @@ install:
   - npm install phantomjs
   - npm install caniuse-db
   - npm install
+script:
+  - npm test
