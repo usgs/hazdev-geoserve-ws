@@ -12,7 +12,7 @@
     "geoserve"
   ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "grunt test"
   },
   "bugs": {
     "url": "https://github.com/usgs/hazdev-geoserve-ws/issues"
