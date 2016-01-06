@@ -15,7 +15,7 @@
 date_default_timezone_set('UTC');
 
 // work from lib directory
-chdir(dirname($LIB_DIR);
+chdir($LIB_DIR);
 include_once 'install-funcs.inc.php';
 include_once 'install/DatabaseInstaller.class.php';
 include_once '../conf/config.inc.php';
