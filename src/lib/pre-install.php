@@ -89,6 +89,6 @@ file_put_contents($HTTPD_CONF, '
 
 // configure database
 echo "\n";
-if (promptYesNo('Would you like to setup the database or load data', true)) {
+if (promptYesNo('Would you like to setup the database or load data', false)) {
   include_once 'setup_database.php';
 }
