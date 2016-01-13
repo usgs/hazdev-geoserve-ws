@@ -71,9 +71,7 @@ var NearbyCitiesView = function (params) {
         markup.push(
           '<li>' +
             '<span class="name">' +
-              properties.name + ', ' +
-              properties.admin1_name + ', ' +
-              properties.country_name +
+              Format.formatName(properties) +
             '</span>' +
             '<aside class="distance">' +
               Format.formatDistance(properties.distance) + ' ' +

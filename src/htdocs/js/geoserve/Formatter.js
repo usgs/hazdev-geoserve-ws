@@ -70,6 +70,11 @@ var compassWinds = function(azimuth) {
       directions = ['N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE',
           'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW', 'N'];
 
+  // if direction is already in compass points
+  if (directions.indexOf(azimuth) > -1) {
+    return azimuth;
+  }
+
   return directions[(Math.round((azimuth%360)/fullwind))];
 };
 
@@ -120,6 +125,19 @@ var formatMagnitude = function (magnitude) {
 };
 
 /**
+ * @param properties {Object}
+ *      An object with name, administrative region, and country attributes
+ *
+ * @return {String}
+ *      A formatted representation of the place name
+ */
+var formatName = function (properties) {
+  return properties.name  +
+    (properties.admin1_name ? ', ' + properties.admin1_name : '') +
+    (properties.country_name ? ', ' + properties.country_name : '');
+};
+
+/**
  * Put commas into a number for display.
  */
 var numberWithCommas = function (x) {
@@ -135,6 +153,7 @@ var Formatter = {
   formatDistance: formatDistance,
   formatLocation: formatLocation,
   formatMagnitude: formatMagnitude,
+  formatName: formatName,
   numberWithCommas: numberWithCommas
 };
 

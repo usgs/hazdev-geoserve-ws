@@ -7,6 +7,7 @@ $OLD_PWD = $_SERVER['PWD'];
 // work from lib directory
 chdir(dirname($argv[0]));
 
+
 if ($argv[0] === './pre-install.php' || $_SERVER['PWD'] !== $OLD_PWD) {
   // pwd doesn't resolve symlinks
   $LIB_DIR = $_SERVER['PWD'];
@@ -46,6 +47,16 @@ $HELP_TEXT = array(
   'DB_USER' => 'Read/write username for database connections',
   'DB_PASS' => 'Password for database user'
 );
+
+foreach ($argv as $arg) {
+  if ($arg === '--non-interactive') {
+    define('NON_INTERACTIVE', true);
+  }
+}
+if (!defined('NON_INTERACTIVE')) {
+  define('NON_INTERACTIVE', false);
+}
+
 // Interactively prompts user for config. Writes CONFIG_FILE_INI
 include_once 'configure.inc.php';
 
@@ -78,6 +89,6 @@ file_put_contents($HTTPD_CONF, '
 
 // configure database
 echo "\n";
-if (promptYesNo('Would you like to setup the database or load data', true)) {
+if (promptYesNo('Would you like to setup the database or load data', false)) {
   include_once 'setup_database.php';
 }
