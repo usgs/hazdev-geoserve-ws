@@ -50,6 +50,10 @@ $GEOSERVE_REGIONS = array(
             'description' => $GEOSERVE_METADATA['neicresponse']['description']
           ),
           array(
+            'name' => $GEOSERVE_METADATA['offshore']['name'],
+            'description' => $GEOSERVE_METADATA['offshore']['description']
+          ),
+          array(
             'name' => $GEOSERVE_METADATA['tectonic']['name'],
             'description' => $GEOSERVE_METADATA['tectonic']['description']
           ),
@@ -67,6 +71,7 @@ $GEOSERVE_REGIONS = array(
     'fe' => $GEOSERVE_METADATA['fe']['fields'],
     'neiccatalog' => $GEOSERVE_METADATA['neiccatalog']['fields'],
     'neicresponse' => $GEOSERVE_METADATA['neicresponse']['fields'],
+    'offshore' => $GEOSERVE_METADATA['offshore']['fields'],
     'tectonic' => $GEOSERVE_METADATA['tectonic']['fields'],
     'timezone' => $GEOSERVE_METADATA['timezone']['fields']
   ),

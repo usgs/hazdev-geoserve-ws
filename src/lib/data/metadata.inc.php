@@ -12,6 +12,7 @@ include_once 'fe/metadata.inc.php';
 include_once 'geonames/metadata.inc.php';
 include_once 'neiccatalog/metadata.inc.php';
 include_once 'neicresponse/metadata.inc.php';
+include_once 'offshore/metadata.inc.php';
 include_once 'tectonic/metadata.inc.php';
 include_once 'timezones/metadata.inc.php';
 
