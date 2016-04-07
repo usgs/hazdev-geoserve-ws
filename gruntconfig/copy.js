@@ -5,14 +5,26 @@ var config = require('./config');
 
 var copy = {
   build: {
-    expand: true,
-    cwd: config.src,
-    dest: config.build + '/' + config.src,
-    src: [
-      '**/*',
-      '!**/*.js',
-      '!**/*.scss',
-      '!**/*.orig'
+    files: [
+      {
+        expand: true,
+        cwd: config.src,
+        dest: config.build + '/' + config.src,
+        src: [
+          '**/*',
+          '!**/*.js',
+          '!**/*.scss',
+          '!**/*.orig'
+        ]
+      },
+      {
+        expand: true,
+        cwd: 'node_modules/leaflet/dist',
+        dest: config.build + '/' + config.src + '/htdocs',
+        src: [
+          'leaflet.css'
+        ]
+      },
     ]
   },
 
