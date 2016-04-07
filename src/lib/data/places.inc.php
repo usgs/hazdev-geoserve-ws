@@ -14,7 +14,7 @@ $GEOSERVE_PLACES = array(
       geographical database.
     </p>',
   'notes' => array(
-    'Circle search (latitude, longitude, maxradius) and rectangle search ' .
+    'Circle search (latitude, longitude, maxradiuskm) and rectangle search ' .
     '(maxlatitude, minlatitude, laxlongitude, minlongitude) are mutually ' .
     'exclusive. It is an error to specify both.',
 
@@ -34,7 +34,7 @@ $GEOSERVE_PLACES = array(
         'maximum' => 180.0,
         'description' => 'Longitude in decimal degrees of center point.'
       ),
-      'maxradius' => array(
+      'maxradiuskm' => array(
         'type' => 'Number',
         'minimum' => 0,
         'maximum' => 6371,
