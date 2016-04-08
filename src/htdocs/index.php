@@ -6,7 +6,10 @@ if (!isset($TEMPLATE)) {
   include_once '../conf/config.inc.php';
   $TITLE = 'Geoserve';
   $NAVIGATION = true;
-  $HEAD = '<link rel="stylesheet" href="index.css"/>';
+  $HEAD = '
+      <link rel="stylesheet" href="index.css"/>
+      <link rel="stylesheet" href="leaflet.css"/>
+    ';
   $FOOT =
       '<script>' .
         'var MOUNT_PATH=' . json_encode($MOUNT_PATH) . ';' .
