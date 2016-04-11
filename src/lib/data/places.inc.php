@@ -74,7 +74,9 @@ $GEOSERVE_PLACES = array(
         'type' => 'Number',
         'minimum' => 0,
         'maximum' => null,
-        'description' => 'Limit number of results, sorted by distance.'
+        'description' => 'Limit number of results, sorted by distance. ' .
+            'The event result type will always include 5 places regardless '.
+            'of the requested limit.'
       ),
       'minpopulation' => array(
         'type' => 'Number',
