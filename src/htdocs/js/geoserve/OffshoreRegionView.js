@@ -10,6 +10,12 @@ var _DEFAULTS = {
 };
 
 
+/**
+ * A view to show offshore region data
+ *
+ * @param params {object}
+ *    Configuration optoins. See _DEFAULTS for more details.
+ */
 var OffshoreRegionView = function (params) {
   var _this,
       _initialize;
@@ -22,6 +28,9 @@ var OffshoreRegionView = function (params) {
     _this.render();
   };
 
+  /**
+   * Updates the view
+   */
   _this.render = function () {
     var markup,
         offshoreResponse,
