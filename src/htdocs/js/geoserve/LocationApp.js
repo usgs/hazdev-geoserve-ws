@@ -8,6 +8,7 @@ var AdminRegionView = require('geoserve/AdminRegionView'),
     NearbyCitiesView = require('geoserve/NearbyCitiesView'),
     NeicCatalogView = require('geoserve/NeicCatalogView'),
     NeicResponseView = require('geoserve/NeicResponseView'),
+    OffshoreRegionView = require('geoserve/OffshoreRegionView'),
     TectonicSummaryView = require('geoserve/TectonicSummaryView'),
     TimezoneRegionView = require('geoserve/TimezoneRegionView'),
 
@@ -43,10 +44,11 @@ var LocationApp = function (params) {
       _adminRegionView,
       _authoritativeRegionView,
       _locationMapView,
+      _locationOutputView,
       _nearbyCitiesView,
       _neicCatalogView,
       _neicResponseView,
-      _locationOutputView,
+      _offshoreRegionView,
       _tectonicSummaryView,
       _timezoneRegionView,
       _url,
@@ -89,6 +91,7 @@ var LocationApp = function (params) {
       '<div class="row">' +
         '<section class="column one-of-two neiccatalog-view"></section>' +
         '<section class="column one-of-two neicresponse-view"></section>' +
+        '<section class="column one-of-two offshore-region-view"></section>' +
       '</div>';
 
     _this.model.on('change:location', _onLocationChange);
@@ -149,6 +152,13 @@ var LocationApp = function (params) {
       el: el.querySelector('.tectonic-summary-view'),
       model: _this.model,
       noDataMessage: ''
+    });
+
+    _offshoreRegionView = OffshoreRegionView({
+      el: el.querySelector('.offshore-region-view'),
+      header: '<h3>Offshore Region View</h3>',
+      model: _this.model,
+      noDataMessage: '<aside class="no-data-message">Data not available</aside>'
     });
   };
 
@@ -228,6 +238,7 @@ var LocationApp = function (params) {
     _nearbyCitiesView = null;
     _neicCatalogView = null;
     _neicResponseView = null;
+    _offshoreRegionView = null;
     _tectonicSummaryView = null;
     _timezoneRegionView = null;
     _url = null;
