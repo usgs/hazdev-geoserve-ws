@@ -18,7 +18,7 @@ var OffshoreRegionView = function (params) {
   _this = BaseView(params);
 
   _initialize = function () {
-    _this.addCalss('offshore-region-view');
+    _this.addClass('offshore-region-view');
     _this.render();
   };
 
@@ -30,11 +30,11 @@ var OffshoreRegionView = function (params) {
     markup = [_this.header];
 
     try {
-      offshoreResponse = _this.model.get('offshore').offshoreResponse;
+      offshoreResponse = _this.model.get('regions').offshore;
       properties = offshoreResponse.features[0].properties;
 
       markup.push(
-        'dl class="horizontal">' +
+        '<dl class="horizontal">' +
           '<dt>Name</dt>' +
             '<dd>' + properties.name + '</dd>' +
         '</dl>'
