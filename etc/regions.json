@@ -134,5 +134,19 @@
         }
       }
     ]
+  },
+  "offshore": {
+    "type": "FeatureCollection",
+    "count": 1,
+    "features": [
+      {
+        "type": "Feature",
+        "id": 84,
+        "geometry": null,
+        "properties": {
+          "name": "Off the coast of Oregon"
+        }
+      }
+    ]
   }
 }

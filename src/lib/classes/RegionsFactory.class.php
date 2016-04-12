@@ -8,6 +8,7 @@ class RegionsFactory extends GeoserveFactory {
     'fe',
     'neiccatalog',
     'neicresponse',
+    'offshore',
     'tectonic',
     'timezone'
   );
@@ -37,6 +38,9 @@ class RegionsFactory extends GeoserveFactory {
     }
     if (in_array('neicresponse', $query->type)) {
       $data['neicresponse'] = $this->getNEICResponse($query);
+    }
+    if (in_array('offshore', $query->type)) {
+      $data['offshore'] = $this->getOffshore($query);
     }
     if (in_array('tectonic', $query->type)) {
       $data['tectonic'] = $this->getTectonicSummary($query);
@@ -244,6 +248,44 @@ class RegionsFactory extends GeoserveFactory {
    */
   public function getNEICResponse ($query) {
     return $this->getNEIC($query, 'neic_response');
+  }
+
+  /**
+   * Get Offshore Regions
+   *
+   * @param $query {RegionsQuery}
+   *        query object
+   */
+  public function getOffshore ($query) {
+    // Checks for latitude and longitude
+    if ($query->latitude === null || $query->longitude === null) {
+      throw new Exception('"latitude", and "longitude" are required');
+    }
+
+    // create sql
+    $sql = 'WITH search AS (SELECT' .
+        ' ST_SetSRID(ST_MakePoint(:longitude,:latitude),4326)::geometry' .
+        ' AS point' .
+        ')';
+    // bound parameters
+    $params = array(
+        ':latitude' => $query->latitude,
+        ':longitude' => $query->longitude);
+
+    $sql .= ' SELECT' .
+        ' name' .
+        ', id';
+
+    if ($query->includeGeometry) {
+      $sql .= ', ST_AsGeoJSON(shape) as shape';
+    }
+
+    $sql .= ' FROM search, offshore' .
+        ' WHERE search.point && shape' .
+        ' AND ST_Intersects(search.point, shape)' .
+        ' ORDER BY ST_Area(shape) ASC';
+
+    return $this->execute($sql, $params);
   }
 
   /**

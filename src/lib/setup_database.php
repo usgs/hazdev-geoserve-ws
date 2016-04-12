@@ -108,6 +108,7 @@ include_once 'load_authoritative.php';
 include_once 'load_neic.php';
 include_once 'load_tectonicsummary.php';
 include_once 'load_timezone.php';
+include_once 'load_offshore.php';
 
 // ----------------------------------------------------------------------
 // Grant Roles
