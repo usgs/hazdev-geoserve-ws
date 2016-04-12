@@ -7,8 +7,8 @@ if (!isset($TEMPLATE)) {
   $TITLE = 'Geoserve';
   $NAVIGATION = true;
   $HEAD = '
-      <link rel="stylesheet" href="index.css"/>
       <link rel="stylesheet" href="leaflet.css"/>
+      <link rel="stylesheet" href="index.css"/>
     ';
   $FOOT =
       '<script>' .
