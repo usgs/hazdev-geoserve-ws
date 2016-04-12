@@ -5,6 +5,7 @@ var BaseView = require('geoserve/BaseView'),
 
     L = require('leaflet'),
     LocationControl = require('locationview/LocationControl'),
+    HazDevLayers = require('leaflet/control/HazDevLayers'),
 
     Util = require('util/Util'),
     Xhr = require('util/Xhr');
@@ -57,7 +58,7 @@ var LocationMapView = function (params) {
     });
     _map.fitBounds([[24.6, -125.0], [50.0, -65.0]]);
 
-    _layersControl = L.control.layers({
+    _layersControl = HazDevLayers({
       'Terrain': L.esriTerrain().addTo(_map),
       'Satellite': L.openAerialMap(),
       'Street': L.openStreetMap(),
