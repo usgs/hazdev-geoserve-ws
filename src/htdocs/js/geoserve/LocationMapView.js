@@ -110,12 +110,26 @@ var LocationMapView = function (params) {
 
   /**
    * Update app location when location control changes location.
+   * while loop fixes a bug where longitude values less than 180 or greater
+   * than 180 can happen if the map is paned too far either left or right.
    */
   _onLocationChange = function () {
     var controlLocation,
-        location;
+        location,
+        longitude;
 
     controlLocation = _locationControl.getLocation();
+    longitude = controlLocation.longitude;
+
+    while (longitude < -180) {
+      longitude = longitude + 360;
+    }
+
+    while (longitude > 180) {
+      longitude = longitude - 360;
+    }
+
+    controlLocation.longitude = longitude;
     location = _this.model.get('location');
     if (controlLocation !== location &&
         (
