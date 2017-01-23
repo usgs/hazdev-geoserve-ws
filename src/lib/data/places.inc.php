@@ -10,7 +10,7 @@ $GEOSERVE_PLACES = array(
 
     <p>
       Data returned by the Geoserve Web Service <em>places</em> endpoint is
-      provided by the <a href="http://www.geonames.org/">Geonames</a>
+      provided by the <a href="https://www.geonames.org/">Geonames</a>
       geographical database.
     </p>',
   'notes' => array(
