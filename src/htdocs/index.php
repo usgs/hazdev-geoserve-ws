@@ -14,6 +14,7 @@ if (!isset($TEMPLATE)) {
       '<script>' .
         'var MOUNT_PATH=' . json_encode($MOUNT_PATH) . ';' .
       '</script>' .
+      '<script src="/lib/leaflet-0.7.7/leaflet.js"></script>' .
       '<script src="index.js"></script>';
   include 'template.inc.php';
 }
