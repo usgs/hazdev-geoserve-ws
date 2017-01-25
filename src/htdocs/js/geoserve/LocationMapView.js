@@ -1,9 +1,14 @@
+/* global L */
 'use strict';
 
 var BaseView = require('geoserve/BaseView'),
     RegionsLayer = require('geoserve/RegionsLayer'),
 
-    L = require('leaflet'),
+    Grayscale = require('leaflet/layer/Grayscale'),
+    Terrain = require('leaflet/layer/Terrain'),
+    Satellite = require('leaflet/layer/Satellite'),
+    Street = require('leaflet/layer/Street'),
+
     LocationControl = require('locationview/LocationControl'),
     HazDevLayers = require('leaflet/control/HazDevLayers'),
 
@@ -12,10 +17,6 @@ var BaseView = require('geoserve/BaseView'),
 
 require('leaflet/control/Fullscreen');
 require('leaflet/control/MousePosition');
-require('leaflet/layer/EsriGrayscale');
-require('leaflet/layer/EsriTerrain');
-require('leaflet/layer/OpenAerialMap');
-require('leaflet/layer/OpenStreetMap');
 
 
 var _DEFAULTS = {
@@ -59,10 +60,10 @@ var LocationMapView = function (params) {
     _map.fitBounds([[24.6, -125.0], [50.0, -65.0]]);
 
     _layersControl = HazDevLayers({
-      'Terrain': L.esriTerrain().addTo(_map),
-      'Satellite': L.openAerialMap(),
-      'Street': L.openStreetMap(),
-      'Grayscale': L.esriGrayscale()
+      'Terrain': Terrain({provider: Terrain.NATGEO}).addTo(_map),
+      'Satellite': Satellite(),
+      'Street': Street(),
+      'Grayscale': Grayscale()
     }).addTo(_map);
 
     // Add Map Controls
