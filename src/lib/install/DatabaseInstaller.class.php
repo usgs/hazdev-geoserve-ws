@@ -90,7 +90,7 @@ abstract class DatabaseInstaller {
 		// Remove /* */ comments
 		$statements = preg_replace('#/\*.*\*/#', '', $statements);
 		// split on semicolons that are outside of single quotes
-		// https://stackoverflow.com/questions/21105360/regex-find-comma-not-inside-quotes
+		// http://stackoverflow.com/questions/21105360/regex-find-comma-not-inside-quotes
 		$statements = preg_split("/(?!\B'[^']*);(?![^']*'\B)/", $statements);
 
 		foreach ($statements as $sql) {

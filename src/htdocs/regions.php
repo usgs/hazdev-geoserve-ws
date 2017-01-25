@@ -123,7 +123,7 @@ if (!isset($TEMPLATE)) {
 <h2 id="response">Response</h2>
 <p>
   The response is formatted as one or more nested
-  <a href="https://geojson.org/geojson-spec.html#feature-collection-objects">
+  <a href="http://geojson.org/geojson-spec.html#feature-collection-objects">
   GeoJSON FeatureCollections</a>. Each nested GeoJSON FeatureCollections is
   keyed by the request <code>type</code>.
 </p>

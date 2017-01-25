@@ -17,10 +17,6 @@ var BaseView = require('geoserve/BaseView'),
 
 require('leaflet/control/Fullscreen');
 require('leaflet/control/MousePosition');
-// require('leaflet/layer/EsriGrayscale');
-// require('leaflet/layer/EsriTerrain');
-// require('leaflet/layer/OpenAerialMap');
-// require('leaflet/layer/OpenStreetMap');
 
 
 var _DEFAULTS = {
