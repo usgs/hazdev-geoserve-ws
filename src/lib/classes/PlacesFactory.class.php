@@ -183,36 +183,73 @@ class PlacesFactory extends GeoserveFactory {
    * Get old event page places (five total)
    */
   public function getEventPlaces ($query) {
-    // closest populated place
-    $closest = new PlacesQuery();
-    $closest->latitude = $query->latitude;
-    $closest->longitude = $query->longitude;
-    $closest->limit = 1;
+    $max = $query->limit ? $query->limit : 5;
 
-    // capital
-    $capital = new PlacesQuery();
-    $capital->latitude = $query->latitude;
-    $capital->longitude = $query->longitude;
-    $capital->featurecode = 'PPLA';
-    $capital->limit = 1;
+
+    $populatedNearby = new PlacesQuery();
+    $populatedNearby->latitude = $query->latitude;
+    $populatedNearby->longitude = $query->longitude;
+    $populatedNearby->minpopulation = 20000;
+    $populatedNearby->maxradiuskm = 25;
+    $populatedNearby->limit = 2;
+    $nearbyPlaces = $this->getByCircle($populatedNearby);
+
+    if (count($nearbyPlaces) == 0) {
+      $small = new PlacesQuery();
+      $small->latitude = $query->latitude;
+      $small->longitude = $query->longitude;
+      $small->minpopulation = 500;
+      $small->maxradiuskm = 10;
+      $small->limit = 2;
+      $nearbyPlaces = $this->getByCircle($small);
+
+      if (count($nearbyPlaces) == 0) {
+        // closest populated place
+        $closest = new PlacesQuery();
+        $closest->latitude = $query->latitude;
+        $closest->longitude = $query->longitude;
+        $closest->minpopulation = 1;
+        $closest->limit = 2;
+        $nearbyPlaces = $this->getByCircle($closest);
+      }
+    }
+
+    $big = new PlacesQuery();
+    $big->latitude = $query->latitude;
+    $big->longitude = $query->longitude;
+    $big->minpopulation = 250000;
+    $big->maxradiuskm = 200;
+    $big->limit = 2;
+    $bigPlaces = $this->getByCircle($big);
+
+    if (count($bigPlaces) == 0) {
+      // capital
+      $capital = new PlacesQuery();
+      $capital->latitude = $query->latitude;
+      $capital->longitude = $query->longitude;
+      $capital->featurecode = 'PPLA';
+      $capital->limit = 1;
+      $bigPlaces = $this->getByCircle($capital);
+    }
 
     // rest are populated places with population > 10,000
     $populated = new PlacesQuery();
     $populated->latitude = $query->latitude;
     $populated->longitude = $query->longitude;
     $populated->minpopulation = 10000;
-    $populated->limit = 5;
+    $populated->limit = $max;
+    $populatedPlaces = $this->getByCircle($populated);
 
     // combine all places
     $places = array_merge(
-        $this->getByCircle($closest),
-        $this->getByCircle($capital),
-        $this->getByCircle($populated));
+        $nearbyPlaces,
+        $bigPlaces,
+        $populatedPlaces);
     // choose first 5 unique (closest and capital always included because first)
     $eventplaces = array();
     foreach ($places as $place) {
       $eventplaces[$place['geoname_id']] = $place;
-      if (count($eventplaces) >= 5) {
+      if (count($eventplaces) >= $max) {
         break;
       }
     }
