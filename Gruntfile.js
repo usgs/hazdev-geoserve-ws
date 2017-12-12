@@ -29,12 +29,16 @@ module.exports = function (grunt) {
     'browserify'
   ]);
 
-  grunt.registerTask('dist', [
+  grunt.registerTask('builddist', [
     'build',
     'clean:dist',
     'copy:dist',
     'postcss:dist',
-    'uglify',
+    'uglify'
+  ]);
+
+  grunt.registerTask('dist', [
+    'builddist',
     'connect:template',
     'configureRewriteRules',
     'configureProxies:dist',
