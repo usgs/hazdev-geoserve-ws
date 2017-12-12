@@ -12,6 +12,10 @@ if (!file_exists($CONFIG_INI_FILE)) {
 }
 $CONFIG = parse_ini_file($CONFIG_INI_FILE);
 
+// environment overrides configuration
+$CONFIG = array_merge($CONFIG, $_ENV);
+
+
 $forwarded_https = (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https');
 
 // build absolute Geoserve page URL string
