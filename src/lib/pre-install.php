@@ -74,15 +74,27 @@ file_put_contents($HTTPD_CONF, '
   RewriteRule ^' . $CONFIG['MOUNT_PATH'] . '/(services|places|regions|layers)\.(json)$ ' . $CONFIG['MOUNT_PATH'] . '/$1.php?format=$2 [L,PT,QSA]
 
   <Location ' . $CONFIG['MOUNT_PATH'] . '>
-    Order allow,deny
-    Allow from all
-
-    <LimitExcept GET>
-      deny from all
-    </LimitExcept>
-
     ExpiresActive on
     ExpiresDefault "access plus 1 days"
+
+    # apache 2.2
+    <IfModule !mod_authz_core.c>
+      Order allow,deny
+      Allow from all
+
+      <LimitExcept GET>
+        Deny from all
+      </LimitExcept>
+    </IfModule>
+
+    # apache 2.4
+    <IfModule mod_authz_core.c>
+      Require all granted
+
+      <LimitExcept GET>
+        Require all denied
+      </LimitExcept>
+    </IfModule>
   </Location>
 ');
 
