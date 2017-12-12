@@ -71,12 +71,19 @@ abstract class GeoserveFactory {
       $errorInfo = $db->errorInfo();
       throw new Exception($errorInfo[2]);
     } else {
+      $data = null;
+      $exception = null;
       try {
         // return all matching rows
-        return $query->fetchAll(PDO::FETCH_ASSOC);
-      } finally {
-        $query->closeCursor();
+        $data = $query->fetchAll(PDO::FETCH_ASSOC);
+      } catch (Exception $e) {
+        $exception = $e;
       }
+      $query->closeCursor();
+      if ($exception != null) {
+        throw $exception;
+      }
+      return $data;
     }
   }
 
