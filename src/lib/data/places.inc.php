@@ -99,6 +99,18 @@ $GEOSERVE_PLACES = array(
             'description' => $GEOSERVE_METADATA['event']['description']
           )
         )
+      ),
+      'featurecode' => array(
+        'type' => 'String',
+        'description' => 'Geonames feature code. ' .
+            'For example <code>PPLA</code>. ' .
+            '<br/>See <a href="' .
+            'http://download.geonames.org/export/dump/featureCodes_en.txt' .
+            '">Geonames feature codes</a>' .
+            '</a> for a list of all feature codes.' .
+            '<br/><small>' .
+            'Note that only code starting with <code>P</code> are available.' .
+            '</small>'
       )
     )
   ),

@@ -240,6 +240,8 @@ class GeoserveWebService {
           $query->type[] = $this->validateEnumerated(
               $name, $type, $supportedTypes);
         }
+      } else if ($name === 'featurecode') {
+        $query->featurecode = $value;
       } else {
         $this->error(self::BAD_REQUEST,
             'Unknown parameter "' . $name . '".');
