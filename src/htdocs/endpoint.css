@@ -13,26 +13,32 @@ ul.parameters {
   padding-top:0;
 }
 
-/* ul.parameters dt > code {
+ul.parameters dt > code {
   margin: 0 0 0.5em;
-} */
+}
 
- ul.parameters > li {
+ul.parameters > li {
+  display:-ms-flexbox;
   display:flex;
-  flex-direction: row;
+  -ms-flex-direction: row;
+      flex-direction: row;
   padding: 0 0 1em;
 }
 
 ul.parameters > li > header {
+  display:-ms-flexbox;
   display:flex;
-  flex-direction: column;
+  -ms-flex-direction: column;
+      flex-direction: column;
   margin: 1em 0 0;
   width: 33%;
   min-width: 115px;
   max-width: 150px;
   margin-right: 1em;
-  flex: 0 0 auto;
-  align-items: flex-start;
+  -ms-flex: 0 0 auto;
+      flex: 0 0 auto;
+  -ms-flex-align: start;
+      align-items: flex-start;
 }
 
 ul.parameters > li > header > small {
