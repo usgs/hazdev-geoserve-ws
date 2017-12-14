@@ -15,4 +15,4 @@ install:
   - npm install
   - php src/lib/pre-install.php --non-interactive
 script:
-  - npm test
+  - grunt builddist
