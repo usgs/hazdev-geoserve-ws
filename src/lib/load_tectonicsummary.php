@@ -30,7 +30,7 @@ $url = configure('GLOBAL_TECTONIC_SUMMARY_URL',
     "Tectonic summary download url");
 $filenames = array('tectonicsummary_nc.dat', 'tectonicsummary_neic.dat',
     'tectonicsummary_ut.dat');
-$download_path = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'tectonic_summary'
+$download_path = $downloadBaseDir . DIRECTORY_SEPARATOR . 'tectonic_summary'
     . DIRECTORY_SEPARATOR;
 
 // create temp directory

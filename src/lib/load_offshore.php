@@ -27,7 +27,7 @@ $url = configure('OFFSHORE_URL',
     'ftp://hazards.cr.usgs.gov/web/hazdev-geoserve-ws/offshore/',
     "Offshore download url");
 $filenames = array('feoffshore.dat');
-$download_path = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'fe'
+$download_path = $downloadBaseDir . DIRECTORY_SEPARATOR . 'fe'
     . DIRECTORY_SEPARATOR;
 
 // create temp directory

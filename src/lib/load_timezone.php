@@ -27,7 +27,7 @@ $url = configure('GLOBAL_ADMIN_URL',
     'ftp://hazards.cr.usgs.gov/web/hazdev-geoserve-ws/timezones/',
     "Timezone download url");
 $filenames = array('timezones.dat');
-$download_path = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'timezone'
+$download_path = $downloadBaseDir . DIRECTORY_SEPARATOR . 'timezone'
     . DIRECTORY_SEPARATOR;
 
 // create temp directory

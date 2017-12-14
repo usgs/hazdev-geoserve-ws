@@ -27,7 +27,7 @@ $url = configure('NEIC_URL',
     'ftp://hazards.cr.usgs.gov/web/hazdev-geoserve-ws/neic/',
     "NEIC download url");
 $filenames = array('neiccatalog.dat', 'neicresponse.dat');
-$download_path = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'neic'
+$download_path = $downloadBaseDir . DIRECTORY_SEPARATOR . 'neic'
     . DIRECTORY_SEPARATOR;
 
 // create temp directory

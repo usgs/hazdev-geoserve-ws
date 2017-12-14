@@ -2,13 +2,13 @@
 
 date_default_timezone_set('UTC');
 
-$OLD_PWD = $_SERVER['PWD'];
+$OLD_PWD = isset($_SERVER['PWD']) ? $_SERVER['PWD'] : '';
 
 // work from lib directory
 chdir(dirname($argv[0]));
 
 
-if ($argv[0] === './pre-install.php' || $_SERVER['PWD'] !== $OLD_PWD) {
+if ($argv[0] === './pre-install.php' || (isset($_SERVER['PWD']) && $_SERVER['PWD'] !== $OLD_PWD)) {
   // pwd doesn't resolve symlinks
   $LIB_DIR = $_SERVER['PWD'];
 } else {

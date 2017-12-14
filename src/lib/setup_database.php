@@ -23,14 +23,14 @@ include_once '../conf/config.inc.php';
 
 $DB_DSN = configure('DB_ROOT_DSN', $CONFIG['DB_DSN'], 'Database administrator DSN');
 $dbtype = substr($DB_DSN, 0, strpos($DB_DSN, ':'));
-$username = configure('DB_ROOT_USER', 'root', 'Database adminitrator user');
+$username = configure('DB_ROOT_USER', 'postgres', 'Database adminitrator user');
 $password = configure('DB_ROOT_PASS', '', 'Database administrator password',
     true);
 
 $defaultScriptDir = implode(DIRECTORY_SEPARATOR, array(
     $APP_DIR, 'lib', 'sql', $dbtype));
-$defaultDataDir = implode(DIRECTORY_SEPARATOR, array(
-    $APP_DIR, 'lib', 'data'));
+$downloadBaseDir = isset($CONFIG['DOWNLOAD_DIR']) ?
+    $CONFIG['DOWNLOAD_DIR'] : sys_get_temp_dir();
 
 
 // ----------------------------------------------------------------------

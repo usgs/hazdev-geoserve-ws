@@ -27,7 +27,7 @@ $url = configure('AUTHORITATIVE_URL',
     'ftp://hazards.cr.usgs.gov/web/hazdev-geoserve-ws/auth/',
     "Authoritative download url");
 $filenames = array('authregions.dat');
-$download_path = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'auth'
+$download_path = $downloadBaseDir . DIRECTORY_SEPARATOR . 'auth'
     . DIRECTORY_SEPARATOR;
 
 // create temp directory

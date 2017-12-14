@@ -27,7 +27,7 @@ $url = configure('GLOBAL_ADMIN_URL',
     'ftp://hazards.cr.usgs.gov/web/hazdev-geoserve-ws/admin/',
     "Admin download url");
 $filenames = array('globaladmin.zip');
-$download_path = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'admin'
+$download_path = $downloadBaseDir . DIRECTORY_SEPARATOR . 'admin'
     . DIRECTORY_SEPARATOR;
 
 // create temp directory

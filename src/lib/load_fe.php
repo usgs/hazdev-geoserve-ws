@@ -27,7 +27,7 @@ $url = configure('FE_URL',
     'ftp://hazards.cr.usgs.gov/web/hazdev-geoserve-ws/FE/',
     "FE download url");
 $filenames = array('fe.dat', 'ferenames.dat');
-$download_path = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'FE'
+$download_path = $downloadBaseDir . DIRECTORY_SEPARATOR . 'FE'
     . DIRECTORY_SEPARATOR;
 
 // create temp directory

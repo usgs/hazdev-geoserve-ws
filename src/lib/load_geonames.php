@@ -27,7 +27,7 @@ $url = configure('GEONAMES_URL', 'ftp://hazards.cr.usgs.gov/web/hazdev-geoserve-
     "Geonames download url");
 $filenames = array('cities1000.zip', 'US.zip', 'admin1CodesASCII.txt',
     'countryInfo.txt');
-$download_path = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'geonames'
+$download_path = $downloadBaseDir . DIRECTORY_SEPARATOR . 'geonames'
     . DIRECTORY_SEPARATOR;
 
 // create temp directory
