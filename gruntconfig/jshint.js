@@ -11,11 +11,7 @@ var jshint = {
   gruntfile: [
     'Gruntfile.js',
     'gruntconfig/**/*.js'
-  ],
-
-  scripts: [config.src + '/htdocs/**/*.js'],
-
-  tests: [config.test + '/**/*.js']
+  ]
 };
 
 

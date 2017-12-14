@@ -10,7 +10,7 @@ var connect = {
 
   rules: [
     {
-      from: '^(' + config.ini.MOUNT_PATH + ')?/(services|places|regions|layers)\\.(json)\\??(.*)$',
+      from: '^(' + config.ini.MOUNT_PATH + ')?/(index|places|regions|layers)\\.(json)\\??(.*)$',
       to: '/$2.php?format=$3&$4'
     },
     {
@@ -49,32 +49,6 @@ var connect = {
         );
         return middlewares;
       }
-    }
-  },
-
-  test: {
-    options: {
-      base: [
-        config.build + '/' + config.src + '/htdocs',
-        config.build + '/' + config.test,
-        config.etc,
-        'node_modules'
-      ],
-      port: config.testPort,
-      open: 'http://127.0.0.1:' + config.testPort + '/test.html'
-    }
-  },
-
-  example: {
-    options: {
-      base: [
-        config.build + '/' + config.src + '/htdocs',
-        config.example,
-        config.build + '/' + config.test,
-        config.etc
-      ],
-      open: 'http://127.0.0.1:' + config.examplePort + '/example.html',
-      port: config.examplePort
     }
   },
 

@@ -26,7 +26,7 @@ if (!isset($TEMPLATE)) {
   }
 
   // HTML output
-  $TITLE = 'Geoserve Places Endpoint';
+  $TITLE = 'Geoserve Layers Endpoint';
   $HEAD = '<link rel="stylesheet" href="endpoint.css"/>';
   $NAVIGATION = true;
 

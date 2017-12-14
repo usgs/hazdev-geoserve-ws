@@ -4,25 +4,6 @@ var config = require('./config');
 
 
 var watch = {
-  scripts: {
-    files: [config.src + '/htdocs/**/*.js'],
-    tasks: [
-      'jshint:scripts',
-      'jshint:tests',
-      'browserify'
-    ],
-    options: {
-      livereload: config.liveReloadPort
-    }
-  },
-  tests: {
-    files: [config.test + '/**/*.js'],
-    tasks: [
-      'jshint:scripts',
-      'jshint:tests',
-      'browserify'
-    ]
-  },
   scss: {
     files: [
       config.src + '/htdocs/**/*.css',
@@ -39,7 +20,6 @@ var watch = {
     files: [
       config.src + '/**/*',
       '!' + config.src + '/**/*.css',
-      '!' + config.src + '/**/*.js'
     ],
     tasks: ['copy:build'],
     options: {

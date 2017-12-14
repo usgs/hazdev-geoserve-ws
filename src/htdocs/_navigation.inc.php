@@ -2,10 +2,11 @@
 
 include_once '../lib/data/metadata.inc.php';
 
+$index = $CONFIG['MOUNT_PATH'] . '/';
+$uri = $_SERVER['REQUEST_URI'];
 
-echo navItem($MOUNT_PATH . '/index.php', 'Geoserve');
 echo navGroup(
-    navItem($MOUNT_PATH . '/services.php', 'Geoserve Documentation'),
-    implode("", $endpointLinks));
+	navItem($index, 'Geoserve Web Services', $uri === $index || $uri === $index . 'index.php'),
+	implode("", $endpointLinks));
 
 ?>

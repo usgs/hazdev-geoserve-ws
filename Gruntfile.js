@@ -7,34 +7,18 @@ module.exports = function (grunt) {
   gruntConfig.tasks.forEach(grunt.loadNpmTasks);
   grunt.initConfig(gruntConfig);
 
-  grunt.event.on('watch', function (action, filepath) {
-    // Only lint the file that actually changed
-    grunt.config(['jshint', 'scripts'], filepath);
-  });
-
-  grunt.registerTask('test', [
-    'copy:test',
-    'browserify:test',
-    'connect:test',
-    'mocha_phantomjs'
-  ]);
 
   grunt.registerTask('build', [
     'clean:build',
     'postcss:dev',
-    'copy:build',
-    'copy:leaflet',
-    'copy:locationview',
-    'jshint:scripts',
-    'browserify'
+    'copy:build'
   ]);
 
   grunt.registerTask('builddist', [
     'build',
     'clean:dist',
     'copy:dist',
-    'postcss:dist',
-    'uglify'
+    'postcss:dist'
   ]);
 
   grunt.registerTask('dist', [
@@ -48,12 +32,9 @@ module.exports = function (grunt) {
   grunt.registerTask('default', [
     'configureRewriteRules',
     'configureProxies:dev',
-    'configureProxies:test',
     'build',
-    'test',
     'connect:template',
     'connect:dev',
-    'connect:example',
     'watch'
   ]);
 

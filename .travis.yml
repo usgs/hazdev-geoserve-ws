@@ -11,7 +11,6 @@ before_install:
   - node --version
   - npm list -g
 install:
-  - npm install phantomjs-prebuilt
   - npm install caniuse-db
   - npm install
   - php src/lib/pre-install.php --non-interactive

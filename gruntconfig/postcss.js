@@ -16,16 +16,11 @@ var postcss = {
       processors: [
         postcssImport({
           path: [
-            CWD + '/' + config.src + '/htdocs/css',
-            CWD + '/node_modules/hazdev-leaflet/src',
-            CWD + '/node_modules/hazdev-location-view/src',
-            CWD + '/node_modules/hazdev-template/src/htdocs',
-            CWD + '/node_modules/hazdev-webutils/src',
-            CWD + '/node_modules/leaflet/dist'
+            CWD + '/' + config.src + '/htdocs/css'
           ]
         }),
         precss(),
-        autoprefixer({'browsers': 'last 2 versions'}), // vendor prefix as needed
+        autoprefixer({'browsers': 'last 2 versions'}) // vendor prefix as needed
       ]
     },
     expand: true,
