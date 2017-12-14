@@ -1,93 +1,61 @@
-# Getting Started
-On OS X, we recommend using `homebrew` to install application dependencies.
+Getting Started
+===============
 
-## Dependencies
+Dependencies
+------------
 
-There are multiple dependencies that must be installed for this project:
+Details provided in this document assume one is working on MacOS with Homebrew.
+Instructions must be adapted for other environments.
 
-1. PHP
-1. PostgreSQL
-1. PostGIS
-1. NPM Dependencies (development only)
-1. Sass and Compass (development only)
-1. Grunt (development only)
+- PHP
+- Node
+- Docker
 
-### Install PHP
+### PHP (5.5 or later)
 
-    brew install php55
+```
+$ brew tap homebrew/php
+$ brew install php55 --with-cgi --with-postgresql
+```
 
-### Install PostgreSQL and PostGIS
+### Node (8.9 or later)
 
-This will take you through the process of installing, starting, and creating, a
-PostgreSQL database locally.
+```
+$ brew install nvm
+$ nvm install lts/*
+```
 
-1. Install
+### Docker (17.05 or later)
 
-        brew install postgresql postgis
-
-    After running `brew install postgresql`, the terminal will output directions
-    that you will use to get your installation up and running.
-
-1. Create/Upgrade a Database
-
-    If this is your first install, create a database with:
-
-        initdb DB_DIRECTORY
-
-    You will be able to copy and past this command directly from your terminal.
-    Copy the command from your terminal and **not from this example**. You
-    should find the command at the end of the output after running `brew
-    install postgresql`.
-
-    > Note: If you do not have permissions on `/usr/local/var/postgres`, then
-    > you can define a different directory. We suggest defining a `.tmp`
-    > directory at the root level of this application.
-
-1. Start/Stop PostgreSQL
-
-    After running `/usr/local/Cellar/postgresql/9.4.1/bin/initdb <directory>`,
-    you should see a sucess message. Below the success message there will be a
-    couple commands.  Go ahead and run the next command.
-
-        postgres -D DB_DIRECTORY
-
-    > Note: Once again if you do not have permissions on
-    > `/usr/local/var/postgres`, then you can define a different directory. We
-    > suggest defining a `.tmp` directory at the root level of this application.
-
-1. Login
-
-    Login to the default `postgres` database with the user that created the
-    database.
-
-        psql postgres
-
-    > Note: PostgreSQL will create the default database `postgres`, which you
-    > can access with the same user that you used to create the database. If the
-    > database server successfully started you may login using the command,
-    > `psql postgres <username>`
+[https://docs.docker.com/engine/installation/](https://docs.docker.com/engine/installation/)
 
 
-### Install NPM Dependencies
+Local Development
+-----------------
 
-From the root of the project directory:
+### Database
 
-    npm install
+The application requires a connection to a PostgreSQL database with PostGIS
+enabled. One may use any such available database. If no such database is
+available, a docker instance will suffice. See the [README.md file](README.md)
+for details on setting this up.
 
-### Install Sass and Compass with Ruby
+### Web Server
+```
+$ export DB_PASS=postgres
+$ export DB_DSN='pgsql:host={{HOSTNAME}};port=5432;dbname=earthquake;'
+$ export DB_SCHEMA=geoserve
+$ export DB_USER=postgres
+$ npm run build
+$ npm start
+```
 
-    gem install sass
+The previous step should have started a local development server listening on
+port 9040. This should now be accessible in a browser at:
 
-### Preview in a Browser
+```
+  http://localhost:9040/
+```
 
-    grunt
-
-To view the application after running grunt, go to the URL
-`http://localhost:8100/index.php`
-
-## Having trouble getting started?
-
-If this is your first time using **grunt**, you need to install the grunt
-command line interface globally
-
-    npm install -g grunt-cli
+Files may be edited in `src/htdocs` and results may be viewed by refreshing
+the browser.
