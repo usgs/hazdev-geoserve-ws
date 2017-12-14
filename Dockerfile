@@ -23,15 +23,29 @@ RUN /bin/bash --login -c "\
 
 FROM ${FROM_IMAGE}
 
+
 RUN yum install -y php-pgsql
 
-COPY --from=buildenv /hazdev-geoserve-ws/node_modules/hazdev-template/dist/ /var/www/apps/hazdev-template/
-COPY --from=buildenv /hazdev-geoserve-ws/src/ /var/www/apps/hazdev-geoserve-ws/
+COPY --from=buildenv \
+    /hazdev-geoserve-ws/node_modules/hazdev-template/dist/ \
+    /var/www/apps/hazdev-template/
 
-COPY --from=buildenv /hazdev-geoserve-ws/src/lib/docker_template_config.php /var/www/html/_config.inc.php
-COPY --from=buildenv /hazdev-geoserve-ws/src/lib/docker_template_httpd.conf /etc/httpd/conf.d/hazdev-template.conf
+COPY --from=buildenv \
+    /hazdev-geoserve-ws/src/ \
+    /var/www/apps/hazdev-geoserve-ws/
 
-# configure and install app
+COPY --from=buildenv \
+    /hazdev-geoserve-ws/src/lib/docker_template_config.php \
+    /var/www/html/_config.inc.php
+
+COPY --from=buildenv \
+    /hazdev-geoserve-ws/src/lib/docker_template_httpd.conf \
+    /etc/httpd/conf.d/hazdev-template.conf
+
+# Configure the application and install it.
+# A full config.ini is generated, however only the MOUNT_PATH is used as this
+# time. MOUNT_PATH sets up the alias in httpd.conf. All other configuration
+# parameters should be read from the environment at container runtime.
 RUN /bin/bash --login -c "\
     php /var/www/apps/hazdev-geoserve-ws/lib/pre-install.php --non-interactive && \
     ln -s /var/www/apps/hazdev-geoserve-ws/conf/httpd.conf /etc/httpd/conf.d/hazdev-geoserve-ws.conf \
