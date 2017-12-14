@@ -1,6 +1,6 @@
 {
   "name": "hazdev-geoserve-ws",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "GeoServe geographic information web service",
   "main": "Gruntfile.js",
   "repository": {
@@ -12,31 +12,10 @@
     "geoserve"
   ],
   "scripts": {
-    "test": "grunt builddist"
+    "build": "./build.sh"
   },
   "bugs": {
     "url": "https://github.com/usgs/hazdev-geoserve-ws/issues"
   },
-  "homepage": "https://github.com/usgs/hazdev-geoserve-ws",
-  "devDependencies": {
-    "autoprefixer": "^6.7.7",
-    "cssnano": "^3.10.0",
-    "gateway": "^1.0.0",
-    "grunt": "^0.4.5",
-    "grunt-connect-proxy": "^0.2.0",
-    "grunt-connect-rewrite": "^0.2.1",
-    "grunt-contrib-clean": "^0.6.0",
-    "grunt-contrib-connect": "^0.11.2",
-    "grunt-contrib-copy": "^0.8.2",
-    "grunt-contrib-jshint": "^0.11.3",
-    "grunt-contrib-watch": "^0.6.1",
-    "grunt-postcss": "^0.6.0",
-    "hazdev-template": "^1.2.0",
-    "ini": "^1.3.5",
-    "postcss-import": "^7.1.3",
-    "precss": "^1.4.0"
-  },
-  "engines": {
-    "node": ">8.9"
-  }
+  "homepage": "https://github.com/usgs/hazdev-geoserve-ws"
 }
