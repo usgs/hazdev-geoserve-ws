@@ -1,8 +1,7 @@
 {
   "name": "hazdev-geoserve-ws",
   "version": "1.4.0",
-  "description": "GeoServe geographic information web service",
-  "main": "Gruntfile.js",
+  "description": "Geoserve Web Service",
   "repository": {
     "type": "git",
     "url": "https://github.com/usgs/hazdev-geoserve-ws.git"
