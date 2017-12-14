@@ -51,6 +51,17 @@ Then access the interface by visiting `http://localhost:{{HOSTPORT}}/ws/geoserve
 
 Because data is only loaded, and not updated, it's also possible to run the geoserve database in a container.
 
+The pre-install script can be run inside the container, as
+```
+/usr/bin/php /var/www/apps/hazdev-geoserve-ws/lib/pre-install.php
+```
+
+> Pre-install checks for an environment variable `DOWNLOAD_DIR`,
+> and downloads files to this location.  This can be made a volume
+> so postgres COPY FROM commands can access the downloaded files.
+
+
+Example: 
 ```
 ## configuration
 
