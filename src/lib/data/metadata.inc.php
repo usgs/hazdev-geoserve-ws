@@ -21,15 +21,15 @@ $format = param('format', 'php');
 $GEOSERVE_ENDPOINTS = array(
   array(
     'name' => 'Places',
-    'url' => "${HOST_URL_PREFIX}${MOUNT_PATH}/places.${format}"
+    'url' => "places.${format}"
   ),
   array(
     'name' => 'Regions',
-    'url' => "${HOST_URL_PREFIX}${MOUNT_PATH}/regions.${format}"
+    'url' => "regions.${format}"
   ),
   array(
     'name' => 'Layers',
-    'url' => "${HOST_URL_PREFIX}${MOUNT_PATH}/layers.${format}"
+    'url' => "layers.${format}"
   )
 );
 
