@@ -4,3 +4,4 @@ src/conf/httpd.conf
 .theme
 src/htdocs/theme
 php.ini
+pgdata
