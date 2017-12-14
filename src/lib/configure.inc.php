@@ -61,6 +61,10 @@
       $secure = (stripos($key, 'pass') !== false);
       $unknown = !isset($DEFAULTS[$key]);
 
+      if (getenv($key) !== false) {
+        $value = getenv($key);
+      }
+
       $CONFIG[$key] = configure(
         $key, // Name of option
         $value, // Default value
