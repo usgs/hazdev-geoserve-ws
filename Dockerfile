@@ -36,6 +36,7 @@ COPY --from=buildenv /hazdev-geoserve-ws/node_modules/hazdev-template/dist/ /var
 COPY --from=buildenv /hazdev-geoserve-ws/dist/ /var/www/apps/hazdev-geoserve-ws/
 COPY --from=buildenv /hazdev-geoserve-ws/src/lib/docker_template_config.php /var/www/html/_config.inc.php
 
+
 # TODO: configure template in place...
 # php /var/www/apps/hazdev-template/lib/pre-install.php --non-interactive && \
 # ln -s /var/www/apps/hazdev-template/conf/httpd.conf /etc/httpd/conf.d/hazdev-template.conf && \
@@ -47,3 +48,7 @@ RUN /bin/bash --login -c "\
 		php /var/www/apps/hazdev-geoserve-ws/lib/pre-install.php --non-interactive && \
 		ln -s /var/www/apps/hazdev-geoserve-ws/conf/httpd.conf /etc/httpd/conf.d/hazdev-geoserve-ws.conf \
 		"
+
+
+# this is set in usgs/hazdev-base-images:latest-php, and repeated here for clarity
+# EXPOSE 80
