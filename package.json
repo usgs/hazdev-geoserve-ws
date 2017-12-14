@@ -12,7 +12,9 @@
     "geoserve"
   ],
   "scripts": {
-    "build": "./build.sh"
+    "clean": "./clean.sh",
+    "build": "./build.sh",
+    "start": "./start.sh"
   },
   "bugs": {
     "url": "https://github.com/usgs/hazdev-geoserve-ws/issues"
