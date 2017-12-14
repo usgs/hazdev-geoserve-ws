@@ -5,3 +5,4 @@ src/conf/httpd.conf
 src/htdocs/theme
 php.ini
 pgdata
+.env
