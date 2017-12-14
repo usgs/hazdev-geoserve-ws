@@ -1,9 +1,6 @@
 .DS_Store
-.build
-.sass-cache
-dist
-node_modules
 src/conf/config.ini
 src/conf/httpd.conf
-.data
-pgdata
+.theme
+src/htdocs/theme
+php.ini
