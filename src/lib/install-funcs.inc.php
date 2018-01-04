@@ -22,10 +22,6 @@
   function configure ($option, $default=null, $comment='', $secure=false,
       $unknown=false) {
 
-    if (NON_INTERACTIVE) {
-      return $default;
-    }
-
     // check if windows
     static $isWindows = null;
     if ($isWindows === null) {
@@ -43,9 +39,14 @@
 
     // Prompt for and read the configuration option value
     printf("%s [%s]: ", $help, ($default === null ? '<none>' : $default));
-    if ($secure && !$isWindows) {system('stty -echo');}
-    $value = trim(fgets(STDIN));
-    if ($secure && !$isWindows) {system('stty echo'); print "\n";}
+    if (NON_INTERACTIVE) {
+      $value = $default;
+      echo PHP_EOL;
+    } else {
+      if ($secure && !$isWindows) {system('stty -echo');}
+      $value = trim(fgets(STDIN));
+      if ($secure && !$isWindows) {system('stty echo'); print PHP_EOL;}
+    }
 
     // Check the input
     if ($value === '' && $default !== null) {
@@ -132,13 +133,15 @@
         ($default === false ? 'N' : 'n') . ']: ';
     $answer = null;
 
-    if (NON_INTERACTIVE) {
-      return $default;
-    }
-
     while ($answer === null) {
       echo $question;
-      $answer = strtoupper(trim(fgets(STDIN)));
+      if (NON_INTERACTIVE) {
+        $answer = '';
+        echo PHP_EOL;
+      } else {
+        $answer = strtoupper(trim(fgets(STDIN)));
+      }
+
       if ($answer === '') {
         if ($default === true) {
           $answer = 'Y';
@@ -146,11 +149,13 @@
           $answer = 'N';
         }
       }
+
       if ($answer !== 'Y' && $answer !== 'N') {
         $answer = null;
         echo PHP_EOL;
       }
     }
+
     return ($answer === 'Y');
   }
 
