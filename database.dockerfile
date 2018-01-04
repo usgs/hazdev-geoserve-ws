@@ -1,0 +1,37 @@
+ARG FROM_IMAGE=mdillon/postgis:9.6
+
+FROM ${FROM_IMAGE}
+
+RUN \
+    apt-get update -y && \
+    apt-get upgrade -y && \
+    apt-get install -y \
+      php5 \
+      php-pear \
+      php5-pgsql \
+      php5-curl && \
+    apt-get clean && \
+    mkdir /hazdev-project
+
+# Note: These files have a "z_" prefix to push them lexically behind
+# "postgis.sh". Similarly, they are subsequently numbered to load in order
+# amongst themselves.
+COPY z_01_app_installer.sh /docker-entrypoint-initdb.d
+COPY z_02_app_data_load_complete.sh /docker-entrypoint-initdb.d
+
+COPY src/lib /hazdev-project/lib
+COPY src/conf /hazdev-project/conf
+
+# Make more permissible so postgres user can write configuration file in place
+RUN \
+  touch /hazdev-project/conf/config.ini && \
+  chmod 777 /hazdev-project/conf/config.ini
+
+HEALTHCHECK \
+    --interval=1m \
+    --timeout=1m \
+    --start-period=3m \
+    --retries=2 \
+  CMD \
+    test -f /var/lib/postgresql/data/pgdata/.data-load-complete && \
+    gosu postgres /docker-entrypoint-initdb.d/z_01_app_installer.sh
