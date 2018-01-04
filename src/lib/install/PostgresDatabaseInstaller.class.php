@@ -173,6 +173,29 @@ class PostgresDatabaseInstaller extends DatabaseInstaller {
     return true;
   }
 
+  public function dataExists ($tableName) {
+    try {
+      $db = $this->connect();
+
+      // Try to get a row from the specified table
+      $sql = "SELECT * FROM ${tableName} LIMIT 1";
+
+      $result = $db->query($sql)->fetchColumn();
+
+      $db = null;
+
+      // Table exists, but returned no data
+      if ($result === false) {
+        return false;
+      }
+
+      return true;
+    } catch (PDOException $pdx) {
+      // Table did not exist
+      return false;
+    }
+  }
+
   /**
    * Loads table with data from flat file
    *
