@@ -12,7 +12,8 @@ Geological Survey.
 
 This project includes a `Dockerfile` that can be used to build a container.
 
-> NOTE: this project uses multi-stage builds, and requires `Docker v17.05.0-ce (2017-05-04)` or newer to build a container image.
+> NOTE: this project uses multi-stage builds, and requires
+> `Docker v17.05.0-ce (2017-05-04)` or newer to build a container image.
 
 
 **To build the container**
@@ -21,6 +22,13 @@ This project includes a `Dockerfile` that can be used to build a container.
 cd hazdev-geoserve-ws
 docker build -t usgs/hazdev-geoserve-ws:latest .
 ```
+
+You  may optionally specify a few `--build-arg` switches to customize the build.
+
+- `BUILD_IMAGE` The name of the Docker image to use in the first stage of
+                creating the image.
+- `FROM_IMAGE`  The name of the Docker image to use in the second stage of
+                creating the image.
 
 
 **To run the container**
@@ -49,7 +57,8 @@ Then access the interface by visiting `http://localhost:{{HOSTPORT}}/ws/geoserve
 
 ** Data loading from the container **
 
-Because data is only loaded, and not updated, it's also possible to run the geoserve database in a container.
+Because data is only loaded, and not updated, it's also possible to run the
+geoserve database in a container.
 
 The pre-install script can be run inside the container, as
 ```
@@ -61,7 +70,7 @@ The pre-install script can be run inside the container, as
 > so postgres COPY FROM commands can access the downloaded files.
 
 
-Example: 
+Example:
 ```
 ## configuration
 
