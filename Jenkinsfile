@@ -10,12 +10,14 @@ node {
   def WS_BUILD_IMAGE = "${USGS_IMAGES}/node:latest"
   def WS_FROM_IMAGE = "${USGS_IMAGES}/httpd-php:latest"
   def WS_LOCAL_IMAGE = "local/${WS_APP_NAME}:latest"
+  def WS_DEPLOY_IMAGE = "${GITLAB_INNERSOURCE_REGISTRY}/ghsc/hazdev/earthquake-geoserve/ws"
   def WS_PENTEST_CONTAINER = "${WS_APP_NAME}-PENTEST"
 
   // DB Variables
   def DB_APP_NAME = 'earthquake-geoserve-db'
   def DB_FROM_IMAGE = "${USGS_IMAGES}/library/mdillon/postgis:9.6"
   def DB_LOCAL_IMAGE = "local/${DB_APP_NAME}:latest"
+  def DB_DEPLOY_IMAGE = "${GITLAB_INNERSOURCE_REGISTRY}/ghsc/hazdev/earthquake-geoserve/db"
 
   // Runs zap.sh as daemon and used to execute zap-cli calls within
   def OWASP_CONTAINER = "${WS_APP_NAME}-${BUILD_ID}-OWASP"
