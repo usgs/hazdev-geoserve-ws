@@ -56,6 +56,10 @@ foreach ($argv as $arg) {
   if ($arg === '--full') {
     define('DB_FULL_LOAD', true);
   }
+
+  if ($arg === '--skip-db') {
+    define('SKIP_DB', true);
+  }
 }
 
 if (!defined('NON_INTERACTIVE')) {
@@ -64,6 +68,10 @@ if (!defined('NON_INTERACTIVE')) {
 
 if (!defined('DB_FULL_LOAD')) {
   define('DB_FULL_LOAD', false);
+}
+
+if (!defined('SKIP_DB')) {
+  define('SKIP_DB', false);
 }
 
 
@@ -114,6 +122,6 @@ file_put_contents($HTTPD_CONF, '
 // configure database
 echo "\n";
 if (promptYesNo('Would you like to setup the database or load data',
-    NON_INTERACTIVE)) {
+    !SKIP_DB && NON_INTERACTIVE)) {
   include_once 'setup_database.php';
 }
