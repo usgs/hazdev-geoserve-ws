@@ -1,28 +1,25 @@
 #!/usr/bin/env groovy
 
 node {
+  def FAILURE = null
+  def SCM_VARS = [:]
   def USGS_IMAGES = "${GITLAB_INNERSOURCE_REGISTRY}/devops/containers"
 
-  // // Used for consistency between other variables
+  // WS Variables
   def WS_APP_NAME = 'earthquake-geoserve-ws'
   def WS_BUILD_IMAGE = "${USGS_IMAGES}/node:latest"
   def WS_FROM_IMAGE = "${USGS_IMAGES}/httpd-php:latest"
   def WS_LOCAL_IMAGE = "local/${WS_APP_NAME}:latest"
   def WS_PENTEST_CONTAINER = "${WS_APP_NAME}-PENTEST"
 
+  // DB Variables
   def DB_APP_NAME = 'earthquake-geoserve-db'
   def DB_FROM_IMAGE = "${USGS_IMAGES}/library/mdillon/postgis:9.6"
   def DB_LOCAL_IMAGE = "local/${DB_APP_NAME}:latest"
 
   // Runs zap.sh as daemon and used to execute zap-cli calls within
-  def OWASP_CONTAINER = "${APP_NAME}-${BUILD_ID}-OWASP"
+  def OWASP_CONTAINER = "${WS_APP_NAME}-${BUILD_ID}-OWASP"
   def OWASP_IMAGE = "${DEVOPS_REGISTRY}/library/owasp/zap2docker-stable"
-
-  // Flag to capture exceptions and mark build as failure
-  def FAILURE = null
-
-  // Set by "checkout" step below
-  def SCM_VARS = [:]
 
 
   try {
