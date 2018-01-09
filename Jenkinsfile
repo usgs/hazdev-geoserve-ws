@@ -176,7 +176,7 @@ node {
             zap-cli -v -p ${ZAP_API_PORT} report \
             -o /zap/reports/owasp-zap-report.html -f html
 
-          docker stop ${OWASP_CONTAINER} ${LOCAL_CONTAINER}
+          docker stop ${OWASP_CONTAINER} ${WS_PENTEST_CONTAINER}
         """
       }
 
