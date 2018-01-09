@@ -53,7 +53,7 @@ node {
         docker build \
           --build-arg BUILD_IMAGE=${WS_BUILD_IMAGE} \
           --build-arg FROM_IMAGE=${WS_FROM_IMAGE} \
-          -f Dockerfile-ws
+          -f Dockerfile-ws \
           -t ${WS_LOCAL_IMAGE} \
           .
       """
