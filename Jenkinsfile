@@ -19,7 +19,7 @@ node {
 
   // Runs zap.sh as daemon and used to execute zap-cli calls within
   def OWASP_CONTAINER = "${WS_APP_NAME}-${BUILD_ID}-OWASP"
-  def OWASP_IMAGE = "${DEVOPS_REGISTRY}/library/owasp/zap2docker-stable"
+  def OWASP_IMAGE = "${USGS_IMAGES}/library/owasp/zap2docker-stable"
 
 
   try {
