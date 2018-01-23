@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/bin/bash -ex
 
 pushd $(dirname $0) > /dev/null 2>&1;
 
