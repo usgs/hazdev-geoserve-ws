@@ -16,6 +16,8 @@ php \
 
 php_pid=$!;
 
+sleep 10;
+
 result=`curl \
     --connect-timeout 5 \
     --max-time 10 \
