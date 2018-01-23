@@ -16,9 +16,10 @@ php \
 
 php_pid=$!;
 
+sleep 5;
+
 result=`curl \
     --connect-timeout 5 \
-    --retry-connrefused \
     --max-time 10 \
     --retry 5 \
     --retry-delay 2 \
