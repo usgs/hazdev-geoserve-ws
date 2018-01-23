@@ -13,7 +13,8 @@
   "scripts": {
     "clean": "./clean.sh",
     "build": "./build.sh",
-    "start": "./start.sh"
+    "start": "./start.sh",
+    "test": "./test.sh"
   },
   "bugs": {
     "url": "https://github.com/usgs/hazdev-geoserve-ws/issues"
