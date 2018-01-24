@@ -21,11 +21,15 @@ include_once 'install/DatabaseInstaller.class.php';
 include_once '../conf/config.inc.php';
 
 
-$DB_DSN = configure('DB_ROOT_DSN', $CONFIG['DB_DSN'], 'Database administrator DSN');
+$DB_DSN = (isset($CONFIG['DB_ADMIN_DSN'])) ? $CONFIG['DB_ADMIN_DSN'] :
+    configure('DB_ADMIN_DSN', $CONFIG['DB_DSN'], 'Database administrator DSN');
 $dbtype = substr($DB_DSN, 0, strpos($DB_DSN, ':'));
-$username = configure('DB_ROOT_USER', 'postgres', 'Database adminitrator user');
-$password = configure('DB_ROOT_PASS', '', 'Database administrator password',
-    true);
+
+$username = (isset($CONFIG['DB_ADMIN_USER'])) ? $CONFIG['DB_ADMIN_USER'] :
+    configure('DB_ADMIN_USER', $CONFIG['DB_USER'], 'Database adminitrator user');
+$password = (isset($CONFIG['DB_ADMIN_PASSWORD'])) ? $CONFIG['DB_ADMIN_PASSWORD'] :
+    configure('DB_ADMIN_PASSWORD', $CONFIG['DB_PASS'],
+    'Database administrator password', true);
 
 $defaultScriptDir = implode(DIRECTORY_SEPARATOR, array(
     $APP_DIR, 'lib', 'sql', $dbtype));
@@ -39,6 +43,9 @@ $downloadBaseDir = isset($CONFIG['DOWNLOAD_DIR']) ?
 
 $dbInstaller = DatabaseInstaller::getInstaller($DB_DSN, $username, $password);
 
+if (DB_FULL_LOAD) {
+  $dbInstaller->dropDatabase();
+}
 
 if (!$dbInstaller->databaseExists()) {
   $answer = promptYesNo("Database does not exist, create it now?", true);
@@ -107,7 +114,8 @@ include_once 'load_admin.php';
 include_once 'load_authoritative.php';
 include_once 'load_neic.php';
 include_once 'load_tectonicsummary.php';
-include_once 'load_timezone.php';
+// Currently no timezone data. Skip.
+// include_once 'load_timezone.php';
 include_once 'load_offshore.php';
 
 // ----------------------------------------------------------------------

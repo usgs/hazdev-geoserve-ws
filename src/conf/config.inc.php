@@ -13,7 +13,7 @@ if (file_exists($CONFIG_INI_FILE)) {
 }
 
 // environment overrides configuration
-$CONFIG = array_merge($CONFIG, $_ENV);
+$CONFIG = array_merge($CONFIG, $_SERVER, $_ENV);
 
 
 $forwarded_https = (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https');

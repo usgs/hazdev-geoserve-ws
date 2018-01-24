@@ -24,8 +24,6 @@ RUN /bin/bash --login -c "\
 FROM ${FROM_IMAGE}
 
 
-RUN yum install -y php-pgsql
-
 COPY --from=buildenv \
     /hazdev-geoserve-ws/node_modules/hazdev-template/dist/ \
     /var/www/apps/hazdev-template/
@@ -47,10 +45,9 @@ COPY --from=buildenv \
 # time. MOUNT_PATH sets up the alias in httpd.conf. All other configuration
 # parameters should be read from the environment at container runtime.
 RUN /bin/bash --login -c "\
-    php /var/www/apps/hazdev-geoserve-ws/lib/pre-install.php --non-interactive && \
+    php /var/www/apps/hazdev-geoserve-ws/lib/pre-install.php --non-interactive --skip-db && \
     ln -s /var/www/apps/hazdev-geoserve-ws/conf/httpd.conf /etc/httpd/conf.d/hazdev-geoserve-ws.conf \
     "
-
 
 # this is set in usgs/hazdev-base-images:latest-php, and repeated here for clarity
 # EXPOSE 80

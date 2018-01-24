@@ -4,8 +4,7 @@ include_once 'install/DatabaseInstaller.class.php';
 include_once 'install-funcs.inc.php';
 
 // Read in DSN
-$CONFIG_FILE = '../conf/config.ini';
-$CONFIG = parse_ini_file($CONFIG_FILE);
+include_once '../conf/config.inc.php';
 
 $defaultScriptDir = getcwd() . '/sql/pgsql/';
 
@@ -28,8 +27,8 @@ if (!responseIsAffirmative($answer)) {
 }
 
 // Setup root DSN
-$username = configure('DB_ROOT_USER', 'root', "\nDatabase adminitrator user");
-$password = configure('DB_ROOT_PASS', '', "Database administrator password",
+$username = configure('DB_ADMIN_USER', 'root', "\nDatabase adminitrator user");
+$password = configure('DB_ADMIN_PASSWORD', '', "Database administrator password",
     true);
 $installer = DatabaseInstaller::getInstaller($CONFIG['DB_DSN'], $username, $password);
 

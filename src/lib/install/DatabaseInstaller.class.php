@@ -153,6 +153,18 @@ abstract class DatabaseInstaller {
 	 */
 	public abstract function postgisEnabled ();
 
+	/**
+	 * Checks if data exists in the given table.
+	 *
+	 * @return {Boolean}
+	 *      True if the table exists and at least one record exists in the table.
+	 *      False otherwise.
+	 */
+	public function dataExists ($tableName) {
+		// TODO :: Make this method abstract and implement properly in Mysql and
+		//         Sqlite implementating subclasses
+		return false;
+	}
 }
 
 

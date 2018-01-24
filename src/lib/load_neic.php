@@ -6,7 +6,13 @@
 
 $answer = promptYesNo(
     "\nUpdating NEIC dataset. Existing data will be deleted, continue?",
-    true
+    (
+      DB_FULL_LOAD ||
+      !(
+        $dbInstaller->dataExists('neic_catalog') &&
+        $dbInstaller->dataExists('neic_response')
+      )
+    )
   );
 
 if (!$answer) {

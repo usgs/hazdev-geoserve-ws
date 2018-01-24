@@ -6,7 +6,12 @@
 
 $answer = promptYesNo(
     "\nUpdating FE (and renames) dataset. Existing data will be deleted, " .
-    'continue?', true
+    'continue?', (DB_FULL_LOAD ||
+      !(
+        $dbInstaller->dataExists('fe') &&
+        $dbInstaller->dataExists('fe_rename')
+      )
+    )
   );
 
 if (!$answer) {

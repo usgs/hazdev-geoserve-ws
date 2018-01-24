@@ -8,6 +8,6 @@ before_install:
   - npm install -g grunt-cli
 install:
   - npm run clean
-  - php src/lib/pre-install.php --non-interactive
-script:
   - npm run build
+script:
+  - npm run test

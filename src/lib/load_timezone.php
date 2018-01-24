@@ -6,7 +6,7 @@
 
 $answer = promptYesNo(
     "\nUpdating timezone dataset. Existing data will be deleted, continue?",
-    true
+    (DB_FULL_LOAD || !$dbInstaller->dataExists('timezone'))
   );
 
 if (!$answer) {

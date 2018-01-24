@@ -6,7 +6,7 @@
 
 $answer = promptYesNo(
     "\nUpdating administrative dataset. Existing data will be deleted, continue?",
-    true
+    (DB_FULL_LOAD || !$dbInstaller->dataExists('admin'))
   );
 
 if (!$answer) {

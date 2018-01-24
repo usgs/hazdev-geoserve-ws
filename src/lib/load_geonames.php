@@ -4,10 +4,10 @@
 // Geonames data download/uncompress
 // ----------------------------------------------------------------------
 
-// TODO:: prompt user to download geoname data (cities1000.zip, US.zip)
 $answer = promptYesNo(
     "\nUpdating geonames dataset. Existing data will be deleted, continue?",
-    true);
+    (DB_FULL_LOAD || !$dbInstaller->dataExists('geoname'))
+  );
 
 if (!$answer) {
   echo "Skipping geonames.\n";
@@ -23,8 +23,9 @@ echo "Success!!\n";
 
 // download geoname data
 echo "\nDownloading and loading geonames data:\n";
-$url = configure('GEONAMES_URL', 'ftp://hazards.cr.usgs.gov/web/hazdev-geoserve-ws/geonames/',
-    "Geonames download url");
+$url = configure('GEONAMES_URL',
+    'ftp://hazards.cr.usgs.gov/web/hazdev-geoserve-ws/geonames/',
+    'Geonames download url');
 $filenames = array('cities1000.zip', 'US.zip', 'admin1CodesASCII.txt',
     'countryInfo.txt');
 $download_path = $downloadBaseDir . DIRECTORY_SEPARATOR . 'geonames'

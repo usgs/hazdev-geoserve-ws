@@ -6,7 +6,7 @@
 
 $answer = promptYesNo(
     "\nUpdating offshore region dataset. Existing data will be deleted, continue?",
-    true
+    (DB_FULL_LOAD || !$dbInstaller->dataExists('offshore'))
   );
 
 if (!$answer) {

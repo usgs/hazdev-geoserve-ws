@@ -52,17 +52,37 @@ foreach ($argv as $arg) {
   if ($arg === '--non-interactive') {
     define('NON_INTERACTIVE', true);
   }
+
+  if ($arg === '--full') {
+    define('DB_FULL_LOAD', true);
+  }
+
+  if ($arg === '--skip-db') {
+    define('SKIP_DB', true);
+  }
 }
+
 if (!defined('NON_INTERACTIVE')) {
   define('NON_INTERACTIVE', false);
 }
+
+if (!defined('DB_FULL_LOAD')) {
+  define('DB_FULL_LOAD', false);
+}
+
+if (!defined('SKIP_DB')) {
+  define('SKIP_DB', false);
+}
+
+
 
 // Interactively prompts user for config. Writes CONFIG_FILE_INI
 include_once 'configure.inc.php';
 
 
 // Parse the configuration
-$CONFIG = parse_ini_file($CONFIG_FILE_INI);
+include_once '../conf/config.inc.php';
+
 
 // Write the HTTPD configuration file
 file_put_contents($HTTPD_CONF, '
@@ -101,6 +121,7 @@ file_put_contents($HTTPD_CONF, '
 
 // configure database
 echo "\n";
-if (promptYesNo('Would you like to setup the database or load data', false)) {
+if (promptYesNo('Would you like to setup the database or load data',
+    !SKIP_DB && NON_INTERACTIVE)) {
   include_once 'setup_database.php';
 }

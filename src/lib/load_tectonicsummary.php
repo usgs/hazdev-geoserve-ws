@@ -7,7 +7,7 @@
 $answer = promptYesNo(
     "\nUpdating Tectonic Summary dataset. Existing data will be deleted, " .
     " continue?",
-    true
+    (DB_FULL_LOAD || !$dbInstaller->dataExists('tectonic_summary'))
   );
 
 if (!$answer) {
