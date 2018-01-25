@@ -2,6 +2,7 @@
 
 node {
   def FAILURE = null
+  def IMAGE_VERSION = null
   def SCM_VARS = [:]
   def USGS_IMAGES = "${GITLAB_INNERSOURCE_REGISTRY}/devops/containers"
 
@@ -192,7 +193,7 @@ node {
     }
 
     stage('Publish Image') {
-      def IMAGE_VERSION = 'latest'
+      IMAGE_VERSION = 'latest'
 
       // Determine image tag to use
       if (SCM_VARS.GIT_BRANCH != 'origin/master') {
