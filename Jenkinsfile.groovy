@@ -232,7 +232,14 @@ node {
     }
 
     stage('Trigger Deploy') {
-      echo 'TODO :: Call deploy pipeline'
+      build(
+        job: 'deploy-ws',
+        parameters: [
+          string(name: 'IMAGE_VERSION', value: IMAGE_VERSION)
+        ],
+        propagate: false,
+        wait: false
+      )
     }
   } catch (e) {
     mail to: 'emartinez@usgs.gov',
