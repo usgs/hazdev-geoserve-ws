@@ -17,8 +17,8 @@ $GEOSERVE_LAYERS = array(
           $GEOSERVE_METADATA['neiccatalog'],
           $GEOSERVE_METADATA['neicresponse'],
           $GEOSERVE_METADATA['offshore'],
-          $GEOSERVE_METADATA['tectonic'],
-          $GEOSERVE_METADATA['timezone']
+          $GEOSERVE_METADATA['tectonic']
+          //$GEOSERVE_METADATA['timezone']
         )
       )
     ),
@@ -29,17 +29,17 @@ $GEOSERVE_LAYERS = array(
     'neiccatalog' => $GEOSERVE_METADATA['neiccatalog']['fields'],
     'neicresponse' => $GEOSERVE_METADATA['neicresponse']['fields'],
     'offshore' => $GEOSERVE_METADATA['offshore']['fields'],
-    'tectonic' => $GEOSERVE_METADATA['tectonic']['fields'],
-    'timezone' => $GEOSERVE_METADATA['timezone']['fields']
+    'tectonic' => $GEOSERVE_METADATA['tectonic']['fields']
+    //'timezone' => $GEOSERVE_METADATA['timezone']['fields']
   ),
   'examples' => array(
     array(
       'description' => 'All regions in the <code>neicresponse</code> layer',
       'url' => "${HOST_URL_PREFIX}${MOUNT_PATH}/layers.json?type=neicresponse"
-    ),
-    array(
-      'description' => 'All regions in the <code>timezone</code> layer',
-      'url' => "${HOST_URL_PREFIX}${MOUNT_PATH}/layers.json?type=timezone"
     )
+    // array(
+    //   'description' => 'All regions in the <code>timezone</code> layer',
+    //   'url' => "${HOST_URL_PREFIX}${MOUNT_PATH}/layers.json?type=timezone"
+    // )
   )
 );
