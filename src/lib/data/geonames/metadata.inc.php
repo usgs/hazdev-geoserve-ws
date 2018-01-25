@@ -2,7 +2,7 @@
 
 $GEOSERVE_METADATA['geonames'] = array(
   'name' => 'geonames',
-  'contact' => 'TODO',
+  'contact' => '', // TODO
   'lastUpdated' => '2015-09-21T00:00:00Z',
   'raw' => 'ftp://hazards.cr.usgs.gov/web/hazdev-geoserve-ws/geonames/',
   'description' => 'Data were created by ' .
