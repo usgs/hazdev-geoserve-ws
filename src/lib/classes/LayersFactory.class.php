@@ -4,20 +4,37 @@ include_once $CLASSES_DIR . '/RegionsFactory.class.php';
 
 class LayersFactory extends RegionsFactory {
 
-  protected static $SUPPORTED_TYPES = array('authoritative', 'fe',
-      'neicresponse', 'neiccatalog', 'tectonic', 'timezone');
+  protected static $SUPPORTED_TYPES = array(
+    //'admin',
+    'authoritative',
+    'fe',
+    'neiccatalog',
+    'neicresponse',
+    //'offshore',
+    'tectonic'
+    //'timezone'
+  );
 
   protected static $TABLE_NAMES = array(
     // endpoint => table
+    // 'admin' => 'admin',
     'authoritative' => 'authoritative',
     'fe' => 'fe_view',
     'neiccatalog' => 'neic_catalog',
     'neicresponse' => 'neic_response',
-    'tectonic' => 'tectonic_summary',
-    'timezone' => 'timezone'
+    // 'offshore' => 'offshore',
+    'tectonic' => 'tectonic_summary'
+    //'timezone' => 'timezone'
   );
 
   protected static $COLUMN_NAMES = array(
+    // 'admin' => array(
+    //   'id',
+    //   'iso',
+    //   'country',
+    //   'region',
+    //   'ST_AsGeoJSON(shape) AS shape'
+    // ),
     'authoritative' => array(
       'id',
       'name',
@@ -46,22 +63,27 @@ class LayersFactory extends RegionsFactory {
       'type',
       'ST_AsGeoJSON(shape) AS shape'
     ),
+    // 'offshore' => array(
+    //   'id',
+    //   'name',
+    //   'ST_AsGeoJSON(shape) AS shape'
+    // ),
     'tectonic' => array(
       'id',
       'name',
       'summary',
       'type',
       'ST_AsGeoJSON(shape) AS shape'
-    ),
-    'timezone' => array(
-      'id',
-      'timezone',
-      'dststart',
-      'dstend',
-      'standardoffset',
-      'dstoffset',
-      'ST_AsGeoJSON(shape) AS shape'
     )
+    // 'timezone' => array(
+    //   'id',
+    //   'timezone',
+    //   'dststart',
+    //   'dstend',
+    //   'standardoffset',
+    //   'dstoffset',
+    //   'ST_AsGeoJSON(shape) AS shape'
+    // )
   );
 
   public function get ($query) {
@@ -79,6 +101,13 @@ class LayersFactory extends RegionsFactory {
     return $data;
   }
 
+  /**
+   * @return {Array}
+   *         An array of supported types
+   */
+  public function getSupportedTypes () {
+    return LayersFactory::$SUPPORTED_TYPES;
+  }
 
   /**
    * Maps an endpoint name to a table name.

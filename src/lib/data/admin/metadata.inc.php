@@ -3,7 +3,7 @@
 $GEOSERVE_METADATA['admin'] = array(
   'name' => 'admin',
   'title' => 'Administrative',
-  'contact' => 'TODO',
+  'contact' => '', // TODO
   'lastUpdated' => '2015-09-21T00:00:00Z',
   'raw' => 'ftp://hazards.cr.usgs.gov/web/hazdev-geoserve-ws/admin/',
   'description' => 'Global polygons for use in Geoserve are based on data ' .

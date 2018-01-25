@@ -9,4 +9,6 @@ echo navGroup(
 	navItem($index, 'Geoserve Web Services', $uri === $index || $uri === $index . 'index.php'),
 	implode("", $endpointLinks));
 
+echo navItem('/geoserve/', 'Interactive Interface');
+
 ?>

@@ -14,7 +14,7 @@ include_once 'neiccatalog/metadata.inc.php';
 include_once 'neicresponse/metadata.inc.php';
 include_once 'offshore/metadata.inc.php';
 include_once 'tectonic/metadata.inc.php';
-include_once 'timezones/metadata.inc.php';
+//include_once 'timezones/metadata.inc.php';
 
 $format = param('format', 'php');
 

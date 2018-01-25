@@ -273,7 +273,7 @@ class RegionsFactory extends GeoserveFactory {
         ':longitude' => $query->longitude);
 
     $sql .= ' SELECT' .
-        ' name' .
+        ' name as name' .
         ', id';
 
     if ($query->includeGeometry) {
