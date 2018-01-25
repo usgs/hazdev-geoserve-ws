@@ -9,8 +9,8 @@ class RegionsFactory extends GeoserveFactory {
     'neiccatalog',
     'neicresponse',
     'offshore',
-    'tectonic',
-    'timezone'
+    'tectonic'
+    //'timezone'
   );
 
   /**
@@ -45,9 +45,9 @@ class RegionsFactory extends GeoserveFactory {
     if (in_array('tectonic', $query->type)) {
       $data['tectonic'] = $this->getTectonicSummary($query);
     }
-    if (in_array('timezone', $query->type)) {
-      $data['timezone'] = $this->getTimezone($query);
-    }
+    // if (in_array('timezone', $query->type)) {
+    //   $data['timezone'] = $this->getTimezone($query);
+    // }
 
     return $data;
   }
@@ -328,48 +328,48 @@ class RegionsFactory extends GeoserveFactory {
     return $this->execute($sql, $params);
   }
 
-  /**
-   * Get Timezone Region
-   *
-   * @param $query {RegionsQuery}
-   *        query object
-   */
-  public function getTimezone ($query) {
-    //Checks for latitude and longitude
-    if ($query->latitude === null || $query->longitude === null) {
-      throw new Exception('"latitude", and "longitude" are required');
-    }
+  // /**
+  //  * Get Timezone Region
+  //  *
+  //  * @param $query {RegionsQuery}
+  //  *        query object
+  //  */
+  // public function getTimezone ($query) {
+  //   //Checks for latitude and longitude
+  //   if ($query->latitude === null || $query->longitude === null) {
+  //     throw new Exception('"latitude", and "longitude" are required');
+  //   }
 
-    // create sql
-    $sql = 'WITH search AS (SELECT' .
-        ' ST_SetSRID(ST_MakePoint(:longitude,:latitude),4326)::geometry' .
-        ' AS point' .
-        ')';
-    // bound parameters
-    $params = array(
-      ':latitude' => $query->latitude,
-      ':longitude' => $query->longitude
-    );
+  //   // create sql
+  //   $sql = 'WITH search AS (SELECT' .
+  //       ' ST_SetSRID(ST_MakePoint(:longitude,:latitude),4326)::geometry' .
+  //       ' AS point' .
+  //       ')';
+  //   // bound parameters
+  //   $params = array(
+  //     ':latitude' => $query->latitude,
+  //     ':longitude' => $query->longitude
+  //   );
 
-    $sql .= ' SELECT' .
-        ' timezone as timezone' .
-        ', dststart as dststart' .
-        ', dstend as dstend' .
-        ', standardoffset as standardoffset' .
-        ', dstoffset as dstoffset' .
-        ', id';
+  //   $sql .= ' SELECT' .
+  //       ' timezone as timezone' .
+  //       ', dststart as dststart' .
+  //       ', dstend as dstend' .
+  //       ', standardoffset as standardoffset' .
+  //       ', dstoffset as dstoffset' .
+  //       ', id';
 
-    if ($query->includeGeometry) {
-      $sql .= ', ST_AsGeoJSON(shape) as shape';
-    }
+  //   if ($query->includeGeometry) {
+  //     $sql .= ', ST_AsGeoJSON(shape) as shape';
+  //   }
 
-    $sql .= ' FROM search, timezone' .
-        ' WHERE search.point && shape' .
-        ' AND ST_Intersects(search.point, shape)' .
-        ' ORDER BY ST_Area(shape) ASC';
+  //   $sql .= ' FROM search, timezone' .
+  //       ' WHERE search.point && shape' .
+  //       ' AND ST_Intersects(search.point, shape)' .
+  //       ' ORDER BY ST_Area(shape) ASC';
 
-    return $this->execute($sql, $params);
-  }
+  //   return $this->execute($sql, $params);
+  // }
 
 
   public function getCasts ($type) {
