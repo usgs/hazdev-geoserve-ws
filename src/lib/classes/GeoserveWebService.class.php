@@ -419,7 +419,7 @@ class GeoserveWebService {
 
       $this->error(self::BAD_REQUEST, 'Bad ' . $param .
           ' value "' . $value . '".' .
-          ' Valid values are ' . $mesasge);
+          ' Valid values are ' . $message);
     }
     return floatval($value);
   }
