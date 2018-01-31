@@ -33,3 +33,13 @@ if (!isset($TEMPLATE)) {
 <ul class="endpoints">
   <li><?php print implode('</li><li>', $endpointLinks); ?></li>
 </ul>
+
+<div>
+  <h2>Issues</h2>
+  <span>
+    Contributions are welcome from the community. Questions can be asked on
+    the <a href="https://github.com/usgs/hazdev-geoserve-ws/issues">
+    issues page</a>. Before creating a new issue, please take a moment to
+    search and make sure a similar issue does not already exist.
+  </span>
+</div>

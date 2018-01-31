@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/bin/bash -ex
 
 pushd $(dirname $0) > /dev/null 2>&1;
 
@@ -12,7 +12,7 @@ php \
   -c php.ini \
   -t src/htdocs \
   -S localhost:9040 \
-  router.php
+  $(pwd)/router.php
 
 
 popd > /dev/null 2>&1;
