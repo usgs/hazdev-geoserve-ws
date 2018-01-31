@@ -64,7 +64,7 @@ node {
 
       // Convert from Map --> JSON
       info = readJSON text: groovy.json.JsonOutput.toJson(info)
-      writeJSON file: 'dist/metadata.json', pretty: 4, json: info
+      writeJSON file: 'metadata.json', pretty: 4, json: info
 
       // Build candidate WS image for later penetration testing
       sh """
