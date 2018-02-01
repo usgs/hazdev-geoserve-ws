@@ -44,9 +44,28 @@ node {
           script: "git rev-parse HEAD"
         )
       }
+
+      // Determine image tag to use
+      if (SCM_VARS.GIT_BRANCH != 'origin/master') {
+        IMAGE_VERSION = SCM_VARS.GIT_BRANCH.split('/').last().replace(' ', '_')
+      } else {
+        IMAGE_VERSION = 'latest'
+      }
     }
 
     stage('Build Images') {
+      def info = [:]
+      def pkgInfo = readJSON file: 'package.json'
+
+      info.version = pkgInfo.version
+      info.branch = SCM_VARS.GIT_BRANCH
+      info.commit = SCM_VARS.GIT_COMMIT
+      info.image = IMAGE_VERSION
+
+      // Convert from Map --> JSON
+      info = readJSON text: groovy.json.JsonOutput.toJson(info)
+      writeJSON file: 'metadata.json', pretty: 4, json: info
+
       // Build candidate WS image for later penetration testing
       sh """
         docker pull ${WS_BUILD_IMAGE}

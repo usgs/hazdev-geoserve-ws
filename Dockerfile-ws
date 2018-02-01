@@ -33,6 +33,10 @@ COPY --from=buildenv \
     /var/www/apps/hazdev-geoserve-ws/
 
 COPY --from=buildenv \
+    /hazdev-geoserve-ws/metdata.json \
+    /var/www/apps/hazdev-geoserve-ws/metadata.json
+
+COPY --from=buildenv \
     /hazdev-geoserve-ws/src/lib/docker_template_config.php \
     /var/www/html/_config.inc.php
 
