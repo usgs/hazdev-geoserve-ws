@@ -62,6 +62,10 @@ node {
       info.commit = SCM_VARS.GIT_COMMIT
       info.image = IMAGE_VERSION
 
+      // Convert from Map --> JSON
+      info = readJSON text: groovy.json.JsonOutput.toJson(info)
+      writeJSON file: 'metadata.json', pretty: 4, json: info
+
       // Build candidate WS image for later penetration testing
       sh """
         docker pull ${WS_BUILD_IMAGE}
@@ -73,10 +77,6 @@ node {
           -t ${WS_LOCAL_IMAGE} \
           .
       """
-
-      // Convert from Map --> JSON
-      info = readJSON text: groovy.json.JsonOutput.toJson(info)
-      writeJSON file: 'metadata.json', pretty: 4, json: info
 
       // Build candidate DB image for
       sh """
