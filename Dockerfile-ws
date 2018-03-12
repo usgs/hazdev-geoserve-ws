@@ -17,7 +17,7 @@ WORKDIR /hazdev-geoserve-ws
 RUN /bin/bash --login -c "\
     npm install -g grunt-cli && \
     npm run clean && \
-    npm install --no-save hazdev-template@v1.3.1 \
+    npm run build \
     "
 
 

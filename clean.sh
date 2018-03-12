@@ -3,7 +3,7 @@
 pushd $(dirname $0) > /dev/null 2>&1;
 
 rm -rvf \
-  .theme \
+  node_modules \
   php.ini \
   src/conf/config.ini \
   src/conf/httpd.conf \
