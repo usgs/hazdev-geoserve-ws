@@ -1,8 +1,8 @@
 .DS_Store
-src/conf/config.ini
-src/conf/httpd.conf
-.theme
-src/htdocs/theme
+.env
+node_modules
 php.ini
 pgdata
-.env
+src/conf/config.ini
+src/conf/httpd.conf
+src/htdocs/theme
