@@ -19,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/usgs/hazdev-geoserve-ws/issues"
   },
-  "homepage": "https://github.com/usgs/hazdev-geoserve-ws"
+  "homepage": "https://github.com/usgs/hazdev-geoserve-ws",
+  "dependencies": {
+    "hazdev-template": "^1.3.1"
+  }
 }

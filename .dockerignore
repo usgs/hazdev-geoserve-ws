@@ -4,12 +4,13 @@
 .env
 .gitattributes
 .gitignore
+.theme
 .travis.yml
-build.sh
 database.dockerfile
 Dockerfile
 Jenkinsfile
 node_modules
+php.ini
 start.sh
 src/conf/config.ini
 src/conf/httpd.conf

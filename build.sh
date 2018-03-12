@@ -3,18 +3,15 @@
 
 pushd $(dirname $0) > /dev/null 2>&1;
 
-THEME_ROOT="$(pwd)/.theme";
+THEME_ROOT="$(pwd)/node_modules/hazdev-template/dist";
 THEME_LINK="$(pwd)/src/htdocs/theme";
 
 
 rm -rf $THEME_ROOT;
-npm install --no-save hazdev-template;
+npm install;
 if [ -f package-lock.json ]; then
   rm -f package-lock.json;
 fi
-
-mv node_modules/hazdev-template/dist $THEME_ROOT;
-rm -rf node_modules
 
 if [ -L $THEME_LINK ]; then
   unlink $THEME_LINK;
