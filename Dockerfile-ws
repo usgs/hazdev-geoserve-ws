@@ -13,10 +13,11 @@ COPY . /hazdev-geoserve-ws
 WORKDIR /hazdev-geoserve-ws
 
 # Creates /hazdev-geoserve-ws/.theme folder
+# depends on template v1 (pre-angular)
 RUN /bin/bash --login -c "\
     npm install -g grunt-cli && \
     npm run clean && \
-    npm install --no-save hazdev-template \
+    npm install --no-save hazdev-template@v1.3.1 \
     "
 
 
