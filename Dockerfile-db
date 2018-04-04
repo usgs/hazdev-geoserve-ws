@@ -35,3 +35,5 @@ HEALTHCHECK \
   CMD \
     test -f /var/lib/postgresql/data/pgdata/.data-load-complete && \
     gosu postgres /docker-entrypoint-initdb.d/z_01_app_installer.sh
+
+EXPOSE 5432

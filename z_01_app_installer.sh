@@ -12,3 +12,6 @@ if [ -z "${DB_LOAD_TYPE}" ]; then
 fi
 
 php ${APP_INSTALLER} --non-interactive --${DB_LOAD_TYPE};
+
+
+echo "listen_addresses = '*'" >> /var/lib/postgresql/data/pgdata/postgresql.conf;
