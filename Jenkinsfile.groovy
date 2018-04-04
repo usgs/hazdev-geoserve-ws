@@ -264,7 +264,7 @@ node {
   } catch (e) {
     mail to: 'emartinez@usgs.gov',
       from: 'noreply@jenkins',
-      subject: 'Jenkins: hazdev-design-ws',
+      subject: 'Jenkins: hazdev-geoserve-ws',
       body: "Project build (${BUILD_TAG}) failed '${e}'"
 
     FAILURE = e
