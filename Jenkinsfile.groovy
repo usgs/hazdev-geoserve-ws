@@ -4,7 +4,7 @@ node {
   def FAILURE = null
   def IMAGE_VERSION = null
   def SCM_VARS = [:]
-  def USGS_IMAGES = "${GITLAB_INNERSOURCE_REGISTRY}/devops/containers"
+  def USGS_IMAGES = "${GITLAB_INNERSOURCE_REGISTRY}/devops/images/usgs"
 
   // WS Variables
   def WS_APP_NAME = 'earthquake-geoserve-ws'
