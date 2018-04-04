@@ -4,25 +4,25 @@ node {
   def FAILURE = null
   def IMAGE_VERSION = null
   def SCM_VARS = [:]
-  def USGS_IMAGES = "${GITLAB_INNERSOURCE_REGISTRY}/devops/images/usgs"
+  def IMAGE_BASE = "${GITLAB_INNERSOURCE_REGISTRY}/devops/images"
 
   // WS Variables
   def WS_APP_NAME = 'earthquake-geoserve-ws'
-  def WS_BUILD_IMAGE = "${USGS_IMAGES}/node:latest"
-  def WS_FROM_IMAGE = "${USGS_IMAGES}/httpd-php:latest"
+  def WS_BUILD_IMAGE = "${IMAGE_BASE}/usgs/node:latest"
+  def WS_FROM_IMAGE = "${IMAGE_BASE}/usgs/httpd-php:latest"
   def WS_LOCAL_IMAGE = "local/${WS_APP_NAME}:latest"
   def WS_DEPLOY_IMAGE = "${GITLAB_INNERSOURCE_REGISTRY}/ghsc/hazdev/earthquake-geoserve/ws"
   def WS_PENTEST_CONTAINER = "${WS_APP_NAME}-PENTEST"
 
   // DB Variables
   def DB_APP_NAME = 'earthquake-geoserve-db'
-  def DB_FROM_IMAGE = "${USGS_IMAGES}/library/mdillon/postgis:9.6"
+  def DB_FROM_IMAGE = "${IMAGE_BASE}/mdillon/postgis:9.6"
   def DB_LOCAL_IMAGE = "local/${DB_APP_NAME}:latest"
   def DB_DEPLOY_IMAGE = "${GITLAB_INNERSOURCE_REGISTRY}/ghsc/hazdev/earthquake-geoserve/db"
 
   // Runs zap.sh as daemon and used to execute zap-cli calls within
   def OWASP_CONTAINER = "${WS_APP_NAME}-${BUILD_ID}-OWASP"
-  def OWASP_IMAGE = "${USGS_IMAGES}/library/owasp/zap2docker-stable"
+  def OWASP_IMAGE = "${IMAGE_BASE}/owasp/zap2docker-stable"
 
 
   try {
@@ -262,10 +262,10 @@ node {
       )
     }
   } catch (e) {
-    mail to: 'emartinez@usgs.gov',
-      from: 'noreply@jenkins',
-      subject: 'Jenkins: hazdev-geoserve-ws',
-      body: "Project build (${BUILD_TAG}) failed '${e}'"
+    // mail to: 'emartinez@usgs.gov',
+    //   from: 'noreply@jenkins',
+    //   subject: 'Jenkins: hazdev-geoserve-ws',
+    //   body: "Project build (${BUILD_TAG}) failed '${e}'"
 
     FAILURE = e
   } finally {
