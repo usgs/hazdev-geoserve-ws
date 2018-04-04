@@ -262,10 +262,10 @@ node {
       )
     }
   } catch (e) {
-    // mail to: 'emartinez@usgs.gov',
-    //   from: 'noreply@jenkins',
-    //   subject: 'Jenkins: hazdev-geoserve-ws',
-    //   body: "Project build (${BUILD_TAG}) failed '${e}'"
+    mail to: 'gs-haz_team_group@usgs.gov',
+      from: 'noreply@jenkins',
+      subject: 'Jenkins: hazdev-geoserve-ws',
+      body: "Project build (${BUILD_TAG}) failed '${e}'"
 
     FAILURE = e
   } finally {
