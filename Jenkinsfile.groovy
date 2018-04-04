@@ -16,7 +16,7 @@ node {
 
   // DB Variables
   def DB_APP_NAME = 'earthquake-geoserve-db'
-  def DB_FROM_IMAGE = "${IMAGE_BASE}/mdillon/postgis:9.6"
+  def DB_FROM_IMAGE = "${IMAGE_BASE}/mdillon/postgis"
   def DB_LOCAL_IMAGE = "local/${DB_APP_NAME}:latest"
   def DB_DEPLOY_IMAGE = "${GITLAB_INNERSOURCE_REGISTRY}/ghsc/hazdev/earthquake-geoserve/db"
 
