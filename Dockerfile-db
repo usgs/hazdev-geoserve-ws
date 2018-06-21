@@ -9,7 +9,7 @@ RUN \
       php \
       php-pear \
       php-pgsql \
-      php-curl && \
+      php-curl \
       php-zip && \
     apt-get clean && \
     mkdir /hazdev-project
