@@ -2,6 +2,7 @@
   "name": "hazdev-geoserve-ws",
   "version": "1.4.0",
   "description": "Geoserve Web Service",
+  "license": "Public Domain, CC0-1.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/usgs/hazdev-geoserve-ws.git"

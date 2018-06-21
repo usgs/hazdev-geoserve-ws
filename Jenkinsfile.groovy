@@ -255,7 +255,8 @@ node {
       build(
         job: 'deploy-ws',
         parameters: [
-          string(name: 'IMAGE_VERSION', value: IMAGE_VERSION)
+          string(name: 'WS_IMAGE_VERSION', value: IMAGE_VERSION),
+          string(name: 'DB_IMAGE_VERSION', value: IMAGE_VERSION)
         ],
         propagate: false,
         wait: false

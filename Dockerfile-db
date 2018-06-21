@@ -6,12 +6,14 @@ RUN \
     apt-get update -y && \
     apt-get upgrade -y && \
     apt-get install -y \
-      php5 \
+      php \
       php-pear \
-      php5-pgsql \
-      php5-curl && \
+      php-pgsql \
+      php-curl \
+      php-zip && \
     apt-get clean && \
     mkdir /hazdev-project
+
 
 # Note: These files have a "z_" prefix to push them lexically behind
 # "postgis.sh". Similarly, they are subsequently numbered to load in order
@@ -25,7 +27,9 @@ COPY src/conf /hazdev-project/conf
 # Make more permissible so postgres user can write configuration file in place
 RUN \
   touch /hazdev-project/conf/config.ini && \
-  chmod 777 /hazdev-project/conf/config.ini
+  touch /hazdev-project/conf/httpd.conf && \
+  chmod 777 /hazdev-project/conf/config.ini && \
+  chmod 777 /hazdev-project/conf/httpd.conf
 
 HEALTHCHECK \
     --interval=1m \
