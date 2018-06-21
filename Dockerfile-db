@@ -27,7 +27,9 @@ COPY src/conf /hazdev-project/conf
 # Make more permissible so postgres user can write configuration file in place
 RUN \
   touch /hazdev-project/conf/config.ini && \
-  chmod 777 /hazdev-project/conf/config.ini
+  touch /hazdev-project/conf/httpd.conf && \
+  chmod 777 /hazdev-project/conf/config.ini && \
+  chmod 777 /hazdev-project/conf/httpd.conf
 
 HEALTHCHECK \
     --interval=1m \
