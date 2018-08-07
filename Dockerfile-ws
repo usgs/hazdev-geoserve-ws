@@ -46,13 +46,21 @@ COPY --from=buildenv \
     /etc/httpd/conf.d/hazdev-template.conf
 
 # Configure the application and install it.
-# A full config.ini is generated, however only the MOUNT_PATH is used as this
+# A full config.ini is generated, however only the MOUNT_PATH is used at this
 # time. MOUNT_PATH sets up the alias in httpd.conf. All other configuration
 # parameters should be read from the environment at container runtime.
 RUN /bin/bash --login -c "\
     php /var/www/apps/hazdev-geoserve-ws/lib/pre-install.php --non-interactive --skip-db && \
     ln -s /var/www/apps/hazdev-geoserve-ws/conf/httpd.conf /etc/httpd/conf.d/hazdev-geoserve-ws.conf \
     "
+
+HEALTHCHECK \
+    --interval=15s \
+    --timeout=1s \
+    --start-period=1m \
+    --retries=2 \
+  CMD \
+    test $(curl -s -o /dev/null -w '%{http_code}' http://localhost/) -eq 200
 
 # this is set in usgs/httpd-php:latest, and repeated here for clarity
 # EXPOSE 80
