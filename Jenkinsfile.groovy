@@ -5,20 +5,21 @@ node {
   def IMAGE_VERSION = null
   def SCM_VARS = [:]
   def IMAGE_BASE = "${GITLAB_INNERSOURCE_REGISTRY}/devops/images"
+  def IMAGE_NAME = 'ghsc/hazdev/earthquake-geoserve'
 
   // WS Variables
   def WS_APP_NAME = 'earthquake-geoserve-ws'
   def WS_BUILD_IMAGE = "${IMAGE_BASE}/usgs/node:latest"
   def WS_FROM_IMAGE = "${IMAGE_BASE}/usgs/httpd-php:latest"
   def WS_LOCAL_IMAGE = "local/${WS_APP_NAME}:latest"
-  def WS_DEPLOY_IMAGE = "${GITLAB_INNERSOURCE_REGISTRY}/ghsc/hazdev/earthquake-geoserve/ws"
+  def WS_DEPLOY_IMAGE = "${GITLAB_INNERSOURCE_REGISTRY}/${IMAGE_NAME}/ws"
   def WS_PENTEST_CONTAINER = "${WS_APP_NAME}-PENTEST"
 
   // DB Variables
   def DB_APP_NAME = 'earthquake-geoserve-db'
   def DB_FROM_IMAGE = "${IMAGE_BASE}/mdillon/postgis:9.6"
   def DB_LOCAL_IMAGE = "local/${DB_APP_NAME}:latest"
-  def DB_DEPLOY_IMAGE = "${GITLAB_INNERSOURCE_REGISTRY}/ghsc/hazdev/earthquake-geoserve/db"
+  def DB_DEPLOY_IMAGE = "${GITLAB_INNERSOURCE_REGISTRY}/${IMAGE_NAME}/db"
 
   // Runs zap.sh as daemon and used to execute zap-cli calls within
   def OWASP_CONTAINER = "${WS_APP_NAME}-${BUILD_ID}-OWASP"
@@ -253,10 +254,16 @@ node {
 
     stage('Trigger Deploy') {
       build(
-        job: 'deploy-ws',
+        job: 'deploy',
         parameters: [
-          string(name: 'WS_IMAGE_VERSION', value: IMAGE_VERSION),
-          string(name: 'DB_IMAGE_VERSION', value: IMAGE_VERSION)
+          string(
+            name: 'WS_IMAGE_NAME',
+            value: "${IMAGE_NAME}/ws:${IMAGE_VERSION}"
+          ),
+          string(
+            name: 'DB_IMAGE_NAME',
+            value: "${IMAGE_NAME}/db:${IMAGE_VERSION}"
+          )
         ],
         propagate: false,
         wait: false
