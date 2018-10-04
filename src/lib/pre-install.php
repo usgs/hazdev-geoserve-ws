@@ -97,6 +97,10 @@ file_put_contents($HTTPD_CONF, '
     ExpiresActive on
     ExpiresDefault "access plus 1 days"
 
+    Header set Access-Control-Allow-Origin "*" env=!NO_CORS
+    Header set Access-Control-Allow-Methods "*" env=!NO_CORS
+    Header set Access-Control-Allow-Headers "accept,origin,authorization,content-type" env=!NO_CORS
+
     # apache 2.2
     <IfModule !mod_authz_core.c>
       Order allow,deny
