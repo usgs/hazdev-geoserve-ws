@@ -6,14 +6,16 @@ FROM ${BUILD_IMAGE} as buildenv
 
 
 # php required for pre-install
+USER root
 RUN yum install -y \
     php
 
-COPY . /hazdev-geoserve-ws
+COPY --chown=usgs-user:usgs-user . /hazdev-geoserve-ws
 WORKDIR /hazdev-geoserve-ws
 
 # Creates /hazdev-geoserve-ws/.theme folder
 # depends on template v1 (pre-angular)
+USER usgs-user
 RUN /bin/bash --login -c "\
     npm install -g grunt-cli && \
     npm run clean && \
