@@ -34,7 +34,7 @@ RUN \
 HEALTHCHECK \
     --interval=1m \
     --timeout=1m \
-    --start-period=10m \
+    --start-period=60m \
     --retries=2 \
   CMD \
     test -f /var/lib/postgresql/data/pgdata/.data-load-complete && \
