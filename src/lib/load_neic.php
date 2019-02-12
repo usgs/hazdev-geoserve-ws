@@ -29,10 +29,7 @@ echo "Success!!\n";
 
 // download NEIC data
 echo "\nDownloading and loading NEIC data:\n";
-$url = configure('NEIC_URL',
-    'ftp://hazards.cr.usgs.gov/web/hazdev-geoserve-ws/neic/',
-    "NEIC download url");
-$filenames = array('neiccatalog.dat', 'neicresponse.dat');
+$filenames = array('neiccatalog.zip', 'neicresponse.zip');
 $download_path = $downloadBaseDir . DIRECTORY_SEPARATOR . 'neic'
     . DIRECTORY_SEPARATOR;
 
@@ -40,7 +37,8 @@ $download_path = $downloadBaseDir . DIRECTORY_SEPARATOR . 'neic'
 mkdir($download_path);
 foreach ($filenames as $filename) {
   $downloaded_file = $download_path . $filename;
-  downloadURL($url . $filename, $downloaded_file);
+  $url = $geoserveData->getUrl($filename);
+  downloadURL($url, $downloaded_file);
 
   // uncompress NEIC data
   if (pathinfo($downloaded_file)['extension'] === 'zip') {
@@ -57,16 +55,62 @@ foreach ($filenames as $filename) {
 // NEIC Catalog
 
 echo "\nLoading NEIC catalog data ... ";
-$dbInstaller->copyFrom($download_path . 'neiccatalog.dat', 'neic_catalog',
+
+// load json into temporary table
+$dbInstaller->run('
+  CREATE TABLE neic_catalog_json (
+    id INTEGER PRIMARY KEY,
+    name VARCHAR(50),
+    magnitude DECIMAL(2, 1),
+    type VARCHAR(50),
+    shape JSON
+  )
+');
+$dbInstaller->copyFrom($download_path . 'neiccatalog.dat', 'neic_catalog_json',
     array('NULL AS \'\'', 'CSV', 'HEADER'));
+// convert json to postgis geometry
+$dbInstaller->run('
+  INSERT INTO neic_catalog (
+    SELECT
+      id,
+      name,
+      magnitude,
+      type,
+      ST_SetSRID(ST_GeomFromGeoJSON(shape), 4326)
+    FROM neic_catalog_json
+  )
+');
 echo "SUCCESS!!\n";
 
 // NEIC Response
 
 echo 'Loading NEIC response data ... ';
-$dbInstaller->copyFrom($download_path . 'neicresponse.dat', 'neic_response',
+
+// load json into temporary table
+$dbInstaller->run('
+  CREATE TABLE neic_response_json (
+    id INTEGER PRIMARY KEY,
+    name VARCHAR(50),
+    magnitude DECIMAL(2, 1),
+    type VARCHAR(50),
+    shape JSON
+  )
+');
+$dbInstaller->copyFrom($download_path . 'neicresponse.dat', 'neic_response_json',
     array('NULL AS \'\'', 'CSV', 'HEADER'));
-echo "SUCCESS!!\n";
+// convert json to postgis geometry
+$dbInstaller->run('
+  INSERT INTO neic_response (
+    SELECT
+      id,
+      name,
+      magnitude,
+      type,
+      ST_SetSRID(ST_GeomFromGeoJSON(shape), 4326)
+    FROM neic_response_json
+  )
+');
+  echo "SUCCESS!!\n";
 
 
 // ----------------------------------------------------------------------

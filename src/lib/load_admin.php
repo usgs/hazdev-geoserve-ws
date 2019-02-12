@@ -23,9 +23,6 @@ echo "Success!!\n";
 
 // download admin region data
 echo "\nDownloading and loading admin region data:\n";
-$url = configure('GLOBAL_ADMIN_URL',
-    'ftp://hazards.cr.usgs.gov/web/hazdev-geoserve-ws/admin/',
-    "Admin download url");
 $filenames = array('globaladmin.zip');
 $download_path = $downloadBaseDir . DIRECTORY_SEPARATOR . 'admin'
     . DIRECTORY_SEPARATOR;
@@ -34,7 +31,8 @@ $download_path = $downloadBaseDir . DIRECTORY_SEPARATOR . 'admin'
 mkdir($download_path);
 foreach ($filenames as $filename) {
   $downloaded_file = $download_path . $filename;
-  downloadURL($url . $filename, $downloaded_file);
+  $url = $geoserveData->getUrl($filename);
+  downloadURL($url, $downloaded_file);
 
   // uncompress admin data
   if (pathinfo($downloaded_file)['extension'] === 'zip') {
@@ -51,8 +49,31 @@ foreach ($filenames as $filename) {
 // Admin
 
 echo "\nLoading admin data ... ";
-$dbInstaller->copyFrom($download_path . 'globaladmin.dat', 'admin',
+
+// load json into temporary table
+$dbInstaller->run('
+  CREATE TABLE admin_json (
+    id       INTEGER PRIMARY KEY,
+    iso      CHAR(3),
+    country  VARCHAR(100),
+    region   VARCHAR(100),
+    shape    JSON
+  )
+');
+$dbInstaller->copyFrom($download_path . 'globaladmin.dat', 'admin_json',
     array('NULL AS \'\'', 'CSV', 'HEADER'));
+// convert json to postgis geometry
+$dbInstaller->run('
+  INSERT INTO admin (
+    SELECT
+      id,
+      iso,
+      country,
+      region,
+      ST_SetSRID(ST_GeomFromGeoJSON(shape), 4326)
+    FROM admin_json
+  )
+');
 echo "SUCCESS!!\n";
 
 

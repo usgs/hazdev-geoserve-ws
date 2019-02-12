@@ -18,7 +18,12 @@ date_default_timezone_set('UTC');
 chdir($LIB_DIR);
 include_once 'install-funcs.inc.php';
 include_once 'install/DatabaseInstaller.class.php';
+include_once 'install/ScienceBaseItem.class.php';
 include_once '../conf/config.inc.php';
+
+
+// load data from geoserve data release
+$geoserveData = new ScienceBaseItem('5a6f547de4b06e28e9caca43');
 
 
 $DB_DSN = (isset($CONFIG['DB_ADMIN_DSN'])) ? $CONFIG['DB_ADMIN_DSN'] :
