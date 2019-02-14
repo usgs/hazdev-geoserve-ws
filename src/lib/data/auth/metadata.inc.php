@@ -14,15 +14,32 @@ $GEOSERVE_METADATA['auth'] = array(
   'fields' => array(
     'name' => array(
       'type' => 'String',
-      'description' => 'Name of place.'
+      'description' => 'Name of contributor.'
     ),
     'network' => array(
       'type' => 'String',
       'description' => 'Name of network.'
     ),
+    'region' => array(
+      'type' => 'STring',
+      'description' => 'Name of network sub-region'
+    ),
     'type' => array(
       'type' => 'String',
       'description' => 'Type of authoritative region'
+    ),
+    'url' => array(
+      'type' => 'String',
+      'description' => 'URL for more information'
     )
   )
 );
+
+$GEOSERVE_METADATA['anss'] = $GEOSERVE_METADATA['auth'];
+$GEOSERVE_METADATA['anss']['name'] = 'anss';
+$GEOSERVE_METADATA['anss']['title'] = 'ANSS Authoritative Regions';
+$GEOSERVE_METADATA['anss']['description'] = 'Subset of the ' .
+    '<code>authoritative</code> layer, including only ' .
+    '<a href="https://earthquake.usgs.gov/monitoring/anss/">' .
+      'Advanced National Seismic System (ANSS)' .
+    '</a> contributors.';
