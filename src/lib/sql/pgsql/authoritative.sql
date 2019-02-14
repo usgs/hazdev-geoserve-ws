@@ -16,10 +16,12 @@ DROP TABLE IF EXISTS authoritative CASCADE;
 /* Tables */
 CREATE TABLE authoritative (
   id        INTEGER PRIMARY KEY,
-  name      VARCHAR(10),
-  type      VARCHAR(50),
+  name      VARCHAR(255),
+  type      VARCHAR(255),
   priority  INTEGER,
-  network   VARCHAR(10),
+  network   VARCHAR(255),
+  region    VARCHAR(255),
+  url       VARCHAR(255),
   shape     GEOMETRY(GEOMETRY, 4326)
 );
 

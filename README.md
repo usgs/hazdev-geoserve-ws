@@ -10,17 +10,24 @@ Geological Survey.
 
 ## Docker image
 
-This project includes a `Dockerfile` that can be used to build a container.
+This project includes `Dockerfile`s that can be used to build containers.
+
+This project also includes a `docker-compose.yml` file that can be used for local development running in containers:
+```
+docker-compose up
+```
+
 
 > NOTE: this project uses multi-stage builds, and requires
 > `Docker v17.05.0-ce (2017-05-04)` or newer to build a container image.
 
 
-**To build the container**
+**To build the containers**
 
 ```
 cd hazdev-geoserve-ws
-docker build -t usgs/hazdev-geoserve-ws:latest .
+docker build -t usgs/hazdev-geoserve-db:latest -f Dockerfile-db .
+docker build -t usgs/hazdev-geoserve-ws:latest -f Dockerfile-ws .
 ```
 
 You  may optionally specify a few `--build-arg` switches to customize the build.
@@ -31,102 +38,37 @@ You  may optionally specify a few `--build-arg` switches to customize the build.
                 creating the image.
 
 
-**To run the container**
+**To run the containers**
 
-Replace `{{VARIABLES}}` with appropriate values in the following example command:
+The following examples demonstrate environment variables used by the containers:
 
 ```
-docker run --name=geoserve -d -p {{HOSTPORT}}:80 \
-  -e 'DB_DSN=pgsql:host={{HOSTNAME}};port=5432;dbname={{DBNAME}}' \
-  -e 'DB_USER={{READONLY_USERNAME}}' \
-  -e 'DB_PASS={{READONLY_PASSWORD}}' \
-  -e 'DB_SCHEMA={{DBSCHEMA}}' \
-  usgs/hazdev-geoserve-ws:latest
-```
+# start database container
+# data load may take a while on first run
 
-- `{{DBNAME}}` - postgres database name
-- `{{DBSCHEMA}}` - database schema, if geoserve tables are not in the public schema
-- `{{HOSTNAME}}` - database server hostname
-- `{{HOSTPORT}}` - external port to expose
-- `{{READONLY_USERNAME}}` - database user with read access to tables
-- `{{READONLY_PASSWORD}}` - password for database user
+docker run --rm --name=geoservedb -d \
+    -e POSTGRES_PASSWORD=changethis \
+    -e PGDATA=/var/lib/postgresql/data/pgdata \
+    -v $(pwd)/data/pgdata:/var/lib/postgresqsl/data/pgdata \
+    -e 'DB_ADMIN_DSN=pgsql:dbname=earthquake' \
+    -e DB_ADMIN_USER=postgres \
+    -e DB_ADMIN_PASSWORD=changethis \
+    -e DB_LOAD_TYPE=incremental \
+    -e DB_NAME=earthquake \
+    -e DB_SCHEMA=geoserve \
+    -e DB_USER=web \
+    -e DB_PASS=alsochangethis \
+    usgs/hazdev-geoserve-db:latest
 
-
-Then access the interface by visiting `http://localhost:{{HOSTPORT}}/ws/geoserve/`
-
-
-** Data loading from the container **
-
-Because data is only loaded, and not updated, it's also possible to run the
-geoserve database in a container.
-
-The pre-install script can be run inside the container, as
-```
-/usr/bin/php /var/www/apps/hazdev-geoserve-ws/lib/pre-install.php
-```
-
-> Pre-install checks for an environment variable `DOWNLOAD_DIR`,
-> and downloads files to this location.  This can be made a volume
-> so postgres COPY FROM commands can access the downloaded files.
-
-
-Example:
-```
-## configuration
-
-# temporary data load directory
-DATALOAD_DIR=/tmp/dataload
-# persistent data directory (so container can be replaced)
-PGDATA_DIR=`pwd`/pgdata
-# postgres user database password
-POSTGRES_PASSWORD=changethis
-# port to expose
-HOSTPORT=8080
-# read only database username and password
-DB_USER=web
-DB_PASS=webpass
-# database naming
-DB_SCHEMA=geoserve
-DB_NAME=geoserve
-
-
-## create database container
-docker run --name=geoservedb -d \
-    -v "${DATALOAD_DIR}:/tmp/dataload" \
-    -v "${PGDATA_DIR}:/var/lib/postgresql/data" \
-    -e "POSTGRES_PASSWORD=${POSTGRES_PASSWORD}" \
-    mdillon/postgis
-
-
-## load data
-
-docker run --rm -it \
+# start webservice container
+docker run --rm --name=geoserve -d \
+    -p 8080:80 \
     --link geoservedb:geoservedb \
-    -e "DB_ROOT_DSN=pgsql:host=geoservedb;port=5432;dbname=${DB_NAME}" \
-    -e "DB_USER=${DB_USER}" \
-    -e "DB_PASS=${DB_PASS}" \
-    -e "DB_SCHEMA=${DB_SCHEMA}" \
-    -e "DOWNLOAD_DIR=/tmp/dataload" \
-    -v "${DATALOAD_DIR}:/tmp/dataload" \
-    usgs/hazdev-geoserve-ws:latest \
-    /usr/bin/php /var/www/apps/hazdev-geoserve-ws/lib/pre-install.php
-
-# Previous configuration file found
-#   choose [1] Use previous configuration
-# Database adminstrator DSN (accept default)
-# Database administrator user (accept default)
-# Database adminstrator password
-#   {{POSTGRES_PASSWORD}}
-# Follow prompts to load data, create {{READONLY_USERNAME}} user, etc.
-
-
-## create geoserve container (listening on port 8080 in this example)
-
-docker run --name=geoserve -d -p 8080:80 \
-    --link geoservedb:geoservedb \
-    -e "DB_DSN=pgsql:host=geoservedb;port=5432;dbname=${DB_NAME}" \
-    -e "DB_USER=${DB_USER}" \
-    -e "DB_PASS=${DB_PASS}" \
-    -e "DB_SCHEMA=${DB_SCHEMA}" \
+    -e 'DB_DSN=pgsql:host=geoservedb;port=5432;dbname=earthquake' \
+    -e DB_USER=web \
+    -e DB_PASS=alsochangethis \
+    -e DB_SCHEMA=geoserve \
     usgs/hazdev-geoserve-ws:latest
 ```
+
+Once the containers are started, access the interface by visiting `http://localhost:8080/ws/geoserve/`

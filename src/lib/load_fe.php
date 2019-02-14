@@ -28,10 +28,10 @@ echo "Success!!\n";
 
 // download FE data
 echo "\nDownloading and loading FE data:\n";
-$url = configure('FE_URL',
-    'ftp://hazards.cr.usgs.gov/web/hazdev-geoserve-ws/FE/',
-    "FE download url");
-$filenames = array('fe.dat', 'ferenames.dat');
+$filenames = array(
+  'fe.zip',
+  'ferename.zip'
+);
 $download_path = $downloadBaseDir . DIRECTORY_SEPARATOR . 'FE'
     . DIRECTORY_SEPARATOR;
 
@@ -39,7 +39,8 @@ $download_path = $downloadBaseDir . DIRECTORY_SEPARATOR . 'FE'
 mkdir($download_path);
 foreach ($filenames as $filename) {
   $downloaded_file = $download_path . $filename;
-  downloadURL($url . $filename, $downloaded_file);
+  $url = $geoserveData->getUrl($filename);
+  downloadURL($url, $downloaded_file);
 
   // uncompress FE data
   if (pathinfo($downloaded_file)['extension'] === 'zip') {
@@ -56,15 +57,53 @@ foreach ($filenames as $filename) {
 // FE
 
 echo "\nLoading FE data ... ";
-$dbInstaller->copyFrom($download_path . 'fe.dat', 'fe',
+
+// load json into temporary table
+$dbInstaller->run('
+  CREATE TEMPORARY TABLE fe_json (
+    id     INTEGER PRIMARY KEY,
+    num    INTEGER,
+    place  VARCHAR(100),
+    shape  JSON
+  )
+');
+$dbInstaller->copyFrom($download_path . 'fe.csv', 'fe_json',
     array('NULL AS \'\'', 'CSV', 'HEADER'));
+// convert json to postgis geometry
+$dbInstaller->run('
+  INSERT INTO fe (
+    SELECT
+      id,
+      num,
+      place,
+      ST_SetSRID(ST_GeomFromGeoJSON(shape), 4326)
+    FROM fe_json
+  )
+');
 echo "SUCCESS!!\n";
 
 // FE Renames
 
 echo 'Loading FE Renames data ... ';
-$dbInstaller->copyFrom($download_path . 'ferenames.dat', 'fe_rename',
+$dbInstaller->run('
+  CREATE TEMPORARY TABLE fe_rename_json (
+    id     INTEGER PRIMARY KEY,
+    place  VARCHAR(100),
+    shape  JSON
+  )
+');
+$dbInstaller->copyFrom($download_path . 'ferename.csv', 'fe_rename_json',
     array('NULL AS \'\'', 'CSV', 'HEADER'));
+// convert json to postgis geometry
+$dbInstaller->run('
+  INSERT INTO fe_rename (
+    SELECT
+      id,
+      place,
+      ST_SetSRID(ST_GeomFromGeoJSON(shape), 4326)
+    FROM fe_rename_json
+  )
+');
 echo "SUCCESS!!\n";
 
 

@@ -25,11 +25,9 @@ echo "Success!!\n";
 
 // download tectonic summary data
 echo "\nDownloading and loading tectonic summary data:\n";
-$url = configure('GLOBAL_TECTONIC_SUMMARY_URL',
-    'ftp://hazards.cr.usgs.gov/web/hazdev-geoserve-ws/tectonic/',
-    "Tectonic summary download url");
-$filenames = array('tectonicsummary_nc.dat', 'tectonicsummary_neic.dat',
-    'tectonicsummary_ut.dat');
+$filenames = array(
+  'tectonic.zip'
+);
 $download_path = $downloadBaseDir . DIRECTORY_SEPARATOR . 'tectonic_summary'
     . DIRECTORY_SEPARATOR;
 
@@ -37,7 +35,8 @@ $download_path = $downloadBaseDir . DIRECTORY_SEPARATOR . 'tectonic_summary'
 mkdir($download_path);
 foreach ($filenames as $filename) {
   $downloaded_file = $download_path . $filename;
-  downloadURL($url . $filename, $downloaded_file);
+  $url = $geoserveData->getUrl($filename);
+  downloadURL($url, $downloaded_file);
 
   // uncompress tectonic summary data
   if (pathinfo($downloaded_file)['extension'] === 'zip') {
@@ -52,21 +51,34 @@ foreach ($filenames as $filename) {
 // ----------------------------------------------------------------------
 
 // Tectonic Summary
+
+// load json into temporary table
+$dbInstaller->run('
+  CREATE TABLE tectonic_summary_json (
+    id       INTEGER PRIMARY KEY,
+    name     VARCHAR(255),
+    summary  text,
+    type     VARCHAR(255),
+    shape    JSON
+  )
+');
 echo "\nLoading tectonic summary data neic... ";
-$dbInstaller->copyFrom($download_path . 'tectonicsummary_neic.dat',
-    'tectonic_summary', array('NULL AS \'\'', 'CSV', 'HEADER'));
+$dbInstaller->copyFrom($download_path . 'tectonic.csv',
+    'tectonic_summary_json', array('NULL AS \'\'', 'CSV', 'HEADER'));
 echo "SUCCESS!!\n";
 
-echo "\nLoading tectonic summary data nc... ";
-$dbInstaller->copyFrom($download_path . 'tectonicsummary_nc.dat',
-    'tectonic_summary', array('NULL AS \'\'', 'CSV', 'HEADER'));
-echo "SUCCESS!!\n";
-
-echo "\nLoading tectonic summary data ut... ";
-$dbInstaller->copyFrom($download_path . 'tectonicsummary_ut.dat',
-    'tectonic_summary', array('NULL AS \'\'', 'CSV', 'HEADER'));
-echo "SUCCESS!!\n";
-
+// convert json to postgis geometry
+$dbInstaller->run('
+  INSERT INTO tectonic_summary (
+    SELECT
+      id,
+      name,
+      summary,
+      type,
+      ST_SetSRID(ST_GeomFromGeoJSON(shape), 4326)
+    FROM tectonic_summary_json
+  )
+');
 
 // ----------------------------------------------------------------------
 // Tectonic Summary data clean-up

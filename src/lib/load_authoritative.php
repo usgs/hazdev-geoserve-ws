@@ -23,10 +23,7 @@ echo "Success!!\n";
 
 // download authoritative data
 echo "\nDownloading and loading authoritative region data:\n";
-$url = configure('AUTHORITATIVE_URL',
-    'ftp://hazards.cr.usgs.gov/web/hazdev-geoserve-ws/auth/',
-    "Authoritative download url");
-$filenames = array('authregions.dat');
+$filenames = array('authoritative.zip');
 $download_path = $downloadBaseDir . DIRECTORY_SEPARATOR . 'auth'
     . DIRECTORY_SEPARATOR;
 
@@ -34,7 +31,8 @@ $download_path = $downloadBaseDir . DIRECTORY_SEPARATOR . 'auth'
 mkdir($download_path);
 foreach ($filenames as $filename) {
   $downloaded_file = $download_path . $filename;
-  downloadURL($url . $filename, $downloaded_file);
+  $url = $geoserveData->getUrl($filename);
+  downloadURL($url, $downloaded_file);
 
   // uncompress authoritative data
   if (pathinfo($downloaded_file)['extension'] === 'zip') {
@@ -51,8 +49,36 @@ foreach ($filenames as $filename) {
 // Authoritative
 
 echo "\nLoading authoritative data ... ";
-$dbInstaller->copyFrom($download_path . 'authregions.dat', 'authoritative',
+// load json into temporary table
+$dbInstaller->run('
+  CREATE TABLE authoritative_json (
+    id        INTEGER PRIMARY KEY,
+    name      VARCHAR(255),
+    type      VARCHAR(255),
+    priority  INTEGER,
+    network   VARCHAR(255),
+    region    VARCHAR(255),
+    url       VARCHAR(255),
+    shape     JSON
+  )
+');
+$dbInstaller->copyFrom($download_path . 'authoritative.csv', 'authoritative_json',
     array('NULL AS \'\'', 'CSV', 'HEADER'));
+// convert json to postgis geometry
+$dbInstaller->run('
+  INSERT INTO authoritative (
+    SELECT
+      id,
+      name,
+      type,
+      priority,
+      network,
+      region,
+      url,
+      ST_SetSRID(ST_GeomFromGeoJSON(shape), 4326)
+    FROM authoritative_json
+  )
+');
 echo "SUCCESS!!\n";
 
 

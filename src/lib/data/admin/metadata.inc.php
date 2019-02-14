@@ -5,7 +5,7 @@ $GEOSERVE_METADATA['admin'] = array(
   'title' => 'Administrative',
   'contact' => '', // TODO
   'lastUpdated' => '2015-09-21T00:00:00Z',
-  'raw' => 'ftp://hazards.cr.usgs.gov/web/hazdev-geoserve-ws/admin/',
+  'raw' => 'https://www.sciencebase.gov/catalog/item/5a6f547de4b06e28e9caca43',
   'description' => 'Global polygons for use in Geoserve are based on data ' .
       'from [http://www.gadm.org/](http://www.gadm.org/) version 2.0. The ' .
       'GADM data has been processed in GIS to only include the level 2 ' .

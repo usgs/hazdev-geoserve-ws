@@ -4,7 +4,7 @@ $GEOSERVE_METADATA['event'] = array(
   'name' => 'event',
   'contact' => '', // TODO
   'lastUpdated' => '2015-09-21T00:00:00Z',
-  'raw' => 'ftp://hazards.cr.usgs.gov/web/hazdev-geoserve-ws/geonames/',
+  'raw' => 'https://www.sciencebase.gov/catalog/item/5a6f547de4b06e28e9caca43',
   'description' => 'This dataset makes use of the geonames underlying data ' .
       'with custom logic to determine relevant populated places near a ' .
       'seismic event.',

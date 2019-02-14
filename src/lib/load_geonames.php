@@ -23,11 +23,12 @@ echo "Success!!\n";
 
 // download geoname data
 echo "\nDownloading and loading geonames data:\n";
-$url = configure('GEONAMES_URL',
-    'ftp://hazards.cr.usgs.gov/web/hazdev-geoserve-ws/geonames/',
-    'Geonames download url');
-$filenames = array('cities1000.zip', 'US.zip', 'admin1CodesASCII.txt',
-    'countryInfo.txt');
+$filenames = array(
+  'admin1CodesASCII.zip',
+  'cities1000.zip',
+  'countryInfo.zip',
+  'US.zip'
+);
 $download_path = $downloadBaseDir . DIRECTORY_SEPARATOR . 'geonames'
     . DIRECTORY_SEPARATOR;
 
@@ -35,7 +36,8 @@ $download_path = $downloadBaseDir . DIRECTORY_SEPARATOR . 'geonames'
 mkdir($download_path);
 foreach ($filenames as $filename) {
   $downloaded_file = $download_path . $filename;
-  downloadURL($url . $filename, $downloaded_file);
+  $url = $geoserveData->getUrl($filename);
+  downloadURL($url, $downloaded_file);
 
   // uncompress geonames data
   if (pathinfo($downloaded_file)['extension'] === 'zip') {

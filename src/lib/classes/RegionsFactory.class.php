@@ -126,8 +126,11 @@ class RegionsFactory extends GeoserveFactory {
 
     $sql .= ' SELECT' .
         ' name as name' .
-        ', network as network' .
         ', type' .
+        ', priority' .
+        ', network as network' .
+        ', region' .
+        ', url' .
         ', id';
 
     if ($query->includeGeometry) {
