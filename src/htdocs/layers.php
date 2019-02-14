@@ -63,7 +63,9 @@ if (!isset($TEMPLATE)) {
     function formatTitle ($title) {
       $formatted = ucfirst($title);
 
-      if ($title === 'fe') {
+      if ($title === 'authoritative') {
+        $formatted = 'Authoritative (and ANSS)';
+      } else if ($title === 'fe') {
         $formatted = 'FE';
       } else if ($title === 'neicresponse') {
         $formatted = 'NEIC Response';

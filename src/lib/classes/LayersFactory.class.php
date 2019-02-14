@@ -6,6 +6,7 @@ class LayersFactory extends RegionsFactory {
 
   protected static $SUPPORTED_TYPES = array(
     //'admin',
+    'anss',
     'authoritative',
     'fe',
     'neiccatalog',
@@ -18,6 +19,7 @@ class LayersFactory extends RegionsFactory {
   protected static $TABLE_NAMES = array(
     // endpoint => table
     // 'admin' => 'admin',
+    'anss' => 'authoritative',
     'authoritative' => 'authoritative',
     'fe' => 'fe_view',
     'neiccatalog' => 'neic_catalog',
@@ -35,11 +37,24 @@ class LayersFactory extends RegionsFactory {
     //   'region',
     //   'ST_AsGeoJSON(shape) AS shape'
     // ),
+    'anss' => array(
+      'id',
+      'name',
+      'type',
+      'priority',
+      'network',
+      'region',
+      'url',
+      'ST_AsGeoJSON(shape) AS shape'
+    ),
     'authoritative' => array(
       'id',
       'name',
+      'type',
       'priority',
       'network',
+      'region',
+      'url',
       'ST_AsGeoJSON(shape) AS shape'
     ),
     'fe' => array(
@@ -86,6 +101,11 @@ class LayersFactory extends RegionsFactory {
     // )
   );
 
+  protected static $WHERE = array(
+    'anss' => 'type = \'anss\''
+  );
+
+
   public function get ($query) {
     $data = array();
 
@@ -94,7 +114,7 @@ class LayersFactory extends RegionsFactory {
         ' . implode(', ', $this->getColumnNames($query->type)) . '
       FROM
         ' . $this->getTableName($query->type) . '
-    ';
+      ' . $this->getWhere($query->type);
 
     $data[$query->type] = $this->execute($sql, array());
 
@@ -137,4 +157,15 @@ class LayersFactory extends RegionsFactory {
 
     return $columns;
   }
+
+  private function getWhere ($name) {
+    $where = '';
+
+    if (isset(LayersFactory::$WHERE[$name])) {
+      $where = 'WHERE ' . LayersFactory::$WHERE[$name];
+    }
+
+    return $where;
+  }
+
 }
