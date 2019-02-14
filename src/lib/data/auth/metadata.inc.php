@@ -5,7 +5,7 @@ $GEOSERVE_METADATA['auth'] = array(
   'title' => 'Authoritative',
   'contact' => '', // TODO
   'lastUpdated' => '2015-09-21T00:00:00Z',
-  'raw' => 'ftp://hazards.cr.usgs.gov/web/hazdev-geoserve-ws/auth/',
+  'raw' => 'https://www.sciencebase.gov/catalog/item/5a6f547de4b06e28e9caca43',
   'description' => 'This dataset was created by the USGS/NEIC (B. Presgrave ' .
       '& P.Earle)  to define the regions where using various seismic ' .
       'monitoring organization\'s earthquake solutions is either recommended ' .

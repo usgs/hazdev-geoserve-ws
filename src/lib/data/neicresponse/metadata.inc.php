@@ -5,7 +5,7 @@ $GEOSERVE_METADATA['neicresponse'] = array(
   'title' => 'NEIC Response',
   'contact' => '', // TODO
   'lastUpdated' => '2015-09-21T00:00:00Z',
-  'raw' => 'ftp://hazards.cr.usgs.gov/web/hazdev-geoserve-ws/neicresponse/',
+  'raw' => 'https://www.sciencebase.gov/catalog/item/5a6f547de4b06e28e9caca43',
   'description' => 'This dataset was created by the USGS/NEIC (B. ' .
       'Presgrave & P.Earle) to define the polygon areas and threshold ' .
       'magnitudes at which the NEIC responds to and/or publishes an ' .
