@@ -66,7 +66,7 @@ $dbInstaller->run('
     shape JSON
   )
 ');
-$dbInstaller->copyFrom($download_path . 'neiccatalog.dat', 'neic_catalog_json',
+$dbInstaller->copyFrom($download_path . 'neiccatalog.csv', 'neic_catalog_json',
     array('NULL AS \'\'', 'CSV', 'HEADER'));
 // convert json to postgis geometry
 $dbInstaller->run('
@@ -96,7 +96,7 @@ $dbInstaller->run('
     shape JSON
   )
 ');
-$dbInstaller->copyFrom($download_path . 'neicresponse.dat', 'neic_response_json',
+$dbInstaller->copyFrom($download_path . 'neicresponse.csv', 'neic_response_json',
     array('NULL AS \'\'', 'CSV', 'HEADER'));
 // convert json to postgis geometry
 $dbInstaller->run('

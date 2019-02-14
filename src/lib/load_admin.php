@@ -23,7 +23,7 @@ echo "Success!!\n";
 
 // download admin region data
 echo "\nDownloading and loading admin region data:\n";
-$filenames = array('globaladmin.zip');
+$filenames = array('admin.zip');
 $download_path = $downloadBaseDir . DIRECTORY_SEPARATOR . 'admin'
     . DIRECTORY_SEPARATOR;
 
@@ -60,7 +60,7 @@ $dbInstaller->run('
     shape    JSON
   )
 ');
-$dbInstaller->copyFrom($download_path . 'globaladmin.dat', 'admin_json',
+$dbInstaller->copyFrom($download_path . 'admin.csv', 'admin_json',
     array('NULL AS \'\'', 'CSV', 'HEADER'));
 // convert json to postgis geometry
 $dbInstaller->run('

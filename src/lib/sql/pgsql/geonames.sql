@@ -55,7 +55,7 @@ CREATE TABLE country_info (
     continent             CHAR(2),
     tld                   CHAR(10),
     currency_code         CHAR(3),
-    currency_name         CHAR(15),
+    currency_name         VARCHAR(200),
     phone                 VARCHAR(20),
     postal_code           VARCHAR(60),
     postal_regex          VARCHAR(200),

@@ -30,7 +30,7 @@ echo "Success!!\n";
 echo "\nDownloading and loading FE data:\n";
 $filenames = array(
   'fe.zip',
-  'ferenames.zip'
+  'ferename.zip'
 );
 $download_path = $downloadBaseDir . DIRECTORY_SEPARATOR . 'FE'
     . DIRECTORY_SEPARATOR;
@@ -67,7 +67,7 @@ $dbInstaller->run('
     shape  JSON
   )
 ');
-$dbInstaller->copyFrom($download_path . 'fe.dat', 'fe_json',
+$dbInstaller->copyFrom($download_path . 'fe.csv', 'fe_json',
     array('NULL AS \'\'', 'CSV', 'HEADER'));
 // convert json to postgis geometry
 $dbInstaller->run('
@@ -92,7 +92,7 @@ $dbInstaller->run('
     shape  JSON
   )
 ');
-$dbInstaller->copyFrom($download_path . 'ferenames.dat', 'fe_rename_json',
+$dbInstaller->copyFrom($download_path . 'ferename.csv', 'fe_rename_json',
     array('NULL AS \'\'', 'CSV', 'HEADER'));
 // convert json to postgis geometry
 $dbInstaller->run('

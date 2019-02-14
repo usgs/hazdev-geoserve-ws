@@ -26,9 +26,7 @@ echo "Success!!\n";
 // download tectonic summary data
 echo "\nDownloading and loading tectonic summary data:\n";
 $filenames = array(
-  'tectonicsummary_nc.zip',
-  'tectonicsummary_neic.zip',
-  'tectonicsummary_ut.zip'
+  'tectonic.zip'
 );
 $download_path = $downloadBaseDir . DIRECTORY_SEPARATOR . 'tectonic_summary'
     . DIRECTORY_SEPARATOR;
@@ -64,19 +62,8 @@ $dbInstaller->run('
     shape    JSON
   )
 ');
-
 echo "\nLoading tectonic summary data neic... ";
-$dbInstaller->copyFrom($download_path . 'tectonicsummary_neic.dat',
-    'tectonic_summary_json', array('NULL AS \'\'', 'CSV', 'HEADER'));
-echo "SUCCESS!!\n";
-
-echo "\nLoading tectonic summary data nc... ";
-$dbInstaller->copyFrom($download_path . 'tectonicsummary_nc.dat',
-    'tectonic_summary_json', array('NULL AS \'\'', 'CSV', 'HEADER'));
-echo "SUCCESS!!\n";
-
-echo "\nLoading tectonic summary data ut... ";
-$dbInstaller->copyFrom($download_path . 'tectonicsummary_ut.dat',
+$dbInstaller->copyFrom($download_path . 'tectonic.csv',
     'tectonic_summary_json', array('NULL AS \'\'', 'CSV', 'HEADER'));
 echo "SUCCESS!!\n";
 

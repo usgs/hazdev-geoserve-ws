@@ -23,7 +23,7 @@ echo "Success!!\n";
 
 // download authoritative data
 echo "\nDownloading and loading authoritative region data:\n";
-$filenames = array('authregions.zip');
+$filenames = array('authoritative.zip');
 $download_path = $downloadBaseDir . DIRECTORY_SEPARATOR . 'auth'
     . DIRECTORY_SEPARATOR;
 
@@ -53,14 +53,16 @@ echo "\nLoading authoritative data ... ";
 $dbInstaller->run('
   CREATE TABLE authoritative_json (
     id        INTEGER PRIMARY KEY,
-    name      VARCHAR(10),
-    type      VARCHAR(50),
+    name      VARCHAR(255),
+    type      VARCHAR(255),
     priority  INTEGER,
-    network   VARCHAR(10),
+    network   VARCHAR(255),
+    region    VARCHAR(255),
+    url       VARCHAR(255),
     shape     JSON
   )
 ');
-$dbInstaller->copyFrom($download_path . 'authregions.dat', 'authoritative_json',
+$dbInstaller->copyFrom($download_path . 'authoritative.csv', 'authoritative_json',
     array('NULL AS \'\'', 'CSV', 'HEADER'));
 // convert json to postgis geometry
 $dbInstaller->run('
@@ -71,6 +73,8 @@ $dbInstaller->run('
       type,
       priority,
       network,
+      region,
+      url,
       ST_SetSRID(ST_GeomFromGeoJSON(shape), 4326)
     FROM authoritative_json
   )

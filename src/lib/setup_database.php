@@ -123,6 +123,9 @@ include_once 'load_tectonicsummary.php';
 // include_once 'load_timezone.php';
 include_once 'load_offshore.php';
 
+// run vacuum and analyze after loading data
+$dbInstaller->run('VACUUM ANALYZE');
+
 // ----------------------------------------------------------------------
 // Grant Roles
 // ----------------------------------------------------------------------

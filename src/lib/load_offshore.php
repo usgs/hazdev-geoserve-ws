@@ -23,7 +23,7 @@ echo "Success!!\n";
 
 // download admin region data
 echo "\nDownloading and loading offshore region data:\n";
-$filenames = array('feoffshore.zip');
+$filenames = array('offshore.zip');
 $download_path = $downloadBaseDir . DIRECTORY_SEPARATOR . 'fe'
     . DIRECTORY_SEPARATOR;
 
@@ -57,14 +57,14 @@ $dbInstaller->run('
     shape     JSON
   )
 ');
-$dbInstaller->copyFrom($download_path . 'feoffshore.dat', 'offshore_json',
+$dbInstaller->copyFrom($download_path . 'offshore.csv', 'offshore_json',
     array('NULL AS \'\'', 'CSV', 'HEADER'));
 // convert json to postgis geometry
 $dbInstaller->run('
   INSERT INTO offshore (
     SELECT
       id,
-      place,
+      name,
       ST_SetSRID(ST_GeomFromGeoJSON(shape), 4326)
     FROM offshore_json
   )
