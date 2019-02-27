@@ -6,6 +6,7 @@ RUN \
     apt-get update -y && \
     apt-get upgrade -y && \
     apt-get install -y \
+      locales-all \
       php \
       php-pear \
       php-pgsql \
