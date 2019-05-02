@@ -141,9 +141,13 @@ $dbInstaller->run('
       timezone,
       modification_date
     FROM (
-      SELECT * FROM places_ww where feature_class = \'P\'
+      SELECT * FROM places_ww
+        WHERE feature_class = \'P\'
+        AND population > 0
       UNION
-      SELECT * FROM places_us where feature_class = \'P\'
+      SELECT * FROM places_us
+        WHERE feature_class = \'P\'
+        AND population > 0
     ) a
   )
 ');
