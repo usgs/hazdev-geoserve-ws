@@ -3,7 +3,7 @@
     "name": "https://github.com/usgs/hazdev-geoserve-ws",
     "organization": "U.S. Geological Survey",
     "description": "Geoserve Web Service",
-    "version": "1.5.1",
+    "version": "1.6.0",
     "status": "Production",
 
     "permissions": {
@@ -24,19 +24,9 @@
 
     "laborHours": null,
 
-    "tags": [
-      "usgs",
-      "ghsc",
-      "hazdev",
-      "geoserve"
-    ],
+    "tags": ["usgs", "ghsc", "hazdev", "geoserve"],
 
-    "languages": [
-      "php",
-      "bash",
-      "docker",
-      "node"
-    ],
+    "languages": ["php", "bash", "docker", "node"],
 
     "contact": {
       "name": "Eric Martinez",
