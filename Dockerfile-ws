@@ -7,8 +7,8 @@ FROM ${BUILD_IMAGE} as buildenv
 
 # php required for pre-install
 USER root
-RUN yum install -y \
-    php
+RUN yum install -y php \
+    && npm install -g grunt-cli
 
 COPY --chown=usgs-user:usgs-user . /hazdev-geoserve-ws
 WORKDIR /hazdev-geoserve-ws
@@ -17,9 +17,8 @@ WORKDIR /hazdev-geoserve-ws
 # depends on template v1 (pre-angular)
 USER usgs-user
 RUN /bin/bash --login -c "\
-    npm install -g grunt-cli && \
-    npm run clean && \
-    npm run build \
+    npm run clean \
+    && npm run build \
     "
 
 
