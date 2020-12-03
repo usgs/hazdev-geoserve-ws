@@ -1,3 +1,7 @@
+> **THIS PROJECT HAS BEEN ARCHIVED**
+>
+> Please see [https://code.usgs.gov/ghsc/hazdev/hazdev-geoserve-ws](https://code.usgs.gov/ghsc/hazdev/hazdev-geoserve-ws)
+
 # hazdev-geoserve-ws
 A web service that takes latitude and longitude values and returns
 geographically relevant information. Developed for use by the U.S.
