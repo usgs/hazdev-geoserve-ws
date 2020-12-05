@@ -73,7 +73,7 @@ class PlacesFactory extends GeoserveFactory {
       geoname.*,
       admin1_codes_ascii.name as admin1_name,
       country_info.country as country_name,
-      degrees(ST_Azimuth(search.point, geoname.shape)) AS azimuth,
+      degrees(ST_Azimuth(geoname.shape, search.point)) AS azimuth,
       ST_Distance(search.point, geoname.shape) / 1000 AS distance
     FROM search, geoname
     JOIN admin1_codes_ascii ON (admin1_codes_ascii.code =
